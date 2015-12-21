@@ -2,11 +2,10 @@ Gestion de personnage du jeu de rôle grandeur nature Traître-Lame.
 ==================================================================
 Logiciel de gestion des personnages pour la création, maintenance, expérience, guide et communication en jeu.
 
-TODO
-====
+Developper wiki
+===============
 
-This project is in creation. The TODO is in french.
-[Read TODO.fr.md file](./TODO.fr.md)
+This project is in creation. [The first brainstorm is in french.](https://github.com/AdminTL/gestion_personnage_TL/wiki/Premier-brainstorm)
 
 License
 =======
