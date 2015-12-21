@@ -1,5 +1,7 @@
 Gestion des user à ses données.
 ===============================
+
+[![Join the chat at https://gitter.im/AdminTL/gestion_personnage_TL](https://badges.gitter.im/AdminTL/gestion_personnage_TL.svg)](https://gitter.im/AdminTL/gestion_personnage_TL?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 - admin pour tout voir
 - admin peut accéder n'importe quand sans mot de passe une fois connecter
 
