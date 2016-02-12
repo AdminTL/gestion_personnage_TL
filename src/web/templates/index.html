@@ -1,0 +1,11 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+<div ng-switch on="activePage">
+  <div ng-switch-when=0>
+    {% module Template('user.html') %}
+  </div>
+</div>
+
+{% end %}

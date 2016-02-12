@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html ng-app="creation_personnage_TL">
+  <head>
+    <title>Fiche utilisateur Traitre-Lame</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap core CSS -->
+    <link href="{{ static_url('bootstrap/bootstrap.min.css') }}" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="{{ static_url('bootstrap/bootstrap-theme.min.css') }}" rel="stylesheet">
+    <!-- Custom style -->
+    <link href="{{ static_url('local/css/site.css') }}" rel="stylesheet">
+  </head>
+  <body ng-controller="page_ctrl">
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" style="color:#FF4E00;">Fiche Utilisateur</a>
+          <!--<ul class="nav navbar-nav">
+            <li ng-repeat="page in lstPage" ng-class="{active: lstPage[activePage] == page}" ng-click="changePage($event, page)"><a href="#">{{!page}}</a></li>
+          </ul>-->
+        </div>
+      </div>
+    </div>
+
+    <noscript>
+        <h1 class="detect_javascript_enable"><span class="label label-danger">
+            For a good support, your browser need to support Javascript with JQuery 2.0.3.
+        </span></h1>
+    </noscript>
+
+    {% block container %}
+      <div class="container theme-showcase">
+        <div class="row">
+          {% block content %}{% end %}
+        </div>
+      </div>
+    {% end %}
+    <!--script src=" static_url('js/jquery.js') "></script-->
+	<script src="{{ static_url('angular/angular.js') }}"></script>
+    <script src="{{ static_url('angular-bootstrap/ui-bootstrap.min.js') }}"></script>
+    <script src="{{ static_url('sockjs/sockjs.js') }}"></script>
+    <script src="{{ static_url('local/js/site.js') }}"></script>
+    <script src="{{ static_url('local/js/controller_site.js') }}"></script>
+  </body>
+</html>
