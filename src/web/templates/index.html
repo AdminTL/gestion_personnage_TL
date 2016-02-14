@@ -2,9 +2,17 @@
 
 {% block content %}
 
+<!-- page order on menu is specified in controller_site.js -->
+<!-- index.html contain all other page in memory -->
 <div ng-switch on="activePage">
   <div ng-switch-when=0>
-    {% module Template('user.html') %}
+    {% module Template('news.html') %}
+  </div>
+  <div ng-switch-when=1>
+    {% module Template('character.html') %}
+  </div>
+  <div ng-switch-when=2>
+    {% module Template('admin_configuration.html') %}
   </div>
 </div>
 
