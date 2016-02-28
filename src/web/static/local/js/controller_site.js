@@ -1,29 +1,16 @@
-var machineApp = angular.module('creation_personnage_TL', []);
+var characterApp = angular.module('creation_personnage_TL', []);
 
-machineApp.controller("user_ctrl", ['$scope', function ($scope) {
-  // update_test_status is an async socket that sends the content of machine.json
-  var data_source = "http://" + window.location.host + "/update_user";
-  var socket = new SockJS(data_source);
-
-  socket.onmessage = function (e) {
-    $scope.message = JSON.parse(e.data);
-    console.log($scope.message);
-    $scope.$apply();
-  };
-
-}]);
-
-machineApp.controller("page_ctrl", ['$scope', function ($scope) {
+characterApp.controller("page_ctrl", ['$scope', function ($scope) {
   $scope.lstPage = ["Nouvelle", "Personnage", "Admin"];
   $scope.lstSection = [];
-  $scope.activePage = 0;
+  $scope.activePage = 1;
   $scope.activeSection = 0;
   $scope.showLog = false;
   $scope.showTestLogInfo = false;
 
   /* ######################
    * function change page
-   * ######################
+   * ######################/
    */
   $scope.changePage = function (event, pageName) {
     index = $scope.lstPage.indexOf(pageName);
@@ -41,3 +28,25 @@ machineApp.controller("page_ctrl", ['$scope', function ($scope) {
       console.err("Cannot find section " + sectionName);
   };
 }]);
+
+characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, $http) {
+  // update_test_status is an async socket that sends the content of machine.json
+  var data_source = "http://" + window.location.host + "/update_user";
+  var socket = new SockJS(data_source);
+  var ddb = {};
+
+  socket.onmessage = function (e) {
+    $scope.message = JSON.parse(e.data);
+    console.log($scope.message);
+    $scope.$apply();
+  };
+
+  $http.get('/cmd/character_view').success(
+    function (data, status, headers, config) {
+      $scope.ddb = data;
+      console.log("Salut\n");
+    }
+  );
+}]);
+
+

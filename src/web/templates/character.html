@@ -1,1 +1,6 @@
-La fiche utilisateur
+<div ng-controller="character_ctrl">
+  <h1>Fiche de Personnage</h1>
+  <ul>
+    <li ng-repeat="(email, user) in ddb['user']"><a href="#">{{!email}}</a></li>
+  </ul>
+</div>

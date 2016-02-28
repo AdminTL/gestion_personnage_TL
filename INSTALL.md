@@ -7,7 +7,7 @@ You need python3, python3-tornado and python3-sockjs-tornado
 Ubuntu
 ------
 ```{r, engine='bash', count_lines}
-sudo apt-get install python3 pip3
+sudo apt-get install python3 python3-pip
 sudo pip3 install tornado sockjs-tornado
 ```
 

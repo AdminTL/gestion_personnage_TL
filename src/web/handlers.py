@@ -23,7 +23,9 @@ class SocketCommunication:
     def remove(self, conn):
         self._connexions.remove(conn)
 
+
 open_connexions = SocketCommunication()
+
 
 class TestStatusConnection(SockJSConnection):
     def __init__(self, *args, **kwargs):
@@ -44,10 +46,34 @@ def ioloop_wrapper(callback):
     return func
 
 
+ddb = {"user":
+           {"tommy@gmail.com":
+                {"character":
+                     {"Martin le chasseur": {"faction": "Les chasseurs", "sous-faction": "", "race": "Humain",
+                                             "karma": 10}
+                      },
+                 "nom": "Éric DuPoisson",
+                 "email": "tommy@gmail.com"
+                 },
+            }
+       }
+
+
 class Index(tornado.web.RequestHandler):
-    def initialize(self, rpc, **kwargs):
-        self._rpc = rpc
+    def initialize(self, **kwargs):
+        pass
 
     @tornado.web.asynchronous
     def get(self):
         self.render('index.html', hello='Hello, world')
+
+
+class CharacterView(tornado.web.RequestHandler):
+    def initialize(self, **kwargs):
+        pass
+
+    @tornado.web.asynchronous
+    def get(self):
+        data = json.dumps(ddb)
+        self.write(data)
+        self.finish()

@@ -10,13 +10,13 @@ from sockjs.tornado import SockJSRouter
 
 
 def make_app(debug, static_dir, template_dir):
-    rpc = None
     socket_connection = SockJSRouter(handlers.TestStatusConnection,
                                      '/update_user',
                                      user_settings=None)
     application = tornado.web.Application(
         [
-            tornado.web.url(r"/", handlers.Index, {'rpc': rpc}, name='index'),
+            tornado.web.url(r"/", handlers.Index, name='index'),
+            tornado.web.url(r"/cmd/character_view", handlers.CharacterView, name='character_view'),
         ] + socket_connection.urls,
         static_path=static_dir,
         template_path=template_dir,
