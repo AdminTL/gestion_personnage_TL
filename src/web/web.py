@@ -31,6 +31,7 @@ def main(debug, static_dir, template_dir, listen):
         # pages
         tornado.web.url(r"/", handlers.IndexHandler, name='index'),
         tornado.web.url(r"/login", handlers.LoginHandler, name='login'),
+        tornado.web.url(r"/logout", handlers.LogoutHandler, name='logout'),
         tornado.web.url(r"/admin", handlers.AdminHandler, name='admin'),
 
         # command

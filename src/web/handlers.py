@@ -5,16 +5,19 @@ import tornado
 from sockjs.tornado import SockJSConnection
 import hashlib
 import sys
+from db import TLDB
 
 io_loop = tornado.ioloop.IOLoop.instance()
 config_path = "config"
 
 ENABLE_FACEBOOK_FEED = False
+DATABASE_PATH = "../../database/tl_user.json"
+db = TLDB(DATABASE_PATH)
 
 
 class BaseHandler(tornado.web.RequestHandler):
     def get_current_user(self):
-        return self.get_secure_cookie("user")
+        return db.get_user(_uuid=self.get_secure_cookie("user"))
 
 
 class SocketCommunication:
@@ -86,15 +89,26 @@ class LoginHandler(BaseHandler):
 
     @tornado.web.asynchronous
     def post(self):
-        username = self.get_argument("username")
+        email = self.get_argument("username")
+        name = self.get_argument("name")
         password = self.get_argument("password")
-        if not username:
+        if self.get_secure_cookie("user"):
+            print("Need to logout before login or sign in.", file=sys.stderr)
+            return
+        if not email:
             print("User name is empty.", file=sys.stderr)
         if not password:
             print("Password is empty.", file=sys.stderr)
-        secure_pass = hashlib.sha256(password.encode('UTF-8'))
-        print("secure password %s" % secure_pass.hexdigest())
-        # self.set_secure_cookie("user", self.get_argument("name"))
+        secure_pass = hashlib.sha256(password.encode('UTF-8')).hexdigest()
+        if name:
+            user = db.create_user(email, name, secure_pass)
+        else:
+            user = db.get_user(email, secure_pass)
+
+        if user:
+            uuid = user.get("uuid")
+            if uuid:
+                self.set_secure_cookie("user", uuid)
         self.redirect("/")
 
 

@@ -1,6 +1,6 @@
 var characterApp = angular.module('creation_personnage_TL', []);
 
-characterApp.controller("page_ctrl", ['$scope', function ($scope) {
+characterApp.controller("page_ctrl", ['$scope', '$http', '$location', '$window', function ($scope, $http, $location, $window) {
   $scope.lstPage = ["Nouvelle", "Personnage", "Admin", "Connexion"];
   $scope.lstPermPage = [0, 1, 2, 0];
   $scope.lstStylePage = [, , , "color:#FF4E00;"];
@@ -31,11 +31,12 @@ characterApp.controller("page_ctrl", ['$scope', function ($scope) {
       console.err("Cannot find section " + sectionName);
   };
 
-  $scope.logout = function (e) {
-    console.info("logout");
+  $scope.logout = function () {
     FB.logout(function (response) {
       // Person is now logged out
     });
+    // $location.url("/logout");
+    $window.location.href = "/logout";
   }
 }]);
 
@@ -44,6 +45,8 @@ characterApp.controller("news_ctrl", ['$scope', function ($scope) {
 }]);
 
 characterApp.controller("login_ctrl", ['$scope', function ($scope) {
+  $scope.show_login = true;
+
   $scope.log_facebook = function (e) {
     console.info("login facebook");
     FB.login(function (response) {
