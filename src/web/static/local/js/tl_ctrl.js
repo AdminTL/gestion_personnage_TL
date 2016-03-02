@@ -1,19 +1,22 @@
 var characterApp = angular.module('creation_personnage_TL', []);
 
 characterApp.controller("page_ctrl", ['$scope', function ($scope) {
-  $scope.lstPage = ["Nouvelle", "Personnage", "Admin"];
+  $scope.lstPage = ["Nouvelle", "Personnage", "Admin", "Connexion"];
+  $scope.lstPermPage = [0, 1, 2, 0];
+  $scope.lstStylePage = [, , , "color:#FF4E00;"];
   $scope.lstSection = [];
-  $scope.activePage = 1;
+  $scope.activePage = 0;
   $scope.activeSection = 0;
-  $scope.showLog = false;
-  $scope.showTestLogInfo = false;
+  $scope.enable_facebook = true;
+
+  $scope.user = null;
 
   /* ######################
    * function change page
    * ######################/
    */
   $scope.changePage = function (event, pageName) {
-    index = $scope.lstPage.indexOf(pageName);
+    var index = $scope.lstPage.indexOf(pageName);
     if (index >= 0)
       $scope.activePage = index;
     else
@@ -21,12 +24,32 @@ characterApp.controller("page_ctrl", ['$scope', function ($scope) {
   };
 
   $scope.changeSection = function (event, sectionName) {
-    index = $scope.lstSection.indexOf(sectionName);
+    var index = $scope.lstSection.indexOf(sectionName);
     if (index >= 0)
       $scope.activeSection = index;
     else
       console.err("Cannot find section " + sectionName);
   };
+
+  $scope.logout = function (e) {
+    console.info("logout");
+    FB.logout(function (response) {
+      // Person is now logged out
+    });
+  }
+}]);
+
+characterApp.controller("news_ctrl", ['$scope', function ($scope) {
+  $scope.enable_facebook_news = false;
+}]);
+
+characterApp.controller("login_ctrl", ['$scope', function ($scope) {
+  $scope.log_facebook = function (e) {
+    console.info("login facebook");
+    FB.login(function (response) {
+      statusChangeCallback(response);
+    }, {scope: 'public_profile,email'});
+  }
 }]);
 
 characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, $http) {
@@ -48,5 +71,3 @@ characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, 
     }
   );
 }]);
-
-

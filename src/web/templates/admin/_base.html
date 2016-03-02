@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="creation_personnage_TL">
   <head>
-    <title>Logiciel Traitre-Lame</title>
+    <title>Logiciel Traitre-Lame Admin</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap core CSS -->
     <link href="{{ static_url('bootstrap/bootstrap.min.css') }}" rel="stylesheet">
@@ -16,13 +16,10 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" style="color:#FF4E00;">Traitre-Lame</a>
+          <a class="navbar-brand" style="color:#FF4E00;">Traitre-Lame admin</a>
           <ul class="nav navbar-nav">
-            <li><a href="/">Nouvelle</a></li>
-            <li><a href="admin">Admin</a></li>
-            <li><a href="login">Login</a></li>
-            <!--<li ng-repeat="page in lstPage" ng-class="{active: lstPage[activePage] == page}" ng-click="changePage($event, page)"><a style="{{!lstStylePage[$index]}}" href="#">{{!page}}</a></li>-->
-            <!--<li ng-click="logout($event)"><a style="color:#005AD0;"] href="#">Logout</a></li>-->
+            <li><a href="/">Quitter</a></li>
+            <li ng-click="logout($event)"><a style="color:#005AD0;" href="#">Logout</a></li>
           </ul>
         </div>
       </div>

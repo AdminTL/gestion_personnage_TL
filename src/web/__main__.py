@@ -20,7 +20,7 @@ def main():
 
 
 class Listen:
-    address = "0.0.0.0"
+    address = "127.0.0.1"
     port = 8000
 
     def __repr__(self):

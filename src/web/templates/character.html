@@ -1,6 +1,30 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
 <div ng-controller="character_ctrl">
-  <h1>Fiche de Personnage</h1>
-  <ul>
-    <li ng-repeat="(email, user) in ddb['user']"><a href="#">{{!email}}</a></li>
-  </ul>
+  <div class="col-md-2">
+    <br/>
+    <div class="bs-sidebar hidden-print affix" role="complementary">
+      Action
+      <div class="list-group">
+        <select class="form-control" ng-model="testplan.active" ng-options="key for (key, value) in testplan.list">
+        </select>
+      </div>
+      Fiche
+      <div class="list-group">
+        <ul class="nav">
+          <li>
+          <li ng-repeat="(email, user) in ddb['user']"><a href="#">{{!email}}</a></li>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-10" role="main">
+    <h1>Fiche de Personnage</h1>
+  </div>
 </div>
+
+{% end %}
