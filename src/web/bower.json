@@ -5,20 +5,22 @@
     "angular-bootstrap": "angular-ui-bootstrap-bower#~0.14.3",
     "angularjs-crypto": "angularjs-crypto#~1.3.0",
     "bootstrap": "bootstrap#~3.3.6",
-    "sockjs": "sockjs-client#~0.3.4"
+    "sockjs": "sockjs-client#~0.3.4",
+    "userapp-angular": "2.0.4"
   },
   "install": {
     "base": "",
     "path": "static",
     "sources": {
-      "angular": "bower_components/angular/*.js",
-      "angular-bootstrap": "bower_components/angular-bootstrap/*.js",
-      "angularjs-crypto": "bower_components/angularjs-crypto/*.js",
+      "angular": "bower_components/angular/*",
+      "angular-bootstrap": "bower_components/angular-bootstrap/*",
+      "angularjs-crypto": "bower_components/angularjs-crypto/*",
+      "userapp-angular": "bower_components/userapp-angular/*",
       "bootstrap": [
         "bower_components/bootstrap/dist/css/*",
         "bower_components/bootstrap/dist/fonts/*"
       ],
-      "sockjs": "bower_components/sockjs/dist/*.js"
+      "sockjs": "bower_components/sockjs/dist/*"
     }
   }
 }

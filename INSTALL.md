@@ -9,6 +9,7 @@ Ubuntu
 ```{r, engine='bash', count_lines}
 sudo apt-get install python3 python3-pip
 sudo pip3 install tornado sockjs-tornado
+sudo pip3 install userapp.tornado --pre
 ```
 
 Mac OSX
@@ -16,6 +17,7 @@ Mac OSX
 ```{r, engine='bash', count_lines}
 brew install python3
 sudo pip3 install tornado sockjs-tornado
+sudo pip3 install userapp.tornado --pre
 ```
 
 Bower

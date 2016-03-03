@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import json
-import tornado
+import tornado, tornado.web
 from sockjs.tornado import SockJSConnection
 import hashlib
 import sys
 from db import TLDB
+import userapp
+import userapp.tornado
+
+USER_APP_ID = "56d6ef67bce81"
 
 io_loop = tornado.ioloop.IOLoop.instance()
 config_path = "config"
@@ -15,6 +19,7 @@ DATABASE_PATH = "../../database/tl_user.json"
 db = TLDB(DATABASE_PATH)
 
 
+@userapp.tornado.config(app_id=USER_APP_ID)
 class BaseHandler(tornado.web.RequestHandler):
     def get_current_user(self):
         return db.get_user(_uuid=self.get_secure_cookie("user"))
@@ -123,6 +128,8 @@ class AdminHandler(BaseHandler):
         pass
 
     @tornado.web.asynchronous
+    @userapp.tornado.authorized()
+    @userapp.tornado.has_permission('admin')
     def get(self):
         self.render('admin/index.html')
 

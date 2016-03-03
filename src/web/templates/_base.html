@@ -28,7 +28,7 @@
         <li><a href="login">Login</a></li>
         {% else %}
         <li><a href="character">Personnage</a></li>
-        <li><a style="color:#2864E6;" href="#" ng-click="logout($event)">Logout</a></li>
+        <li><a style="color:#2864E6;" href="#" ua-logout>Log out</a></li>
         {% end %}
       </ul>
     </div>
@@ -48,11 +48,15 @@
   </div>
 </div>
 {% end %}
+
 <script src="{{ static_url('angular/angular.js') }}"></script>
+<script src="{{ static_url('angular-route/angular-route.js') }}"></script>
+<script src="{{ static_url('userapp/userapp.client.js') }}"></script>
+<script src="{{ static_url('userapp-angular/angularjs.userapp.js') }}"></script>
 <script src="{{ static_url('angular-bootstrap/ui-bootstrap.min.js') }}"></script>
 <script src="{{ static_url('sockjs/sockjs.js') }}"></script>
 <script src="{{ static_url('local/js/tool.js') }}"></script>
 <script src="{{ static_url('local/js/tl_ctrl.js') }}"></script>
-<script src="{{ static_url('local/js/facebook.js') }}"></script>
+
 </body>
 </html>

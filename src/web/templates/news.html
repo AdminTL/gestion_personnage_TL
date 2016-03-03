@@ -2,6 +2,10 @@
 
 {% block content %}
 
+{% if enable_facebook_feed %}
+<script src="{{ static_url('local/js/facebook.js') }}"></script>
+{% end %}
+
 <div ng-controller="news_ctrl">
   {% if enable_facebook_feed %}
   <h1>Page facebook!</h1>
@@ -16,6 +20,7 @@
   {% else %}
   <h1>Page Traitre-lame!</h1>
   {% end %}
+  <div ng-show="user.authenticated">Welcome {{! user.first_name }}!</div>
 </div>
 
 {% end %}
