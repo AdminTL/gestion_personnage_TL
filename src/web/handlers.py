@@ -127,6 +127,15 @@ class AdminHandler(BaseHandler):
         self.render('admin/index.html')
 
 
+class CharacterHandler(BaseHandler):
+    def initialize(self, **kwargs):
+        pass
+
+    @tornado.web.asynchronous
+    def get(self):
+        self.render('character.html')
+
+
 class CharacterViewHandler(BaseHandler):
     def initialize(self, **kwargs):
         pass

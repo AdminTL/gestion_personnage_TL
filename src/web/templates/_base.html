@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html ng-app="creation_personnage_TL">
+<html data-ng-app="creation_personnage_TL">
 <head>
+  <link rel="icon" type="image/png" href="{{ static_url('favicon.ico') }}"/>
   <title>Logiciel Traitre-Lame</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Bootstrap core CSS -->
@@ -9,6 +10,7 @@
   <link href="{{ static_url('bootstrap/bootstrap-theme.min.css') }}" rel="stylesheet">
   <!-- Custom style -->
   <link href="{{ static_url('local/css/_base.css') }}" rel="stylesheet">
+  <link href="{{ static_url('local/css/_base_dark.css') }}" rel="stylesheet">
 </head>
 <body ng-controller="page_ctrl">
 
@@ -24,9 +26,8 @@
         {% end %}
         {% if not current_user %}
         <li><a href="login">Login</a></li>
-        {% end %}
-        <!--<li ng-repeat="page in lstPage" ng-class="{active: lstPage[activePage] == page}" ng-click="changePage($event, page)"><a style="{{!lstStylePage[$index]}}" href="#">{{!page}}</a></li>-->
-        {% if current_user %}
+        {% else %}
+        <li><a href="character">Personnage</a></li>
         <li><a style="color:#2864E6;" href="#" ng-click="logout($event)">Logout</a></li>
         {% end %}
       </ul>

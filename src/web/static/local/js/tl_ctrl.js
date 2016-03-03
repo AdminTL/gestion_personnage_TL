@@ -1,3 +1,5 @@
+'use strict';
+
 var characterApp = angular.module('creation_personnage_TL', []);
 
 characterApp.controller("page_ctrl", ['$scope', '$http', '$location', '$window', function ($scope, $http, $location, $window) {
@@ -70,7 +72,6 @@ characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, 
   $http.get('/cmd/character_view').success(
     function (data, status, headers, config) {
       $scope.ddb = data;
-      console.log("Salut\n");
     }
   );
 }]);

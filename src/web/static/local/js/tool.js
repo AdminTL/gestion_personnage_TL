@@ -1,3 +1,5 @@
+'use strict';
+
 /* ############################################################################
  * Generic function
  * ############################################################################
@@ -37,7 +39,7 @@ function isDefined(x) {
 }
 
 function GetJsonString(str) {
-  json_parse = null;
+  var json_parse = null;
   try {
     json_parse = JSON.parse(str);
   } catch (e) {

@@ -17,3 +17,13 @@ Mac OSX
 brew install python3
 sudo pip3 install tornado sockjs-tornado
 ```
+
+Bower
+-----
+We use bower-installer to update and install javascript code.
+After, execute bower-install to install static dependence.
+
+```{r, engine='bash', count_lines}
+sudo npm install -g bower-installer
+cd src/web; bower-installer
+```
