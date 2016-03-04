@@ -10,6 +10,7 @@ Ubuntu
 sudo apt-get install python3 python3-pip
 sudo pip3 install tornado sockjs-tornado
 sudo pip3 install userapp.tornado --pre
+sudo pip3 install tinydb
 ```
 
 Mac OSX
@@ -18,7 +19,20 @@ Mac OSX
 brew install python3
 sudo pip3 install tornado sockjs-tornado
 sudo pip3 install userapp.tornado --pre
+sudo pip3 install tinydb
 ```
+
+Windows
+-------
+Install python 3 from https://www.python.org/downloads/ using the installer
+Install nodejs if not done already https://nodejs.org/en/download/
+Start a cmd prompt with admin privileges by right-clicking->run as administrator (git-bash works well)
+```
+pip3 install tornado sockjs-tornado
+pip3 install userapp.tornado --pre
+pip3 install tinydb
+```
+Comment the line 50 "subprocess.call(cmd_in)" which will not work under windows currently
 
 Bower
 -----
@@ -37,10 +51,10 @@ will be fix, use a fork with the fix.
 
 Clone the git repo where you want :
 ```{r, engine='bash', count_lines}
-git clone git@github.com:mathben/userapp-tornado.git
+git clone https://github.com/mathben/userapp-tornado.git
 ```
 
-When launch the server, add python path to this clone.
+When launching the server, add python path to this clone.
 Update the PYTHONPATH argument.
 ```{r, engine='bash', count_lines}
 PYTHONPATH=~/git/userapp-tornado ./web_server.sh
