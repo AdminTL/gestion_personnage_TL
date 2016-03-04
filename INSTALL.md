@@ -29,3 +29,34 @@ After, execute bower-install to install static dependence.
 sudo npm install -g bower-installer
 cd src/web; bower-installer
 ```
+
+Bug Tornado
+===========
+Tornado Userapp module has a bug with new version of tornado. Since the problem
+will be fix, use a fork with the fix.
+
+Clone the git repo where you want :
+```{r, engine='bash', count_lines}
+git clone git@github.com:mathben/userapp-tornado.git
+```
+
+When launch the server, add python path to this clone.
+Update the PYTHONPATH argument.
+```{r, engine='bash', count_lines}
+PYTHONPATH=~/git/userapp-tornado ./web_server.sh
+```
+
+UserApp
+=======
+UserApp need a "userapp id" to identify your account.
+You need to change in server and client side the id.
+
+On server side, files /src/web/handlers.py
+```{r, engine='python', count_lines}
+USER_APP_ID = "YOU_USER_APP_ID"
+```
+
+On client side, files /src/web/static/local/js/tl_ctrl.js
+```{r, engine='python', count_lines}
+user.init({appId: "YOU_USER_APP_ID"});
+```
