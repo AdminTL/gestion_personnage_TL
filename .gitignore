@@ -69,3 +69,5 @@ target/
 /src/web/static
 /src/web/node_modules
 !/src/web/static/local
+*.gitconfig
+*.viminfo

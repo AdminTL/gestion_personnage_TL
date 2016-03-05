@@ -8,7 +8,7 @@
     <div class="bs-sidebar hidden-print affix" role="complementary">
       Joueur
       <div class="list-group">
-        <select class="form-control" ng-model="player" ng-options="value.nom for (key, value) in ddb.user" ng-change="setCharacterData(null, null)">
+        <select class="form-control" ng-model="player" ng-options="value.nom for (key, value) in ddb.user" ng-change="setCharacterData(null)">
           <option value="">--Sélectionner un joueur--</option>
         </select>
       </div>
@@ -16,7 +16,7 @@
       <div class="list-group">
         <ul class="nav">
           <li ng-repeat="(key, value) in player.character">
-            <button ng-style="characterName == key && {color:'#FF4E00'}" type="button" class="btn btn-info nav-button" ng-click="setCharacterData(key, value)">
+            <button ng-style="characterName == key && {color:'#FF4E00'}" type="button" class="btn btn-info nav-button" ng-click="setCharacterData(key)">
               {{! key }}
             </button>
           </li>
@@ -27,7 +27,7 @@
 
   <div class="col-md-8" role="main">
     <h1>Fiche de Personnage</h1>
-    <ul ng-show="characterData">
+    <ul ng-if="!characterEdit && characterData">
       <li>Nom: {{! characterName }}</li>
       <li>Faction: {{! characterData.faction }}</li>
       <li>Sous-faction: {{! characterData.sous_faction }}</li>
@@ -46,6 +46,37 @@
           <li>Total: {{! characterData.endurance.total }}</li>
           <li>Xp: {{! characterData.endurance.xp }}</li>
         </ul>
+      </li>
+      <li>
+        <input type="button" value="Mettre à jour" ng-click="characterEdit=true" />
+      </li>
+    </ul>
+
+    <ul ng-if="characterEdit && characterData">
+      <li>Nom: <input type="text" value="{{! characterName }}" ng-model="character.nom"/></li>
+      <li>Faction: <input type="text" value="{{! characterData.faction }}" ng-model="character.faction" /></li>
+      <li>Sous-faction: <input type="text" value="{{! characterData.sous_faction }}" ng-model="character.sous_faction" /></li>
+      <li>Race: <input type="text" value="{{! characterData.race }}" ng-model="character.race" /></li>
+      <li>Karma: <input type="number" value="{{! characterData.karma }}" ng-model="character.karma" /></li>
+      <li>
+        Blocs de production:
+        <ul>
+          <li>Enchantement: <input type="number" value="{{! characterData.bloc_production.enchantement }}" ng-model="character.bloc_production.enchantement" /></li>
+          <li>Potion: <input type="number" value="{{! characterData.bloc_production.potion }}" ng-model="character.bloc_production.potion" /></li>
+        </ul>
+      </li>
+      <li>
+        Endurance:
+        <ul>
+          <li>Total: <input type="number" value="{{! characterData.endurance.total }}" ng-model="character.endurance.total" /></li>
+          <li>Xp: <input type="number" value="{{! characterData.endurance.xp }}" ng-model="character.endurance.xp" /></li>
+        </ul>
+      </li>
+      <li>
+        <input type="button" value="Annuler" ng-click="noUpdate(characterName)" />
+      </li>
+      <li>
+        <input type="button" value="Soumettre" ng-click="update(characterName, character)" />
       </li>
     </ul>
   </div>

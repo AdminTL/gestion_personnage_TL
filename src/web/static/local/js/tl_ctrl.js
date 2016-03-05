@@ -95,6 +95,15 @@ characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, 
     }
   }
 
+  $scope.noUpdate = function (key) {
+    characterEdit = false;
+    //reload data from the DB
+  }
+
+  $scope.update = function (key, data) {
+    //update DB
+  }
+
   socket.onmessage = function (e) {
     $scope.message = JSON.parse(e.data);
     console.log($scope.message);
