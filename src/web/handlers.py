@@ -73,14 +73,45 @@ def ioloop_wrapper(callback):
 
 ddb = {"user":
            {"tommy@gmail.com":
-                {"character":
-                     {"Martin le chasseur": {"faction": "Les chasseurs", "sous-faction": "", "race": "Humain",
-                                             "karma": 10, "block_production": {"enchantement": 4, "potion": 2},
+               {
+                    "nom": "Tommy DuPoisson",
+                    "email": "tommy@gmail.com",
+                    "character":
+                     {"Martin le chasseur": {"faction": "Les chasseurs", "sous_faction": "", "race": "Humain",
+                                             "karma": 10, "bloc_production": {"enchantement": 4, "potion": 2},
                                              "endurance": {"total": 3, "xp": 1}
                                              },
-                      "nom": "Éric DuPoisson",
-                      "email": "tommy@gmail.com"
-                      },
+                      }
+           },
+            "eric@gmail.com":
+                {
+                    "nom": "Éric DuPoisson",
+                    "email": "eric@gmail.com",
+                    "character":
+                     {"Martin le chasseur 2": {"faction": "Les chasseurs", "sous_faction": "", "race": "Humain",
+                                             "karma": 10, "bloc_production": {"enchantement": 4, "potion": 2},
+                                             "endurance": {"total": 3, "xp": 1}
+                                             },
+                      }
+                 },
+           "rick@gmail.com":
+                {
+                    "nom": "Rick DuPoisson",
+                    "email": "rick@gmail.com",
+                    "character":
+                     {"Martin le chasseur 3": {"faction": "Les chasseurs", "sous_faction": "", "race": "Humain",
+                                             "karma": 10, "bloc_production": {"enchantement": 4, "potion": 2},
+                                             "endurance": {"total": 3, "xp": 1}
+                                             },
+                     "Martin le chasseur 4": {"faction": "Les chasseurs", "sous_faction": "", "race": "Humain",
+                                             "karma": 10, "bloc_production": {"enchantement": 4, "potion": 2},
+                                             "endurance": {"total": 3, "xp": 1}
+                                             },
+                     "Martin le chasseur 5": {"faction": "Les chasseurs", "sous_faction": "", "race": "Humain",
+                                             "karma": 10, "bloc_production": {"enchantement": 4, "potion": 2},
+                                             "endurance": {"total": 3, "xp": 1}
+                                             }
+                      }
                  }
             }
        }

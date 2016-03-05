@@ -83,6 +83,12 @@ characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, 
       $scope.ddb = data;
     }
   );
+
+  $scope.showCharacterSheet = function(characterValues){
+    $scope.characterData = characterValues;
+    $scope.isShowingCharSheet = true;
+  };
+
 }]);
 
 characterApp.config(['$routeProvider', function ($routeProvider) {

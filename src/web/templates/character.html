@@ -3,27 +3,48 @@
 {% block content %}
 
 <div ng-controller="character_ctrl">
-  <div class="col-md-2">
+  <div class="col-md-4">
     <br/>
     <div class="bs-sidebar hidden-print affix" role="complementary">
       Action
       <div class="list-group">
-        <select class="form-control" ng-model="testplan.active" ng-options="key for (key, value) in testplan.list">
+        <select class="form-control" ng-model="mPerson" ng-options="value.nom for (key,value) in ddb['user']" ng-change="characterData=''; isShowingCharSheet=false">
+          <option value="">--Sélectionner un joueur--</option>
         </select>
       </div>
-      Fiche
+      Fiches
       <div class="list-group">
         <ul class="nav">
-          <li>
-          <li ng-repeat="(email, user) in ddb['user']"><a href="#">{{!email}}</a></li>
+          <li ng-repeat="(key, value) in mPerson.character">
+            <a href="#" ng-click="showCharacterSheet(value)">{{!key}}</a>
           </li>
         </ul>
       </div>
     </div>
   </div>
 
-  <div class="col-md-10" role="main">
+  <div class="col-md-8" role="main">
     <h1>Fiche de Personnage</h1>
+    <ul ng-show="isShowingCharSheet">
+      <li>Faction: {{!characterData.faction}}</li>
+      <li>Sous-faction: {{!characterData.sous_faction}}</li>
+      <li>Race: {{!characterData.race}}</li>
+      <li>Karma: {{!characterData.karma}}</li>
+      <li>
+        Blocs de production:
+        <ul>
+          <li>Enchantement: {{!characterData.bloc_production.enchantement}}</li>
+          <li>Potion: {{!characterData.bloc_production.potion}}</li>
+        </ul>
+      </li>
+      <li>
+        Endurance:
+        <ul>
+          <li>Total: {{!characterData.endurance.total}}</li>
+          <li>Xp: {{!characterData.endurance.xp}}</li>
+        </ul>
+      </li>
+    </ul>
   </div>
 </div>
 
