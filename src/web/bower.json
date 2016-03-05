@@ -1,11 +1,11 @@
 {
   "name": "Traitre-Lame",
   "dependencies": {
-    "angular": "angular#>=1.3.0",
-    "angular-bootstrap": "angular-ui-bootstrap-bower#~0.14.3",
-    "angularjs-crypto": "angularjs-crypto#~1.3.0",
-    "bootstrap": "bootstrap#~3.3.6",
-    "sockjs": "sockjs-client#~0.3.4",
+    "angular": "1.5.1-build.4657+sha.6a336ba",
+    "angular-bootstrap": "1.2.2",
+    "angular-route": "1.5.1-build.4657+sha.6a336ba",
+    "bootstrap": "3.3.6",
+    "sockjs": "0.3.4",
     "userapp-angular": "2.0.4"
   },
   "install": {
@@ -13,14 +13,14 @@
     "path": "static",
     "sources": {
       "angular": "bower_components/angular/*",
+      "angular-route": "bower_components/angular-route/*",
       "angular-bootstrap": "bower_components/angular-bootstrap/*",
-      "angularjs-crypto": "bower_components/angularjs-crypto/*",
       "userapp-angular": "bower_components/userapp-angular/*",
       "bootstrap": [
         "bower_components/bootstrap/dist/css/*",
         "bower_components/bootstrap/dist/fonts/*"
       ],
-      "sockjs": "bower_components/sockjs/dist/*"
+      "sockjs": "bower_components/sockjs/*"
     }
   }
 }

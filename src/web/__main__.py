@@ -16,7 +16,7 @@ def main():
     args = parse_args()
     if args.debug:
         print("Arguments:%s" % args)
-    web.main(args.debug, args.static_dir, args.template_dir, args.listen)
+    web.main(args)
 
 
 class Listen:
@@ -32,7 +32,7 @@ def parse_args():
     parser.add_argument('-l', '--web-listen-address', dest='listen',
                         default=Listen(), type=parse_listen,
                         help='Web: Web server listen address')
-    parser.add_argument('-d', '--debug', dest='debug', default=False,
+    parser.add_argument('-d', '--debug', default=False,
                         help='Enable debug', action='store_true')
     parser.add_argument('-s', '--static-dir', dest='static_dir',
                         default=WEB_DEFAULT_STATIC_DIR,
@@ -40,6 +40,13 @@ def parse_args():
     parser.add_argument('-t', '--template-dir', dest='template_dir',
                         default=WEB_DEFAULT_TEMPLATE_DIR,
                         help='Web: Template files directory')
+    parser.add_argument('--ssl', default=False, action='store_true',
+                        help='Active https and create ssl files if not exist. Not work in windows.')
+    parser.add_argument('--open_browser', default=False, action='store_true',
+                        help='Open web browser on tabulation when start server.')
+    parser.add_argument('--use_internet_static', default=False, action='store_true',
+                        help='Force use to use static files like css and js from another internet website.'
+                             ' Use web browser cache.')
     return parser.parse_args()
 
 

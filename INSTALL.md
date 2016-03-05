@@ -8,18 +8,16 @@ Ubuntu
 ------
 ```{r, engine='bash', count_lines}
 sudo apt-get install python3 python3-pip
-sudo pip3 install tornado sockjs-tornado
+sudo pip3 install tornado sockjs-tornado tinydb
 sudo pip3 install userapp.tornado --pre
-sudo pip3 install tinydb
 ```
 
 Mac OSX
 -------
 ```{r, engine='bash', count_lines}
 brew install python3
-sudo pip3 install tornado sockjs-tornado
+sudo pip3 install tornado sockjs-tornado tinydb
 sudo pip3 install userapp.tornado --pre
-sudo pip3 install tinydb
 ```
 
 Windows
@@ -28,16 +26,17 @@ Install python 3 from https://www.python.org/downloads/ using the installer
 Install nodejs if not done already https://nodejs.org/en/download/
 Start a cmd prompt with admin privileges by right-clicking->run as administrator (git-bash works well)
 ```
-pip3 install tornado sockjs-tornado
+pip3 install tornado sockjs-tornado tinydb
 pip3 install userapp.tornado --pre
-pip3 install tinydb
 ```
-Comment the line 50 "subprocess.call(cmd_in)" which will not work under windows currently
 
 Bower
 -----
 We use bower-installer to update and install javascript code.
 After, execute bower-install to install static dependence.
+
+**No need bower if you execute server with argument --use_internet_static**
+Because this option will get dependency on internet directly.
 
 ```{r, engine='bash', count_lines}
 sudo npm install -g bower-installer

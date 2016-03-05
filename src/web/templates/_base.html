@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html data-ng-app="creation_personnage_TL">
 <head>
-  <link rel="icon" type="image/png" href="{{ static_url('favicon.ico') }}"/>
+  <link rel="icon" type="image/png" href="{{ static_url('local/icon/favicon.ico') }}"/>
   <title>Logiciel Traitre-Lame</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Bootstrap core CSS -->
+  {% if use_internet_static %}
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  {% else %}
   <link href="{{ static_url('bootstrap/bootstrap.min.css') }}" rel="stylesheet">
+  {% end %}
   <!-- Bootstrap theme -->
+  {% if use_internet_static %}
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" rel="stylesheet">
+  {% else %}
   <link href="{{ static_url('bootstrap/bootstrap-theme.min.css') }}" rel="stylesheet">
+  {% end %}
   <!-- Custom style -->
   <link href="{{ static_url('local/css/_base.css') }}" rel="stylesheet">
   <link href="{{ static_url('local/css/_base_dark.css') }}" rel="stylesheet">
@@ -49,14 +57,34 @@
 </div>
 {% end %}
 
-<script src="{{ static_url('angular/angular.js') }}"></script>
-<script src="{{ static_url('angular-route/angular-route.js') }}"></script>
-<script src="{{ static_url('userapp/userapp.client.js') }}"></script>
-<script src="{{ static_url('userapp-angular/angularjs.userapp.js') }}"></script>
-<script src="{{ static_url('angular-bootstrap/ui-bootstrap.min.js') }}"></script>
-<script src="{{ static_url('sockjs/sockjs.js') }}"></script>
+{% if use_internet_static %}
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-route.min.js"></script>
+<script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-1.2.2.min.js"></script>
+<script src="http://cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"></script>
+<script src="https://app.userapp.io/js/userapp.client.js"></script>
+<script src="https://app.userapp.io/js/angularjs.userapp.js"></script>
 <script src="{{ static_url('local/js/tool.js') }}"></script>
 <script src="{{ static_url('local/js/tl_ctrl.js') }}"></script>
+{% elif debug %}
+<script src="{{ static_url('angular/angular.js') }}"></script>
+<script src="{{ static_url('angular-route/angular-route.js') }}"></script>
+<script src="{{ static_url('angular-bootstrap/ui-bootstrap.js') }}"></script>
+<script src="{{ static_url('sockjs/sockjs.js') }}"></script>
+<script src="{{ static_url('userapp/userapp.client.js') }}"></script>
+<script src="{{ static_url('userapp-angular/angularjs.userapp.js') }}"></script>
+<script src="{{ static_url('local/js/tool.js') }}"></script>
+<script src="{{ static_url('local/js/tl_ctrl.js') }}"></script>
+{% else %}
+<script src="{{ static_url('angular/angular.min.js') }}"></script>
+<script src="{{ static_url('angular-route/angular-route.min.js') }}"></script>
+<script src="{{ static_url('angular-bootstrap/ui-bootstrap.min.js') }}"></script>
+<script src="{{ static_url('sockjs/sockjs.min.js') }}"></script>
+<script src="{{ static_url('userapp/userapp.client.js') }}"></script>
+<script src="{{ static_url('userapp-angular/angularjs.userapp.js') }}"></script>
+<script src="{{ static_url('local/js/tool.js') }}"></script>
+<script src="{{ static_url('local/js/tl_ctrl.js') }}"></script>
+{% end %}
 
 </body>
 </html>

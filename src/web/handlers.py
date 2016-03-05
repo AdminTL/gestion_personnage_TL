@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import json
-import tornado, tornado.web
+import tornado
+import tornado.web
 from sockjs.tornado import SockJSConnection
 import hashlib
 import sys
@@ -21,6 +22,13 @@ db = TLDB(DATABASE_PATH)
 
 @userapp.tornado.config(app_id=USER_APP_ID)
 class BaseHandler(tornado.web.RequestHandler):
+    _debug = None
+    _global_arg = {}
+
+    def initialize(self, **kwargs):
+        self._debug = kwargs.get("debug")
+        self._global_arg = {"debug": kwargs.get("debug"), "use_internet_static": kwargs.get("use_internet_static")}
+
     def get_current_user(self):
         return db.get_user(_uuid=self.get_secure_cookie("user"))
 
@@ -79,18 +87,15 @@ ddb = {"user":
 
 
 class IndexHandler(BaseHandler):
-    def initialize(self, **kwargs):
-        pass
-
     @tornado.web.asynchronous
     def get(self):
-        self.render('news.html', enable_facebook_feed=ENABLE_FACEBOOK_FEED)
+        self.render('news.html', enable_facebook_feed=ENABLE_FACEBOOK_FEED, **self._global_arg)
 
 
 class LoginHandler(BaseHandler):
     @tornado.web.asynchronous
     def get(self):
-        self.render('login.html')
+        self.render('login.html', **self._global_arg)
 
     @tornado.web.asynchronous
     def post(self):
@@ -124,29 +129,20 @@ class LogoutHandler(BaseHandler):
 
 
 class AdminHandler(BaseHandler):
-    def initialize(self, **kwargs):
-        pass
-
     @tornado.web.asynchronous
     @userapp.tornado.authorized()
     @userapp.tornado.has_permission('admin')
     def get(self):
-        self.render('admin/index.html')
+        self.render('admin/index.html', **self._global_arg)
 
 
 class CharacterHandler(BaseHandler):
-    def initialize(self, **kwargs):
-        pass
-
     @tornado.web.asynchronous
     def get(self):
-        self.render('character.html')
+        self.render('character.html', **self._global_arg)
 
 
 class CharacterViewHandler(BaseHandler):
-    def initialize(self, **kwargs):
-        pass
-
     @tornado.web.asynchronous
     def get(self):
         data = json.dumps(ddb)

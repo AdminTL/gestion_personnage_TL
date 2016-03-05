@@ -2,12 +2,10 @@
 
 {% block content %}
 
-{% if enable_facebook_feed %}
-<script src="{{ static_url('local/js/facebook.js') }}"></script>
-{% end %}
-
 <div ng-controller="news_ctrl">
   {% if enable_facebook_feed %}
+  <script src="{{ static_url('local/js/facebook.js') }}"></script>
+
   <h1>Page facebook!</h1>
   <!-- begin facebook page traitre-lame -->
   <div class="fb-page" data-href="https://www.facebook.com/traitre-lame" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false"
