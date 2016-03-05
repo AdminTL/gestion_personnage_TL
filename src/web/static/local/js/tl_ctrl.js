@@ -72,6 +72,14 @@ characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, 
   var socket = new SockJS(data_source);
   var ddb = {};
 
+  $scope.characterName = "";
+  $scope.characterData = null;
+
+  $scope.setCharacterData = function (key, val) {
+    $scope.characterName = key;
+    $scope.characterData = val;
+  }
+
   socket.onmessage = function (e) {
     $scope.message = JSON.parse(e.data);
     console.log($scope.message);
@@ -83,11 +91,6 @@ characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, 
       $scope.ddb = data;
     }
   );
-
-  $scope.showCharacterSheet = function(characterValues){
-    $scope.characterData = characterValues;
-    $scope.isShowingCharSheet = true;
-  };
 
 }]);
 

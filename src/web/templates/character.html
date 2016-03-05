@@ -6,17 +6,17 @@
   <div class="col-md-4">
     <br/>
     <div class="bs-sidebar hidden-print affix" role="complementary">
-      Action
+      Joueur
       <div class="list-group">
-        <select class="form-control" ng-model="mPerson" ng-options="value.nom for (key,value) in ddb['user']" ng-change="characterData=''; isShowingCharSheet=false">
+        <select class="form-control" ng-model="player" ng-options="value.nom for (key, value) in ddb.user">
           <option value="">--Sélectionner un joueur--</option>
         </select>
       </div>
-      Fiches
+      Personnage
       <div class="list-group">
         <ul class="nav">
-          <li ng-repeat="(key, value) in mPerson.character">
-            <a href="#" ng-click="showCharacterSheet(value)">{{!key}}</a>
+          <li ng-repeat="(key, value) in player.character">
+            <a href="#" ng-click="setCharacterData(key, value)">{{! key }}</a>
           </li>
         </ul>
       </div>
@@ -25,23 +25,24 @@
 
   <div class="col-md-8" role="main">
     <h1>Fiche de Personnage</h1>
-    <ul ng-show="isShowingCharSheet">
-      <li>Faction: {{!characterData.faction}}</li>
-      <li>Sous-faction: {{!characterData.sous_faction}}</li>
-      <li>Race: {{!characterData.race}}</li>
-      <li>Karma: {{!characterData.karma}}</li>
+    <ul ng-show="characterData">
+      <li>Nom: {{! characterName }}</li>
+      <li>Faction: {{! characterData.faction }}</li>
+      <li>Sous-faction: {{! characterData.sous_faction }}</li>
+      <li>Race: {{! characterData.race }}</li>
+      <li>Karma: {{! characterData.karma }}</li>
       <li>
         Blocs de production:
         <ul>
-          <li>Enchantement: {{!characterData.bloc_production.enchantement}}</li>
-          <li>Potion: {{!characterData.bloc_production.potion}}</li>
+          <li>Enchantement: {{! characterData.bloc_production.enchantement }}</li>
+          <li>Potion: {{! characterData.bloc_production.potion }}</li>
         </ul>
       </li>
       <li>
         Endurance:
         <ul>
-          <li>Total: {{!characterData.endurance.total}}</li>
-          <li>Xp: {{!characterData.endurance.xp}}</li>
+          <li>Total: {{! characterData.endurance.total }}</li>
+          <li>Xp: {{! characterData.endurance.xp }}</li>
         </ul>
       </li>
     </ul>
