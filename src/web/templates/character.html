@@ -8,7 +8,7 @@
     <div class="bs-sidebar hidden-print affix" role="complementary">
       Joueur
       <div class="list-group">
-        <select class="form-control" ng-model="player" ng-options="value.nom for (key, value) in ddb.user">
+        <select class="form-control" ng-model="player" ng-options="value.nom for (key, value) in ddb.user" ng-change="setCharacterData(null, null)">
           <option value="">--Sélectionner un joueur--</option>
         </select>
       </div>
@@ -16,7 +16,9 @@
       <div class="list-group">
         <ul class="nav">
           <li ng-repeat="(key, value) in player.character">
-            <a href="#" ng-click="setCharacterData(key, value)">{{! key }}</a>
+            <button ng-style="characterName == key && {color:'#FF4E00'}" type="button" class="btn btn-info nav-button" ng-click="setCharacterData(key, value)">
+              {{! key }}
+            </button>
           </li>
         </ul>
       </div>

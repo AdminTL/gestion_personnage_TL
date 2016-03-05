@@ -72,12 +72,27 @@ characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, 
   var socket = new SockJS(data_source);
   var ddb = {};
 
-  $scope.characterName = "";
+  $scope.characterName = null;
   $scope.characterData = null;
+  $scope.player = null;
 
-  $scope.setCharacterData = function (key, val) {
-    $scope.characterName = key;
-    $scope.characterData = val;
+  $scope.setCharacterData = function (key) {
+    // if null, select first character
+    if (key === null) {
+      var keys = Object.keys($scope.player.character);
+      if (keys) {
+        key = keys[0];
+        $scope.characterName = key;
+        $scope.characterData = $scope.player.character[key];
+      } else {
+        // no character on this player
+        $scope.characterName = null;
+        $scope.characterData = null;
+      }
+    } else {
+      $scope.characterName = key;
+      $scope.characterData = $scope.player.character[key];
+    }
   }
 
   socket.onmessage = function (e) {
