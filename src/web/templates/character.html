@@ -26,7 +26,7 @@
   </div>
 
   <div class="col-md-8" role="main">
-    <h1>Fiche de Personnage</h1>
+    <!--<h1>Fiche de Personnage</h1>
     <ul ng-if="!characterEdit && characterData">
       <li>Nom: {{! characterName }}</li>
       <li>Faction: {{! characterData.faction }}</li>
@@ -50,33 +50,30 @@
       <li>
         <input type="button" value="Mettre à jour" ng-click="characterEdit=true" />
       </li>
-    </ul>
+    </ul>-->
 
-    <ul ng-if="characterEdit && characterData">
-      <li>Nom: <input type="text" value="{{! characterName }}" ng-model="character.nom"/></li>
-      <li>Faction: <input type="text" value="{{! characterData.faction }}" ng-model="character.faction" /></li>
-      <li>Sous-faction: <input type="text" value="{{! characterData.sous_faction }}" ng-model="character.sous_faction" /></li>
-      <li>Race: <input type="text" value="{{! characterData.race }}" ng-model="character.race" /></li>
-      <li>Karma: <input type="number" value="{{! characterData.karma }}" ng-model="character.karma" /></li>
+    <ul>
+      <li>Nom: <input type="text" value="{{! characterName }}" ng-model="character.nom" ng-readonly="!characterEdit"/></li>
+      <li>Faction: <input type="text" value="{{! characterData.faction }}" ng-model="character.faction" ng-readonly="!characterEdit"/></li>
+      <li>Sous-faction: <input type="text" value="{{! characterData.sous_faction }}" ng-model="character.sous_faction" ng-readonly="!characterEdit"/></li>
+      <li>Race: <input type="text" value="{{! characterData.race }}" ng-model="character.race" ng-readonly="!characterEdit"/></li>
+      <li>Karma: <input type="number" value="{{! characterData.karma }}" ng-model="character.karma" ng-readonly="!characterEdit"/></li>
       <li>
         Blocs de production:
         <ul>
-          <li>Enchantement: <input type="number" value="{{! characterData.bloc_production.enchantement }}" ng-model="character.bloc_production.enchantement" /></li>
-          <li>Potion: <input type="number" value="{{! characterData.bloc_production.potion }}" ng-model="character.bloc_production.potion" /></li>
+          <li>Enchantement: <input type="number" value="{{! characterData.bloc_production.enchantement }}" ng-model="character.bloc_production.enchantement" ng-readonly="!characterEdit"/></li>
+          <li>Potion: <input type="number" value="{{! characterData.bloc_production.potion }}" ng-model="character.bloc_production.potion" ng-readonly="!characterEdit"/></li>
         </ul>
       </li>
       <li>
         Endurance:
         <ul>
-          <li>Total: <input type="number" value="{{! characterData.endurance.total }}" ng-model="character.endurance.total" /></li>
-          <li>Xp: <input type="number" value="{{! characterData.endurance.xp }}" ng-model="character.endurance.xp" /></li>
+          <li>Total: <input type="number" value="{{! characterData.endurance.total }}" ng-model="character.endurance.total" ng-readonly="!characterEdit"/></li>
+          <li>Xp: <input type="number" value="{{! characterData.endurance.xp }}" ng-model="character.endurance.xp" ng-readonly="!characterEdit"/></li>
         </ul>
       </li>
       <li>
-        <input type="button" value="Annuler" ng-click="noUpdate(characterName)" />
-      </li>
-      <li>
-        <input type="button" value="Soumettre" ng-click="update(characterName, character)" />
+        <input type="button" value="Mettre à jour" ng-click="update(characterName, character); characterEdit = !characterEdit" />
       </li>
     </ul>
   </div>
