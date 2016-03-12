@@ -4,18 +4,26 @@ Dependence
 ----------
 You need python3, python3-tornado and python3-sockjs-tornado
 
-Ubuntu
+Arch Linux
 ------
 ```{r, engine='bash', count_lines}
-sudo apt-get install python3 python3-pip
-sudo pip3 install tornado sockjs-tornado tinydb
-sudo pip3 install userapp.tornado --pre
+sudo pacman -S python python-pip
+sudo pip install tornado sockjs-tornado tinydb
+sudo pip install userapp.tornado --pre
 ```
 
 Mac OSX
 -------
 ```{r, engine='bash', count_lines}
 brew install python3
+sudo pip3 install tornado sockjs-tornado tinydb
+sudo pip3 install userapp.tornado --pre
+```
+
+Ubuntu
+------
+```{r, engine='bash', count_lines}
+sudo apt-get install python3 python3-pip
 sudo pip3 install tornado sockjs-tornado tinydb
 sudo pip3 install userapp.tornado --pre
 ```
@@ -31,7 +39,7 @@ pip3 install userapp.tornado --pre
 ```
 
 Bower
------
+=====
 We use bower-installer to update and install javascript code.
 After, execute bower-install to install static dependence.
 
