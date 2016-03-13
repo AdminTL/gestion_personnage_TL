@@ -29,7 +29,7 @@
     <!-- Personnage non sélectionné -->
     <h2>Veuillez choisir votre personnage.</h2>
   </div>
-  <div class="col-md-8" ng-show="characterData" role="main">
+  <div class="col-md-8" ng-show="characterData" role="main" id="characterSheet">
     <!-- Personnage sélectionné -->
     <!--<h1>Fiche de Personnage</h1> -->
     <ul>
@@ -52,12 +52,12 @@
           <li>Xp: <input type="number" ng-model="characterData.endurance.xp" ng-readonly="!characterEdit"/></li>
         </ul>
       </li>
-      <li>
-        <input type="button" value="Mettre à jour" ng-click="update(characterName, character); characterEdit = !characterEdit"/>
-      </li>
     </ul>
   </div>
-
+  <div>
+    <input type="button" value="Mettre à jour" ng-click="update(characterName, character); characterEdit = !characterEdit"/>
+    <input type="button" value="Imprimer" class="btn btn-primary" ng-click="printCharacterSheet()"/>
+  </div>
 </div>
 
 {% end %}

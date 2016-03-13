@@ -99,6 +99,24 @@ characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, 
     //update DB
   }
 
+  $scope.printCharacterSheet = function () {
+    var elem = document.getElementById('characterSheet');
+    var domClone = elem.cloneNode(true);
+
+    var printSection = document.getElementById("printSection");
+
+    if (!printSection) {
+        var printSection = document.createElement("div");
+        printSection.id = "printSection";
+        document.body.appendChild(printSection);
+    }
+
+    printSection.innerHTML = "<h1>Feuille de personnage</h1>";
+    printSection.appendChild(domClone);
+
+    window.print();
+  }
+
   socket.onmessage = function (e) {
     $scope.message = JSON.parse(e.data);
     console.log($scope.message);
