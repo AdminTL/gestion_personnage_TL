@@ -1,67 +1,19 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
 import json
 import tornado
 import tornado.web
-from sockjs.tornado import SockJSConnection
 import hashlib
 import sys
-from db import TLDB
 import userapp
 import userapp.tornado
-
-USER_APP_ID = "56d6ef67bce81"
+import base_handler
 
 io_loop = tornado.ioloop.IOLoop.instance()
 config_path = "config"
 
 ENABLE_FACEBOOK_FEED = False
-DATABASE_PATH = "../../database/tl_user.json"
-db = TLDB(DATABASE_PATH)
-
-
-@userapp.tornado.config(app_id=USER_APP_ID)
-class BaseHandler(tornado.web.RequestHandler):
-    _debug = None
-    _global_arg = {}
-
-    def initialize(self, **kwargs):
-        self._debug = kwargs.get("debug")
-        self._global_arg = {"debug": kwargs.get("debug"), "use_internet_static": kwargs.get("use_internet_static")}
-
-    def get_current_user(self):
-        return db.get_user(_uuid=self.get_secure_cookie("user"))
-
-
-class SocketCommunication:
-    def __init__(self):
-        self._connexions = []
-
-    def broadcast_update(self, json_data):
-        # print("SockJS broadcast : {}".format(json_data))
-        for client in self._connexions:
-            client.broadcast(self._connexions, json_data)
-
-    def append(self, conn):
-        self._connexions.append(conn)
-
-    def remove(self, conn):
-        self._connexions.remove(conn)
-
-
-open_connexions = SocketCommunication()
-
-
-class TestStatusConnection(SockJSConnection):
-    def __init__(self, *args, **kwargs):
-        super(TestStatusConnection, self).__init__(*args, **kwargs)
-
-    def on_open(self, info):
-        pass
-
-    def on_close(self):
-        open_connexions.remove(self)
-        return super(TestStatusConnection, self).on_close()
 
 
 def ioloop_wrapper(callback):
@@ -71,59 +23,61 @@ def ioloop_wrapper(callback):
     return func
 
 
-ddb = {"user":
-           {"tommy@gmail.com":
-               {
-                    "nom": "Tommy DuPoisson",
-                    "email": "tommy@gmail.com",
-                    "character":
-                     {"Martin le chasseur": {"faction": "Les chasseurs", "sous_faction": "", "race": "Humain",
-                                             "karma": 10, "bloc_production": {"enchantement": 4, "potion": 2},
-                                             "endurance": {"total": 3, "xp": 1}
-                                             },
-                      }
-           },
-            "eric@gmail.com":
+ddb = {"user": {
+    "tommy@gmail.com":
+        {
+            "nom": "Tommy DuPoisson",
+            "email": "tommy@gmail.com",
+            "character":
                 {
-                    "nom": "Éric DuPoisson",
-                    "email": "eric@gmail.com",
-                    "character":
-                     {"Martin le chasseur 2": {"faction": "Les chasseurs", "sous_faction": "", "race": "Humain",
-                                             "karma": 10, "bloc_production": {"enchantement": 4, "potion": 2},
-                                             "endurance": {"total": 3, "xp": 1}
-                                             },
-                      }
-                 },
-           "rick@gmail.com":
+                    "Martin le chasseur": {"faction": "Les chasseurs", "sous_faction": "", "race": "Humain",
+                                           "karma": 10, "bloc_production": {"enchantement": 4, "potion": 2},
+                                           "endurance": {"total": 3, "xp": 1}
+                                           },
+                }
+        },
+    "eric@gmail.com":
+        {
+            "nom": "Éric DuPoisson",
+            "email": "eric@gmail.com",
+            "character":
                 {
-                    "nom": "Rick DuPoisson",
-                    "email": "rick@gmail.com",
-                    "character":
-                     {"Martin le chasseur 3": {"faction": "Les chasseurs", "sous_faction": "", "race": "Humain",
+                    "Martin le chasseur 2": {"faction": "Les chasseurs", "sous_faction": "", "race": "Humain",
                                              "karma": 10, "bloc_production": {"enchantement": 4, "potion": 2},
                                              "endurance": {"total": 3, "xp": 1}
                                              },
-                     "Martin le chasseur 4": {"faction": "Les chasseurs", "sous_faction": "", "race": "Humain",
+                }
+        },
+    "rick@gmail.com":
+        {
+            "nom": "Rick DuPoisson",
+            "email": "rick@gmail.com",
+            "character":
+                {
+                    "Martin le chasseur 3": {"faction": "Les chasseurs", "sous_faction": "", "race": "Humain",
                                              "karma": 10, "bloc_production": {"enchantement": 4, "potion": 2},
                                              "endurance": {"total": 3, "xp": 1}
                                              },
-                     "Martin le chasseur 5": {"faction": "Les chasseurs", "sous_faction": "", "race": "Humain",
+                    "Martin le chasseur 4": {"faction": "Les chasseurs", "sous_faction": "", "race": "Humain",
+                                             "karma": 10, "bloc_production": {"enchantement": 4, "potion": 2},
+                                             "endurance": {"total": 3, "xp": 1}
+                                             },
+                    "Martin le chasseur 5": {"faction": "Les chasseurs", "sous_faction": "", "race": "Humain",
                                              "karma": 10, "bloc_production": {"enchantement": 4, "potion": 2},
                                              "endurance": {"total": 3, "xp": 1}
                                              }
-                      }
-                 }
-            }
-       }
+                }
+        }
+}}
 
 
-class IndexHandler(BaseHandler):
+class IndexHandler(base_handler.BaseHandler):
     @tornado.web.asynchronous
     def get(self):
         self.render('news.html', enable_facebook_feed=ENABLE_FACEBOOK_FEED, **self._global_arg)
 
 
-class LoginHandler(BaseHandler):
+class LoginHandler(base_handler.BaseHandler):
     @tornado.web.asynchronous
     def get(self):
         self.render('login.html', **self._global_arg)
@@ -142,9 +96,9 @@ class LoginHandler(BaseHandler):
             print("Password is empty.", file=sys.stderr)
         secure_pass = hashlib.sha256(password.encode('UTF-8')).hexdigest()
         if name:
-            user = db.create_user(email, name, secure_pass)
+            user = self._db.create_user(email, name, secure_pass)
         else:
-            user = db.get_user(email, secure_pass)
+            user = self._db.get_user(email, secure_pass)
 
         if user:
             uuid = user.get("uuid")
@@ -153,13 +107,13 @@ class LoginHandler(BaseHandler):
         self.redirect("/")
 
 
-class LogoutHandler(BaseHandler):
+class LogoutHandler(base_handler.BaseHandler):
     def get(self):
         self.clear_cookie("user")
         self.redirect(u"/")
 
 
-class AdminHandler(BaseHandler):
+class AdminHandler(base_handler.BaseHandler):
     @tornado.web.asynchronous
     @userapp.tornado.authorized()
     @userapp.tornado.has_permission('admin')
@@ -167,13 +121,13 @@ class AdminHandler(BaseHandler):
         self.render('admin/index.html', **self._global_arg)
 
 
-class CharacterHandler(BaseHandler):
+class CharacterHandler(base_handler.BaseHandler):
     @tornado.web.asynchronous
     def get(self):
         self.render('character.html', **self._global_arg)
 
 
-class CharacterViewHandler(BaseHandler):
+class CharacterViewHandler(base_handler.BaseHandler):
     @tornado.web.asynchronous
     def get(self):
         data = json.dumps(ddb)

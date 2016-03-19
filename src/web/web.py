@@ -7,18 +7,23 @@ import tornado.ioloop
 import tornado.web
 import tornado.httpserver
 import handlers
+import web_socket
 from sockjs.tornado import SockJSRouter
 import os
 import subprocess
 import base64
+from db import TLDB
 
 DEFAULT_SSL_DIRECTORY = "../../ssl_cert"
 CERT_FILE_SSL = os.path.join(DEFAULT_SSL_DIRECTORY, "ca.csr")
 KEY_FILE_SSL = os.path.join(DEFAULT_SSL_DIRECTORY, "ca.key")
 
+DATABASE_PATH = "../../database/tl_user.json"
+db = TLDB(DATABASE_PATH)
+
 
 def main(parse_arg):
-    socket_connection = SockJSRouter(handlers.TestStatusConnection, '/update_user', user_settings=None)
+    socket_connection = SockJSRouter(web_socket.TestStatusConnection, '/update_user', user_settings=None)
 
     # TODO store cookie_secret if want to reuse it if restart server
     settings = {"static_path": parse_arg.static_dir,
@@ -26,7 +31,8 @@ def main(parse_arg):
                 "debug": parse_arg.debug,
                 "cookie_secret": base64.b64encode(os.urandom(50)).decode('ascii'),
                 "login_url": "/login",
-                "use_internet_static": parse_arg.use_internet_static
+                "use_internet_static": parse_arg.use_internet_static,
+                "db": db
                 }
     routes = [
         # pages
