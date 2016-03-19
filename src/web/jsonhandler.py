@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import json
-import tornado.web
+import base_handler
 
 
-class JsonHandler(tornado.web.RequestHandler):
+class JsonHandler(base_handler.BaseHandler):
     """Request handler where requests and responses speak JSON."""
+    params = {}
+    response = {}
 
     def prepare_json(self):
         self.params = {}
@@ -20,7 +22,7 @@ class JsonHandler(tornado.web.RequestHandler):
                 self.send_error(400, message=message)  # Bad Request
 
         # Set up response dictionary.
-        self.response = dict()
+        self.response = {}
 
     def set_default_headers(self):
         self.set_header('Content-Type', 'application/json')
@@ -31,7 +33,7 @@ class JsonHandler(tornado.web.RequestHandler):
                 print("405 error")
                 kwargs['message'] = 'Invalid HTTP method.'
             else:
-                print("Unknow error")
+                print("Unknown error")
                 kwargs['message'] = 'Unknown error.'
 
         self.response = kwargs
@@ -41,7 +43,7 @@ class JsonHandler(tornado.web.RequestHandler):
         output = json.dumps(self.response)
         self.write(output)
 
-    def get_argument(self, name, default=[], strip=True):
+    def get_argument(self, name, default=None, strip=True):
         # ignore strip
         return self.params.get(name, default)
 

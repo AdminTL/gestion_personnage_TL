@@ -8,7 +8,7 @@
     <div class="bs-sidebar hidden-print affix" role="complementary">
       Joueur
       <div class="list-group">
-        <select class="form-control" ng-model="player" ng-options="value.nom for (key, value) in ddb.user" ng-change="setCharacterData(null)">
+        <select class="form-control" ng-model="player" ng-options="user.nom for user in ddb_user" ng-change="setCharacterData(null)">
           <option value="">--Sélectionner un joueur--</option>
         </select>
       </div>
@@ -29,35 +29,35 @@
     <!-- Personnage non sélectionné -->
     <h2>Veuillez choisir votre personnage.</h2>
   </div>
-  <div class="col-md-8" ng-show="characterData" role="main" id="characterSheet">
-    <!-- Personnage sélectionné -->
-    <!--<h1>Fiche de Personnage</h1> -->
-    <ul>
-      <li>Nom: <input type="text" ng-model="characterName" ng-readonly="!characterEdit"></li>
-      <li>Faction: <input type="text" ng-model="characterData.faction" ng-readonly="!characterEdit"/></li>
-      <li>Sous-faction: <input type="text" ng-model="characterData.sous_faction" ng-readonly="!characterEdit"/></li>
-      <li>Race: <input type="text" ng-model="characterData.race" ng-readonly="!characterEdit"/></li>
-      <li>Karma: <input type="number" ng-model="characterData.karma" ng-readonly="!characterEdit"/></li>
-      <li>
-        Blocs de production:
-        <ul>
-          <li>Enchantement: <input type="number" ng-model="characterData.bloc_production.enchantement" ng-readonly="!characterEdit"/></li>
-          <li>Potion: <input type="number" ng-model="characterData.bloc_production.potion" ng-readonly="!characterEdit"/></li>
-        </ul>
-      </li>
-      <li>
-        Endurance:
-        <ul>
-          <li>Total: <input type="number" ng-model="characterData.endurance.total" ng-readonly="!characterEdit"/></li>
-          <li>Xp: <input type="number" ng-model="characterData.endurance.xp" ng-readonly="!characterEdit"/></li>
-        </ul>
-      </li>
-    </ul>
-  </div>
-  <div>
-    <input type="button" value="Mettre à jour" ng-click="update(characterName, character); characterEdit = !characterEdit"/>
-    <input type="button" value="Imprimer" class="btn btn-primary" ng-click="printCharacterSheet()"/>
-  </div>
+  <form name="characterForm" novalidate>
+    <div class="col-md-8" ng-show="characterData" role="main" id="characterSheet">
+      <!-- Personnage sélectionné -->
+      <!--<h1>Fiche de Personnage</h1> -->
+      <ul>
+        <li>Nom: <input type="text" ng-model="characterName" ng-readonly="!characterEdit"></li>
+        <li>Faction: <input type="text" ng-model="characterData.faction" ng-readonly="!characterEdit"/></li>
+        <li>Sous-faction: <input type="text" ng-model="characterData.sous_faction" ng-readonly="!characterEdit"/></li>
+        <li>Race: <input type="text" ng-model="characterData.race" ng-readonly="!characterEdit"/></li>
+        <li>Karma: <input type="number" ng-model="characterData.karma" ng-readonly="!characterEdit"/></li>
+        <li>
+          Blocs de production:
+          <ul>
+            <li>Enchantement: <input type="number" ng-model="characterData.bloc_production.enchantement" ng-readonly="!characterEdit"/></li>
+            <li>Potion: <input type="number" ng-model="characterData.bloc_production.potion" ng-readonly="!characterEdit"/></li>
+          </ul>
+        </li>
+        <li>
+          Endurance:
+          <ul>
+            <li>Total: <input type="number" ng-model="characterData.endurance.total" ng-readonly="!characterEdit"/></li>
+            <li>Xp: <input type="number" ng-model="characterData.endurance.xp" ng-readonly="!characterEdit"/></li>
+          </ul>
+        </li>
+      </ul>
+      <button type="submit" ng-click="submitCharacterData()" class="btn btn-primary">Mettre à jour</button>
+      <input type="button" value="Imprimer" class="btn btn-primary" ng-click="printCharacterSheet()"/>
+    </div>
+  </form>
 </div>
 
 {% end %}

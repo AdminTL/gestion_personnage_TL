@@ -12,14 +12,11 @@ from sockjs.tornado import SockJSRouter
 import os
 import subprocess
 import base64
-from db import TLDB
+from db import DB
 
 DEFAULT_SSL_DIRECTORY = "../../ssl_cert"
 CERT_FILE_SSL = os.path.join(DEFAULT_SSL_DIRECTORY, "ca.csr")
 KEY_FILE_SSL = os.path.join(DEFAULT_SSL_DIRECTORY, "ca.key")
-
-DATABASE_PATH = "../../database/tl_user.json"
-db = TLDB(DATABASE_PATH)
 
 
 def main(parse_arg):
@@ -32,7 +29,7 @@ def main(parse_arg):
                 "cookie_secret": base64.b64encode(os.urandom(50)).decode('ascii'),
                 "login_url": "/login",
                 "use_internet_static": parse_arg.use_internet_static,
-                "db": db
+                "db": DB(parse_arg)
                 }
     routes = [
         # pages
@@ -43,7 +40,7 @@ def main(parse_arg):
         tornado.web.url(r"/character", handlers.CharacterHandler, name='character', kwargs=settings),
 
         # command
-        tornado.web.url(r"/cmd/character_view", handlers.CharacterViewHandler, name='character_view'),
+        tornado.web.url(r"/cmd/character_view", handlers.CharacterViewHandler, name='character_view', kwargs=settings),
     ]
     application = tornado.web.Application(routes + socket_connection.urls, **settings)
 

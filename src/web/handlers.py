@@ -9,6 +9,7 @@ import sys
 import userapp
 import userapp.tornado
 import base_handler
+import jsonhandler
 
 io_loop = tornado.ioloop.IOLoop.instance()
 config_path = "config"
@@ -17,58 +18,11 @@ ENABLE_FACEBOOK_FEED = False
 
 
 def ioloop_wrapper(callback):
+    # use this for async call
     def func(*args, **kwargs):
         io_loop.add_callback(callback, *args, **kwargs)
 
     return func
-
-
-ddb = {"user": {
-    "tommy@gmail.com":
-        {
-            "nom": "Tommy DuPoisson",
-            "email": "tommy@gmail.com",
-            "character":
-                {
-                    "Martin le chasseur": {"faction": "Les chasseurs", "sous_faction": "", "race": "Humain",
-                                           "karma": 10, "bloc_production": {"enchantement": 4, "potion": 2},
-                                           "endurance": {"total": 3, "xp": 1}
-                                           },
-                }
-        },
-    "eric@gmail.com":
-        {
-            "nom": "Éric DuPoisson",
-            "email": "eric@gmail.com",
-            "character":
-                {
-                    "Martin le chasseur 2": {"faction": "Les chasseurs", "sous_faction": "", "race": "Humain",
-                                             "karma": 10, "bloc_production": {"enchantement": 4, "potion": 2},
-                                             "endurance": {"total": 3, "xp": 1}
-                                             },
-                }
-        },
-    "rick@gmail.com":
-        {
-            "nom": "Rick DuPoisson",
-            "email": "rick@gmail.com",
-            "character":
-                {
-                    "Martin le chasseur 3": {"faction": "Les chasseurs", "sous_faction": "", "race": "Humain",
-                                             "karma": 10, "bloc_production": {"enchantement": 4, "potion": 2},
-                                             "endurance": {"total": 3, "xp": 1}
-                                             },
-                    "Martin le chasseur 4": {"faction": "Les chasseurs", "sous_faction": "", "race": "Humain",
-                                             "karma": 10, "bloc_production": {"enchantement": 4, "potion": 2},
-                                             "endurance": {"total": 3, "xp": 1}
-                                             },
-                    "Martin le chasseur 5": {"faction": "Les chasseurs", "sous_faction": "", "race": "Humain",
-                                             "karma": 10, "bloc_production": {"enchantement": 4, "potion": 2},
-                                             "endurance": {"total": 3, "xp": 1}
-                                             }
-                }
-        }
-}}
 
 
 class IndexHandler(base_handler.BaseHandler):
@@ -127,9 +81,20 @@ class CharacterHandler(base_handler.BaseHandler):
         self.render('character.html', **self._global_arg)
 
 
-class CharacterViewHandler(base_handler.BaseHandler):
+class CharacterViewHandler(jsonhandler.JsonHandler):
     @tornado.web.asynchronous
     def get(self):
-        data = json.dumps(ddb)
+        # TODO manage what we get and user management permission
+        data = json.dumps(self._db.get_all_user())
         self.write(data)
         self.finish()
+
+    @tornado.web.asynchronous
+    def post(self):
+        self.prepare_json()
+
+        user_id = self.get_argument("user_id")
+        character_id = self.get_argument("character_id")
+        data = self.get_argument("data")
+
+        self._db.update_character(user_id, character_id, data)

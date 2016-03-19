@@ -70,11 +70,12 @@ characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, 
   // update_test_status is an async socket that sends the content of machine.json
   var data_source = "http://" + window.location.host + "/update_user";
   var socket = new SockJS(data_source);
-  var ddb = {};
 
   $scope.characterName = null;
   $scope.characterData = null;
   $scope.player = null;
+  $scope.ddb_user = [];
+  $scope.characterEdit = true;
 
   $scope.setCharacterData = function (key) {
     // if null, select first character
@@ -95,8 +96,12 @@ characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, 
     }
   }
 
-  $scope.update = function (key, data) {
-    //update DB
+  $scope.submitCharacterData = function () {
+    var data = Object();
+    data.user_id = $scope.player.nom;
+    data.character_id = $scope.characterName;
+    data.data = $scope.characterData;
+    $http.post("/cmd/character_view", data);
   }
 
   $scope.printCharacterSheet = function () {
@@ -106,9 +111,9 @@ characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, 
     var printSection = document.getElementById("printSection");
 
     if (!printSection) {
-        var printSection = document.createElement("div");
-        printSection.id = "printSection";
-        document.body.appendChild(printSection);
+      var printSection = document.createElement("div");
+      printSection.id = "printSection";
+      document.body.appendChild(printSection);
     }
 
     printSection.innerHTML = "<h1>Feuille de personnage</h1>";
@@ -125,7 +130,7 @@ characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, 
 
   $http.get('/cmd/character_view').success(
     function (data, status, headers, config) {
-      $scope.ddb = data;
+      $scope.ddb_user = data;
     }
   );
 
