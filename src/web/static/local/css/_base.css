@@ -90,4 +90,7 @@ a:focus {
         left:0;
         top:0;
     }
+    .print-hide {
+        display: none;
+    }
 }
