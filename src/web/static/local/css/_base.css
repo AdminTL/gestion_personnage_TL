@@ -51,6 +51,27 @@ a:focus {
   padding:0 0.4ch;
 }
 
+.sidebar-left, .content {
+    display: inline-block;
+    float: left;
+    clear: both;
+    height: 100%;
+}
+
+.sidebar-left {
+    width: 300px;
+}
+
+.navbar-nav > li {
+    display: inline-block;
+}
+
+.content {
+    width: 500px;
+    position: relative;
+    left: 300px;
+}
+
 @media screen {
     #printSection {
         display: none;
