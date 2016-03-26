@@ -1,0 +1,230 @@
+{
+  "user": [
+    "Nom",
+    "Prénom",
+    "Courriel",
+    {
+      "faction": "rule.faction"
+    },
+    {
+      "name": "Karma",
+      "default": 10
+    },
+    [
+      {
+        "discipline": "rule.discipline"
+      }
+    ]
+  ],
+  "rule": {
+    "faction": [
+      "Vanican",
+      "Canavim",
+      "Vallam",
+      "Sarsare"
+    ],
+    "ressource": [
+      {
+        "Bloc de Production": [
+          "Artisanat",
+          "Alchimie",
+          "Enchantement",
+          "Forge",
+          "Herboristerie",
+          "Mixture de potions"
+        ]
+      },
+      "Revenu",
+      "Composantes magiques",
+      "Joyau",
+      "Lettre"
+    ],
+    "Discipline": {
+      "Commune": {
+        "Endurance": {
+          "incr": 1,
+          "max": 3
+        },
+        "Énergie": {
+          "incr": 1,
+          "max_incr": 3
+        }
+      },
+      "Combattante": {
+        "Discipline": [
+          "Résilience",
+          "Endurcie",
+          "Loyauté",
+          "Doctrine",
+          "Vigilance"
+        ],
+        "Karma": {
+          "incr": 2,
+          "max": 5
+        },
+        "Offense": [
+          "Assaut",
+          "Jambette",
+          "Désarmement",
+          "Coupe-souffle",
+          "Charge"
+        ],
+        "Défense": [
+          "Esquive",
+          "Déflexion",
+          "Déviation",
+          "Santé",
+          "Second Souffle"
+        ]
+      }
+    },
+    "Sournoise": {
+      "Alchimie": {
+        "incr": [
+          4,
+          2,
+          2,
+          2,
+          2
+        ],
+        "ressource": "rule.ressource.Bloc de Production.Alchimie"
+      },
+      "Embuscade": [
+        "Camouflage",
+        "Dissimulation",
+        "Capture",
+        "Piège",
+        "Aveuglement"
+      ],
+      "Fourberie": [
+        "Attaque sournoise",
+        "Coup bas",
+        "Coup sonnant",
+        "Coupe-jarret",
+        "Stylet"
+      ],
+      "Travail de précision": [
+        "Serrurier",
+        "Évasion",
+        "Désamorçage",
+        "Torture",
+        "Vol à la tire"
+      ]
+    },
+    "Magique": {
+      "Artisanat Arcane": [
+        {
+          "name": "Mixture de potions",
+          "incr": 4,
+          "ressource": "rule.ressource.Bloc de Production.Mixture de potions"
+        },
+        {
+          "name": "Enchantement",
+          "incr": 4,
+          "ressource": "rule.ressource.Bloc de Production.Enchantement"
+        },
+        {
+          "name": "Infusion"
+          //Donne accès au rituel de Création
+        },
+        "Réparation",
+        "Disjonction"
+      ],
+      "Rituel": {
+        "incr": [
+          6,
+          3,
+          3,
+          3,
+          3
+        ],
+        "ressource": "rule.ressource.Composantes magiques"
+        //Donne une école de Magie la première fois.
+      },
+      "Sorcellerie": [
+        "Frénésie",
+        "Terreur",
+        "Noirceur",
+        "Silence",
+        "Éclair"
+      ],
+      "Thaumaturgie": [
+        "Guérison",
+        "Réanimation",
+        "Réssurection",
+        "Liberté",
+        "Voix"
+      ]
+    },
+    "Professionnelle": {
+      "Baratin": [
+        "Diplomatie",
+        "Mensonge",
+        {
+          "name": "Revenu",
+          "incr": 10,
+          "ressource": "rule.ressource.Revenu"
+        },
+        "Verbomoteur",
+        "Discours"
+      ],
+      "Marchandage": {
+        "incr": [
+          4,
+          2,
+          2,
+          2,
+          2
+        ],
+        "ressource": [
+          "rule.ressource.Bloc de Production",
+          "rule.ressource.Composantes magiques"
+        ]
+      },
+      "Médecine": [
+        "Opération",
+        "Suture",
+        "Psychiatrie",
+        "Relaxation",
+        "Pharmacie"
+      ],
+      "Métier": [
+        {
+          "name": "Artisinat",
+          "incr": 4,
+          "ressource": "rule.ressource.Bloc de Production.Artisanat"
+        },
+        {
+          "name": "Forge",
+          "incr": 4,
+          "ressource": "rule.ressource.Bloc de Production.Forge"
+        },
+        {
+          "name": "Herboristerie",
+          "incr": 4,
+          "ressource": "rule.ressource.Bloc de Production.Herboristerie"
+        },
+        {
+          "name": "Spécialiste I",
+          "ressource": {
+            "rule.ressource.Bloc de Production.Herboristerie": 2,
+            "rule.ressource.Bloc de Production.Artisanat": 2,
+            "rule.ressource.Bloc de Production.Enchantement": 4,
+            "rule.ressource.Bloc de Production.Forge": 2,
+            "rule.ressource.Bloc de Production.Mixture de Potion": 2
+          }
+        },
+        {
+          "name": "Spécialiste II",
+          "ressource": {
+            "rule.ressource.Bloc de Production.Herboristerie": 2,
+            "rule.ressource.Bloc de Production.Artisanat": 2,
+            "rule.ressource.Bloc de Production.Enchantement": 4,
+            "rule.ressource.Bloc de Production.Forge": 2,
+            "rule.ressource.Bloc de Production.Mixture de Potion": 2
+          }
+        }
+      ]
+    }
+  }
+}

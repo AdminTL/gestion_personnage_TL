@@ -14,7 +14,7 @@ import subprocess
 import base64
 from db import DB
 
-DEFAULT_SSL_DIRECTORY = "../../ssl_cert"
+DEFAULT_SSL_DIRECTORY = os.path.join("..", "..", "ssl_cert")
 CERT_FILE_SSL = os.path.join(DEFAULT_SSL_DIRECTORY, "ca.csr")
 KEY_FILE_SSL = os.path.join(DEFAULT_SSL_DIRECTORY, "ca.key")
 
