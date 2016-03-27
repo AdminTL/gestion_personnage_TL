@@ -10,12 +10,14 @@ import user
 @userapp.tornado.config(app_id=user.USER_APP_ID)
 class BaseHandler(tornado.web.RequestHandler):
     _debug = None
+    _rule = None
     _db = None
     _global_arg = {}
 
     def initialize(self, **kwargs):
         self._debug = kwargs.get("debug")
         self._db = kwargs.get("db")
+        self._rule = kwargs.get("rule")
         self._global_arg = {
             "debug": kwargs.get("debug"),
             "use_internet_static": kwargs.get("use_internet_static"),

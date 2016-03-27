@@ -124,8 +124,8 @@
           "ressource": "rule.ressource.Bloc de Production.Enchantement"
         },
         {
-          "name": "Infusion"
-          //Donne accès au rituel de Création
+          "name": "Infusion",
+          "note": "Donne accès au rituel de Création"
         },
         "Réparation",
         "Disjonction"
@@ -138,8 +138,8 @@
           3,
           3
         ],
-        "ressource": "rule.ressource.Composantes magiques"
-        //Donne une école de Magie la première fois.
+        "ressource": "rule.ressource.Composantes magiques",
+        "note": "Donne une école de Magie la première fois."
       },
       "Sorcellerie": [
         "Frénésie",

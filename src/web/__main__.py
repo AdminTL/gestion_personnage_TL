@@ -12,6 +12,7 @@ WEB_DEFAULT_STATIC_DIR = os.path.join(WEB_ROOT_DIR, 'static')
 WEB_DEFAULT_TEMPLATE_DIR = os.path.join(WEB_ROOT_DIR, 'templates')
 DB_DEFAULT_PATH = os.path.join("..", "..", "database", "tl_user.json")
 DB_DEMO_PATH = os.path.join("..", "..", "database", "demo_user.json")
+DB_RULE_PATH = os.path.join("..", "..", "database", "template_rules.json")
 
 
 def main():
@@ -62,6 +63,7 @@ def parse_args():
 
     _parser = parser.parse_args()
     _parser.db_demo_path = DB_DEMO_PATH
+    _parser.db_rule_path = DB_RULE_PATH
     return _parser
 
 

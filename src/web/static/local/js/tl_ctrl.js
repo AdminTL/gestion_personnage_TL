@@ -176,6 +176,12 @@ characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, 
     }
   );
 
+  $http.get('/cmd/rule').success(
+    function (data, status, headers, config) {
+      $scope.rule = data;
+    }
+  );
+
 }]);
 
 characterApp.config(['$routeProvider', function ($routeProvider) {

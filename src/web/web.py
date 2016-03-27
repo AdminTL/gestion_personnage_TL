@@ -13,6 +13,7 @@ import os
 import subprocess
 import base64
 from db import DB
+from rule import Rule
 
 DEFAULT_SSL_DIRECTORY = os.path.join("..", "..", "ssl_cert")
 CERT_FILE_SSL = os.path.join(DEFAULT_SSL_DIRECTORY, "ca.csr")
@@ -29,7 +30,8 @@ def main(parse_arg):
                 "cookie_secret": base64.b64encode(os.urandom(50)).decode('ascii'),
                 "login_url": "/login",
                 "use_internet_static": parse_arg.use_internet_static,
-                "db": DB(parse_arg)
+                "db": DB(parse_arg),
+                "rule": Rule(parse_arg)
                 }
     routes = [
         # pages
@@ -41,6 +43,7 @@ def main(parse_arg):
 
         # command
         tornado.web.url(r"/cmd/character_view", handlers.CharacterViewHandler, name='character_view', kwargs=settings),
+        tornado.web.url(r"/cmd/rule", handlers.RulesHandler, name='rule', kwargs=settings),
     ]
     application = tornado.web.Application(routes + socket_connection.urls, **settings)
 

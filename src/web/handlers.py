@@ -99,3 +99,9 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
 
         self._db.update_player(user_id, player, character)
 
+
+class RulesHandler(jsonhandler.JsonHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        self.write(self._rule.get_rule())
+        self.finish()
