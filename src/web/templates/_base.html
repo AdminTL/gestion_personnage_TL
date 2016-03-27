@@ -57,6 +57,7 @@
 </div>
 {% end %}
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 {% if use_internet_static %}
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-route.min.js"></script>
@@ -64,8 +65,6 @@
 <script src="http://cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"></script>
 <script src="https://app.userapp.io/js/userapp.client.js"></script>
 <script src="https://app.userapp.io/js/angularjs.userapp.js"></script>
-<script src="{{ static_url('local/js/tool.js') }}"></script>
-<script src="{{ static_url('local/js/tl_ctrl.js') }}"></script>
 {% elif debug %}
 <script src="{{ static_url('angular/angular.js') }}"></script>
 <script src="{{ static_url('angular-route/angular-route.js') }}"></script>
@@ -73,8 +72,6 @@
 <script src="{{ static_url('sockjs/sockjs.js') }}"></script>
 <script src="{{ static_url('userapp/userapp.client.js') }}"></script>
 <script src="{{ static_url('userapp-angular/angularjs.userapp.js') }}"></script>
-<script src="{{ static_url('local/js/tool.js') }}"></script>
-<script src="{{ static_url('local/js/tl_ctrl.js') }}"></script>
 {% else %}
 <script src="{{ static_url('angular/angular.min.js') }}"></script>
 <script src="{{ static_url('angular-route/angular-route.min.js') }}"></script>
@@ -82,9 +79,9 @@
 <script src="{{ static_url('sockjs/sockjs.min.js') }}"></script>
 <script src="{{ static_url('userapp/userapp.client.js') }}"></script>
 <script src="{{ static_url('userapp-angular/angularjs.userapp.js') }}"></script>
+{% end %}
 <script src="{{ static_url('local/js/tool.js') }}"></script>
 <script src="{{ static_url('local/js/tl_ctrl.js') }}"></script>
-{% end %}
 
 </body>
 </html>

@@ -94,7 +94,8 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
         self.prepare_json()
 
         user_id = self.get_argument("user_id")
-        character_id = self.get_argument("character_id")
-        data = self.get_argument("data")
+        player = self.get_argument("player")
+        character = self.get_argument("data")
 
-        self._db.update_character(user_id, character_id, data)
+        self._db.update_player(user_id, player, character)
+

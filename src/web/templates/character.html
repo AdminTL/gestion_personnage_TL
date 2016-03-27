@@ -7,17 +7,30 @@
     <br/>
     <div class="bs-sidebar hidden-print affix" role="complementary">
       Joueur
-      <div class="list-group">
-        <select class="form-control" ng-model="player" ng-options="user.nom for user in ddb_user" ng-change="setCharacterData(null)">
+      <div ng-show="!new_player">
+        <button class="btn btn-success" ng-click="newPlayer()"><span class="glyphicon glyphicon-plus"></span> <span class="glyphicon glyphicon-user"></span> Nouveau joueur</button>
+      </div>
+      <div ng-show="new_player">
+        <button class="btn btn-success"><span class="glyphicon glyphicon-floppy-save"></span> <span class="glyphicon glyphicon-user"></span> Enregistrer nouveau joueur</button>
+      </div>
+      <div ng-show="new_player">
+        <button class="btn btn-danger" ng-click="discardPlayer()"><span class="glyphicon glyphicon-floppy-remove"></span> <span class="glyphicon glyphicon-user"></span> Annuler nouveau joueur</button>
+      </div>
+      <div class="list-group" ng-show="!new_player">
+        <select class="form-control" ng-model="player" ng-options="user.name for user in ddb_user" ng-change="setCharacterData(null)">
           <option value="">--Sélectionner un joueur--</option>
         </select>
       </div>
-      Personnage
-      <div class="list-group">
+
+      <div class="list-group" ng-show="player && !new_player">
+        Fiche personnage<br/>
+        <div ng-show="!new_character">
+          <button class="btn btn-success" ng-click="newCharacter()"><span class="glyphicon glyphicon-plus"></span> <span class="glyphicon glyphicon-file"></span> Nouveau personnage</button>
+        </div>
         <ul class="nav">
-          <li ng-repeat="(key, value) in player.character">
-            <button ng-style="characterName == key && {color:'#FF4E00'}" type="button" class="btn btn-info nav-button" ng-click="setCharacterData(key)">
-              {{! key }}
+          <li ng-repeat="value in player.character">
+            <button ng-style="character.name == value.name && {color:'#FF4E00'}" ng-if="character.name" type="button" class="btn btn-info nav-button" ng-click="setCharacterData(value)">
+              {{! value.name }}
             </button>
           </li>
         </ul>
@@ -25,41 +38,56 @@
     </div>
   </div>
 
-  <div class="content" ng-show="!characterData" role="main">
-    <!-- Personnage non sélectionné -->
-    <h2>Veuillez choisir votre personnage.</h2>
-  </div>
-  <form class="content" name="characterForm" novalidate>
-    <div ng-show="characterData" role="main" id="characterSheet">
-      <!-- Personnage sélectionné -->
-      <!--<h1>Fiche de Personnage</h1> -->
-      <ul>
-        <li>Nom: <input type="text" ng-model="characterName" ng-readonly="!characterEdit"></li>
-        <li>Faction: <input type="text" ng-model="characterData.faction" ng-readonly="!characterEdit"/></li>
-        <li>Sous-faction: <input type="text" ng-model="characterData.sous_faction" ng-readonly="!characterEdit"/></li>
-        <li>Race: <input type="text" ng-model="characterData.race" ng-readonly="!characterEdit"/></li>
-        <li>Karma: <input type="number" ng-model="characterData.karma" ng-readonly="!characterEdit"/></li>
-        <li>
-          Blocs de production:
-          <ul>
-            <li>Enchantement: <input type="number" ng-model="characterData.bloc_production.enchantement" ng-readonly="!characterEdit"/></li>
-            <li>Potion: <input type="number" ng-model="characterData.bloc_production.potion" ng-readonly="!characterEdit"/></li>
-          </ul>
-        </li>
-        <li>
-          Endurance:
-          <ul>
-            <li>Total: <input type="number" ng-model="characterData.endurance.total" ng-readonly="!characterEdit"/></li>
-            <li>Xp: <input type="number" ng-model="characterData.endurance.xp" ng-readonly="!characterEdit"/></li>
-          </ul>
-        </li>
-      </ul>
-      <div class="print-hide">
-        <button type="submit" ng-click="submitCharacterData()" class="btn btn-primary">Mettre à jour</button>
-        <input type="button" value="Imprimer" class="btn btn-primary" ng-click="printCharacterSheet()"/>
+
+  <div ng-show="player" role="main" id="playerSheet">
+    <form class="col-sm-offset-4" name="characterForm" novalidate>
+      <h2>Joueur</h2>
+
+      <div class="form-group row">
+        <label for="playerName" class="col-sm-2 form-control-label">Nom joueur</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" id="playerName" ng-model="player.name" placeholder="Prénom et nom du joueur"/>
+        </div>
       </div>
-    </div>
-  </form>
-</div>
+
+      <div class="form-group row">
+        <label for="playerEmail" class="col-sm-2 form-control-label">Émail</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" id="playerEmail" ng-model="player.email" placeholder="Courriel"/>
+        </div>
+      </div>
+
+      <div class="print-hide form-group row">
+        <div class="col-sm-offset-2 col-sm-8">
+          <button type="submit" ng-click="submitCharacterData()" class="btn btn-success"><span class="glyphicon glyphicon-floppy-save"></span> Enregistrer</button>
+          <input type="button" value="Imprimer" class="btn btn-primary" ng-click="printCharacterSheet()"/>
+          <button type="submit" ng-click="discardPlayer()" class="btn btn-danger"><span class="glyphicon glyphicon-floppy-remove"></span> Annuler</button>
+        </div>
+      </div>
+
+      <div ng-show="character">
+        <hr/>
+        <h2>Personnage</h2>
+
+        <div class="form-group row">
+          <label for="characterName" class="col-sm-2 form-control-label">Nom Personnage</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="characterName" ng-model="character.name" placeholder="Nom du personnage"/>
+          </div>
+        </div>
+
+        <div class="print-hide form-group row">
+          <div class="col-sm-offset-2 col-sm-8">
+            <button type="submit" ng-click="submitCharacterData()" class="btn btn-success"><span class="glyphicon glyphicon-floppy-save"></span> Enregistrer</button>
+            <input type="button" value="Imprimer" class="btn btn-primary" ng-click="printCharacterSheet()"/>
+            <button type="submit" ng-click="discardPlayer()" class="btn btn-danger"><span class="glyphicon glyphicon-floppy-remove"></span> Annuler</button>
+          </div>
+        </div>
+
+      </div>
+    </form>
+  </div>
+
+</div> <!-- end of caracter_ctrl -->
 
 {% end %}

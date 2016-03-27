@@ -56,15 +56,31 @@ class DB(object):
         if not password or _user.get("password") == password:
             return _user
 
-    def update_character(self, user_id, character_id, data):
+    def update_player(self, user_id, player_data, character_data):
+        character_id = None
+        if character_data and "name" in character_data.keys():
+            character_id = character_data.get("name")
+
         def _update_character():
             def transform(element):
-                character = element.get("character", [])
-                if character_id in character:
-                    character[character_id] = data
+                lst_character = element.get("character", [])
+                i = 0
+                for character in lst_character:
+                    if character.get("name") == character_id:
+                        # TODO validate fields in data
+                        lst_character[i] = character_data
+                        break
+                    i += 1
                 else:
-                    print("Error, cannot find character_id %s for user_id %s" % (user_id, character_id))
+                    # it's a creation!
+                    lst_character.append(character_data)
 
             return transform
 
-        self._db_user.update(_update_character(), self._query_user.nom == user_id)
+        # 1. validate user exist, else create it
+        if not self._db_user.search(self._query_user.name == user_id):
+            # add user
+            self._db_user.insert(player_data)
+        # 2. validate character exist for update, else create it
+        else:
+            self._db_user.update(_update_character(), self._query_user.name == user_id)

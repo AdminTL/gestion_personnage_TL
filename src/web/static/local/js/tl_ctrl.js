@@ -67,41 +67,83 @@ characterApp.controller("login_ctrl", ['$scope', function ($scope) {
 }]);
 
 characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, $http) {
-  // update_test_status is an async socket that sends the content of machine.json
-  var data_source = "http://" + window.location.host + "/update_user";
-  var socket = new SockJS(data_source);
+  // var data_source = "http://" + window.location.host + "/update_user";
+  // var socket = new SockJS(data_source);
 
-  $scope.characterName = null;
-  $scope.characterData = null;
   $scope.player = null;
+  $scope.character = null;
   $scope.ddb_user = [];
   $scope.characterEdit = true;
+  $scope.new_player = false;
+  $scope.new_character = false;
 
-  $scope.setCharacterData = function (key) {
-    // if null, select first character
-    if (key === null) {
-      var keys = Object.keys($scope.player.character);
-      if (keys) {
-        key = keys[0];
-        $scope.characterName = key;
-        $scope.characterData = $scope.player.character[key];
+  $scope.newPlayer = function () {
+    // create empty player with empty character
+    $scope.player = {};
+    $scope.character = {};
+    $scope.player.character = [$scope.character];
+
+    $scope.setCharacterData(null);
+    $scope.new_player = true;
+  }
+
+  $scope.newCharacter = function () {
+    // create empty player with empty character
+    $scope.character = {};
+    $scope.character.name = "New";
+    $scope.player.character.push($scope.character);
+    $scope.new_character = true;
+    // $scope.player.character. = [$scope.character];
+  }
+
+  $scope.discardPlayer = function () {
+    $scope.player = null;
+    $scope.setCharacterData(null);
+    $scope.new_player = false;
+  }
+
+  $scope.discardCharacter = function () {
+    $scope.new_character = false;
+  }
+
+  $scope.setCharacterData = function (value) {
+    if (!$scope.player) {
+      // no player is selected
+      $scope.character = null;
+    } else if (value === null) {
+      // if null, select first character
+      if ($scope.player.character.length) {
+        $scope.character = $scope.player.character[0];
       } else {
         // no character on this player
-        $scope.characterName = null;
-        $scope.characterData = null;
+        $scope.character = null;
       }
     } else {
-      $scope.characterName = key;
-      $scope.characterData = $scope.player.character[key];
+      $scope.character = value;
     }
   }
 
   $scope.submitCharacterData = function () {
     var data = Object();
-    data.user_id = $scope.player.nom;
-    data.character_id = $scope.characterName;
-    data.data = $scope.characterData;
+    data.user_id = $scope.player.name;
+    data.player = $scope.player;
+    if (isDefined($scope.character.name)) {
+      data.data = $scope.character;
+    } else {
+      $scope.character = null;
+    }
     $http.post("/cmd/character_view", data);
+    // add to ddb_user client side if new player
+    if ($scope.new_player) {
+      if ($scope.character === null) {
+        $scope.player.character = [];
+      }
+      $scope.ddb_user.push($scope.player);
+      $scope.new_player = false;
+    } else if (isDefined($scope.character.name) && !$scope.player.character.length) {
+      $scope.player.character.push($scope.character);
+    }
+    $scope.new_character = false;
   }
 
   $scope.printCharacterSheet = function () {
@@ -122,11 +164,11 @@ characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, 
     window.print();
   }
 
-  socket.onmessage = function (e) {
-    $scope.message = JSON.parse(e.data);
-    console.log($scope.message);
-    $scope.$apply();
-  };
+  // socket.onmessage = function (e) {
+  //   $scope.message = JSON.parse(e.data);
+  //   console.log($scope.message);
+  //   $scope.$apply();
+  // };
 
   $http.get('/cmd/character_view').success(
     function (data, status, headers, config) {
