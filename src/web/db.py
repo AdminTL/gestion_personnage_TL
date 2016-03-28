@@ -56,31 +56,56 @@ class DB(object):
         if not password or _user.get("password") == password:
             return _user
 
-    def update_player(self, user_id, player_data, character_data):
-        character_id = None
-        if character_data and "name" in character_data.keys():
-            character_id = character_data.get("name")
+    def update_player(self, player_data, character_data=None, delete_player_id=None, delete_character_id=None):
+        if not isinstance(player_data, dict):
+            print("Cannot update player if player is not dictionary : %s" % player_data)
+            return
+        # if None, it's new user
+        player_id = player_data.get("id")
+        # if None, it's new character
+        character_id = None if not isinstance(character_data, dict) else character_data.get("id")
+        if character_id is None and delete_character_id:
+            character_id = delete_character_id
 
         def _update_character():
             def transform(element):
+                # element is never None, it's the actual player
+
+                # update player information
+                lst_ignore_player_field_update = ("character", "id")
+                for key, value in player_data.items():
+                    if key not in lst_ignore_player_field_update:
+                        element[key] = value
+
                 lst_character = element.get("character", [])
+                # update character if find it, else create it
+
                 i = 0
                 for character in lst_character:
-                    if character.get("name") == character_id:
+                    if character.get("id") == character_id:
                         # TODO validate fields in data
-                        lst_character[i] = character_data
+                        if delete_character_id:
+                            del lst_character[i]
+                        else:
+                            lst_character[i] = character_data
                         break
                     i += 1
                 else:
-                    # it's a creation!
-                    lst_character.append(character_data)
+                    if character_data:
+                        # it's a creation!
+                        character_data["id"] = uuid.uuid4().hex
+                        lst_character.append(character_data)
 
             return transform
 
-        # 1. validate user exist, else create it
-        if not self._db_user.search(self._query_user.name == user_id):
-            # add user
+        if delete_player_id:
+            # 1. delete user
+            self._db_user.remove(self._query_user.id == delete_player_id)
+        elif not player_id:
+            # 2. validate user exist, else create it. Ignore if delete action
+            # TODO validate player_data field
+            player_data["id"] = uuid.uuid4().hex
             self._db_user.insert(player_data)
-        # 2. validate character exist for update, else create it
-        else:
-            self._db_user.update(_update_character(), self._query_user.name == user_id)
+        elif player_data or character_data or delete_character_id:
+            # 3. validate character exist for update, else create it, or delete it.
+            self._db_user.update(_update_character(), self._query_user.id == player_id)

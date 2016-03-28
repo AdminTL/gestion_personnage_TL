@@ -71,7 +71,9 @@ characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, 
   // var socket = new SockJS(data_source);
 
   $scope.player = null;
+  $scope.last_player = null;
   $scope.character = null;
+  $scope.last_character = null;
   $scope.ddb_user = [];
   $scope.characterEdit = true;
   $scope.new_player = false;
@@ -79,8 +81,8 @@ characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, 
 
   $scope.newPlayer = function () {
     // create empty player with empty character
-    $scope.player = {};
-    $scope.character = {};
+    $scope.last_player = $scope.player = {};
+    $scope.last_character = $scope.character = {};
     $scope.player.character = [$scope.character];
 
     $scope.setCharacterData(null);
@@ -89,34 +91,62 @@ characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, 
 
   $scope.newCharacter = function () {
     // create empty player with empty character
-    $scope.character = {};
+    $scope.last_character = $scope.character = {};
     $scope.character.name = "New";
     $scope.player.character.push($scope.character);
     $scope.new_character = true;
     // $scope.player.character. = [$scope.character];
   }
 
-  $scope.discardPlayer = function () {
-    $scope.player = null;
+  $scope.deleteCharacter = function () {
+    var data = Object();
+    // TODO: use user id from user creation management to permission
+    // data.user_id = $scope.player.id;
+    data.player = $scope.player;
+    data.delete_character_id = $scope.character.id;
+    // TODO: need to get id if new character or player to update ddb_user
+    $http.post("/cmd/character_view", data);
+    $scope.player.character.remove($scope.player.character.indexOf($scope.character));
+    $scope.character = null;
+    // reselect new character if exist
     $scope.setCharacterData(null);
+  }
+
+  $scope.deletePlayer = function () {
+    var data = Object();
+    // TODO: use user id from user creation management to permission
+    // data.user_id = $scope.player.id;
+    data.delete_player_id = $scope.player.id;
+    // TODO: need to get id if new character or player to update ddb_user
+    $http.post("/cmd/character_view", data);
+    $scope.ddb_user.remove($scope.ddb_user.indexOf($scope.player));
+    $scope.player = null;
+    $scope.character = null;
+  }
+
+  $scope.discardPlayer = function () {
     $scope.new_player = false;
+    $scope.player = $scope.last_player;
+    // $scope.setCharacterData(null);
   }
 
   $scope.discardCharacter = function () {
     $scope.new_character = false;
+    $scope.character = $scope.last_character;
+    // $scope.setCharacterData($scope.character);
   }
 
   $scope.setCharacterData = function (value) {
     if (!$scope.player) {
       // no player is selected
-      $scope.character = null;
+      $scope.last_character = $scope.character = null;
     } else if (value === null) {
       // if null, select first character
       if ($scope.player.character.length) {
         $scope.character = $scope.player.character[0];
       } else {
         // no character on this player
-        $scope.character = null;
+        $scope.lst_character = $scope.character = null;
       }
     } else {
       $scope.character = value;
@@ -125,13 +155,17 @@ characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, 
 
   $scope.submitCharacterData = function () {
     var data = Object();
-    data.user_id = $scope.player.name;
+    // TODO: use user id from user creation management to permission
+    // data.user_id = $scope.player.id;
+    // TODO: don't send all character information in player
     data.player = $scope.player;
-    if (isDefined($scope.character.name)) {
-      data.data = $scope.character;
+    if (isDefined($scope.character) && $scope.character && isDefined($scope.character.name)) {
+      // TODO: check if contains character data in field. Only check name actually
+      data.character = $scope.character;
     } else {
       $scope.character = null;
     }
+    // TODO: need to get id if new character or player to update ddb_user
     $http.post("/cmd/character_view", data);
     // add to ddb_user client side if new player
     if ($scope.new_player) {
@@ -140,7 +174,7 @@ characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, 
       }
       $scope.ddb_user.push($scope.player);
       $scope.new_player = false;
-    } else if (isDefined($scope.character.name) && !$scope.player.character.length) {
+    } else if (isDefined($scope.character) && $scope.character && isDefined($scope.character.name) && !$scope.player.character.length) {
       $scope.player.character.push($scope.character);
     }
     $scope.new_character = false;

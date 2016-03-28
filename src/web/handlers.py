@@ -93,11 +93,18 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
     def post(self):
         self.prepare_json()
 
-        user_id = self.get_argument("user_id")
+        # user_id = self.get_argument("user_id")
         player = self.get_argument("player")
-        character = self.get_argument("data")
+        character = self.get_argument("character")
+        delete_player_id = self.get_argument("delete_player_id")
+        delete_character_id = self.get_argument("delete_character_id")
 
-        self._db.update_player(user_id, player, character)
+        # exception, if delete_player_id, create player if not exist
+        if not player and delete_player_id:
+            player = {"id": delete_player_id}
+
+        self._db.update_player(player, character, delete_player_id=delete_player_id,
+                               delete_character_id=delete_character_id)
 
 
 class RulesHandler(jsonhandler.JsonHandler):

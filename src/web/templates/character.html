@@ -1,7 +1,7 @@
 {% extends "_base.html" %}
 
 {% block content %}
-
+<h2>Note du dévelopeur, le bouton "Annuler" ne fonctionne pas :(. De plus, les boutons dans la colonne de gauche n'est peut-être pas une bonne idée, sauf nouveau.</h2>
 <div ng-controller="character_ctrl">
   <div class="sidebar-left">
     <br/>
@@ -11,10 +11,10 @@
         <button class="btn btn-success" ng-click="newPlayer()"><span class="glyphicon glyphicon-plus"></span> <span class="glyphicon glyphicon-user"></span> Nouveau joueur</button>
       </div>
       <div ng-show="new_player">
-        <button class="btn btn-success"><span class="glyphicon glyphicon-floppy-save"></span> <span class="glyphicon glyphicon-user"></span> Enregistrer nouveau joueur</button>
+        <button class="btn btn-success" ng-click="submitCharacterData()"><span class="glyphicon glyphicon-floppy-save"></span> <span class="glyphicon glyphicon-user"></span> Enregistrer nouveau joueur</button>
       </div>
       <div ng-show="new_player">
-        <button class="btn btn-danger" ng-click="discardPlayer()"><span class="glyphicon glyphicon-floppy-remove"></span> <span class="glyphicon glyphicon-user"></span> Annuler nouveau joueur</button>
+        <button class="btn btn-danger" ng-click="discardPlayer()"><span class="glyphicon glyphicon-remove"></span> <span class="glyphicon glyphicon-user"></span> Annuler nouveau joueur</button>
       </div>
       <div class="list-group" ng-show="!new_player">
         <select class="form-control" ng-model="player" ng-options="user.name for user in ddb_user" ng-change="setCharacterData(null)">
@@ -43,6 +43,13 @@
     <form class="col-sm-offset-4" name="characterForm" novalidate>
       <h2>Joueur</h2>
 
+      <div class="form-group row" ng-show="player.id">
+        <label for="playerId" class="col-sm-2 form-control-label">UUID</label>
+        <div class="col-sm-8">
+          <label id="playerId">{{! player.id }}</label>
+        </div>
+      </div>
+
       <div class="form-group row">
         <label for="playerName" class="col-sm-2 form-control-label">Nom joueur</label>
         <div class="col-sm-8">
@@ -61,13 +68,21 @@
         <div class="col-sm-offset-2 col-sm-8">
           <button type="submit" ng-click="submitCharacterData()" class="btn btn-success"><span class="glyphicon glyphicon-floppy-save"></span> Enregistrer</button>
           <input type="button" value="Imprimer" class="btn btn-primary" ng-click="printCharacterSheet()"/>
-          <button type="submit" ng-click="discardPlayer()" class="btn btn-danger"><span class="glyphicon glyphicon-floppy-remove"></span> Annuler</button>
+          <button type="submit" ng-click="discardPlayer()" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Annuler</button>
+          <button type="submit" ng-click="deletePlayer()" class="btn btn-danger" ng-show="!new_player"><span class="glyphicon glyphicon-floppy-remove"></span> Supprimer</button>
         </div>
       </div>
 
       <div ng-show="character">
         <hr/>
         <h2>Personnage</h2>
+
+        <div class="form-group row" ng-show="character.id">
+          <label for="characterId" class="col-sm-2 form-control-label">UUID</label>
+          <div class="col-sm-8">
+            <label id="characterId">{{! character.id }}</label>
+          </div>
+        </div>
 
         <div class="form-group row">
           <label for="characterName" class="col-sm-2 form-control-label">Nom Personnage</label>
@@ -80,7 +95,8 @@
           <div class="col-sm-offset-2 col-sm-8">
             <button type="submit" ng-click="submitCharacterData()" class="btn btn-success"><span class="glyphicon glyphicon-floppy-save"></span> Enregistrer</button>
             <input type="button" value="Imprimer" class="btn btn-primary" ng-click="printCharacterSheet()"/>
-            <button type="submit" ng-click="discardPlayer()" class="btn btn-danger"><span class="glyphicon glyphicon-floppy-remove"></span> Annuler</button>
+            <button type="submit" ng-click="discardPlayer()" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Annuler</button>
+            <button type="submit" ng-click="deleteCharacter()" class="btn btn-danger"  ng-hide="new_character || new_player"><span class="glyphicon glyphicon-floppy-remove"></span> Supprimer</button>
           </div>
         </div>
 
