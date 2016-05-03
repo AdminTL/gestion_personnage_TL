@@ -62,3 +62,10 @@ target/
 
 # IDE
 .idea
+
+/ssl_cert
+/database
+/src/web/bower_components
+/src/web/node_modules
+*.gitconfig
+*.viminfo

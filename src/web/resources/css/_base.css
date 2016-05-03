@@ -1,0 +1,96 @@
+body {
+  padding-top: 60px;
+  outline: 0;
+  margin-bottom: 100px;
+}
+.nav-button {
+  width: 100%;
+  text-align: left;
+}
+a:focus {
+  outline: 0;
+}
+
+.machine-table{
+  display:table;
+}
+
+.machine-row{
+  display:table-row;
+}
+
+.icon-cell{
+  width:56px;
+  height:56px;
+}
+
+.title-cell{
+  display:table-cell;
+}
+
+.data-cell{
+  white-space:pre;
+}
+
+.vitals-table{
+  font-size: 90%;
+}
+
+.CPU-cell{
+  color:blue;
+  padding:0 0.4ch;
+}
+
+.MEM-cell{
+  color:green;
+  padding:0 0.4ch;
+}
+
+.DSK-cell{
+  color:orangered;
+  padding:0 0.4ch;
+}
+
+.sidebar-left, .content {
+    display: inline-block;
+    float: left;
+    clear: both;
+    height: 100%;
+}
+
+.sidebar-left {
+    width: 300px;
+}
+
+.navbar-nav > li {
+    display: inline-block;
+}
+
+.content {
+    width: 500px;
+    position: relative;
+    left: 300px;
+}
+
+@media screen {
+    #printSection {
+        display: none;
+    }
+}
+
+@media print {
+    body * {
+        visibility:hidden;
+    }
+    #printSection, #printSection * {
+        visibility:visible;
+    }
+    #printSection {
+        position:absolute;
+        left:0;
+        top:0;
+    }
+    .print-hide {
+        display: none;
+    }
+}

@@ -1,0 +1,24 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+<div ng-controller="news_ctrl">
+  {% if enable_facebook_feed %}
+  <script src="{{ static_url('resources/js/facebook.js') }}"></script>
+
+  <h1>Page facebook!</h1>
+  <!-- begin facebook page traitre-lame -->
+  <div class="fb-page" data-href="https://www.facebook.com/traitre-lame" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false"
+       data-show-facepile="false">
+    <div class="fb-xfbml-parse-ignore">
+      <blockquote cite="https://www.facebook.com/traitre-lame"><a href="https://www.facebook.com/traitre-lame">Traitre-Lame</a></blockquote>
+    </div>
+  </div>
+  <!-- end facebook page traitre-lame -->
+  {% else %}
+  <h1>Page Traitre-lame!</h1>
+  {% end %}
+  <div ng-show="user.authenticated">Welcome {{! user.first_name }}!</div>
+</div>
+
+{% end %}

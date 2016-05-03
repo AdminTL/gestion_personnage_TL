@@ -1,3 +1,5 @@
+[![Dependency Status](https://www.versioneye.com/user/projects/570d01f4fcd19a0045440af5/badge.svg?style=flat)](https://www.versioneye.com/user/projects/570d01f4fcd19a0045440af5)
+
 Gestion de personnage du jeu de rôle grandeur nature Traître-Lame.
 ==================================================================
 Logiciel de gestion des personnages pour la création, maintenance, expérience, guide et communication en jeu.
@@ -16,7 +18,7 @@ Démarrer le serveur web
 
 Accès client web local
 ----------------------
-http://0.0.0.0:8000 
+http://127.0.0.1:8000
 
 Wiki pour développement
 =======================

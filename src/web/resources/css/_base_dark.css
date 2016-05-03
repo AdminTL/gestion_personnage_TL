@@ -1,0 +1,60 @@
+/* https://cshorde.wordpress.com/2015/01/10/bootstrap-button-theme-dark/ */
+
+/* Setup styling, not to copy */
+
+body {
+    background: black;
+}
+
+h4, h3, h2, h1, label, a, div, p {
+    color: white;
+}
+
+input {
+    color: black;
+}
+
+/* Theme Styling */
+
+.btn {
+    background: none;
+    color: whitesmoke;
+}
+
+.btn.btn-link {
+    text-decoration: underline;
+}
+
+.btn.btn-primary:hover, .btn.btn-primary.active, .btn.btn-primary.focus,
+.btn.btn-primary:active, .btn.btn-primary:focus, .open > .dropdown-toggle.btn-primary {
+    background: #DDEEFF;
+    color: black;
+}
+
+.btn.btn-success:hover, .btn.btn-success.active, .btn.btn-success.focus,
+.btn.btn-success:active, .btn.btn-success:focus, .open > .dropdown-toggle.btn-success {
+    background: #EEFFEE;
+    color: black;
+}
+
+.btn.btn-info:hover, .btn.btn-info.active, .btn.btn-info.focus,
+.btn.btn-info:active, .btn.btn-info:focus, .open > .dropdown-toggle.btn-info {
+    background: #DDFFFF;
+    color: black;
+}
+
+.btn.btn-warning:hover, .btn.btn-warning.active, .btn.btn-warning.focus,
+.btn.btn-warning:active, .btn.btn-warning:focus, .open > .dropdown-toggle.btn-warning {
+    background: #FFFFEE;
+    color: black;
+}
+
+.btn.btn-danger:hover, .btn.btn-danger.active, .btn.btn-danger.focus,
+.btn.btn-danger:active, .btn.btn-danger:focus, .open > .dropdown-toggle.btn-danger {
+    background: #FFEEEE;
+    color: black;
+}
+
+.btn.disabled {
+    background: none;
+}

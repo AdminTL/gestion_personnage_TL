@@ -1,0 +1,103 @@
+[
+  {
+    "name": "Tommy DuPoisson",
+    "id": "2968f382242e4a0fa8d6274d0767d2c7",
+    "email": "tommy@gmail.com",
+    "character": [
+      {
+        "name": "Martin le chasseur",
+        "id": "b96aca8c53ec45cba3a02f192fe2d549",
+        "faction": "Les chasseurs",
+        "sous_faction": "",
+        "race": "Humain",
+        "karma": 10,
+        "bloc_production": {
+          "enchantement": 4,
+          "potion": 2
+        },
+        "endurance": {
+          "total": 3,
+          "xp": 1
+        }
+      }
+    ]
+  },
+  {
+    "name": "Éric DuPoisson",
+    "id": "4540a6eb1f87475b90d7b7816f38c195",
+    "email": "eric@gmail.com",
+    "character": [
+      {
+        "name": "Martin le chasseur 2",
+        "id": "e5a813eae1fd48309fc7bfcc16104a87",
+        "faction": "Les chasseurs",
+        "sous_faction": "",
+        "race": "Humain",
+        "karma": 10,
+        "bloc_production": {
+          "enchantement": 4,
+          "potion": 2
+        },
+        "endurance": {
+          "total": 3,
+          "xp": 1
+        }
+      }
+    ]
+  },
+  {
+    "name": "Rick DuPoisson",
+    "id": "e7ca94efd2924548a14c52bcc435a55f",
+    "email": "rick@gmail.com",
+    "character": [
+      {
+        "name": "Martin le chasseur 3",
+        "id": "528d83c1ea404d46adaab04578ca145f",
+        "faction": "Les chasseurs",
+        "sous_faction": "",
+        "race": "Humain",
+        "karma": 10,
+        "bloc_production": {
+          "enchantement": 4,
+          "potion": 2
+        },
+        "endurance": {
+          "total": 3,
+          "xp": 1
+        }
+      },
+      {
+        "name": "Martin le chasseur 4",
+        "id": "5fdaf73a8c8f4d61a4e241cec00f0bd1",
+        "faction": "Les chasseurs",
+        "sous_faction": "",
+        "race": "Humain",
+        "karma": 10,
+        "bloc_production": {
+          "enchantement": 4,
+          "potion": 2
+        },
+        "endurance": {
+          "total": 3,
+          "xp": 1
+        }
+      },
+      {
+        "name": "Martin le chasseur 5",
+        "id": "713ebd57dba944b9a0ec79021937d12c",
+        "faction": "Les chasseurs",
+        "sous_faction": "",
+        "race": "Humain",
+        "karma": 10,
+        "bloc_production": {
+          "enchantement": 4,
+          "potion": 2
+        },
+        "endurance": {
+          "total": 3,
+          "xp": 1
+        }
+      }
+    ]
+  }
+]
