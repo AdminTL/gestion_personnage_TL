@@ -4,7 +4,7 @@
 import userapp.tornado
 
 import tornado.web
-import user
+from py_class import user
 
 
 @userapp.tornado.config(app_id=user.USER_APP_ID)

@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html data-ng-app="creation_personnage_TL">
 <head>
-  <link rel="icon" type="image/png" href="{{ static_url('local/icon/favicon.ico') }}"/>
+  <link rel="icon" type="image/png" href="{{ static_url('resources/icon/favicon.ico') }}"/>
   <title>Logiciel Traitre-Lame</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Bootstrap core CSS -->
   {% if use_internet_static %}
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
   {% else %}
-  <link href="{{ static_url('bootstrap/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ static_url('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
   {% end %}
   <!-- Bootstrap theme -->
   {% if use_internet_static %}
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" rel="stylesheet">
   {% else %}
-  <link href="{{ static_url('bootstrap/bootstrap-theme.min.css') }}" rel="stylesheet">
+  <link href="{{ static_url('bower_components/bootstrap/dist/css/bootstrap-theme.min.css') }}" rel="stylesheet">
   {% end %}
   <!-- Custom style -->
-  <link href="{{ static_url('local/css/_base.css') }}" rel="stylesheet">
-  <link href="{{ static_url('local/css/_base_dark.css') }}" rel="stylesheet">
+  <link href="{{ static_url('resources/css/_base.css') }}" rel="stylesheet">
+  <link href="{{ static_url('resources/css/_base_dark.css') }}" rel="stylesheet">
 </head>
 <body ng-controller="page_ctrl">
 
@@ -66,22 +66,22 @@
 <script src="https://app.userapp.io/js/userapp.client.js"></script>
 <script src="https://app.userapp.io/js/angularjs.userapp.js"></script>
 {% elif debug %}
-<script src="{{ static_url('angular/angular.js') }}"></script>
-<script src="{{ static_url('angular-route/angular-route.js') }}"></script>
-<script src="{{ static_url('angular-bootstrap/ui-bootstrap.js') }}"></script>
-<script src="{{ static_url('sockjs/sockjs.js') }}"></script>
-<script src="{{ static_url('userapp/userapp.client.js') }}"></script>
-<script src="{{ static_url('userapp-angular/angularjs.userapp.js') }}"></script>
+<script src="{{ static_url('bower_components/angular/angular.js') }}"></script>
+<script src="{{ static_url('bower_components/angular-route/angular-route.js') }}"></script>
+<script src="{{ static_url('bower_components/angular-bootstrap/ui-bootstrap.js') }}"></script>
+<script src="{{ static_url('bower_components/sockjs/sockjs.js') }}"></script>
+<script src="{{ static_url('bower_components/userapp/userapp.client.js') }}"></script>
+<script src="{{ static_url('bower_components/userapp-angular/angularjs.userapp.js') }}"></script>
 {% else %}
-<script src="{{ static_url('angular/angular.min.js') }}"></script>
-<script src="{{ static_url('angular-route/angular-route.min.js') }}"></script>
-<script src="{{ static_url('angular-bootstrap/ui-bootstrap.min.js') }}"></script>
-<script src="{{ static_url('sockjs/sockjs.min.js') }}"></script>
-<script src="{{ static_url('userapp/userapp.client.js') }}"></script>
-<script src="{{ static_url('userapp-angular/angularjs.userapp.js') }}"></script>
+<script src="{{ static_url('bower_components/angular/angular.min.js') }}"></script>
+<script src="{{ static_url('bower_components/angular-route/angular-route.min.js') }}"></script>
+<script src="{{ static_url('bower_components/angular-bootstrap/ui-bootstrap.min.js') }}"></script>
+<script src="{{ static_url('bower_components/sockjs/sockjs.min.js') }}"></script>
+<script src="{{ static_url('bower_components/userapp/userapp.client.js') }}"></script>
+<script src="{{ static_url('bower_components/userapp-angular/angularjs.userapp.js') }}"></script>
 {% end %}
-<script src="{{ static_url('local/js/tool.js') }}"></script>
-<script src="{{ static_url('local/js/tl_ctrl.js') }}"></script>
+<script src="{{ static_url('resources/js/tool.js') }}"></script>
+<script src="{{ static_url('resources/js/tl_ctrl.js') }}"></script>
 
 </body>
 </html>

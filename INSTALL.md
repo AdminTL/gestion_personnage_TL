@@ -1,5 +1,14 @@
 Installation Guide
 ==================
+Download
+--------
+You can clone the project with git
+```{r, engine='bash', count_lines}
+git clone https://github.com/AdminTL/gestion_personnage_TL.git
+```
+
+Or download it from here : https://github.com/AdminTL/gestion_personnage_TL/archive/master.zip
+
 Dependence
 ----------
 You need python3, python3-tornado and python3-sockjs-tornado
@@ -40,19 +49,23 @@ pip3 install userapp.tornado --pre
 
 Bower
 =====
-We use bower-installer to update and install javascript code.
-After, execute bower-install to install static dependence.
+We use bower to update and install javascript code.
+Only need in develop or server without Internet.
 
 **No need bower if you execute server with argument --use_internet_static**
-Because this option will get dependency on internet directly.
+Because this option will get dependency on Internet directly.
 
+You need to install bower and execute the next command :
 ```{r, engine='bash', count_lines}
-sudo npm install -g bower-installer
-cd src/web; bower-installer
+cd src/web; bower install
 ```
+
+Choose first option if bower ask to resolve conflict.
 
 Bug Tornado
 ===========
+**TypeError: function() argument 1 must be code, not str**
+
 Tornado Userapp module has a bug with new version of tornado. Since the problem
 will be fix, use a fork with the fix.
 

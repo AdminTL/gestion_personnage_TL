@@ -4,7 +4,7 @@
 import sys
 import tinydb
 import uuid
-import user
+from py_class import user
 import json
 
 

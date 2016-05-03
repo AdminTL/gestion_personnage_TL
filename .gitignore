@@ -66,8 +66,6 @@ target/
 /ssl_cert
 /database
 /src/web/bower_components
-/src/web/static
 /src/web/node_modules
-!/src/web/static/local
 *.gitconfig
 *.viminfo

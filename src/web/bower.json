@@ -1,26 +1,27 @@
 {
-  "name": "Traitre-Lame",
+  "name": "traitre_lame",
+  "authors": [
+    "Mathieu Benoit <mathben963@gmail.com>"
+  ],
+  "description": "Logiciel de création de personnage pour grandeur nature Traitre-Lame",
+  "main": "src/web/__main__.py",
+  "license": "GPLv3",
+  "homepage": "https://github.com/AdminTL/gestion_personnage_TL",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
   "dependencies": {
     "angular": "1.5.1-build.4657+sha.6a336ba",
     "angular-bootstrap": "1.2.2",
     "angular-route": "1.5.1-build.4657+sha.6a336ba",
     "bootstrap": "3.3.6",
     "sockjs": "0.3.4",
-    "userapp-angular": "2.0.4"
-  },
-  "install": {
-    "base": "",
-    "path": "static",
-    "sources": {
-      "angular": "bower_components/angular/*",
-      "angular-route": "bower_components/angular-route/*",
-      "angular-bootstrap": "bower_components/angular-bootstrap/*",
-      "userapp-angular": "bower_components/userapp-angular/*",
-      "bootstrap": [
-        "bower_components/bootstrap/dist/css/*",
-        "bower_components/bootstrap/dist/fonts/*"
-      ],
-      "sockjs": "bower_components/sockjs/*"
-    }
+    "userapp-angular": "2.0.4",
+    "angular-schema-form": "0.8.12"
   }
 }

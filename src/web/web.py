@@ -7,13 +7,13 @@ import tornado.ioloop
 import tornado.web
 import tornado.httpserver
 import handlers
-import web_socket
+from py_class import web_socket
 from sockjs.tornado import SockJSRouter
 import os
 import subprocess
 import base64
-from db import DB
-from rule import Rule
+from py_class.db import DB
+from py_class.rule import Rule
 
 DEFAULT_SSL_DIRECTORY = os.path.join("..", "..", "ssl_cert")
 CERT_FILE_SSL = os.path.join(DEFAULT_SSL_DIRECTORY, "ca.csr")
