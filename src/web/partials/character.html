@@ -112,6 +112,14 @@
 
       </div>
     </form>
+    <form class="col-sm-offset-4" name="theForm">
+      <div sf-schema="schema" sf-form="form" sf-model="model"></div>
+      <div>
+        The form is <em ng-show="theForm.$pristine">pristine</em><em ng-show="theForm.$dirty">dirty</em>
+        and <em ng-show="theForm.$valid">valid</em><em ng-show="!theForm.$valid">invalid</em>.
+      </div>
+      <div>{{!prettyModel}}</div>
+    </form>
   </div>
 
 </div> <!-- end of caracter_ctrl -->

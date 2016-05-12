@@ -57,25 +57,39 @@
 </div>
 {% end %}
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 {% if use_internet_static %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<script src="https://raw.githubusercontent.com/geraintluff/tv4/master/tv4.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-route.min.js"></script>
 <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-1.2.2.min.js"></script>
 <script src="http://cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"></script>
+<script src="https://raw.githubusercontent.com/mike-marcacci/objectpath/master/lib/ObjectPath.js"></script>
+<script src="https://raw.githubusercontent.com/json-schema-form/angular-schema-form/development/dist/schema-form.min.js"></script>
+<script src="https://raw.githubusercontent.com/json-schema-form/angular-schema-form-bootstrap/develop/bootstrap-decorator.min.js"></script>
 <script src="https://app.userapp.io/js/userapp.client.js"></script>
 <script src="https://app.userapp.io/js/angularjs.userapp.js"></script>
 {% elif debug %}
+<script src="{{ static_url('bower_components/jquery/dist/jquery.js') }}"></script>
+<script src="{{ static_url('bower_components/tv4/tv4.js') }}"></script>
 <script src="{{ static_url('bower_components/angular/angular.js') }}"></script>
 <script src="{{ static_url('bower_components/angular-route/angular-route.js') }}"></script>
 <script src="{{ static_url('bower_components/angular-bootstrap/ui-bootstrap.js') }}"></script>
 <script src="{{ static_url('bower_components/sockjs/sockjs.js') }}"></script>
 <script src="{{ static_url('bower_components/userapp/userapp.client.js') }}"></script>
 <script src="{{ static_url('bower_components/userapp-angular/angularjs.userapp.js') }}"></script>
+<script src="{{ static_url('bower_components/objectpath/lib/ObjectPath.js') }}"></script>
+<script src="{{ static_url('bower_components/angular-schema-form/dist/schema-form.js') }}"></script>
+<script src="{{ static_url('bower_components/angular-schema-form/dist/bootstrap-decorator.js') }}"></script>
 {% else %}
+<script src="{{ static_url('bower_components/jquery/dist/jquery.min.js') }}"></script>
+<script src="{{ static_url('bower_components/tv4/tv4.js') }}"></script>
 <script src="{{ static_url('bower_components/angular/angular.min.js') }}"></script>
 <script src="{{ static_url('bower_components/angular-route/angular-route.min.js') }}"></script>
 <script src="{{ static_url('bower_components/angular-bootstrap/ui-bootstrap.min.js') }}"></script>
+<script src="{{ static_url('bower_components/objectpath/lib/ObjectPath.js') }}"></script>
+<script src="{{ static_url('bower_components/angular-schema-form/dist/schema-form.min.js') }}"></script>
+<script src="{{ static_url('bower_components/angular-schema-form/dist/bootstrap-decorator.min.js') }}"></script>
 <script src="{{ static_url('bower_components/sockjs/sockjs.min.js') }}"></script>
 <script src="{{ static_url('bower_components/userapp/userapp.client.js') }}"></script>
 <script src="{{ static_url('bower_components/userapp-angular/angularjs.userapp.js') }}"></script>
