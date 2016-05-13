@@ -83,6 +83,15 @@
         </div>
       </div>
 
+      <hr/>
+      <div sf-schema="schema" sf-form="form" sf-model="player"></div>
+      <div>
+        The form is <em ng-show="theForm.$pristine">pristine</em><em ng-show="theForm.$dirty">dirty</em>
+        and <em ng-show="theForm.$valid">valid</em><em ng-show="!theForm.$valid">invalid</em>.
+      </div>
+      <div>{{!prettyModel}}</div>
+      <hr/>
+
       <div ng-show="character">
         <hr/>
         <h2>Personnage</h2>
@@ -100,7 +109,6 @@
             <input type="text" class="form-control" id="characterName" ng-model="character.name" placeholder="Nom du personnage"/>
           </div>
         </div>
-
         <div class="print-hide form-group row">
           <div class="col-sm-offset-2 col-sm-8">
             <button type="submit" ng-click="submitCharacterData()" class="btn btn-success"><span class="glyphicon glyphicon-floppy-save"></span> Enregistrer</button>
@@ -109,16 +117,7 @@
             <button type="submit" ng-click="deleteCharacter()" class="btn btn-danger" ng-hide="new_character || new_player"><span class="glyphicon glyphicon-floppy-remove"></span> Supprimer</button>
           </div>
         </div>
-
       </div>
-    </form>
-    <form class="col-sm-offset-4" name="theForm">
-      <div sf-schema="schema" sf-form="form" sf-model="model"></div>
-      <div>
-        The form is <em ng-show="theForm.$pristine">pristine</em><em ng-show="theForm.$dirty">dirty</em>
-        and <em ng-show="theForm.$valid">valid</em><em ng-show="!theForm.$valid">invalid</em>.
-      </div>
-      <div>{{!prettyModel}}</div>
     </form>
   </div>
 

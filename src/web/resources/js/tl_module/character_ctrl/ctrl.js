@@ -1,71 +1,4 @@
-'use strict';
-
-var characterApp = angular.module('creation_personnage_TL', ['ngRoute', 'UserApp', 'schemaForm']);
-
-characterApp.controller("page_ctrl", ['$scope', '$rootScope', '$http', '$location', '$window',
-  function ($scope, $rootScope, $http, $location, $window) {
-    $scope.lstSection = [];
-    $scope.activePage = 0;
-    $scope.activeSection = 0;
-    $scope.enable_facebook = true;
-
-    $scope.user = null;
-
-    /* ######################
-     * function change page
-     * ######################/
-     */
-    $scope.changePage = function (event, pageName) {
-      var index = $scope.lstPage.indexOf(pageName);
-      if (index >= 0)
-        $scope.activePage = index;
-      else
-        console.err("Cannot find page " + pageName);
-    };
-
-    $scope.changeSection = function (event, sectionName) {
-      var index = $scope.lstSection.indexOf(sectionName);
-      if (index >= 0)
-        $scope.activeSection = index;
-      else
-        console.err("Cannot find section " + sectionName);
-    };
-
-    $scope.logout = function () {
-      FB.logout(function (response) {
-        // Person is now logged out
-      });
-      // $location.url("/logout");
-      $window.location.href = "/logout";
-    };
-
-    $rootScope.$on('user.login', function () {
-      console.log("on user login");
-      $http.defaults.headers.common.Authorization = 'Basic ' + btoa(':' + user.token());
-    });
-
-    $rootScope.$on('user.logout', function () {
-      console.log("on user logout");
-      $http.defaults.headers.common.Authorization = null;
-    });
-
-  }]);
-
-characterApp.controller("news_ctrl", ['$scope', function ($scope) {
-  $scope.enable_facebook_news = false;
-}]);
-
-characterApp.controller("login_ctrl", ['$scope', function ($scope) {
-  $scope.show_login = true;
-
-  $scope.log_facebook = function (e) {
-    console.info("login facebook");
-    FB.login(function (response) {
-      statusChangeCallback(response);
-    }, {scope: 'public_profile,email'});
-  }
-}]);
-
+// Formulaire de Traitre-Lame
 characterApp.controller("character_ctrl", ['$scope', '$q', '$http', '$timeout', function ($scope, $q, $http, $timeout) {
   // var data_source = "http://" + window.location.host + "/update_user";
   // var socket = new SockJS(data_source);
@@ -79,29 +12,20 @@ characterApp.controller("character_ctrl", ['$scope', '$q', '$http', '$timeout', 
   $scope.new_player = false;
   $scope.new_character = false;
 
-  $scope.schema = {
-    "type": "object",
-    "title": "Comment",
-    "properties": {
-      "name": {
-        "title": "Name",
-        "type": "string"
-      },
-      "email": {
-        "title": "Email",
-        "type": "string",
-        "pattern": "^\\S+@\\S+$",
-        "description": "Email will be used for evil."
-      },
-      "comment": {
-        "title": "Comment",
-        "type": "string"
-      }
+  DATABASE_FORM = [
+    {
+      "key": "comment",
+      "type": "textarea",
+      "placeholder": "Make a comment, write 'damn' and check the model",
+      $parsers: [
+        function (value) {
+          if (value && value.replace) {
+            return value.replace(/(damn|fuck|apple)/, '#!@%&');
+          }
+          return value;
+        }
+      ]
     },
-    "required": ["name", "email", "comment"]
-  };
-
-  $scope.form = [
     {
       key: 'name',
       placeholder: 'Anything but "Bob"',
@@ -148,6 +72,19 @@ characterApp.controller("character_ctrl", ['$scope', '$q', '$http', '$timeout', 
         }
       ]
     },
+    // {
+    //   "key": "comment",
+    //   "type": "textarea",
+    //   "placeholder": "Make a comment, write 'damn' and check the model",
+    //   $parsers: [
+    //     function (value) {
+    //       if (value && value.replace) {
+    //         return value.replace(/(damn|fuck|apple)/, '#!@%&');
+    //       }
+    //       return value;
+    //     }
+    //   ]
+    // },
     {
       "type": "submit",
       "style": "btn-info",
@@ -155,12 +92,15 @@ characterApp.controller("character_ctrl", ['$scope', '$q', '$http', '$timeout', 
     }
   ];
 
-  $scope.model = {};
+  // see import in character.html
+  $scope.schema = DATABASE_SCHEMA;
+  $scope.form = DATABASE_FORM;
 
-  $scope.$watch('model', function (value) {
+  $scope.$watch('player', function (value) {
     if (value) {
       $scope.prettyModel = JSON.stringify(value, undefined, 2);
     }
+    $scope.player = value;
   }, true);
 
 
@@ -302,26 +242,3 @@ characterApp.controller("character_ctrl", ['$scope', '$q', '$http', '$timeout', 
   );
 
 }]);
-
-characterApp.config(['$routeProvider', function ($routeProvider) {
-  // $routeProvider.when('/login', {templateUrl: 'templates/login.html', login: true});
-  // $routeProvider.when('/signup', {templateUrl: 'templates/signup.html', public: true});
-  // $routeProvider.when('/verify-email', {templateUrl: 'partials/verify-email.html', verify_email: true});
-  // $routeProvider.when('/reset-password', {templateUrl: 'partials/reset-password.html', public: true});
-  // $routeProvider.when('/set-password', {templateUrl: 'partials/set-password.html', set_password: true});
-  // $routeProvider.when('/view1', {templateUrl: 'partials/partial1.html', controller: 'MyCtrl1'});
-  // $routeProvider.when('/view2', {templateUrl: 'partials/partial2.html', controller: 'MyCtrl2'});
-  $routeProvider.otherwise({redirectTo: '/'});
-}])
-
-characterApp.run(function ($window, user) {
-  // userapp api
-  user.init({appId: '56d6ef67bce81'});
-  user.onAuthenticationSuccess(function () {
-    console.log("Authentification réussite!");
-    $window.location.href = "/";
-  })
-  user.getCurrent().then(function (currentUser) {
-    console.log(currentUser.user_id);
-  });
-});
