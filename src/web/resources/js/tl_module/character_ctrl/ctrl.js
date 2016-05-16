@@ -1,5 +1,5 @@
 // Formulaire de Traitre-Lame
-characterApp.controller("character_ctrl", ['$scope', '$q', '$http', '$timeout', function ($scope, $q, $http, $timeout) {
+characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$timeout", function ($scope, $q, $http, $timeout) {
   // var data_source = "http://" + window.location.host + "/update_user";
   // var socket = new SockJS(data_source);
 
@@ -12,83 +12,36 @@ characterApp.controller("character_ctrl", ['$scope', '$q', '$http', '$timeout', 
   $scope.new_player = false;
   $scope.new_character = false;
 
-  DATABASE_FORM = [
+  var DATABASE_FORM = [
     {
-      "key": "comment",
-      "type": "textarea",
-      "placeholder": "Make a comment, write 'damn' and check the model",
-      $parsers: [
-        function (value) {
-          if (value && value.replace) {
-            return value.replace(/(damn|fuck|apple)/, '#!@%&');
-          }
-          return value;
-        }
+      key: "name",
+      placeholder: "Votre nom entier (prénom et nom)"
+    },
+    {
+      key: "email",
+      placeholder: "Votre courriel"
+    },
+    {
+      key: "comment",
+      type: "textarea",
+      placeholder: "Je ne sais pas quoi écrire.",
+    },
+    {
+      key: "faction",
+      type: "select",
+      placeholder: "Choisissez votre faction, ou laissez vide si pas de faction.",
+      titleMap: [
+        {value: "empty", name: "- Aucune faction -"},
+        {value: "vanican", name: "Vanican"},
+        {value: "canavim", name: "Canavim"},
+        {value: "vallam", name: "Vallam"},
+        {value: "sarsare", name: "Sarsare"}
       ]
     },
     {
-      key: 'name',
-      placeholder: 'Anything but "Bob"',
-      $asyncValidators: {
-        'async': function (name) {
-          var deferred = $q.defer();
-          $timeout(function () {
-            if (angular.isString(name) && name.toLowerCase().indexOf('bob') !== -1) {
-              deferred.reject();
-            } else {
-              deferred.resolve();
-            }
-          }, 500);
-          return deferred.promise;
-        }
-      },
-      validationMessage: {
-        'async': "Wooohoo thats not an OK name!"
-      }
-
-    },
-    {
-      key: 'email',
-      placeholder: 'Not MY email',
-      ngModel: function (ngModel) {
-        ngModel.$validators.myMail = function (value) {
-          return value !== 'david.lgj@gmail.com';
-        };
-      },
-      validationMessage: {
-        'myMail': "Thats my mail!"
-      }
-    },
-    {
-      "key": "comment",
-      "type": "textarea",
-      "placeholder": "Make a comment, write 'damn' and check the model",
-      $parsers: [
-        function (value) {
-          if (value && value.replace) {
-            return value.replace(/(damn|fuck|apple)/, '#!@%&');
-          }
-          return value;
-        }
-      ]
-    },
-    // {
-    //   "key": "comment",
-    //   "type": "textarea",
-    //   "placeholder": "Make a comment, write 'damn' and check the model",
-    //   $parsers: [
-    //     function (value) {
-    //       if (value && value.replace) {
-    //         return value.replace(/(damn|fuck|apple)/, '#!@%&');
-    //       }
-    //       return value;
-    //     }
-    //   ]
-    // },
-    {
-      "type": "submit",
-      "style": "btn-info",
-      "title": "OK"
+      type: "submit",
+      style: "btn-info",
+      title: "OK"
     }
   ];
 
@@ -96,7 +49,7 @@ characterApp.controller("character_ctrl", ['$scope', '$q', '$http', '$timeout', 
   $scope.schema = DATABASE_SCHEMA;
   $scope.form = DATABASE_FORM;
 
-  $scope.$watch('player', function (value) {
+  $scope.$watch("player", function (value) {
     if (value) {
       $scope.prettyModel = JSON.stringify(value, undefined, 2);
     }
@@ -206,7 +159,7 @@ characterApp.controller("character_ctrl", ['$scope', '$q', '$http', '$timeout', 
   }
 
   $scope.printCharacterSheet = function () {
-    var elem = document.getElementById('characterSheet');
+    var elem = document.getElementById("characterSheet");
     var domClone = elem.cloneNode(true);
 
     var printSection = document.getElementById("printSection");
@@ -229,13 +182,13 @@ characterApp.controller("character_ctrl", ['$scope', '$q', '$http', '$timeout', 
   //   $scope.$apply();
   // };
 
-  $http.get('/cmd/character_view').success(
+  $http.get("/cmd/character_view").success(
     function (data, status, headers, config) {
       $scope.ddb_user = data;
     }
   );
 
-  $http.get('/cmd/rule').success(
+  $http.get("/cmd/rule").success(
     function (data, status, headers, config) {
       $scope.rule = data;
     }

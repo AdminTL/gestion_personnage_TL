@@ -1,11 +1,11 @@
 {% extends "_base.html" %}
 
 {% block content %}
-<h2>Note du dévelopeur, le bouton "Annuler" ne fonctionne pas :(. De plus, les boutons dans la colonne de gauche n'est peut-être pas une bonne idée, sauf nouveau.</h2>
 <div ng-controller="character_ctrl">
   <div class="sidebar-left">
     <br/>
     <div class="bs-sidebar hidden-print affix" role="complementary">
+
       Joueur
       <div ng-show="!new_player">
         <button class="btn btn-success" ng-click="newPlayer()"><span class="glyphicon glyphicon-plus"></span> <span class="glyphicon glyphicon-user"></span> Nouveau joueur</button>
@@ -23,7 +23,7 @@
         </select>
       </div>
 
-      <div class="list-group" ng-show="player && !new_player">
+      <div ng-show="player && !new_player">
         Fiche personnage<br/>
         <div ng-show="!new_character">
           <button class="btn btn-success" ng-click="newCharacter()"><span class="glyphicon glyphicon-plus"></span> <span class="glyphicon glyphicon-file"></span> Nouveau personnage</button>
@@ -35,91 +35,107 @@
             </button>
           </li>
         </ul>
+        <br/>
+      </div>
+
+      <div ng-show="player">
+        Point d'XP
+        <div>
+          Total accumulé :
+        </div>
       </div>
     </div>
   </div>
 
 
-  <div ng-show="player" role="main" id="playerSheet">
-    <form class="col-sm-offset-4" name="characterForm" novalidate>
-      <h2>Joueur</h2>
-
-      <div class="form-group row" ng-show="player.id">
-        <label for="playerId" class="col-sm-2 form-control-label">UUID</label>
-        <div class="col-sm-8">
-          <label id="playerId">{{! player.id }}</label>
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label for="playerName" class="col-sm-2 form-control-label">Nom joueur</label>
-        <div class="col-sm-8">
-          <input type="text" class="form-control" id="playerName" ng-model="player.name" placeholder="Prénom et nom du joueur"/>
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label for="playerEmail" class="col-sm-2 form-control-label">Émail</label>
-        <div class="col-sm-8">
-          <input type="text" class="form-control" id="playerEmail" ng-model="player.email" placeholder="Courriel"/>
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label class="col-sm-2 form-control-label">Fraction</label>
-        <div class="col-sm-8" class="btn-group" data-toggle="buttons">
-          <label class="btn btn-primary active" ng-repeat="opt in rule.user.faction">
-            <input type="radio" name="faction_options" autocomplete="off" checked>Option1
-          </label>
-        </div>
-      </div>
-
-      <div class="print-hide form-group row">
-        <div class="col-sm-offset-2 col-sm-8">
-          <button type="submit" ng-click="submitCharacterData()" class="btn btn-success"><span class="glyphicon glyphicon-floppy-save"></span> Enregistrer</button>
-          <input type="button" value="Imprimer" class="btn btn-primary" ng-click="printCharacterSheet()"/>
-          <button type="submit" ng-click="discardPlayer()" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Annuler</button>
-          <button type="submit" ng-click="deletePlayer()" class="btn btn-danger" ng-show="!new_player"><span class="glyphicon glyphicon-floppy-remove"></span> Supprimer</button>
-        </div>
-      </div>
-
-      <hr/>
-      <div sf-schema="schema" sf-form="form" sf-model="player"></div>
-      <div>
-        The form is <em ng-show="theForm.$pristine">pristine</em><em ng-show="theForm.$dirty">dirty</em>
-        and <em ng-show="theForm.$valid">valid</em><em ng-show="!theForm.$valid">invalid</em>.
-      </div>
-      <div>{{!prettyModel}}</div>
-      <hr/>
-
-      <div ng-show="character">
-        <hr/>
-        <h2>Personnage</h2>
-
-        <div class="form-group row" ng-show="character.id">
-          <label for="characterId" class="col-sm-2 form-control-label">UUID</label>
-          <div class="col-sm-8">
-            <label id="characterId">{{! character.id }}</label>
-          </div>
-        </div>
-
-        <div class="form-group row">
-          <label for="characterName" class="col-sm-2 form-control-label">Nom Personnage</label>
-          <div class="col-sm-8">
-            <input type="text" class="form-control" id="characterName" ng-model="character.name" placeholder="Nom du personnage"/>
-          </div>
-        </div>
-        <div class="print-hide form-group row">
-          <div class="col-sm-offset-2 col-sm-8">
-            <button type="submit" ng-click="submitCharacterData()" class="btn btn-success"><span class="glyphicon glyphicon-floppy-save"></span> Enregistrer</button>
-            <input type="button" value="Imprimer" class="btn btn-primary" ng-click="printCharacterSheet()"/>
-            <button type="submit" ng-click="discardPlayer()" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Annuler</button>
-            <button type="submit" ng-click="deleteCharacter()" class="btn btn-danger" ng-hide="new_character || new_player"><span class="glyphicon glyphicon-floppy-remove"></span> Supprimer</button>
-          </div>
-        </div>
-      </div>
-    </form>
+  <div ng-show="player" role="main" class="col-sm-offset-4">
+    <form sf-schema="schema" sf-form="form" sf-model="player">allo bonhomme</form>
+    <hr/>
+    <div>{{!prettyModel}}</div>
+    <hr/>
   </div>
+
+
+  <!--<div ng-show="player" role="main" id="playerSheet">-->
+  <!--<form class="col-sm-offset-4" name="characterForm" novalidate>-->
+  <!--<h2>Joueur</h2>-->
+
+  <!--<div class="form-group row" ng-show="player.id">-->
+  <!--<label for="playerId" class="col-sm-2 form-control-label">UUID</label>-->
+  <!--<div class="col-sm-8">-->
+  <!--<label id="playerId">{{! player.id }}</label>-->
+  <!--</div>-->
+  <!--</div>-->
+
+  <!--<div class="form-group row">-->
+  <!--<label for="playerName" class="col-sm-2 form-control-label">Nom joueur</label>-->
+  <!--<div class="col-sm-8">-->
+  <!--<input type="text" class="form-control" id="playerName" ng-model="player.name" placeholder="Prénom et nom du joueur"/>-->
+  <!--</div>-->
+  <!--</div>-->
+
+  <!--<div class="form-group row">-->
+  <!--<label for="playerEmail" class="col-sm-2 form-control-label">Émail</label>-->
+  <!--<div class="col-sm-8">-->
+  <!--<input type="text" class="form-control" id="playerEmail" ng-model="player.email" placeholder="Courriel"/>-->
+  <!--</div>-->
+  <!--</div>-->
+
+  <!--<div class="form-group row">-->
+  <!--<label class="col-sm-2 form-control-label">Fraction</label>-->
+  <!--<div class="col-sm-8" class="btn-group" data-toggle="buttons">-->
+  <!--<label class="btn btn-primary active" ng-repeat="opt in rule.user.faction">-->
+  <!--<input type="radio" name="faction_options" autocomplete="off" checked>Option1-->
+  <!--</label>-->
+  <!--</div>-->
+  <!--</div>-->
+
+  <!--<div class="print-hide form-group row">-->
+  <!--<div class="col-sm-offset-2 col-sm-8">-->
+  <!--<button type="submit" ng-click="submitCharacterData()" class="btn btn-success"><span class="glyphicon glyphicon-floppy-save"></span> Enregistrer</button>-->
+  <!--<input type="button" value="Imprimer" class="btn btn-primary" ng-click="printCharacterSheet()"/>-->
+  <!--<button type="submit" ng-click="discardPlayer()" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Annuler</button>-->
+  <!--<button type="submit" ng-click="deletePlayer()" class="btn btn-danger" ng-show="!new_player"><span class="glyphicon glyphicon-floppy-remove"></span> Supprimer</button>-->
+  <!--</div>-->
+  <!--</div>-->
+
+  <!--<hr/>-->
+  <!--<div sf-schema="schema" sf-form="form" sf-model="player"></div>-->
+  <!--<div>-->
+  <!--The form is <em ng-show="theForm.$pristine">pristine</em><em ng-show="theForm.$dirty">dirty</em>-->
+  <!--and <em ng-show="theForm.$valid">valid</em><em ng-show="!theForm.$valid">invalid</em>.-->
+  <!--</div>-->
+  <!--<div>{{!prettyModel}}</div>-->
+  <!--<hr/>-->
+
+  <!--<div ng-show="character">-->
+  <!--<hr/>-->
+  <!--<h2>Personnage</h2>-->
+
+  <!--<div class="form-group row" ng-show="character.id">-->
+  <!--<label for="characterId" class="col-sm-2 form-control-label">UUID</label>-->
+  <!--<div class="col-sm-8">-->
+  <!--<label id="characterId">{{! character.id }}</label>-->
+  <!--</div>-->
+  <!--</div>-->
+
+  <!--<div class="form-group row">-->
+  <!--<label for="characterName" class="col-sm-2 form-control-label">Nom Personnage</label>-->
+  <!--<div class="col-sm-8">-->
+  <!--<input type="text" class="form-control" id="characterName" ng-model="character.name" placeholder="Nom du personnage"/>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--<div class="print-hide form-group row">-->
+  <!--<div class="col-sm-offset-2 col-sm-8">-->
+  <!--<button type="submit" ng-click="submitCharacterData()" class="btn btn-success"><span class="glyphicon glyphicon-floppy-save"></span> Enregistrer</button>-->
+  <!--<input type="button" value="Imprimer" class="btn btn-primary" ng-click="printCharacterSheet()"/>-->
+  <!--<button type="submit" ng-click="discardPlayer()" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Annuler</button>-->
+  <!--<button type="submit" ng-click="deleteCharacter()" class="btn btn-danger" ng-hide="new_character || new_player"><span class="glyphicon glyphicon-floppy-remove"></span> Supprimer</button>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--</form>-->
+  <!--</div>-->
 
 </div> <!-- end of caracter_ctrl -->
 
