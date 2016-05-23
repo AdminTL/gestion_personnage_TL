@@ -5,15 +5,12 @@
   <title>Logiciel Traitre-Lame</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Bootstrap core CSS -->
-  {% if use_internet_static %}
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-  {% else %}
-  <link href="{{ static_url('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
-  {% end %}
   <!-- Bootstrap theme -->
   {% if use_internet_static %}
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" rel="stylesheet">
   {% else %}
+  <link href="{{ static_url('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
   <link href="{{ static_url('bower_components/bootstrap/dist/css/bootstrap-theme.min.css') }}" rel="stylesheet">
   {% end %}
   <!-- Custom style -->

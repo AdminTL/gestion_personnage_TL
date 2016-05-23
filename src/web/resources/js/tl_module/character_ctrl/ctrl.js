@@ -39,6 +39,27 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$timeout", 
       ]
     },
     {
+      "key": "comments",
+      "add": "New",
+      "style": {
+        "add": "btn-success"
+      },
+      "items": [
+        "comments[].name",
+        "comments[].email",
+        {
+          "key": "comments[].spam",
+          "type": "checkbox",
+          "title": "Yes I want spam.",
+          "condition": "model.comments[arrayIndex].email"
+        },
+        {
+          "key": "comments[].comment",
+          "type": "textarea"
+        }
+      ]
+    },
+    {
       type: "submit",
       style: "btn-info",
       title: "OK"
@@ -48,12 +69,13 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$timeout", 
   // see import in character.html
   $scope.schema = DATABASE_SCHEMA;
   $scope.form = DATABASE_FORM;
+  $scope.model = {};
 
   $scope.$watch("player", function (value) {
     if (value) {
       $scope.prettyModel = JSON.stringify(value, undefined, 2);
     }
-    $scope.player = value;
+    // $scope.player = value;
   }, true);
 
 
