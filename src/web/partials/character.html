@@ -49,13 +49,15 @@
 
 
   <div ng-show="player" role="main" class="col-sm-offset-4">
-    allo bonhomme
-    <form sf-schema="schema" sf-form="form" sf-model="player"></form>
-    <hr/>
-    <div>{{!prettyModel}}</div>
-    <hr/>
+    <form name="theForm">
+      <div sf-schema="schema" sf-form="form" sf-model="model"></div>
+      <hr/>
+      <div>{{!prettyModel}}</div>
+      <hr/>
+      <div>{{!prettyPlayer}}</div>
+      <hr/>
+    </form>
   </div>
-
 
   <!--<div ng-show="player" role="main" id="playerSheet">-->
   <!--<form class="col-sm-offset-4" name="characterForm" novalidate>-->

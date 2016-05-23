@@ -1,7 +1,7 @@
 // Schéma de Traitre-Lame
 var DATABASE_SCHEMA = {
   type: "object",
-  title: "Comment",
+  title: "Joueur",
   properties: {
     nickname: {
       title: "Surnom du joueur",
@@ -21,6 +21,35 @@ var DATABASE_SCHEMA = {
     faction: {
       title: "Faction",
       type: "string"
+    },
+    habilites: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+
+          discipline: {
+            title: "Discipline",
+            type: "string"
+          },
+
+          habilite: {
+            title: "Habilité",
+            type: "string"
+          },
+
+          options: {
+            title: "Option",
+            type: "array",
+            items: {type: "string"}
+          },
+
+        },
+        required: [
+          "discipline",
+          "habilite"
+        ]
+      }
     },
     comment: {
       title: "Comment",
