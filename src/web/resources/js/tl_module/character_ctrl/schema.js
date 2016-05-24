@@ -22,37 +22,32 @@ var DATABASE_SCHEMA = {
       title: "Faction",
       type: "string"
     },
-    "comments": {
-      "type": "array",
-      "maxItems": 2,
-      "items": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "title": "Name",
-            "type": "string"
+    habilites: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+
+          discipline: {
+            title: "Discipline",
+            type: "string"
           },
-          "email": {
-            "title": "Email",
-            "type": "string",
-            "pattern": "^\\S+@\\S+$",
-            "description": "Email will be used for evil."
+
+          habilite: {
+            title: "Habilité",
+            type: "string"
           },
-          "spam": {
-            "title": "Spam",
-            "type": "boolean",
-            "default": true
+
+          options: {
+            title: "Option",
+            type: "array",
+            items: {type: "string"}
           },
-          "comment": {
-            "title": "Comment",
-            "type": "string",
-            "maxLength": 20,
-            "validationMessage": "Don't be greedy!"
-          }
+
         },
-        "required": [
-          "name",
-          "comment"
+        required: [
+          "discipline",
+          "habilite"
         ]
       }
     },
