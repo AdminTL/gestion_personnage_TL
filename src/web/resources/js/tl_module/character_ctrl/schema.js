@@ -22,6 +22,20 @@ var DATABASE_SCHEMA = {
       title: "Faction",
       type: "string"
     },
+    "sous_faction": {
+      title: "Sous-faction",
+      type: "string",
+    },
+    endurance: {
+      title: "Endurance",
+      type: "array",
+      items: {type: "string"}
+    },
+    energie: {
+      title: "Énergie",
+      type: "array",
+      items: {type: "string"}
+    },
     habilites: {
       type: "array",
       items: {
@@ -49,6 +63,17 @@ var DATABASE_SCHEMA = {
           "discipline",
           "habilite"
         ]
+      }
+    },
+    technique_maitre: {
+      type: "array",
+      title: "Techniques de Maitre",
+      maxItems: 10,
+      minItems: 0,
+      uniqueItems: true,
+      items: {
+        title: "Technique de Maitre",
+        type: "string"
       }
     },
     comment: {
