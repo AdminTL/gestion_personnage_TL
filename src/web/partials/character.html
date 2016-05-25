@@ -48,10 +48,14 @@
   </div>
 
   <div ng-show="player" role="main" class="col-sm-offset-4">
-    <form name="theForm">
-      <div sf-schema="schema" sf-form="form" sf-model="model"></div>
+    <form name="my_form_char" ng-submit="onSubmit(my_form_char)">
+      <div sf-schema="schema_user" sf-form="form_user" sf-model="model_user"></div>
       <hr/>
-      <div>{{!prettyModel}}</div>
+      <div sf-schema="schema_char" sf-form="form_char" sf-model="model_char"></div>
+      <hr/>
+      <div>{{!prettyModelUser}}</div>
+      <hr/>
+      <div>{{!prettyModelChar}}</div>
       <hr/>
       <div>{{!prettyPlayer}}</div>
       <hr/>
