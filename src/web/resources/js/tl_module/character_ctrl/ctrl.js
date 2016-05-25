@@ -33,10 +33,47 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$timeout", 
       type: "select",
       titleMap: [
         {value: "empty", name: "- Aucune faction -"},
-        {value: "vanican", name: "Vanican"},
-        {value: "canavim", name: "Canavim"},
-        {value: "vallam", name: "Vallam"},
-        {value: "sarsare", name: "Sarsare"}
+        {value: "Vanican", name: "Vanican"},
+        {value: "Canavim", name: "Canavim"},
+        {value: "Vallam", name: "Vallam"},
+        {value: "Sarsare", name: "Sarsare"}
+      ]
+    },
+    {
+      key: "sous_faction",
+      type: "select",
+      titleMap: [
+        {value: "empty", name: "- Aucune sous-faction -"},
+        {value: "Sanglier", name: "Sanglier"},
+        {value: "Faucheur", name: "Faucheur"},
+        {value: "Balmont", name: "Balmont"},
+        {value: "Druide", name: "Druide"}
+      ]
+    },
+    {
+      key: "endurance",
+      type: "strapselect",
+      placeholder: "",
+      options: {
+        multiple: "true",
+      },
+      titleMap: [
+        {value: "1", name: "+1"},
+        {value: "2", name: "+1"},
+        {value: "3", name: "+1"},
+      ]
+    },
+    {
+      key: "energie",
+      type: "strapselect",
+      placeholder: "",
+      options: {
+        multiple: "true",
+      },
+      titleMap: [
+        {value: "1", name: "+2"},
+        {value: "2", name: "+2"},
+        {value: "3", name: "+2"},
       ]
     },
     {
@@ -50,6 +87,9 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$timeout", 
           key: "habilites[].discipline",
           type: "strapselect",
           placeholder: "",
+          options: {
+            inlineMaxLength: 5,
+          },
           titleMap: [
             {value: "Combattante", name: "Combattante"},
             {value: "Sournoise", name: "Sournoise"},
@@ -62,7 +102,9 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$timeout", 
           type: "strapselect",
           options: {
             filterTriggers: ["model.habilites[arrayIndex].discipline"],
-            filter: "model.habilites[arrayIndex].discipline==item.category"
+            filter: "model.habilites[arrayIndex].discipline==item.category",
+            inlineMaxLength: 5,
+            maxLength: 3,
           },
           placeholder: "",
           titleMap: [
@@ -90,10 +132,27 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$timeout", 
         {
           key: "habilites[].options",
           type: "strapselect",
+          // onChange: function (modelValue, form) {
+          //   if (modelValue.length > 3) {
+          //     // var set1 = new Set(modelValue);
+          //     // var set2 = new Set(this.last_value);
+          //     // var difference = new Set([...set1].filter(x => !set2.has(x)));
+          //     // console.log(difference);
+          //     // var difference = [];
+          //     // jQuery.grep(this.last_value, function (el) {
+          //     //   if (jQuery.inArray(el, modelValue) == -1) difference.push(el);
+          //     // });
+          //     // console.log(difference);
+          //     $scope.model.habilites[arrayIndex].option = this.last_value;
+          //   } else {
+          //     this.last_value = modelValue;
+          //   }
+          // },
           options: {
             multiple: "true",
             filterTriggers: ["model.habilites[arrayIndex].habilite"],
-            filter: "model.habilites[arrayIndex].habilite==item.category"
+            filter: "model.habilites[arrayIndex].habilite==item.category",
+            inlineMaxLength: 5,
           },
           placeholder: "",
           titleMap: [
@@ -194,16 +253,25 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$timeout", 
             {value: "Spécialiste I - Artisanat", name: "Spécialiste I - Artisanat", category: "Métier"},
             {value: "Spécialiste I - Enchantement", name: "Spécialiste I - Enchantement", category: "Métier"},
             {value: "Spécialiste I - Forge", name: "Spécialiste I - Forge", category: "Métier"},
-            {value: "Spécialiste I - Mixture de Potion", name: "Mixture de Potion I - Herboristerie", category: "Métier"},
+            {
+              value: "Spécialiste I - Mixture de Potion",
+              name: "Mixture de Potion I - Herboristerie",
+              category: "Métier"
+            },
             {value: "Spécialiste II - Herboristerie", name: "Spécialiste II - Herboristerie", category: "Métier"},
             {value: "Spécialiste II - Artisanat", name: "Spécialiste II - Artisanat", category: "Métier"},
             {value: "Spécialiste II - Enchantement", name: "Spécialiste II - Enchantement", category: "Métier"},
             {value: "Spécialiste II - Forge", name: "Spécialiste II - Forge", category: "Métier"},
-            {value: "Spécialiste II - Mixture de Potion", name: "Mixture de Potion II - Herboristerie", category: "Métier"},
+            {
+              value: "Spécialiste II - Mixture de Potion",
+              name: "Mixture de Potion II - Herboristerie",
+              category: "Métier"
+            },
           ]
-        }
+        },
       ]
     },
+    "technique_maitre",
     {
       type: "submit",
       style: "btn-info",
