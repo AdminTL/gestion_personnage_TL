@@ -54,3 +54,11 @@ function GetJsonString(str) {
   }
   return json_parse;
 }
+
+function filterIgnore(obj, ignore_key) {
+    var result = {};
+    for (var type in obj)
+        if (ignore_key.indexOf(type) <= -1)
+            result[type] = obj[type];
+    return result;
+}

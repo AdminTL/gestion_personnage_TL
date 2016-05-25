@@ -1,23 +1,39 @@
-// Formulaire de Traitre-Lame
-"use strict";
+function TL_Schema($scope) {
+  $scope.schema_user = {
+    type: "object",
+    title: "Joueur",
+    properties: {
+      nickname: {
+        title: "Surnom du joueur",
+        type: "string",
+        minLength: 2
+      },
+      name: {
+        title: "Prénom et Nom du joueur",
+        type: "string",
+        minLength: 2
+      },
+      email: {
+        title: "Courriel",
+        type: "string",
+        pattern: "^\\S+@\\S+$"
+      },
+      comment: {
+        title: "Comment",
+        type: "string"
+      }
+    },
+    required: ["name", "email"]
+  };
 
-characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$timeout", function ($scope, $q, $http, $timeout) {
-  // var data_source = "http://" + window.location.host + "/update_user";
-  // var socket = new SockJS(data_source);
-
-  $scope.player = null;
-  $scope.last_player = null;
-  $scope.character = null;
-  $scope.last_character = null;
-  $scope.ddb_user = [];
-  $scope.characterEdit = true;
-  $scope.new_player = false;
-  $scope.new_character = false;
-
-  var DATABASE_FORM = [
+  $scope.form_user = [
     {
       key: "name",
       placeholder: "Votre nom entier (prénom et nom)"
+    },
+    {
+      key: "nickname",
+      placeholder: "Votre surnom - facultatif"
     },
     {
       key: "email",
@@ -26,8 +42,76 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$timeout", 
     {
       key: "comment",
       type: "textarea",
-      placeholder: "Je ne sais pas quoi écrire.",
+      placeholder: "Je ne sais pas quoi écrire."
+    }
+  ];
+
+  $scope.schema_char = {
+    type: "object",
+    title: "Joueur",
+    properties: {
+      name: {
+        key: "name",
+        placeholder: "Nom du personnage"
+      },
+      faction: {
+        title: "Faction",
+        type: "string"
+      },
+      sous_faction: {
+        title: "Sous-faction",
+        type: "string"
+      },
+      endurance: {
+        title: "Endurance",
+        type: "array",
+        items: {type: "string"}
+      },
+      energie: {
+        title: "Énergie",
+        type: "array",
+        items: {type: "string"}
+      },
+      habilites: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: {
+
+            discipline: {
+              title: "Discipline",
+              type: "string"
+            },
+
+            habilite: {
+              title: "Habilité",
+              type: "string"
+            },
+
+            options: {
+              title: "Option",
+              type: "array",
+              items: {type: "string"}
+            }
+          }
+        }
+      },
+      technique_maitre: {
+        type: "array",
+        title: "Techniques de Maitre",
+        maxItems: 10,
+        minItems: 0,
+        uniqueItems: true,
+        items: {
+          title: "Technique de Maitre",
+          type: "string"
+        }
+      }
     },
+    required: ["faction"]
+  };
+
+  $scope.form_char = [
     {
       key: "faction",
       type: "select",
@@ -55,12 +139,12 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$timeout", 
       type: "strapselect",
       placeholder: "",
       options: {
-        multiple: "true",
+        multiple: "true"
       },
       titleMap: [
         {value: "1", name: "+1"},
         {value: "2", name: "+1"},
-        {value: "3", name: "+1"},
+        {value: "3", name: "+1"}
       ]
     },
     {
@@ -68,12 +152,12 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$timeout", 
       type: "strapselect",
       placeholder: "",
       options: {
-        multiple: "true",
+        multiple: "true"
       },
       titleMap: [
         {value: "1", name: "+2"},
         {value: "2", name: "+2"},
-        {value: "3", name: "+2"},
+        {value: "3", name: "+2"}
       ]
     },
     {
@@ -88,7 +172,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$timeout", 
           type: "strapselect",
           placeholder: "",
           options: {
-            inlineMaxLength: 5,
+            inlineMaxLength: 5
           },
           titleMap: [
             {value: "Combattante", name: "Combattante"},
@@ -104,7 +188,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$timeout", 
             filterTriggers: ["model.habilites[arrayIndex].discipline"],
             filter: "model.habilites[arrayIndex].discipline==item.category",
             inlineMaxLength: 5,
-            maxLength: 3,
+            maxLength: 3
           },
           placeholder: "",
           titleMap: [
@@ -126,7 +210,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$timeout", 
             {value: "Baratin", name: "Baratin", category: "Professionnelle"},
             {value: "Marchandage", name: "Marchandage", category: "Professionnelle"},
             {value: "Médecine", name: "Médecine", category: "Professionnelle"},
-            {value: "Métier", name: "Métier", category: "Professionnelle"},
+            {value: "Métier", name: "Métier", category: "Professionnelle"}
           ]
         },
         {
@@ -152,7 +236,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$timeout", 
             multiple: "true",
             filterTriggers: ["model.habilites[arrayIndex].habilite"],
             filter: "model.habilites[arrayIndex].habilite==item.category",
-            inlineMaxLength: 5,
+            inlineMaxLength: 5
           },
           placeholder: "",
           titleMap: [
@@ -266,175 +350,16 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$timeout", 
               value: "Spécialiste II - Mixture de Potion",
               name: "Mixture de Potion II - Herboristerie",
               category: "Métier"
-            },
+            }
           ]
-        },
+        }
       ]
     },
     "technique_maitre",
     {
       type: "submit",
       style: "btn-info",
-      title: "OK"
+      title: "Enregistrer"
     }
   ];
-
-  // see import in character.html
-  $scope.model = {};
-  $scope.schema = DATABASE_SCHEMA;
-  $scope.form = DATABASE_FORM;
-
-  $scope.$watch("model", function (value) {
-    if (value) {
-      $scope.prettyModel = JSON.stringify(value, undefined, 2);
-    }
-    // todo : update player
-    // $scope.player = value;
-  }, true);
-
-  $scope.$watch("player", function (value) {
-    if (value) {
-      $scope.prettyPlayer = JSON.stringify(value, undefined, 2);
-    }
-    // $scope.player = value;
-  }, true);
-
-
-  $scope.newPlayer = function () {
-    // create empty player with empty character
-    $scope.last_player = $scope.player = {};
-    $scope.last_character = $scope.character = {};
-    $scope.player.character = [$scope.character];
-
-    $scope.setCharacterData(null);
-    $scope.new_player = true;
-  }
-
-  $scope.newCharacter = function () {
-    // create empty player with empty character
-    $scope.last_character = $scope.character = {};
-    $scope.character.name = "New";
-    $scope.player.character.push($scope.character);
-    $scope.new_character = true;
-    // $scope.player.character. = [$scope.character];
-  }
-
-  $scope.deleteCharacter = function () {
-    var data = Object();
-    // TODO: use user id from user creation management to permission
-    // data.user_id = $scope.player.id;
-    data.player = $scope.player;
-    data.delete_character_id = $scope.character.id;
-    // TODO: need to get id if new character or player to update ddb_user
-    $http.post("/cmd/character_view", data);
-    $scope.player.character.remove($scope.player.character.indexOf($scope.character));
-    $scope.character = null;
-    // reselect new character if exist
-    $scope.setCharacterData(null);
-  }
-
-  $scope.deletePlayer = function () {
-    var data = Object();
-    // TODO: use user id from user creation management to permission
-    // data.user_id = $scope.player.id;
-    data.delete_player_id = $scope.player.id;
-    // TODO: need to get id if new character or player to update ddb_user
-    $http.post("/cmd/character_view", data);
-    $scope.ddb_user.remove($scope.ddb_user.indexOf($scope.player));
-    $scope.player = null;
-    $scope.character = null;
-  }
-
-  $scope.discardPlayer = function () {
-    $scope.new_player = false;
-    $scope.player = $scope.last_player;
-    // $scope.setCharacterData(null);
-  }
-
-  $scope.discardCharacter = function () {
-    $scope.new_character = false;
-    $scope.character = $scope.last_character;
-    // $scope.setCharacterData($scope.character);
-  }
-
-  $scope.setCharacterData = function (value) {
-    if (!$scope.player) {
-      // no player is selected
-      $scope.last_character = $scope.character = null;
-    } else if (value === null) {
-      // if null, select first character
-      if ($scope.player.character.length) {
-        $scope.character = $scope.player.character[0];
-      } else {
-        // no character on this player
-        $scope.lst_character = $scope.character = null;
-      }
-    } else {
-      $scope.character = value;
-    }
-  }
-
-  $scope.submitCharacterData = function () {
-    var data = Object();
-    // TODO: use user id from user creation management to permission
-    // data.user_id = $scope.player.id;
-    // TODO: don't send all character information in player
-    data.player = $scope.player;
-    if (isDefined($scope.character) && $scope.character && isDefined($scope.character.name)) {
-      // TODO: check if contains character data in field. Only check name actually
-      data.character = $scope.character;
-    } else {
-      $scope.character = null;
-    }
-    // TODO: need to get id if new character or player to update ddb_user
-    $http.post("/cmd/character_view", data);
-    // add to ddb_user client side if new player
-    if ($scope.new_player) {
-      if ($scope.character === null) {
-        $scope.player.character = [];
-      }
-      $scope.ddb_user.push($scope.player);
-      $scope.new_player = false;
-    } else if (isDefined($scope.character) && $scope.character && isDefined($scope.character.name) && !$scope.player.character.length) {
-      $scope.player.character.push($scope.character);
-    }
-    $scope.new_character = false;
-  }
-
-  $scope.printCharacterSheet = function () {
-    var elem = document.getElementById("characterSheet");
-    var domClone = elem.cloneNode(true);
-
-    var printSection = document.getElementById("printSection");
-
-    if (!printSection) {
-      var printSection = document.createElement("div");
-      printSection.id = "printSection";
-      document.body.appendChild(printSection);
-    }
-
-    printSection.innerHTML = "<h1>Feuille de personnage</h1>";
-    printSection.appendChild(domClone);
-
-    window.print();
-  }
-
-  // socket.onmessage = function (e) {
-  //   $scope.message = JSON.parse(e.data);
-  //   console.log($scope.message);
-  //   $scope.$apply();
-  // };
-
-  $http.get("/cmd/character_view").success(
-    function (data, status, headers, config) {
-      $scope.ddb_user = data;
-    }
-  );
-
-  $http.get("/cmd/rule").success(
-    function (data, status, headers, config) {
-      $scope.rule = data;
-    }
-  );
-
-}]);
+}
