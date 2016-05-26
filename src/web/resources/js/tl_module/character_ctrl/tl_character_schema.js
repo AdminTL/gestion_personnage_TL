@@ -9,7 +9,7 @@ function TL_Schema($scope) {
         minLength: 2
       },
       id: {
-        "type": "string"
+        type: "string"
       },
       name: {
         title: "Prénom et Nom du joueur",
@@ -54,11 +54,11 @@ function TL_Schema($scope) {
     title: "Joueur",
     properties: {
       name: {
-        key: "name",
-        placeholder: "Nom du personnage"
+        title: "Nom du personnage",
+        type: "string"
       },
       id: {
-        "type": "string"
+        type: "string"
       },
       faction: {
         title: "Faction",
@@ -119,10 +119,13 @@ function TL_Schema($scope) {
 
   $scope.form_char = [
     {
+      key: "name",
+      placeholder: "Votre nom de joueur"
+    },
+    {
       key: "faction",
       type: "select",
       titleMap: [
-        {value: "empty", name: "- Aucune faction -"},
         {value: "Vanican", name: "Vanican"},
         {value: "Canavim", name: "Canavim"},
         {value: "Vallam", name: "Vallam"},
