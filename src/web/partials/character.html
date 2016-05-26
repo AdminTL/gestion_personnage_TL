@@ -25,9 +25,9 @@
 
       <div ng-show="player && !new_player">
         Fiche personnage<br/>
-        <div ng-show="!new_character">
-          <button class="btn btn-success" ng-click="newCharacter()"><span class="glyphicon glyphicon-plus"></span> <span class="glyphicon glyphicon-file"></span> Nouveau personnage</button>
-        </div>
+        <!--<div ng-show="!new_character">-->
+          <!--<button class="btn btn-success" ng-click="newCharacter()"><span class="glyphicon glyphicon-plus"></span> <span class="glyphicon glyphicon-file"></span> Nouveau personnage</button>-->
+        <!--</div>-->
         <ul class="nav">
           <li ng-repeat="value in player.character">
             <button ng-style="character.name == value.name && {color:'#FF4E00'}" ng-if="character.name" type="button" class="btn btn-info nav-button" ng-click="setCharacterData(value)">
@@ -48,6 +48,7 @@
   </div>
 
   <div ng-show="player" role="main" class="col-sm-offset-4">
+    <h3>Bogue quand on change l'utilisateur, choisir "sélection..." comme option avant de choisir un joueur.</h3>
     <form name="my_form_char" ng-submit="onSubmit(my_form_char)">
       <div sf-schema="schema_user" sf-form="form_user" sf-model="model_user"></div>
       <hr/>

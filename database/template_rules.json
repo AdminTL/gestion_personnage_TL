@@ -6,6 +6,9 @@
     "surnom": {
       "type": "string"
     },
+    "id": {
+      "type": "string"
+    },
     "courriel": {
       "type": "string"
     },

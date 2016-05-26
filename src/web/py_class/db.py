@@ -105,6 +105,7 @@ class DB(object):
             # 2. validate user exist, else create it. Ignore if delete action
             # TODO validate player_data field
             player_data["id"] = uuid.uuid4().hex
+            player_data["character"] = [character_data] if character_data else []
             self._db_user.insert(player_data)
         elif player_data or character_data or delete_character_id:
             # 3. validate character exist for update, else create it, or delete it.

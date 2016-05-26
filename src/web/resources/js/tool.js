@@ -41,7 +41,6 @@ Array.prototype.remove = function (from, to) {
 };
 
 function isDefined(x) {
-  var undefined;
   return x !== undefined;
 }
 
@@ -56,9 +55,9 @@ function GetJsonString(str) {
 }
 
 function filterIgnore(obj, ignore_key) {
-    var result = {};
-    for (var type in obj)
-        if (ignore_key.indexOf(type) <= -1)
-            result[type] = obj[type];
-    return result;
+  var result = JSON.parse(JSON.stringify(obj));
+  // remove item to ignore
+  for (var key in ignore_key)
+    delete result[ignore_key[key]];
+  return result;
 }

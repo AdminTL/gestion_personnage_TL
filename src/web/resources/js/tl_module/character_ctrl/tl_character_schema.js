@@ -8,6 +8,9 @@ function TL_Schema($scope) {
         type: "string",
         minLength: 2
       },
+      id: {
+        "type": "string"
+      },
       name: {
         title: "Prénom et Nom du joueur",
         type: "string",
@@ -23,7 +26,7 @@ function TL_Schema($scope) {
         type: "string"
       }
     },
-    required: ["name", "email"]
+    required: ["name"]
   };
 
   $scope.form_user = [
@@ -53,6 +56,9 @@ function TL_Schema($scope) {
       name: {
         key: "name",
         placeholder: "Nom du personnage"
+      },
+      id: {
+        "type": "string"
       },
       faction: {
         title: "Faction",
