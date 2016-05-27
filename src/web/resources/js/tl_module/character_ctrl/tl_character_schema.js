@@ -140,7 +140,8 @@ function TL_Schema($scope) {
         {value: "Sanglier", name: "Sanglier"},
         {value: "Faucheur", name: "Faucheur"},
         {value: "Balmont", name: "Balmont"},
-        {value: "Druide", name: "Druide"}
+        {value: "Druide", name: "Druide"},
+        {value: "Smith", name: "Smith"}
       ]
     },
     {
@@ -348,7 +349,7 @@ function TL_Schema($scope) {
             {value: "Spécialiste I - Forge", name: "Spécialiste I - Forge", category: "Métier"},
             {
               value: "Spécialiste I - Mixture de Potion",
-              name: "Mixture de Potion I - Herboristerie",
+              name: "Spécialiste I - Mixture de Potion",
               category: "Métier"
             },
             {value: "Spécialiste II - Herboristerie", name: "Spécialiste II - Herboristerie", category: "Métier"},
@@ -357,7 +358,7 @@ function TL_Schema($scope) {
             {value: "Spécialiste II - Forge", name: "Spécialiste II - Forge", category: "Métier"},
             {
               value: "Spécialiste II - Mixture de Potion",
-              name: "Mixture de Potion II - Herboristerie",
+              name: "Spécialiste II - Mixture de Potion",
               category: "Métier"
             }
           ]
