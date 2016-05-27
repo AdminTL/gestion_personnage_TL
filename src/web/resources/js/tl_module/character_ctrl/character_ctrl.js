@@ -73,12 +73,12 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
           $scope.model_char.habilites = [{}];
         }
         if (!isDefined(firstChar.technique_maitre)) {
-          $scope.model_char.technique_maitre = [null];
+          $scope.model_char.technique_maitre = [];
         }
       } else {
         $scope.model_char = {};
         $scope.model_char.habilites = [{}];
-        $scope.model_char.technique_maitre = [null];
+        $scope.model_char.technique_maitre = [];
       }
     }
   }, true);
