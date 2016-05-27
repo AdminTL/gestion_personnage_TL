@@ -18,7 +18,7 @@
         <button class="btn btn-danger" ng-click="discardPlayer()"><span class="glyphicon glyphicon-remove"></span> <span class="glyphicon glyphicon-user"></span> Annuler nouveau joueur</button>
       </div>
       <div class="list-group" ng-show="!new_player">
-        <select class="form-control" ng-model="player" ng-options="user.name for user in ddb_user" ng-change="setCharacterData(null)">
+        <select class="form-control" ng-model="player" ng-options="user.name for user in ddb_user | orderBy:'name'" ng-change="setCharacterData(null)">
           <option value="">--Sélectionner un joueur--</option>
         </select>
       </div>
