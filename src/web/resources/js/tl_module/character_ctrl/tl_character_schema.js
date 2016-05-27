@@ -288,7 +288,7 @@ function TL_Schema($scope) {
             {value: "Attaque sournoise", name: "Attaque sournoise", category: "Fourberie"},
             {value: "Coup bas", name: "Coup bas", category: "Fourberie"},
             {value: "Coup sonnant", name: "Coup sonnant", category: "Fourberie"},
-            {value: "oupe-jarret", name: "oupe-jarret", category: "Fourberie"},
+            {value: "Coupe-jarret", name: "Coupe-jarret", category: "Fourberie"},
             {value: "Stylet", name: "Stylet", category: "Fourberie"},
 
             {value: "Serrurier", name: "Serrurier", category: "Travail de précision"},

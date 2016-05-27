@@ -6,6 +6,7 @@ import tinydb
 import uuid
 from py_class import user
 import json
+import datetime
 
 
 class DB(object):
@@ -60,6 +61,7 @@ class DB(object):
         if not isinstance(player_data, dict):
             print("Cannot update player if player is not dictionary : %s" % player_data)
             return
+        d = datetime.datetime.utcnow().timestamp()
         # if None, it's new user
         player_id = player_data.get("id")
         # if None, it's new character
@@ -88,12 +90,15 @@ class DB(object):
                             del lst_character[i]
                         else:
                             lst_character[i] = character_data
+                            # update last modify date
+                            character_data["date_modify"] = datetime.datetime.utcnow().timestamp()
                         break
                     i += 1
                 else:
                     if character_data:
                         # it's a creation!
                         character_data["id"] = uuid.uuid4().hex
+                        character_data["date_modify"] = character_data["date_creation"] = d
                         lst_character.append(character_data)
 
             return transform
@@ -106,7 +111,9 @@ class DB(object):
             # TODO validate player_data field
             player_data["id"] = uuid.uuid4().hex
             player_data["character"] = [character_data] if character_data else []
+            player_data["date_modify"] = player_data["date_creation"] = d
             self._db_user.insert(player_data)
         elif player_data or character_data or delete_character_id:
             # 3. validate character exist for update, else create it, or delete it.
+            player_data["date_modify"] = d
             self._db_user.update(_update_character(), self._query_user.id == player_id)
