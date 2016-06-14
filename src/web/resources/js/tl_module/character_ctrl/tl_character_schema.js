@@ -157,9 +157,9 @@ function TL_Schema($scope) {
         multiple: "true"
       },
       titleMap: [
-        {value: "1", name: "+1"},
-        {value: "2", name: "+1"},
-        {value: "3", name: "+1"}
+        {value: "Endurance_1", name: "+1"},
+        {value: "Endurance_2", name: "+1"},
+        {value: "Endurance_3", name: "+1"}
       ]
     },
     {
@@ -170,9 +170,9 @@ function TL_Schema($scope) {
         multiple: "true"
       },
       titleMap: [
-        {value: "1", name: "+2"},
-        {value: "2", name: "+2"},
-        {value: "3", name: "+2"}
+        {value: "Energie_1", name: "+2"},
+        {value: "Energie_2", name: "+2"},
+        {value: "Energie_3", name: "+2"}
       ]
     },
     {
@@ -261,11 +261,11 @@ function TL_Schema($scope) {
             {value: "Doctrine", name: "Doctrine", category: "Discipline"},
             {value: "Vigilance", name: "Vigilance", category: "Discipline"},
 
-            {value: "1", name: "+2", category: "Karma"},
-            {value: "2", name: "+2", category: "Karma"},
-            {value: "3", name: "+2", category: "Karma"},
-            {value: "4", name: "+2", category: "Karma"},
-            {value: "5", name: "+2", category: "Karma"},
+            {value: "Karma_1", name: "+2", category: "Karma"},
+            {value: "Karma_2", name: "+2", category: "Karma"},
+            {value: "Karma_3", name: "+2", category: "Karma"},
+            {value: "Karma_4", name: "+2", category: "Karma"},
+            {value: "Karma_5", name: "+2", category: "Karma"},
 
             {value: "Assaut", name: "Assaut", category: "Offense"},
             {value: "Jambette", name: "Jambette", category: "Offense"},
@@ -279,11 +279,11 @@ function TL_Schema($scope) {
             {value: "Santé", name: "Santé", category: "Défense"},
             {value: "Second Souffle", name: "Second Souffle", category: "Défense"},
 
-            {value: "1", name: "4", category: "Alchimie"},
-            {value: "2", name: "+2", category: "Alchimie"},
-            {value: "3", name: "+2", category: "Alchimie"},
-            {value: "4", name: "+2", category: "Alchimie"},
-            {value: "5", name: "+2", category: "Alchimie"},
+            {value: "Alchimie_1", name: "4", category: "Alchimie"},
+            {value: "Alchimie_2", name: "+2", category: "Alchimie"},
+            {value: "Alchimie_3", name: "+2", category: "Alchimie"},
+            {value: "Alchimie_4", name: "+2", category: "Alchimie"},
+            {value: "Alchimie_5", name: "+2", category: "Alchimie"},
 
             {value: "Camouflage", name: "Camouflage", category: "Embuscade"},
             {value: "Dissimulation", name: "Dissimulation", category: "Embuscade"},
@@ -309,11 +309,11 @@ function TL_Schema($scope) {
             {value: "Réparation", name: "Réparation", category: "Artisanat Arcane"},
             {value: "Disjonction", name: "Disjonction", category: "Artisanat Arcane"},
 
-            {value: "1", name: "6", category: "Rituel"},
-            {value: "2", name: "+3", category: "Rituel"},
-            {value: "3", name: "+3", category: "Rituel"},
-            {value: "4", name: "+3", category: "Rituel"},
-            {value: "5", name: "+3", category: "Rituel"},
+            {value: "Rituel_1", name: "6", category: "Rituel"},
+            {value: "Rituel_2", name: "+3", category: "Rituel"},
+            {value: "Rituel_3", name: "+3", category: "Rituel"},
+            {value: "Rituel_4", name: "+3", category: "Rituel"},
+            {value: "Rituel_5", name: "+3", category: "Rituel"},
 
             {value: "Frénésie", name: "Frénésie", category: "Sorcellerie"},
             {value: "Terreur", name: "Terreur", category: "Sorcellerie"},
@@ -333,11 +333,11 @@ function TL_Schema($scope) {
             {value: "Verbomoteur", name: "Verbomoteur", category: "Baratin"},
             {value: "Discours", name: "Discours", category: "Baratin"},
 
-            {value: "1", name: "4", category: "Marchandage"},
-            {value: "2", name: "+2", category: "Marchandage"},
-            {value: "3", name: "+2", category: "Marchandage"},
-            {value: "4", name: "+2", category: "Marchandage"},
-            {value: "5", name: "+2", category: "Marchandage"},
+            {value: "Marchandage_1", name: "4", category: "Marchandage"},
+            {value: "Marchandage_2", name: "+2", category: "Marchandage"},
+            {value: "Marchandage_3", name: "+2", category: "Marchandage"},
+            {value: "Marchandage_4", name: "+2", category: "Marchandage"},
+            {value: "Marchandage_5", name: "+2", category: "Marchandage"},
 
             {value: "Opération", name: "Opération", category: "Médecine"},
             {value: "Suture", name: "Suture", category: "Médecine"},
