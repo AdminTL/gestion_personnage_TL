@@ -31,7 +31,9 @@ def main(parse_arg):
                 "login_url": "/login",
                 "use_internet_static": parse_arg.use_internet_static,
                 "db": DB(parse_arg),
-                "rule": Rule(parse_arg)
+                "rule": Rule(parse_arg),
+                "disable_character": parse_arg.disable_character,
+                "disable_login": parse_arg.disable_login
                 }
     routes = [
         # pages

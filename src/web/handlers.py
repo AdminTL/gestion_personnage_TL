@@ -34,10 +34,14 @@ class IndexHandler(base_handler.BaseHandler):
 class LoginHandler(base_handler.BaseHandler):
     @tornado.web.asynchronous
     def get(self):
+        if self._global_arg["disable_login"]:
+            return
         self.render('login.html', **self._global_arg)
 
     @tornado.web.asynchronous
     def post(self):
+        if self._global_arg["disable_login"]:
+            return
         email = self.get_argument("username")
         name = self.get_argument("name")
         password = self.get_argument("password")
@@ -63,6 +67,8 @@ class LoginHandler(base_handler.BaseHandler):
 
 class LogoutHandler(base_handler.BaseHandler):
     def get(self):
+        if self._global_arg["disable_login"]:
+            return
         self.clear_cookie("user")
         self.redirect(u"/")
 
@@ -78,12 +84,16 @@ class AdminHandler(base_handler.BaseHandler):
 class CharacterHandler(base_handler.BaseHandler):
     @tornado.web.asynchronous
     def get(self):
+        if self._global_arg["disable_character"]:
+            return
         self.render('character.html', **self._global_arg)
 
 
 class CharacterViewHandler(jsonhandler.JsonHandler):
     @tornado.web.asynchronous
     def get(self):
+        if self._global_arg["disable_character"]:
+            return
         # TODO manage what we get and user management permission
         data = json.dumps(self._db.get_all_user())
         self.write(data)
@@ -91,6 +101,8 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
 
     @tornado.web.asynchronous
     def post(self):
+        if self._global_arg["disable_character"]:
+            return
         self.prepare_json()
 
         # user_id = self.get_argument("user_id")

@@ -29,12 +29,16 @@
         {% if current_user and current_user.is_admin() %}
         <li><a href="admin">Admin</a></li>
         {% end %}
+        {% if not disable_login %}
         {% if not current_user %}
         <li><a href="login">Login</a></li>
         {% else %}
         <li><a style="color:#2864E6;" href="#" ua-logout>Log out</a></li>
         {% end %}
+        {% end %}
+        {% if not disable_character %}
         <li><a href="character">Personnage</a></li>
+        {% end %}
       </ul>
     </div>
   </div>

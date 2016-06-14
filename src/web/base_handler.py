@@ -21,7 +21,9 @@ class BaseHandler(tornado.web.RequestHandler):
         self._global_arg = {
             "debug": kwargs.get("debug"),
             "use_internet_static": kwargs.get("use_internet_static"),
-            "db": self._db
+            "db": self._db,
+            "disable_character": kwargs.get("disable_character"),
+            "disable_login": kwargs.get("disable_login")
         }
 
     def get_current_user(self):

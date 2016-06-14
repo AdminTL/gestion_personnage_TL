@@ -61,6 +61,12 @@ def parse_args():
                        help='Force use to use static files like css and js from another internet website.'
                             ' Use web browser cache.')
 
+    group = parser.add_argument_group("Module")
+    group.add_argument('--disable_character', default=False, action='store_true',
+                       help='Active to disable character module.')
+    group.add_argument('--disable_login', default=False, action='store_true',
+                       help='Active to disable login module.')
+
     _parser = parser.parse_args()
     _parser.db_demo_path = DB_DEMO_PATH
     _parser.db_rule_path = DB_RULE_PATH
