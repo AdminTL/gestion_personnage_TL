@@ -40,8 +40,13 @@ class JsonHandler(base_handler.BaseHandler):
         self.write_json()
 
     def write_json(self):
-        output = json.dumps(self.response)
-        self.write(output)
+        try:
+            output = json.dumps(self.response)
+        except Exception as e:
+            # maybe catch wrong json formatting
+            output = str(e)
+        finally:
+            self.write(output)
 
     def get_argument(self, name, default=None, strip=True):
         # ignore strip

@@ -75,7 +75,7 @@ git clone https://github.com/mathben/userapp-tornado.git
 ```
 
 When launching the server, add python path to this clone.
-Update the PYTHONPATH argument.
+Update the PYTHONPATH argument. Create an environment variable in your IDE if it is not already present.
 ```{r, engine='bash', count_lines}
 PYTHONPATH=~/git/userapp-tornado ./web_server.sh
 ```
@@ -93,4 +93,22 @@ USER_APP_ID = "YOU_USER_APP_ID"
 On client side, files /src/web/static/local/js/tl_ctrl.js
 ```{r, engine='python', count_lines}
 user.init({appId: "YOU_USER_APP_ID"});
+```
+
+Running
+=======
+Run __main__.py to launch the server.
+
+Options
+-------
+```
+--debug : Enable debug (default=False)
+--open_browser : Open web browser on tabulation when start server (default=False)
+--static_dir : Web: Static files directory (default=WEB_DEFAULT_STATIC_DIR)
+--template_dir : Web: Template files directory (default=WEB_DEFAULT_TEMPLATE_DIR)
+--db_path : Specify a path for database file. (default=DB_DEFAULT_PATH)
+--db_demo : Active demo database. Cannot save information in real database, only keep in memory. (default=False)
+--web-listen-address : Web: Web server listen address (default=Listen())
+--ssl : Active https and create ssl files if not exist. Not work in windows. (default=False)
+--use_internet_static : Force use to use static files like css and js from another internet website. Use web browser cache. (default=False)
 ```

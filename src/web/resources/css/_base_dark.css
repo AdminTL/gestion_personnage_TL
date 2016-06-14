@@ -58,3 +58,7 @@ input {
 .btn.disabled {
     background: none;
 }
+
+.list-group-item {
+    background-color: black;
+}

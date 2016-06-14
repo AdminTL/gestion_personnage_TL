@@ -16,12 +16,12 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "1.5.1-build.4657+sha.6a336ba",
-    "angular-bootstrap": "1.2.2",
-    "angular-route": "1.5.1-build.4657+sha.6a336ba",
+    "angular-schema-form": ">= 0.8.12",
+    "angular-bootstrap": ">= 1.2.2",
+    "angular-route": ">= 1.5.5",
     "bootstrap": "3.3.6",
     "sockjs": "0.3.4",
     "userapp-angular": "2.0.4",
-    "angular-schema-form": "0.8.12"
+    "angular-schema-form-dynamic-select": "master"
   }
 }

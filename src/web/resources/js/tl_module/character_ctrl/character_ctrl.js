@@ -1,72 +1,7 @@
-'use strict';
+// Formulaire de Traitre-Lame
+"use strict";
 
-var characterApp = angular.module('creation_personnage_TL', ['ngRoute', 'UserApp']);
-
-characterApp.controller("page_ctrl", ['$scope', '$rootScope', '$http', '$location', '$window',
-  function ($scope, $rootScope, $http, $location, $window) {
-    $scope.lstSection = [];
-    $scope.activePage = 0;
-    $scope.activeSection = 0;
-    $scope.enable_facebook = true;
-
-    $scope.user = null;
-
-    /* ######################
-     * function change page
-     * ######################/
-     */
-    $scope.changePage = function (event, pageName) {
-      var index = $scope.lstPage.indexOf(pageName);
-      if (index >= 0)
-        $scope.activePage = index;
-      else
-        console.err("Cannot find page " + pageName);
-    };
-
-    $scope.changeSection = function (event, sectionName) {
-      var index = $scope.lstSection.indexOf(sectionName);
-      if (index >= 0)
-        $scope.activeSection = index;
-      else
-        console.err("Cannot find section " + sectionName);
-    };
-
-    $scope.logout = function () {
-      FB.logout(function (response) {
-        // Person is now logged out
-      });
-      // $location.url("/logout");
-      $window.location.href = "/logout";
-    };
-
-    $rootScope.$on('user.login', function () {
-      console.log("on user login");
-      $http.defaults.headers.common.Authorization = 'Basic ' + btoa(':' + user.token());
-    });
-
-    $rootScope.$on('user.logout', function () {
-      console.log("on user logout");
-      $http.defaults.headers.common.Authorization = null;
-    });
-
-  }]);
-
-characterApp.controller("news_ctrl", ['$scope', function ($scope) {
-  $scope.enable_facebook_news = false;
-}]);
-
-characterApp.controller("login_ctrl", ['$scope', function ($scope) {
-  $scope.show_login = true;
-
-  $scope.log_facebook = function (e) {
-    console.info("login facebook");
-    FB.login(function (response) {
-      statusChangeCallback(response);
-    }, {scope: 'public_profile,email'});
-  }
-}]);
-
-characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, $http) {
+characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /*"$timeout",*/ function ($scope, $q, $http, $window) {
   // var data_source = "http://" + window.location.host + "/update_user";
   // var socket = new SockJS(data_source);
 
@@ -79,6 +14,75 @@ characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, 
   $scope.new_player = false;
   $scope.new_character = false;
 
+  $scope.model_user = {};
+  $scope.schema_user = {};
+  $scope.form_user = [];
+
+  $scope.model_char = {};
+  $scope.schema_char = {};
+  $scope.form_char = [];
+
+  // fill user and character schema and form
+  TL_Schema($scope);
+
+  $scope.onSubmit = function (form) {
+    // First we broadcast an event so all fields validate themselves
+    $scope.$broadcast('schemaFormValidate');
+
+    // Then we check if the form is valid
+    if (form.$valid) {
+      var data = {};
+      data.player = $scope.model_user;
+      data.character = $scope.model_char;
+      $http.post("/cmd/character_view", data);
+      // TODO not suppose to need to reload the page, block by socket update
+      $window.location.reload();
+    }
+  };
+
+  $scope.$watch("model_user", function (value) {
+    if (value) {
+      $scope.prettyModelUser = JSON.stringify(value, undefined, 2);
+    }
+    // todo : update player
+    // $scope.player = value;
+  }, true);
+
+  $scope.$watch("model_char", function (value) {
+    if (value) {
+      $scope.prettyModelChar = JSON.stringify(value, undefined, 2);
+    }
+    // todo : update player
+    // $scope.player = value;
+  }, true);
+
+  $scope.$watch("player", function (value) {
+    if (value) {
+      $scope.prettyPlayer = JSON.stringify(value, undefined, 2);
+      // update model information
+      $scope.model_user = filterIgnore(value, ["$$hashKey", "character"]);
+      // var first_id;
+      // for(first_id in $scope.model_user.character) break;
+      // $scope.model_char = $scope.model_user.character[first_id];
+      // TODO need to find right id character, and not taking first!
+      if (isDefined(value.character)) {
+        var firstChar = value.character[0];
+        $scope.model_char = filterIgnore(firstChar, ["$$hashKey"]);
+        // TODO need to feel empty field
+        if (!isDefined(firstChar.habilites)) {
+          $scope.model_char.habilites = [{}];
+        }
+        if (!isDefined(firstChar.technique_maitre)) {
+          $scope.model_char.technique_maitre = [];
+        }
+      } else {
+        $scope.model_char = {};
+        $scope.model_char.habilites = [{}];
+        $scope.model_char.technique_maitre = [];
+      }
+    }
+  }, true);
+
   $scope.newPlayer = function () {
     // create empty player with empty character
     $scope.last_player = $scope.player = {};
@@ -87,7 +91,7 @@ characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, 
 
     $scope.setCharacterData(null);
     $scope.new_player = true;
-  }
+  };
 
   $scope.newCharacter = function () {
     // create empty player with empty character
@@ -96,7 +100,7 @@ characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, 
     $scope.player.character.push($scope.character);
     $scope.new_character = true;
     // $scope.player.character. = [$scope.character];
-  }
+  };
 
   $scope.deleteCharacter = function () {
     var data = Object();
@@ -110,7 +114,7 @@ characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, 
     $scope.character = null;
     // reselect new character if exist
     $scope.setCharacterData(null);
-  }
+  };
 
   $scope.deletePlayer = function () {
     var data = Object();
@@ -122,19 +126,19 @@ characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, 
     $scope.ddb_user.remove($scope.ddb_user.indexOf($scope.player));
     $scope.player = null;
     $scope.character = null;
-  }
+  };
 
   $scope.discardPlayer = function () {
     $scope.new_player = false;
     $scope.player = $scope.last_player;
     // $scope.setCharacterData(null);
-  }
+  };
 
   $scope.discardCharacter = function () {
     $scope.new_character = false;
     $scope.character = $scope.last_character;
     // $scope.setCharacterData($scope.character);
-  }
+  };
 
   $scope.setCharacterData = function (value) {
     if (!$scope.player) {
@@ -142,7 +146,7 @@ characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, 
       $scope.last_character = $scope.character = null;
     } else if (value === null) {
       // if null, select first character
-      if ($scope.player.character.length) {
+      if (isDefined($scope.player.character) && $scope.player.character.length) {
         $scope.character = $scope.player.character[0];
       } else {
         // no character on this player
@@ -151,7 +155,7 @@ characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, 
     } else {
       $scope.character = value;
     }
-  }
+  };
 
   $scope.submitCharacterData = function () {
     var data = Object();
@@ -178,16 +182,16 @@ characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, 
       $scope.player.character.push($scope.character);
     }
     $scope.new_character = false;
-  }
+  };
 
   $scope.printCharacterSheet = function () {
-    var elem = document.getElementById('characterSheet');
+    var elem = document.getElementById("characterSheet");
     var domClone = elem.cloneNode(true);
 
     var printSection = document.getElementById("printSection");
 
     if (!printSection) {
-      var printSection = document.createElement("div");
+      printSection = document.createElement("div");
       printSection.id = "printSection";
       document.body.appendChild(printSection);
     }
@@ -196,7 +200,7 @@ characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, 
     printSection.appendChild(domClone);
 
     window.print();
-  }
+  };
 
   // socket.onmessage = function (e) {
   //   $scope.message = JSON.parse(e.data);
@@ -204,39 +208,16 @@ characterApp.controller("character_ctrl", ['$scope', '$http', function ($scope, 
   //   $scope.$apply();
   // };
 
-  $http.get('/cmd/character_view').success(
-    function (data, status, headers, config) {
+  $http.get("/cmd/character_view").success(
+    function (data/*, status, headers, config*/) {
       $scope.ddb_user = data;
     }
   );
 
-  $http.get('/cmd/rule').success(
-    function (data, status, headers, config) {
+  $http.get("/cmd/rule").success(
+    function (data/*, status, headers, config*/) {
       $scope.rule = data;
     }
   );
 
 }]);
-
-characterApp.config(['$routeProvider', function ($routeProvider) {
-  // $routeProvider.when('/login', {templateUrl: 'templates/login.html', login: true});
-  // $routeProvider.when('/signup', {templateUrl: 'templates/signup.html', public: true});
-  // $routeProvider.when('/verify-email', {templateUrl: 'partials/verify-email.html', verify_email: true});
-  // $routeProvider.when('/reset-password', {templateUrl: 'partials/reset-password.html', public: true});
-  // $routeProvider.when('/set-password', {templateUrl: 'partials/set-password.html', set_password: true});
-  // $routeProvider.when('/view1', {templateUrl: 'partials/partial1.html', controller: 'MyCtrl1'});
-  // $routeProvider.when('/view2', {templateUrl: 'partials/partial2.html', controller: 'MyCtrl2'});
-  $routeProvider.otherwise({redirectTo: '/'});
-}])
-
-characterApp.run(function ($window, user) {
-  // userapp api
-  user.init({appId: '56d6ef67bce81'});
-  user.onAuthenticationSuccess(function () {
-    console.log("Authentification réussite!");
-    $window.location.href = "/";
-  })
-  user.getCurrent().then(function (currentUser) {
-    console.log(currentUser.user_id);
-  });
-});

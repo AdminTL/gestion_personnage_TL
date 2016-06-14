@@ -1,4 +1,118 @@
 {
+  "user": {
+    "nom": {
+      "type": "string"
+    },
+    "surnom": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "courriel": {
+      "type": "string"
+    },
+    "personnages": {
+      "type": "array",
+      "$ref": "#/personnage"
+    }
+  },
+  "personnage": {
+    "nom": {
+      "type": "string"
+    },
+    "faction": {
+      "type": "select",
+      "rule": "rule.faction"
+    },
+    "xp": {
+      "type": "array",
+      "$ref": "#/xp"
+    },
+    "endurance": {
+      "type": "#/point"
+    },
+    "energie": {
+      "type": "#/point"
+    },
+    "alchimie": {
+      "type": "#/point"
+    },
+    "artisan": {
+      "type": "#/point"
+    },
+    "potion": {
+      "type": "#/point"
+    },
+    "forgeron": {
+      "type": "#/point"
+    },
+    "herboriste": {
+      "type": "#/point"
+    },
+    "enchantement": {
+      "type": "#/point"
+    },
+    "rituel": {
+      "type": "#/point"
+    },
+    "composantes": {
+      "type": "#/point"
+    },
+    "revenu": {
+      "type": "#/point"
+    },
+    "karma": {
+      "type": "#/point"
+    }
+  },
+  "xp": {
+    "creation": {
+      "type": "datetime"
+    },
+    "modification": {
+      "type": "datetime"
+    },
+    "competence": {
+      "type": "#/competence"
+    }
+  },
+  "competence": {
+    "competenceType": [
+      "normal",
+      "maitre"
+    ],
+    "nom": {
+      "type": "string"
+    },
+    "discipline": {
+      "type": "#/discipline"
+    }
+  },
+  "discipline": {
+    "nom": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    }
+  },
+  "point": {
+    "pointtype": {
+      "type": "string"
+    },
+    "base": {
+      "type": "integer"
+    },
+    "bonus": {
+      "type": "integer"
+    },
+    "calcul": {
+      "type": "array",
+      "$ref": "#/competence"
+    }
+  },
+
   "user": [
     "Nom",
     "Prénom",
