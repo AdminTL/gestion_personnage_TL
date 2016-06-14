@@ -102,6 +102,11 @@ function TL_Schema($scope) {
           }
         }
       },
+      rituel_ecole: {
+        title: "Rituel/École",
+        type: "array",
+        items: {type: "string"}
+      },
       technique_maitre: {
         type: "array",
         title: "Techniques de Maitre",
@@ -363,6 +368,21 @@ function TL_Schema($scope) {
             }
           ]
         }
+      ]
+    },
+    {
+      key: "rituel_ecole",
+      type: "strapselect",
+      placeholder: "",
+      options: {
+        multiple: "true"
+      },
+      titleMap: [
+        {value: "Démonologie", name: "Démonologie"},
+        {value: "Nécromancie", name: "Nécromancie"},
+        {value: "Nature", name: "Nature"},
+        {value: "Protection", name: "Protection"},
+        {value: "Élémentaire", name: "Élémentaire"}
       ]
     },
     "technique_maitre",
