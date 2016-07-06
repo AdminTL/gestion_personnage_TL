@@ -31,7 +31,9 @@ def main(parse_arg):
                 "login_url": "/login",
                 "use_internet_static": parse_arg.use_internet_static,
                 "db": DB(parse_arg),
-                "rule": Rule(parse_arg)
+                "rule": Rule(parse_arg),
+                "disable_character": parse_arg.disable_character,
+                "disable_login": parse_arg.disable_login
                 }
     routes = [
         # pages
@@ -40,10 +42,11 @@ def main(parse_arg):
         tornado.web.url(r"/logout", handlers.LogoutHandler, name='logout', kwargs=settings),
         tornado.web.url(r"/admin", handlers.AdminHandler, name='admin', kwargs=settings),
         tornado.web.url(r"/character", handlers.CharacterHandler, name='character', kwargs=settings),
+        tornado.web.url(r"/manual", handlers.ManualPageHandler, name='manual', kwargs=settings),
 
         # command
         tornado.web.url(r"/cmd/character_view", handlers.CharacterViewHandler, name='character_view', kwargs=settings),
-        tornado.web.url(r"/cmd/rule", handlers.RulesHandler, name='rule', kwargs=settings),
+        tornado.web.url(r"/cmd/rule", handlers.RulesHandler, name='cmd_rule', kwargs=settings),
     ]
     application = tornado.web.Application(routes + socket_connection.urls, **settings)
 

@@ -12,7 +12,7 @@ WEB_DEFAULT_STATIC_DIR = os.path.join(WEB_ROOT_DIR)
 WEB_DEFAULT_TEMPLATE_DIR = os.path.join(WEB_ROOT_DIR, 'partials')
 DB_DEFAULT_PATH = os.path.join("..", "..", "database", "tl_user.json")
 DB_DEMO_PATH = os.path.join("..", "..", "database", "demo_user.json")
-DB_RULE_PATH = os.path.join("..", "..", "database", "template_rules.json")
+DB_RULE_PATH = os.path.join("..", "..", "database", "tl_rule.json")
 
 
 def main():
@@ -60,6 +60,12 @@ def parse_args():
     group.add_argument('--use_internet_static', default=False, action='store_true',
                        help='Force use to use static files like css and js from another internet website.'
                             ' Use web browser cache.')
+
+    group = parser.add_argument_group("Module")
+    group.add_argument('--disable_character', default=False, action='store_true',
+                       help='Active to disable character module.')
+    group.add_argument('--disable_login', default=False, action='store_true',
+                       help='Active to disable login module.')
 
     _parser = parser.parse_args()
     _parser.db_demo_path = DB_DEMO_PATH

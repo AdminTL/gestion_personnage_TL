@@ -44,6 +44,10 @@ function isDefined(x) {
   return x !== undefined;
 }
 
+function isUndefined(x) {
+  return x === undefined;
+}
+
 function GetJsonString(str) {
   var json_parse = null;
   try {
