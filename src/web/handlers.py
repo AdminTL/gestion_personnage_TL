@@ -31,6 +31,12 @@ class IndexHandler(base_handler.BaseHandler):
         self.render('news.html', enable_facebook_feed=ENABLE_FACEBOOK_FEED, **self._global_arg)
 
 
+class ManualPageHandler(base_handler.BaseHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        self.render('manual.html', **self._global_arg)
+
+
 class LoginHandler(base_handler.BaseHandler):
     @tornado.web.asynchronous
     def get(self):

@@ -1,0 +1,89 @@
+.livrederegle .personnage .univers {
+    min-height: 250px;
+    width: col-sm-5;
+}
+
+body {
+    background-color: black;
+    padding-bottom: 70px;
+}
+
+.titre-a {
+    color: white;
+}
+
+.titre-a p {
+    text-align: justify;
+}
+
+.crak {
+    min-height: 15px;
+}
+
+.box {
+    min-height: 250px;
+    max-width: col-sm-5;
+}
+
+.navbar-brand {
+    color: #FF4E00;
+}
+
+#btn-ldr {
+    background-image: url("../icon/livrederegle1.jpg");
+    color: #EB7915;
+    min-height: 250px;
+    width: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-color: black;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+
+}
+
+#btn-per {
+    background-image: url("../icon/joueur2.jpg");
+    color: gold;
+    min-height: 250px;
+    width: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-color: black;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+#btn-uni {
+    background-image: url("../icon/map1.jpg");
+    color: red;
+    min-height: 250px;
+    width: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-color: black;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+#btn-ldr #btn-per #btn-uni {
+    min-height: 250px;
+    width: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-color: black;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.linkbdp {
+    text-size: 1em;
+    color: #D6D2D2;
+}
+
+.anchor {
+    display: block;
+    height: 40px; /*same height as header*/
+    margin-top: -40px; /*same height as header*/
+    visibility: hidden;
+}

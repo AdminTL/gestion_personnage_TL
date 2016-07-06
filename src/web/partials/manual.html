@@ -1,0 +1,677 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+<div ng-controller="manual_ctrl">
+
+  <!--Nav Bar menu interactive follow scroll position -->
+  <!-- Bug, only can manage 2 levels -->
+  <div class="col-xs-3 bs-docs-sidebar">
+    <ul id="sidebar" class="nav nav-stacked">
+      <li ng-repeat="manual_sect_1 in manual">
+        <a target="_self" ng-href="#{{! formatAnchor(manual_sect_1) }}" ng-bind-html="formatMenuNavHtml(manual_sect_1.title)"></a>
+        <ul class="nav nav-stacked">
+          <li ng-repeat="manual_sect_2 in manual_sect_1.section">
+            <a target="_self" ng-href="#{{! formatAnchor(manual_sect_2) }}" ng-bind-html="manual_sect_2.title"></a>
+          </li>
+        </ul>
+      </li>
+      <a class="nav nav-stacked" target="_self" href="#top"> Retour en haut </a>
+    </ul>
+  </div>
+
+  <!-- Main content -->
+  <div class="col-sm-9" style="padding-bottom: 70px;">
+    <span class="anchor" id="top"></span>
+    <h1 class="tl" style="text-align: center">Livre du joueur de Traître-Lame</h1>
+
+    <div ng-repeat="manual_sect_1 in manual">
+      <!-- This span class anchor only exist to help anchor with nav menu top fixed -->
+      <span class="anchor" id="{{! formatAnchor(manual_sect_1) }}"></span>
+      <h1 ng-bind-html="getTitleHtml(manual_sect_1)"></h1>
+      <p ng-bind-html="formatHtmlDescription(manual_sect_1.description)"></p>
+
+      <div ng-repeat="manual_sect_2 in manual_sect_1.section">
+        <span class="anchor" id="{{! formatAnchor(manual_sect_2) }}"></span>
+        <h2 ng-bind-html="getTitleHtml(manual_sect_2)"></h2>
+        <p ng-bind-html="formatHtmlDescription(manual_sect_2.description)"></p>
+
+        <div ng-repeat="manual_sect_3 in manual_sect_2.section">
+          <span class="anchor" id="{{! formatAnchor(manual_sect_3) }}"></span>
+          <h3 ng-bind-html="getTitleHtml(manual_sect_3)"></h3>
+          <p ng-bind-html="formatHtmlDescription(manual_sect_3.description)"></p>
+
+          <div class="panel panel-primary" ng-repeat="manual_sect_4 in manual_sect_3.section">
+            <span class="anchor" id="{{! formatAnchor(manual_sect_4) }}"></span>
+            <div class="panel-heading">
+              <h4 class="panel-title" ng-bind-html="getTitleHtml(manual_sect_4)"></h4>
+            </div>
+            <div class="panel-body">
+              <p ng-bind-html="formatHtmlDescription(manual_sect_4.description)"></p>
+
+              <div class="panel panel-primary" ng-repeat="manual_sect_5 in manual_sect_4.section">
+                <span class="anchor" id="{{! formatAnchor(manual_sect_5) }}"></span>
+                <div class="panel-heading">
+                  <h5 class="panel-title" ng-bind-html="getTitleHtml(manual_sect_5)"></h5>
+                </div>
+                <div class="panel-body">
+                  <p ng-bind-html="formatHtmlDescription(manual_sect_5.description)"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <h1 id="habitech">Habiletés et techniques</h1>
+
+      <h2 id="dismag">Discipline magique</h2>
+      <h3>Artisanat Arcane [c]</h3>
+    <li> Mixture de potions [production] potions
+    <li> Enchantement [production] objets enchantés
+    <li> Infusion [passif] accès aux rituels de création
+    <li> Réparation [touché] répare une armure ou un objet cassé.
+    <li> Disjonction [touché, 1 composante] retire l’aspect enchanté. Mets fin à un rituel.
+      <h3>Rituel [l]</h3>
+    <li> +6 composantes au début du jeu
+    <li> +3 composantes au début du jeu
+    <li> +3 composantes au début du jeu
+    <li> +3 composantes au début du jeu
+    <li> +3 composantes au début du jeu.
+      <h3>Sorcellerie [c]</h3>
+    <li> Frénésie [balle] enragée
+    <li> Terreur [balle] apeurée
+    <li> Noirceur [balle] aveuglée
+    <li> Silence [balle] muet
+    <li> Éclair [balle] 3 de dégât.
+      <h3>Thaumaturgie [c]</h3>
+    <li> Guérison [touché] redonne 1 PV
+    <li> Réanimation [touché] réveille d’assommée avec 0 point de vie et tous ses membres
+    <li> Résurrection [touché, hors combat] passe de mort à assommé.
+    <li> Liberté [touché] met fin à la paralysie
+    <li> Voix [touché] met fin à muet.
+      <h2 id="disprof">Discipline professionnelle</h2>
+      <h3>Baratin [c]</h3>
+    <li> Diplomatie : permets de savoir si la dernière affirmation est vraie
+    <li> Mensonge [sauvegarde] vérité et diplomatie
+    <li> Revenu [passif] génère 10 piécettes par jeu
+    <li> Verbomoteur [sauvegarde] muet
+    <li> Discours [parle à la cible pendant 30 secondes] met fin à dominé.
+      <h3>Marchandage [l]</h3>
+    <li> 4 blocs de production ou composantes, au choix, par jeu
+    <li> +2 blocs de production ou composantes, au choix, par jeu
+    <li> +2 blocs de production ou composantes, au choix, par jeu
+    <li> +2 blocs de production ou composantes, au choix, par jeu
+    <li> +2 blocs de production ou composantes, au choix, par jeu.
+      <h3>Médecine [c]</h3>
+    <li> Opération [touché, 30 secondes] retire une nécrose
+    <li> Suture [touché, 30 secondes] redonne 2 points de vie
+    <li> Psychiatrie [touché] la cible devient calme
+    <li> Relaxation [touché, 5 secondes] met fin à muet
+    <li> Pharmacie [touché, 5 secondes] peut utiliser les médicaments.
+      <h3>Métier [c]</h3>
+    <li> Artisanat [production] filet, corde, baguette, fortification et piège.
+    <li> Forge [production] arme , armure, bouclier, cadenas et engin
+    <li> Herboristerie [production] médicaments
+    <li> Spécialiste I : +2 blocs de production à une production existante (sauf alchimie)
+    <li> Spécialiste II : +2 blocs de production à une production existante (sauf alchimie).
+      <hr>
+      <h1 id="production">Production</h1>
+      <p>Pour produire un objet, un joueur doit écrire sur son bloc de production l’objet qu’il désir créer selon les listes de la présente section. Il doit dépenser un d’énergie et il doit être
+        hors-combat.</p>
+      <p>Il existe deux types d’objet :</p>
+      <p> **Consommable [c]** : l’objet est détruit après usage. L’objet de jeu est représenté par son carton lors d’un dépouillement</p>
+      <p> **Permanent [p]** : l’objet n’est pas détruit par l’usage. L’objet de jeu est représenté par une représentation crédible appartenant au joueur lors d’un dépouillement. Au moment de déposer
+        la représentation au côté du propriétaire, le voleur peut réclamer le carton de jeu à son propriétaire.</p>
+      <h2 id="prod_alch">Alchimie</h2>
+      <p>Il est généralement nécessaire d’appliquer un produit alchimique sur sa lame en la frottant 5 secondes avec une main libre pour en faire usage.</p>
+    <li> **Poison [c]** réduit de 2 l’énergie de tous ceux qui ingèrent la boisson ou la nourriture contaminée jusqu’à ce qu’un antidote soit administré
+    <li> **Toxine [c]** nécessaire à l’utilisation de certaines techniques sournoises.
+    <li> **Venin [c]** ajoute 1 de dégât sur la prochaine touche faite avec l’arme. Cumulatif avec attaque sournoise
+      <h2 id="prod_artisan">Artisan</h2>
+    <li> **Baguette [c]** permet, une fois par combat, de payer le cout en composante du dernier rituel mémorisé pour le mémoriser de nouveau. Usage unique
+    <li> **Corde [p]** permet de paralyser une cible désarmée. Peut être détruit par une lame
+    <li> **Filet [p]** permet de paralyser une cible dont on couvre la tête du filet. Peut être détruit par une lame
+    <li> **Fortification [c]** redonne un point de vie à une forteresse. Une forteresse peut avoir jusqu’à 5 points de vie, mais commence le jeu avec 3
+    <li> **Piège [c]** corde avec une clochette. Inflige 2 de dégât à qui touche la corde quand la clochette sonne.
+      <h2 id="prod_mix">Mixture de potions</h2>
+      <p>Utiliser une potion demande de boire une gorgée dans un contenant rempli d’un liquide quelconque que le joueur transporte sur lui.</p>
+    <li> **Fortitude [c]** donne une sauvegarde contre le poison
+    <li> **Guérison [c]** guérit 1 point de vie
+    <li> **Sagesse [c]** redonne 2 points d’énergie
+      <h2 id="prod_forgeron">Forgeron</h2>
+    <li> **Armure [c]** permet au forgeron de réparer une armure en combat en 15 secondes
+    <li> **Arme [c]** remplace une arme cassée
+    <li> **Bouclier [c]** remplace un bouclier cassé
+    <li> **Cadenas et clef [p]** empêche l’ouverture d’un coffre sans la clef
+    <li> **Engin de siège [p]** inflige 1 de dégât à une fortification. Une personne touchée par un projectile d’engin de siège est morte. Représenté par une baliste, une catapulte ou un bélier
+      fonctionnel et sécuritaire.
+      <h2 id="prod_herboriste">Herboriste</h2>
+      Appliquer un médicament demande de toucher la cible avec une main libre pour 5 secondeset d’avoir la technique pharmacie.
+    <li> **Baume [c]** guérit 2 points de vie
+    <li> **Injection [c]** guérie assommé
+    <li> **Antidote [c]** contre les effets d’un poison.
+      <h2 id="prod_enchantement">Enchantement</h2>
+      Voici la liste des objets sujets à l’enchantement et l’effet associé.
+    <li> **Armure [p]** +1 point de vie à la valeur de l’armure. Ne peut plus être utilisée pour faire une réparation
+    <li> **Arme [p]** une sauvegarde contre cassée par combat
+    <li> **Baguette [p]** peut être utilisé une fois par combat
+    <li> **Bouclier [p]** une sauvegarde contre cassée par combat.
+    <li> **Cadenas [p]** ne peut être ouvert par la technique serrurier
+    <li> **Corde [p]** ne peut être détruit par une lame (le nœud doit être défait pour libérer la cible)
+    <li> **Engin de siège [p]** inflige 2 points de dégât à une fortification
+    <li> **Filet [p]** ne peut être détruit par une lame (le filet doit être retiré de sur sa cible)
+    <li> **Fortification [p]** peut être fortifié jusqu’à 10 points de vie.
+      <hr>
+      <h1 id="ritueldedepart">Rituels de départ</h1>
+      <p>Au moment de choisir l’habileté rituel, un personnage peut inscrire deux des trois rituels disponibles à son école dans son livre de sort. Il peut faire de même pour l’école de création quand
+        il choisit la technique infusion. Les rituels sont présentés comme suit. Le nombre entre parenthèses est le cout en composantes. Le nom du rituel suit. L’information entre crochets précise la
+        durée et la portée du sort si applicable. La description conclut. </p>
+      <h2 id="rituel_démonolgie">Démonologie</h2>
+    <li> (4) Possession [jeu, personnel] le personnage accepte un démon en sa chaire. Il doit inclure une mutation à son costume ainsi qu’un motif rouge à son visage. Le joueur
+      choisit une technique parmi toutes les habiletés qui lui sont disponibles et l’ajoute à son personnage.
+    <li> (1) Dissipation [touché] met fin à tous les sorts non permanents sur la cible.
+    <li> (1) Sacrifice [personnel] l’initiateur peut convertir ses points d’énergie actuels en points de vie, jusqu’à son maximum habituel. Il peut aussi choisir de transformer ses points de vie en
+      énergie, toujours jusqu’à son maximum usuel.
+      <h2 id="rituel_élémentaire">Élémentaire</h2>
+    <li> (2) Peau de pierre [jeu, personnel] l’initiateur doit porter un maquillage gris sur sa peau. La peau de l’initiateur est considérée comme une armure conférant 4 points de vie. Elle se répare
+      avec une composante pendant un repos.
+    <li> (1) Combustion [touché] cassée.
+    <li> (1) Armes élémentaires [personnel] +1 de dégât aux 2 prochaines touches.
+      <h2 id="rituel_naturelle">Naturelle</h2>
+    <li> (4) Armure d’écorces [jeu, personnel] la peau se couvre d’écorces, conférant une armure de 3 points de vie. Le joueur doit porter un maquillage brun ou une représentation d’écorces sur son
+      costume. Réparer l’armure d’écorce coute un repos.
+    <li> (1) Séisme [à vue] la forteresse désignée reçoit 3 points de dégât.
+    <li> (1) Camouflage [touché] caché tant qu’immobile.
+      <h2 id="rituel_nécromancie">Nécromancie</h2>
+    <li> (4) Nécromorphose [jeu, personnel] l’initiateur doit porter un maquillage (un motif visible) ou un masque blanc. L’initiateur peut discuter avec les morts. Il est aussi immunisé à la peur et
+      à la domination.
+    <li> (1) Animation [touché, joueur mort] revient à la vie en tant que zombie sous la domination de l’initiateur avec 5 points de vie et aucune énergie. Un zombie est sans intelligence et ne peut
+      pas communiquer, utiliser une technique ou retenir d’information. Quand un zombie tombe assommé ou que 15 minutes se sont écoulées, le joueur se rend au cimetière où il revient à la vie selon
+      les règles normales, mais sans coût de karma.
+    <li> (1) Décomposition [touché] nécrose.
+      <h2 id="rituel_protection">Protection</h2>
+    <li> (2) Aura [jeu, personnel] l’initiateur est baignée d’un halo de lumière. Il doit porter un symbole blanc et jaune au visage. Sa peau est considérée comme une armure conférant 2 points de vie
+      et se répare avec le sort réparation.
+    <li> (1) Bouclier [touché] la cible gagne un point de vie additionnel.
+    <li> (1) Vérité [hors-combat] la cible doit répondre à la prochaine question par la vérité.
+      <h2 id="rituel_création">Création</h2>
+      <p>L’école de création est un art rituel expérimental. Il permet aux joueurs de créer des objets magiques permanents ou temporaires et certaines formes de bénédictions et de malédictions. Le
+        facteur qui détermine cela est l’objet cible du rituel, qui peut être n’importe quel objet se trouvant dans la section production. La puissance du rituel est à la hauteur du nombre de
+        composantes sacrifiées dans celui-ci, avec le nombre de points de protocole équivalent. Dans un rituel de création, il est possible de remplacer jusqu’à la moitié des composantes requises par
+        des blocs de production. Ces blocs doivent tous être du même type, et orientent le résultat final du rituel. Aucun rituel de création ne fonctionne en dessous de 6 composantes, et un
+        investissement de plus de 30 devrait toujours être associé à une piste en jeu. Tous les détails de l’expérience sont consignés au livre de sort du joueur. L’effet du rituel est déterminé par
+        l’organisation après l’expérience. Le joueur pourra créer le même objet avec le même rituel une fois la première expérience complétée. </p>
+      <p>*NOTE : Les rituels de création n’offrent aucune garantie. Il est possible de composer deux rituels différents et de finir avec le même effet. Il est aussi possible de maudire son propre
+        personnage à travers un rituel de création. </p>
+
+      <hr/>
+      <h1 id="ritcré">Rituels - Création
+        <small>Sous-écoles: Artisanat, Forgeron, Mélange et Liquide, Portail et Zone.</small>
+      </h1>
+      <h1 id="ritcré_artisanat">Artisanat</h1>
+      <p>La sous école Artisanat regroupe les objets créé par l’artisan, en plus des vêtements, accessoires et contenants. Les artisanat magiques sont les outils de stratégie par excellence. Que ce
+        soit pour un plan de kidnapping, un vol de haut niveau ou la sécurité d’un objet précieux, les artisanats magique ont la solution.</p>
+      <h3>Baguette</h3>
+      <p>
+        <small>(Baguette : permet, une fois par combat, de payer le coût en composante du dernier rituel mémorisé pour le mémoriser de nouveau. Usage unique.)</small>
+      </p>
+      <p>Une baguette créé par un Rituel de Création permet de stocker un rituel[sort] et de s’en servir plus tard. N’importe qui peut utiliser une baguette “magique” une fois fabriquée. Pour se faire
+        la baguette doit être la cible du Rituel désiré, le faire en suivant ses protocoles et en payer les composantes. Le fabricant de la baguette “magique” n’est pas obliger d’être celui qui
+        connaît le rituel à infuser. Puis, la même baguettes doit être au centre du Rituel de Création, en suivre les protocoles et payer 5 fois les composantes magique du rituel infusé. Il est
+        possible d’augmenter les charges unique de la baguette en payant chaque fois, 5 fois les composantes magique du rituel infusé.</p>
+      <h3>Filet</h3>
+      <p>
+        <small>( Filet : Permet de paralyser une cible dont on couvre la tête du filet. Peut être cassé par une lame;)</small>
+      </p>
+      <p>6 - 7 composantes: filet avec effet sur capture</p>
+      <ul>
+        <li><p>Aveugle;</p></li>
+        <li><p>Foudroyé;</p></li>
+        <li><p>Désarmé.</p></li>
+      </ul>
+      <p>8 - 9 composantes: filet avec effet sur capture</p>
+      <ul>
+        <li><p>Calme;</p></li>
+        <li><p>Caché;</p></li>
+        <li><p>Muet.</p></li>
+      </ul>
+      <p>10 - 11 composantes: </p>
+      <ul>
+        <li><p>Dominé (note: la cible est paralysée, mais peut marcher)</p></li>
+        <li><p>Assommé;</p></li>
+        <li><p>Immatérielle.</p></li>
+      </ul>
+      <p>12 à 15 composantes: Filet avec une capacité extraordinaire</p>
+      <ul>
+        <li><p>Affecte l’immatériel;</p></li>
+        <li><p>Donne une nécrose sur capture;</p></li>
+        <li><p>Drain complet de l’énergie;</p></li>
+        <li><p>Animation [consommable] un cadavre se lève en goule sous votre contrôle (10PV, aucune énergie)</p></li>
+      </ul>
+      <p>16 à 30 composantes: objets économiques et scénario</p>
+      <ul>
+        <li><p>Filet de pêche: génère [composantes/10] rations par jeu;</p></li>
+        <li><p>Filet d’esclavagiste: génère [composantes/15] esclaves par jeu;</p></li>
+        <li><p>Atrapeur de rêves: génère [composantes/10] blocs d’enchantement par jeu;</p></li>
+      </ul>
+      <br/>
+      <h3>Corde</h3>
+      <p>6 - 7 composantes: corde avec effet sur capture</p>
+      <ul>
+        <li><p>Aveugle;</p></li>
+        <li><p>Foudroyé;</p></li>
+        <li><p>Désarmé.</p></li>
+      </ul>
+      <p>8 - 9 composantes: corde avec effet sur capture</p>
+      <ul>
+        <li><p>Calme;</p></li>
+        <li><p>Caché;</p></li>
+        <li><p>Muet.</p></li>
+      </ul>
+      <p>10 - 11 composantes: corde avec effet sur capture</p>
+
+      <ul>
+        <li><p>Dominé (note: la cible est paralysée, mais peut marcher)</p></li>
+        <li><p>Assommé;</p></li>
+        <li><p>Immatérielle.</p></li>
+      </ul>
+      <p>12 à 15 composantes: Filet avec une capacité extraordinaire</p>
+      <ul>
+        <li><p>Affecte l’immatériel;</p></li>
+        <li><p>Donne une nécrose sur capture;</p></li>
+        <li><p>Drain complet de l’énergie;</p></li>
+      </ul>
+      <p>16 à 30 composantes: objets économiques et scénario</p>
+      <ul>
+        <li><p>Corde du pendu: permet de tuer de façon permanente un joueur accusé dans une cours de justice légitime;</p></li>
+        <li><p>Collet: génère [composante/10] rations par jeu;</p></li>
+        <li><p>Corde infinie: génère [composantes/10] blocs artisanaux par jeu.</p></li>
+      </ul>
+      <h3>Fortification</h3>
+      <p>
+        <small>(Fortification : redonne un point de vie à une forteresse. Une forteresse peut avoir jusqu’à 5 points de vie, mais commence le jeu avec 3.)</small>
+      </p>
+      <p>6 - 7 composantes: effet à usage unique affectant tous le monde à l’intérieur d’un bâtiment*</p>
+      <ul>
+        <li><p>Guérison 2;</p></li>
+        <li><p>Regain d’énergie 1;</p></li>
+        <li><p>Dégât 1;</p></li>
+        <li><p>drain d’énergie 1.</p></li>
+      </ul>
+      <p>8 - 9 composantes: effet à usage unique affectant tous le monde à l’intérieur d’une enceinte**</p>
+      <ul>
+        <li><p>Guérison 2;</p></li>
+        <li><p>Regain d’énergie 1;</p></li>
+        <li><p>Dégât 1;</p></li>
+        <li><p>drain d’énergie 1.</p></li>
+      </ul>
+      <p>10 - 11 composantes: effet à usage unique affectant tous le monde à l’intérieur d’un bâtiment*</p>
+      <ul>
+        <li><p>Réanimation;</p></li>
+        <li><p>Résurrection;</p></li>
+        <li><p>Foudroyé;</p></li>
+        <li><p>Nécrose;</p></li>
+      </ul>
+      <p>12 - 13 composantes: effet à usage unique affectant tous le monde à l’intérieur d’une enceinte**</p>
+      <ul>
+        <li><p>Réanimation;</p></li>
+        <li><p>Résurrection;</p></li>
+        <li><p>Foudroyé;</p></li>
+        <li><p>Nécrose;</p></li>
+      </ul>
+      <p>14 - 15 composantes: effet permanent affectant tous le monde prenant un repos dans le bâtiment*</p>
+      <ul>
+        <li><p>+1 énergie maximum. Perdure jusqu’à utilisation;</p></li>
+        <li><p>Répare l’armure (ne fonctionne pas sur les rituels d’armure);</p></li>
+        <li><p>+1 point de vie maximum. Perdure jusqu’à ce que perdu;</p></li>
+        <li><p>Nécrose</p></li>
+      </ul>
+      <p>16 - 17 composantes: effet permanent affectant tous le monde prenant un repos dans l’enceinte**</p>
+      <ul>
+        <li><p>Répare l’armure (ne fonctionne pas sur les rituels d’armure);</p></li>
+        <li><p>+1 point de vie maximum. Perdure jusqu’à ce que perdu;</p></li>
+        <li><p>Nécrose</p></li>
+      </ul>
+      <p>18 - 19 composantes: effet permanent affectant tous le monde prenant un repos dans le bâtiment*</p>
+      <ul>
+        <li><p>+1 énergie maximum. Perdure jusqu’à utilisation;</p></li>
+        <li><p>-1 karma;</p></li>
+        <li><p>Répare une armure rituelle.</p></li>
+      </ul>
+      <p>20 - 30 composantes: transformation d’un bâtiment* en commerce de niveau [(composantes - 15)/5]</p>
+      <ul>
+        <li><p>Distillerie;</p></li>
+        <li><p>Forge;</p></li>
+        <li><p>Atelier;</p></li>
+        <li><p>Cercle runique;</p></li>
+        <li><p>Laboratoire;</p></li>
+        <li><p>Pharmacie.</p></li>
+      </ul>
+      <p>*un bâtiment est une construction qui dispose d’un toi, de quatre murs et d’un plancher;</p>
+      <p>**une enceinte est une construction qui est ceinturé d’un mur, mais qui n’a pas nécessairement un toit. L’organisation peut désigner tout lieu comme étant réputé être une enceinte. Par
+        exemple: l’arène.</p>
+      <br/>
+      <h3>Piège</h3>
+      <p>
+        <small>(Piège: corde avec une clochette. Inflige 2 de dégât à qui touche la corde quand la clochette sonne)</small>
+      </p>
+      <p>6 - 7 composantes: piège avec effet additionnel sur déclenchement (l’effet est sur un papier sur la corde)</p>
+      <ul>
+        <li><p>Désarmé;</p></li>
+        <li><p>Foudroyé;</p></li>
+        <li><p>Muet;</p></li>
+        ritcré
+      </ul>
+      <p>8 - 9 composantes: piège avec effet additionnel sur déclenchement (l’effet est sur un papier sur la corde)</p>
+      <ul>
+        <li><p>Démembré;</p></li>
+        <li><p>Peur;</p></li>
+        <li><p>Aveugle;</p></li>
+      </ul>
+      <p>10 - 11 composantes: piège avec effet additionnel sur déclenchement (l’effet est sur un papier sur la corde)</p>
+      <ul>
+        <li><p>Enragé;</p></li>
+        <li><p>Calme;</p></li>
+        <li><p>Cassé;</p></li>
+      </ul>
+      <p>12 - 15 composantes: piège avec effet additionnel sur déclenchement (l’effet est sur un papier sur la corde)</p>
+      <ul>
+        <li><p>Assommé;</p></li>
+        <li><p>Paralysé (5 minutes);</p></li>
+        <li><p>Nécrose;</p></li>
+      </ul>
+      <p>16 - 20 composantes: Pièges avec faculté extraordinaire;</p>
+      <ul>
+        <li><p>Ne peut être désarmé;</p></li>
+        <li><p>Inflige 4 de dégât;</p></li>
+        <li><p>Affecte l’éthéré seulement (le piège est alors représenté par un laser);</p></li>
+      </ul>
+      <p>21 à 30 composantes: Pièges à usage économique ou salternatif.</p>
+      <ul>
+        <li><p>Fausse d’esclavagiste: génère [composantes/15] esclaves par jeu;</p></li>
+        <li><p>Piège de poche: si un token de vol à la tire est inséré dans la même poche que le piège, l’initiateur du vol à la tir tombe assommé;</p></li>
+        <li><p>Contingence: permet de lier l’activation d’un rituel à un mot ou un geste.</p></li>
+      </ul>
+      <p>Forgeron</p>
+      <p>Cette sous-école rassemble les rituels affectant tous les objets de métal. Elle comprend également les rituels touchant à l’or, l’argent et les métaux spéciaux. La magie des bijoux provient
+        généralement de cette sous-école.</p>
+      <p>Armures</p>
+      <p>(Armure : permet au forgeron de réparer une armure en combat en 15 secondes.)</p>
+      <p>6 - 18 composantes: effet permanent sur le porteur (c = nombre de composantes);</p>
+      <ul>
+        <li><p>+[c/6]karma au début du jeu;</p></li>
+        <li><p>-[c/6]karma au début du jeu;</p></li>
+        <li><p>+[c/6] points de vie (entre 6 et 9, +0);</p></li>
+        <li><p>+[c/6] énergie maximum (entre 6 et 9, +0);</p></li>
+        <li><p>+[c/6] nécroses;</p></li>
+        <li><p>-[c/6] énergie maximum;</p></li>
+      </ul>
+      <p>19 - 20 composantes: protège contre certains assauts;</p>
+      <ul>
+        <li><p>Protection contre la possession;</p></li>
+        <li><p>Protection contre les attaques venant de l’immatériel;</p></li>
+        <li><p>Protection contre la perte d’objet quand le joueur devient immatériel;</p></li>
+      </ul>
+      <p>21 - 30 composantes: armure à signification scénario;</p>
+      <ul>
+        <li><p>Protection contre le psychisme;</p></li>
+        <li><p>Protection contre un environnement hostile:</p></li>
+        <ul>
+          <li><p>Zone de l’enfer:</p></li>
+          <ul>
+            <li><p>Abadon;</p></li>
+            <li><p>Nirvana;</p></li>
+            <li><p>Néposd;</p></li>
+          </ul>
+          <li><p>Plan élémentaire (eau, terre air ou feu);</p></li>
+          <li><p>Cosmos;</p></li>
+          <li><p>Néant.</p></li>
+        </ul>
+        <li><p>Protection contre les assauts cosmiques.</p></li>
+      </ul>
+      <p>Armes</p>
+      <p>(Arme : remplace une arme cassée;)</p>
+      <p>6 - 7 composantes: imite une technique gratuitement, une fois par combat</p>
+      <ul>
+        <li><p>Attaque sournoise</p></li>
+        <li><p>Jambette;</p></li>
+        <li><p>Désarmement;</p></li>
+      </ul>
+      <p>8 - 9 composantes: imite une technique gratuitement, une fois par combat</p>
+      <ul>
+        <li><p>Assaut;</p></li>
+        <li><p>Coupe-jarret;</p></li>
+        <li><p>Stylet;</p></li>
+      </ul>
+      <p>10 - 11 composantes: donne accès à une technique, utilisant l’énergie du porteur</p>
+      <ul>
+        <li><p>Attaque sournoise</p></li>
+        <li><p>Jambette;</p></li>
+        <li><p>Désarmement;</p></li>
+      </ul>
+      <p>12 - 13 composantes: donne accès à une technique, utilisant l’énergie du porteur</p>
+      <ul>
+        <li><p>Assaut;</p></li>
+        <li><p>Coupe-jarret;</p></li>
+        <li><p>Stylet;</p></li>
+      </ul>
+      <p>14 - 15 composantes: imite une technique gratuitement, une fois par combat (inclue la toxine)</p>
+      <ul>
+        <li><p>Aveuglement;</p></li>
+        <li><p>Coup bas;</p></li>
+        <li><p>Coup sonnant.</p></li>
+      </ul>
+      <p>16 - 20 composantes: l’arme inflige 1 de dégât additionnel sur un type de créature.</p>
+      <ul>
+        <li><p>Mort-vivant;</p></li>
+        <li><p>Naturel (trucs druidiques);</p></li>
+        <li><p>Nature corrompue (Natueur et cie);</p></li>
+        <li><p>Démons;</p></li>
+        <li><p>Gardiens;</p></li>
+        <li><p>Anges.</p></li>
+      </ul>
+      <p>21 - 30 composantes: Armes à effet sur une touche. Utilisable l’énergie du joueur jusqu’à un maximum de [1+((c-20)/5)] fois par combat.</p>
+      <ul>
+        <li><p>Nécrose;</p></li>
+        <li><p>Drain 1 (inflige 1 de dégât et regagne 1 point de vie);</p></li>
+        <li><p>-1 énergie sur la cible;</p></li>
+        <li><p>Peur;</p></li>
+        <li><p>Calme.</p></li>
+      </ul>
+      <p>Bouclier</p>
+      <p>(Bouclier : remplace un bouclier cassé;)</p>
+      <p>6 - 7 composantes: imite une technique gratuitement, une fois par combat</p>
+      <ul>
+        <li><p>Esquive</p></li>
+        <li><p>Déflexion;</p></li>
+        <li><p>Déviation;</p></li>
+      </ul>
+      <p>8 - 9 composantes: imite une technique gratuitement, une fois par combat</p>
+      <ul>
+        <li><p>Santé;</p></li>
+        <li><p>Second-souffle;</p></li>
+        <li><p>Verbomoteur;</p></li>
+      </ul>
+
+      <p>10 - 11 composantes: donne accès à une technique, utilisant l’énergie du porteur</p>
+
+      <ul>
+        <li><p>Esquive</p></li>
+        <li><p>Déflexion;</p></li>
+        <li><p>Déviation;</p></li>
+      </ul>
+
+      <p>12 - 13 composantes: donne accès à une technique, utilisant l’énergie du porteur</p>
+
+      <ul>
+        <li><p>Santé;</p></li>
+        <li><p>Second-souffle;</p></li>
+        <li><p>Verbomoteur;</p></li>
+      </ul>
+
+      <p>14 - 15 composantes: le bouclier prend la forme d’un bijou. Donne accès une technique, utilisant l’énergie du porteur. </p>
+
+      <ul>
+        <li><p>Mensonge;</p></li>
+        <li><p>Évasion;</p></li>
+        <li><p>Dissimulation;</p></li>
+        <li><p>Camouflage;</p></li>
+      </ul>
+      <p>16 - 20 composantes: Sauvegarde les rituels provenant d’une école de rituel, au coût d’un d’énergie..</p>
+      <ul>
+        <li><p>Protection;</p></li>
+        <li><p>Création;</p></li>
+        <li><p>Nécromancie;</p></li>
+        <li><p>Démonologie;</p></li>
+        <li><p>Élémentaire;</p></li>
+        <li><p>Naturel.</p></li>
+      </ul>
+      <p>21 - 30 composantes: sauvegarde contre les mécaniques de combat et scénario d’une nature.</p>
+      <ul>
+        <li><p>École rituel précise;</p></li>
+        <li><p>Pouvoir de source infernal;</p></li>
+        <li><p>Pouvoir de source divine;</p></li>
+        <li><p>Pouvoir de source cosmique;</p></li>
+        <li><p>Pouvoir de source druidique;</p></li>
+        <li><p>Pouvoir de source naturelle corrompue.</p></li>
+      </ul>
+      <p>Cadenas</p>
+      <p>(Cadenas et clef : empêche l’ouverture d’un coffre sans la clef;)</p>
+      <p>Un cadenas magique ne peut -être ouvert que par un mot de commande écrit dans une enveloppe dans le coffre qu’il sert à barrer. Pour crocheter le cadenas, il faut d’abord briser
+        l’enchantement. Un mage avec infusion et disjonction doit ramasser un nombre de composantes égal au nombre cumulé pour faire le cadenas et faire un rituel cumulant autant de points de
+        protocole. Le cadenas redevient alors normal, et peut être crocheté. Le nombre de composantes investit dans le rituel de création du cadenas doit être clairement indiqué sur la représentation
+        du cadenas. Dès qu’un cadenas magique est créé, la mécanique pour les briser doit faire partie du speech de départ. Le Poste de Traite informe aussi les voleurs curieux de la procédure.</p>
+      <p>Engin de siège</p>
+      <p>(Engin de siège : inflige 1 de dégât à une fortification. Une personne touchée par un projectile d’engin de siège est morte.)</p>
+      <ul>
+        <li><p>Inflige 1+[c/6] dégât à une fortification (entre 2 et 6). Cumulable avec l’effet d’un enchantement.</p></li>
+      </ul>
+      <h1 id="ritcré_autre">Autre</h1>
+      <p>Joyaux</p>
+      <p>(Joyau : effets scénario divers. Limite de 3 joyaux par personnage dans un même jeu)</p>
+      <p>6 - 7 composantes: effet sur le porteur, instantané, une fois par jeu.</p>
+      <ul>
+        <li><p>+1 karma;</p></li>
+        <li><p>Guérison 2;</p></li>
+        <li><p>Regain de 2 d’énergie;</p></li>
+      </ul>
+      <p>8 - 9 composantes: effets économique mineur;</p>
+      <ul>
+        <li><p>Génère 1 bloc par jeu;</p></li>
+        <li><p>Génère 10 pièces par jeu;</p></li>
+        <li><p>Génère 1 composante par jeu;</p></li>
+      </ul>
+      <p>10 - 11 composantes: effet au touché, instantané, une fois par jeu.</p>
+      <ul>
+        <li><p>Muet;</p></li>
+        <li><p>Aveugle;</p></li>
+        <li><p>Démembré.</p></li>
+      </ul>
+      <p>12 - 13 composantes: technique octroyée au porteur;</p>
+      <ul>
+        <li><p>Mensonge;</p></li>
+        <li><p>Résilience;</p></li>
+        <li><p>Loyauté;</p></li>
+      </ul>
+      <p>14 - 15 composantes: effet permanent sur le porteur;</p>
+      <ul>
+        <li><p>Protection contre l’animation;</p></li>
+        <li><p>Protection contre la possession;</p></li>
+        <li><p>+2 points de vie quand ne porte pas d’armure;</p></li>
+      </ul>
+      <p>16 - 30 composantes: effet économique majeur;</p>
+      <ul>
+        <li><p>Génère [c/10] blocs, au choix, par jeu;</p></li>
+        <li><p>Génère 1 + [c/10] composantes par jeu;</p></li>
+        <li><p>Génère [c/10] pierres d’âme par jeu;</p></li>
+        <li><p>Génère [c/5] pierres de sanglite par jeu;</p></li>
+        <li><p>Génère [c/5] pierres de bluame par jeu;</p></li>
+        <li><p>Génère [c/5] pierres de malachite par jeu;</p></li>
+      </ul>
+      <p>Mélanges et Liquides</p>
+      <p>Cette sous-école correspond aux habiletés d’alchimie, herboristerie et concoctions de potion. Les rituels à base d’un objet d'alchimie crée des maladies. Les rituels à base d’herboristerie
+        crée des antidotes et des remèdes aux maladies magiques. Les rituels a base de potion sont quand à eux varié, certain permettent d'améliorer une potion a des niveaux de magie hallucinante
+        d’autre de provoquer des effets spectaculaires et unique.</p>
+      <p>Alchimie</p>
+      <p>(Ressources : champignon, venin ou plante. Poison: réduit de 2 l’énergie. Toxine: foudroie, Venin: ajoute 1 de dégât.)</p>
+      <p>Légende :</p>
+      <p>[Sang] Transmise quand on touche le joueur assommé ou mort.</p>
+      <p>[Air] Transmise le joueur touche à main nue la peau d’un autre joueur.</p>
+      <p>[Salive] Transmise quand un joueur partage de la nourriture ou un breuvage.</p>
+      <p>[Famine] Un joueur est infecté pour chaque point en carence alimentaire dans la géopolitique (selon leur faction).</p>
+      <p>[6] Peste commune: [sang] 1 nécrose inopérable.</p>
+      <p>[6] Spore parasite: [air] - 2 à l’énergie.</p>
+      <p>[6] Grippe: [air] -2 au karma.</p>
+      <p>[8] Peste noire: [sang] 2 nécroses inopérables.</p>
+      <p>[8] Spore débilitant: [salive] -4 à l’énergie.</p>
+      <p>[8] Choléra: [salive] -4 au karma.</p>
+      <p>[10] Peste Figaro: [sang] 3 nécroses inopérables.</p>
+      <p>[10] Démence: [famine] -6 à l’énergie.</p>
+      <p>[10] Malédiction: [famine] -6 au karma.</p>
+      <p>[15] Virus de Valcenne: [air] 1 nécrose inopérable, -2 à l’énergie et au karma.</p>
+      <p>[15] Bactérie cannibale: [sang] 2 nécroses inopérables et -4 au karma.</p>
+      <p>[15] Décomposition nerveuse: [famine] 2 nécroses inopérables et -4 à l’énergie.</p>
+      <p>[15] Dépression: [famine] -4 karma et énergie.</p>
+      <p>[20] Lèpre: [sang] 2 nécroses inopérables, -4 à l’énergie et au karma.</p>
+      <p>[20] Cancer: [famine] 3 nécroses inopérables et -6 au karma.</p>
+      <p>[20] Bactérie nervophage: [salive] 3 nécroses inopérables et -6 à l’énergie.</p>
+      <p>[20] Nécrose de l’âme: [famine] -6 à l’énergie et au karma.</p>
+      <p>[30] Vengeance de Finosia: [sang] 3 nécroses inopérables, -6 au karma et à l’énergie.</p>
+      <p>[30] Drain de l’âme: [famine] Ne peut pas utiliser de techniques.</p>
+      <p>Herboristerie</p>
+      <p>(Ressources : calmant, stimulant et contrepoison. Baume : guérit 2 points de vie. Injection : guérit assommé. Antidote : contrepoison.)</p>
+      <p>Les rituels avec les médicaments permettent de guérir les gens des maladies créées par les rituels de création sur l’alchimie. La force doit être équivalente à celle utilisée pour créer la
+        maladie. Le rituel crée une recette qu’un herboriste peut utiliser pour synthétiser un bloc de production en remède pour la maladie précise. Chaque fois que le rituel est répété, il est
+        possible d’enseigner la recette à un autre herboriste.</p>
+      <p>Le rituel va toujours donner le bon remède si le joueur peut identifier la maladie et la puissance nécessaire pour la révoquer. Un joueur peut aussi essayer de transformer un remède sans
+        connaître de maladie. À ce moment, le joueur apprend une recette au hasard capable de soigner une des maladies de la liste alchimie. Appliquer la maladie la plus près en puissance.</p>
+      <p>Potions</p>
+      <p>(Ressources : philtre, poudre et essence. Fortitude: une sauvegarde poison. Guérison : guérit 1 pv. Sagesse : redonne 2 d’énergie.)</p>
+      <p>Les potions utilisées en rituel de création permettent de bénir un certain nombre de participants pour la durée du jeu, à moins d’avertissement contraire. Les avantages ne peuvent pas
+        surpasser les maximums établis du système. Certains rituels font effet dès qu’ils sont terminer, d’autre permette de garder l’effet en bouteille.</p>
+      <p>Légende:</p>
+      <p>[bénédiction] L’effet du rituel est instantané et affect le nombre de joueur inscrit dans la description.</p>
+      <p>[bouteille] Le rituel se conserve en bouteille et doit être bu pour faire effet.</p>
+      <p>[6] Nuit liquide: [bouteille] Usage unique. Une fois lancé au sol la fiole libère un nuage de noirceur qui aveugle toute les cible dans un rayon de 5 pas de la bouteille. (Utiliser une
+        bouteille incassable)</p>
+      <p>[6] Bénédiction I: [bénédiction] +1 point de vie pour 3 personnes.</p>
+      <p>[6] Méditation I: [bénédiction] +1 énergie pour 3 personnes.</p>
+      <p>[6] Prière I: [bénédiction] +2 karma pour 3 personnes.</p>
+      <p>[8] Bénédiction I: [bénédiction] +1 point de vie pour 6 personnes.</p>
+      <p>[8] Méditation I: [bénédiction] +1 énergie pour 6 personnes.</p>
+      <p>[8] Prière I: [bénédiction] +2 karma pour 6 personnes.</p>
+      <p>[10] Bénédiction I: [bénédiction] +1 point de vie pour 9 personnes.</p>
+      <p>[10] Méditation I: [bénédiction] +1 énergie pour 9 personnes.</p>
+      <p>[10] Prière I: [bénédiction] +2 karma pour 9 personnes.</p>
+      <p>[15] Bénédiction II: [bénédiction] +2 points de vie pour 3 personnes.</p>
+      <p>[15] Méditation II: [bénédiction] +2 énergie pour 3 personnes.</p>
+      <p>[15] Prière II: [bénédiction] +4 karma pour 3 personnes.</p>
+      <p>[20] Bénédiction II: [bénédiction] +2 points de vie pour 6 personnes.</p>
+      <p>[20] Méditation II: [bénédiction] +2 énergie pour 6 personnes.</p>
+      <p>[20] Prière II: [bénédiction] +4 karma pour 6 personnes.</p>
+      <p>[25] Bénédiction II: [bénédiction] +2 points de vie pour 9 personnes.</p>
+      <p>[25] Méditation II: [bénédiction] +2 énergie pour 9 personnes.</p>
+      <p>[25] Prière II: [bénédiction] +4 karma pour 9 personnes.</p>
+      <p>[20] Bénédiction III: [bénédiction] +3 points de vie pour 3 personnes.</p>
+      <p>[20] Méditation III: [bénédiction] +3 énergie pour 3 personnes.</p>
+      <p>[20] Prière III: [bénédiction] +6 karma pour 3 personnes.</p>
+      <p>[30] Bénédiction III: [bénédiction] +3 points de vie pour 6 personnes.</p>
+      <p>[30] Méditation III: [bénédiction] +3 énergie pour 6 personnes.</p>
+      <p>[30] Prière III: [bénédiction] +6 karma pour 6 personnes.</p>
+      <p>[40] Bénédiction III: [bénédiction] +3 points de vie pour 9 personnes.</p>
+      <p>[40] Méditation III: [bénédiction] +3 énergie pour 9 personnes.</p>
+      <p>[40] Prière III: [bénédiction] +6 karma pour 9 personnes.</p>
+      <p>[30] Gloire: [bénédiction] +1 point de vie, +1 d’énergie et +2 karma pour tous les participants.</p>
+      <p>[30] Pouvoir de Brokrand: [bénédiction] +2 points de vie et +2 d’énergie pour tous les participants.</p>
+      <p>[30] Lumière d’Eccani: [bénédiction] +2 d’énergie et +4 karma pour tous les participants.</p>
+      <p>[30] Force de Nox: [bénédiction] +2 points de vie et +4 karma pour tous les participants.</p>
+      <hr/>
+
+
+  </div>
+</div>
+{% end %}

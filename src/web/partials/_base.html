@@ -16,19 +16,27 @@
   <!-- Custom style -->
   <link href="{{ static_url('resources/css/_base.css') }}" rel="stylesheet">
   <link href="{{ static_url('resources/css/_base_dark.css') }}" rel="stylesheet">
+  <link href="{{ static_url('resources/css/bootstrap_doc_sidebar.css') }}" rel="stylesheet">
+  <link href="{{ static_url('resources/css/tl.css') }}" rel="stylesheet">
 </head>
 <body ng-controller="page_ctrl">
 
 <!-- Fixed navbar -->
-<div class="navbar navbar-inverse navbar-fixed-top">
+<nav role="navigation" class="navbar navbar-default navbar-fixed-top">
   <div class="container">
     <div class="navbar-header">
-      <a class="navbar-brand" style="color:#FF4E00;">Traitre-Lame</a>
+      <a class="navbar-brand">Traître-Lame</a>
       <ul class="nav navbar-nav">
-        <li><a href="/">Nouvelle</a></li>
+        <li><a href="/">Accueil</a></li>
         {% if current_user and current_user.is_admin() %}
         <li><a href="admin">Admin</a></li>
         {% end %}
+        {% if not disable_character %}
+        <li><a href="character">Personnage</a></li>
+        {% end %}
+        <li><a href="manual">Livre de règle</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
         {% if not disable_login %}
         {% if not current_user %}
         <li><a href="login">Login</a></li>
@@ -36,13 +44,10 @@
         <li><a style="color:#2864E6;" href="#" ua-logout>Log out</a></li>
         {% end %}
         {% end %}
-        {% if not disable_character %}
-        <li><a href="character">Personnage</a></li>
-        {% end %}
       </ul>
     </div>
   </div>
-</div>
+</nav>
 
 <noscript>
   <h1 class="detect_javascript_enable">
@@ -53,12 +58,20 @@
 </noscript>
 
 {% block container %}
-<div class="container theme-showcase">
-  <div class="row">
-    {% block content %}{% end %}
-  </div>
-</div>
+<!--<div class="container theme-showcase">-->
+<!--<div class="row">-->
+{% block content %}{% end %}
+<!--</div>-->
+<!--</div>-->
 {% end %}
+
+<nav class="navbar navbar-inverse navbar-fixed-bottom linkbdp" style="background-color: black; text-align: center">
+  <div class="container-fluid">
+    Visitez notre <a href="https://www.facebook.com/groups/TraitreLame/?ref=bookmarks">groupe Facebook</a>,
+    Visitez notre <a href="https://www.facebook.com/traitrelame/">page Facebook,</a>
+    Visitez le site de <a href="http://gn.qc.ca/">l'Atelier du Loisir</a>.
+  </div>
+</nav>
 
 {% if use_internet_static %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
@@ -120,6 +133,10 @@
 <script src="{{ static_url('resources/js/tl_module/login_ctrl/login_ctrl.js') }}"></script>
 <script src="{{ static_url('resources/js/tl_module/news_ctrl/news_ctrl.js') }}"></script>
 <script src="{{ static_url('resources/js/tl_module/page_ctrl/page_ctrl.js') }}"></script>
+<script src="{{ static_url('resources/js/tl_module/manual_ctrl/manual_ctrl.js') }}"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="{{ static_url('resources/js/bootstrap_doc_sidebar.js') }}"></script>
 
 </body>
 </html>

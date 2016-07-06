@@ -12,7 +12,7 @@ WEB_DEFAULT_STATIC_DIR = os.path.join(WEB_ROOT_DIR)
 WEB_DEFAULT_TEMPLATE_DIR = os.path.join(WEB_ROOT_DIR, 'partials')
 DB_DEFAULT_PATH = os.path.join("..", "..", "database", "tl_user.json")
 DB_DEMO_PATH = os.path.join("..", "..", "database", "demo_user.json")
-DB_RULE_PATH = os.path.join("..", "..", "database", "template_rules.json")
+DB_RULE_PATH = os.path.join("..", "..", "database", "tl_rule.json")
 
 
 def main():

@@ -2,23 +2,69 @@
 
 {% block content %}
 
-<div ng-controller="news_ctrl">
-  {% if enable_facebook_feed %}
-  <script src="{{ static_url('resources/js/facebook.js') }}"></script>
-
-  <h1>Page facebook!</h1>
-  <!-- begin facebook page traitre-lame -->
-  <div class="fb-page" data-href="https://www.facebook.com/traitre-lame" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false"
-       data-show-facepile="false">
-    <div class="fb-xfbml-parse-ignore">
-      <blockquote cite="https://www.facebook.com/traitre-lame"><a href="https://www.facebook.com/traitre-lame">Traitre-Lame</a></blockquote>
+<div class="2x2">
+  <div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-5">
+      <div class="jombotron">
+        <h1 class="titre-a">Traître-Lame</h1>
+        <p class="titre-a">Bienvenu sur notre nouveau site internet. Trois options s'offrent à vous; Le Livre de Règles, ou toute les règles, habiletés et rituels sont décrits précisément, Personnage,
+          ou vous trouverez votre fiche de joueur, examiner vos futurs gains, ainsi que de placer vos points d'expérience ainsi que vos Mérites, l'Univers, ou vous découvrirez le géographie, la
+          politique et les guildes et groupes NPC. Pour nous contacter...</p>
+        <p><a href="#" class="btn btn-default btn-lg disabled">Contactez-nous</a><a href="#" class="btn btn-default btn-lg disabled">Prochain Évenement</a></p>
+      </div>
     </div>
+    <a href="manual" css="size=70px">
+      <div class="col-sm-5">
+        <div class="livrederegle">
+          <button type="button" id="btn-ldr">
+            <p><br><br><br><br><br><br><br><br><font size="70px"><big><b>LIVRE DE RÈGLES</b></big></font></p>
+          </button>
+        </div>
+      </div>
+    </a>
+    <div class="col-sm-1"></div>
   </div>
-  <!-- end facebook page traitre-lame -->
-  {% else %}
-  <h1>Page Traitre-lame!</h1>
-  {% end %}
-  <div ng-show="user.authenticated">Welcome {{! user.first_name }}!</div>
+  <div class="row">
+    <div class="crak"></div>
+  </div>
+  <div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-5">
+      <div class="personnage">
+        <button type="button" id="btn-per">
+          <p><br><br><br><br><br><br><font size="70px" color="gray"><big><b>PERSONNAGE</b></big></font></p>
+        </button>
+      </div>
+    </div>
+    <div class="col-sm-5">
+      <div class="univers">
+        <button type="button" id="btn-uni">
+          <p><font size="70px" color="gray"><big><b>UNIVERS</b></big></font><br><br></p>
+        </button>
+      </div>
+    </div>
+    <div class="col-sm-1"></div>
+  </div>
 </div>
+
+<!--<div ng-controller="news_ctrl">-->
+  <!--{% if enable_facebook_feed %}-->
+  <!--<script src="{{ static_url('resources/js/facebook.js') }}"></script>-->
+
+  <!--<h1>Page facebook!</h1>-->
+  <!--&lt;!&ndash; begin facebook page traitre-lame &ndash;&gt;-->
+  <!--<div class="fb-page" data-href="https://www.facebook.com/traitre-lame" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false"-->
+       <!--data-show-facepile="false">-->
+    <!--<div class="fb-xfbml-parse-ignore">-->
+      <!--<blockquote cite="https://www.facebook.com/traitre-lame"><a href="https://www.facebook.com/traitre-lame">Traitre-Lame</a></blockquote>-->
+    <!--</div>-->
+  <!--</div>-->
+  <!--&lt;!&ndash; end facebook page traitre-lame &ndash;&gt;-->
+  <!--{% else %}-->
+  <!--<h1>Page Traitre-lame!</h1>-->
+  <!--{% end %}-->
+  <!--<div ng-show="user.authenticated">Welcome {{! user.first_name }}!</div>-->
+<!--</div>-->
 
 {% end %}
