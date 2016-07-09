@@ -6,7 +6,7 @@
 
   <!--Nav Bar menu interactive follow scroll position -->
   <!-- Bug, only can manage 2 levels -->
-  <div class="col-xs-3 bs-docs-sidebar">
+  <div class="col-xs-3 bs-docs-sidebar" ng-hide="isMobile">
     <ul id="sidebar" class="nav nav-stacked">
       <li ng-repeat="manual_sect_1 in manual">
         <a target="_self" ng-href="#{{! formatAnchor(manual_sect_1) }}" ng-bind-html="formatMenuNavHtml(manual_sect_1.title)"></a>

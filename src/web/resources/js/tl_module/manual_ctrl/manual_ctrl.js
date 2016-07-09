@@ -5,6 +5,8 @@ characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", /*"$
   $scope.manual = null;
   $scope._lst_unique_anchor = [];
 
+  $scope.isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
   $scope.formatMenuNavHtml = function (title) {
     return title + " <b class=\"caret\" />";
   };

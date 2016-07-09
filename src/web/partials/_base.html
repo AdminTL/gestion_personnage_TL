@@ -36,15 +36,15 @@
         {% end %}
         <li><a href="manual">Livre de règle</a></li>
       </ul>
+      {% if not disable_login %}
       <ul class="nav navbar-nav navbar-right">
-        {% if not disable_login %}
         {% if not current_user %}
         <li><a href="login">Login</a></li>
         {% else %}
         <li><a style="color:#2864E6;" href="#" ua-logout>Log out</a></li>
         {% end %}
-        {% end %}
       </ul>
+      {% end %}
     </div>
   </div>
 </nav>
