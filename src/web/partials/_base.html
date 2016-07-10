@@ -39,33 +39,30 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
       <ul class="nav navbar-nav">
-        <li ng-class="{ active: isActive('/')}"><a href="/">Accueil</a></li>
+        <li ng-class="{ active: isActive('/') }"><a href="/">Accueil</a></li>
         {% if current_user and current_user.is_admin() %}
-        <li ng-class="{ active: isActive('/admin')}"><a href="admin">Admin</a></li>
+        <li ng-class="{ active: isActive('/admin') }"><a href="admin">Admin</a></li>
         {% end %}
         {% if not disable_character %}
-        <li ng-class="{ active: isActive('/character')}"><a href="character">Personnage</a></li>
+        <li ng-class="{ active: isActive('/character') }"><a href="character">Personnage</a></li>
         {% end %}
-        <li ng-class="{ active: isActive('/manual')}"><a href="/manual">Livre de règle</a></li>
+        <li ng-class="{ active: isActive('/manual') }"><a href="/manual">Livre de règle</a></li>
       </ul>
-      {% if not disable_login %}
-      <ul class="nav navbar-nav navbar-right">
-        {% if not current_user %}
-        <li ng-class="{ active: isActive('/login')}"><a href="login">Login</a></li>
-        {% else %}
-        <li><a style="color:#2864E6;" href="#" ua-logout>Log out</a></li>
-        {% end %}
-      </ul>
-      {% end %}
 
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Style <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li ng-repeat="style_name in style" ng-class="{ active: isStyle(style_name)}"><a ng-click="updateStyle(style_name)" href="#">{{! style_name }}</a></li>
-            <!--<li ng-repeat="style_name in style" ng-class="{ active: isStyle(style_name)}"><button class="btn btn-success">{{! style_name }}</button></li>-->
           </ul>
         </li>
+        {% if not disable_login %}
+        {% if not current_user %}
+        <li ng-class="{ active: isActive('/login') }"><a href="login">Login</a></li>
+        {% else %}
+        <li><a style="color:#2864E6;" href="#" ua-logout>Log out</a></li>
+        {% end %}
+        {% end %}
       </ul>
 
     </div><!-- /.navbar-collapse -->
@@ -87,14 +84,6 @@
 <!--</div>-->
 <!--</div>-->
 {% end %}
-
-<nav class="navbar navbar-inverse navbar-fixed-bottom linkbdp" style="background-color: black; text-align: center">
-  <div class="container-fluid">
-    Visitez notre <a href="https://www.facebook.com/groups/TraitreLame/?ref=bookmarks">groupe Facebook</a>,
-    Visitez notre <a href="https://www.facebook.com/traitrelame/">page Facebook,</a>
-    Visitez le site de <a href="http://gn.qc.ca/">l'Atelier du Loisir</a>.
-  </div>
-</nav>
 
 {% if use_internet_static %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
