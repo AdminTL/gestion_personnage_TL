@@ -10,6 +10,8 @@ characterApp.controller("page_ctrl", ['$scope', '$rootScope', '$http', '$locatio
     var is_mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     $scope.active_style = is_mobile ? $scope.style[1] : $scope.style[0];
 
+    $scope.nav_ariane_menu = [];
+
     $scope.user = null;
 
     /* ######################
