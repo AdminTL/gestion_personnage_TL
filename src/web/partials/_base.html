@@ -38,7 +38,6 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-
       <ul class="nav navbar-nav">
         <li ng-class="{ active: isActive('/')}"><a href="/">Accueil</a></li>
         {% if current_user and current_user.is_admin() %}
@@ -47,7 +46,7 @@
         {% if not disable_character %}
         <li ng-class="{ active: isActive('/character')}"><a href="character">Personnage</a></li>
         {% end %}
-        <li ng-class="{ active: isActive('/manual#/')}"><a href="/manual">Livre de règle</a></li>
+        <li ng-class="{ active: isActive('/manual')}"><a href="/manual">Livre de règle</a></li>
       </ul>
       {% if not disable_login %}
       <ul class="nav navbar-nav navbar-right">
@@ -58,6 +57,17 @@
         {% end %}
       </ul>
       {% end %}
+
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Style <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li ng-repeat="style_name in style" ng-class="{ active: isStyle(style_name)}"><a ng-click="updateStyle(style_name)" href="#">{{! style_name }}</a></li>
+            <!--<li ng-repeat="style_name in style" ng-class="{ active: isStyle(style_name)}"><button class="btn btn-success">{{! style_name }}</button></li>-->
+          </ul>
+        </li>
+      </ul>
+
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container -->
 </nav>
