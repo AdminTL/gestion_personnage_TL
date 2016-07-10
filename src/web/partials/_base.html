@@ -24,29 +24,42 @@
 <!-- Fixed navbar -->
 <nav role="navigation" class="navbar navbar-default navbar-fixed-top">
   <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <a class="navbar-brand">Traître-Lame</a>
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Traître-Lame</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+
       <ul class="nav navbar-nav">
-        <li><a href="/">Accueil</a></li>
+        <li ng-class="{ active: isActive('/')}"><a href="/">Accueil</a></li>
         {% if current_user and current_user.is_admin() %}
-        <li><a href="admin">Admin</a></li>
+        <li ng-class="{ active: isActive('/admin')}"><a href="admin">Admin</a></li>
         {% end %}
         {% if not disable_character %}
-        <li><a href="character">Personnage</a></li>
+        <li ng-class="{ active: isActive('/character')}"><a href="character">Personnage</a></li>
         {% end %}
-        <li><a href="manual">Livre de règle</a></li>
+        <li ng-class="{ active: isActive('/manual#/')}"><a href="/manual">Livre de règle</a></li>
       </ul>
       {% if not disable_login %}
       <ul class="nav navbar-nav navbar-right">
         {% if not current_user %}
-        <li><a href="login">Login</a></li>
+        <li ng-class="{ active: isActive('/login')}"><a href="login">Login</a></li>
         {% else %}
         <li><a style="color:#2864E6;" href="#" ua-logout>Log out</a></li>
         {% end %}
       </ul>
       {% end %}
-    </div>
-  </div>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container -->
 </nav>
 
 <noscript>

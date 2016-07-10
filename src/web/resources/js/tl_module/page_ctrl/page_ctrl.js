@@ -28,6 +28,19 @@ characterApp.controller("page_ctrl", ['$scope', '$rootScope', '$http', '$locatio
         console.err("Cannot find section " + sectionName);
     };
 
+    $scope.isActive = function (viewLocation) {
+      // bug : $location.path() is not configure and shoot wrong information
+      // return viewLocation === $location.path();
+      // use home patch
+      var v_loc;
+      if (viewLocation.indexOf("#/") > 0) {
+        v_loc = viewLocation.substring(0, viewLocation.length - 2);
+      } else {
+         v_loc = viewLocation;
+      }
+      return window.location.pathname.length == v_loc.length && $location.$$absUrl.indexOf(window.location.pathname) > -1;
+    };
+
     $scope.logout = function () {
       FB.logout(function (response) {
         // Person is now logged out
