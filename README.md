@@ -43,3 +43,4 @@ Contributors
 ============
 1. Mathieu Benoit - mathben
 2. Jérémie Gosselin
+3. alexisbssn
