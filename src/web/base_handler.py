@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import userapp.tornado
-
 import tornado.web
-from py_class import user
+# from py_class import user
 
 
-@userapp.tornado.config(app_id=user.USER_APP_ID)
+# TODO add user detection here
+# @userapp.tornado.config(app_id=user.USER_APP_ID)
 class BaseHandler(tornado.web.RequestHandler):
     _debug = None
     _rule = None
@@ -27,4 +26,5 @@ class BaseHandler(tornado.web.RequestHandler):
         }
 
     def get_current_user(self):
+        # TODO not work
         return self._db.get_user(_uuid=self.get_secure_cookie("user"))

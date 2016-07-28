@@ -1,6 +1,6 @@
 'use strict';
 
-var characterApp = angular.module('creation_personnage_TL', ['ngSanitize', 'ngRoute', 'UserApp', 'schemaForm', 'mgcrea.ngStrap']);
+var characterApp = angular.module('creation_personnage_TL', ['ngSanitize', 'ngRoute', 'schemaForm', 'mgcrea.ngStrap']);
 
 characterApp.config(['$routeProvider', function ($routeProvider) {
   // $routeProvider.when('/login', {templateUrl: 'templates/login.html', login: true});
@@ -12,15 +12,3 @@ characterApp.config(['$routeProvider', function ($routeProvider) {
   // $routeProvider.when('/view2', {templateUrl: 'partials/partial2.html', controller: 'MyCtrl2'});
   $routeProvider.otherwise({redirectTo: '/'});
 }])
-
-characterApp.run(function ($window, user) {
-  // userapp api
-  user.init({appId: '56d6ef67bce81'});
-  user.onAuthenticationSuccess(function () {
-    console.log("Authentification réussite!");
-    $window.location.href = "/";
-  })
-  user.getCurrent().then(function (currentUser) {
-    console.log(currentUser.user_id);
-  });
-});
