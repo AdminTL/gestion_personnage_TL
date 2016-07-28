@@ -66,7 +66,7 @@ def main(parse_arg):
     io_loop = tornado.ioloop.IOLoop.instance()
 
     http_server = tornado.httpserver.HTTPServer(application, ssl_options=ssl_options, io_loop=io_loop)
-    http_server.listen(port=parse_arg.listen.port, address=parse_arg.listen.address)
+    http_server.listen(port=parse_arg.listen.port)
 
     url = "http{2}://{0}:{1}".format(parse_arg.listen.address, parse_arg.listen.port, "s" if ssl_options else "")
     print('Starting server at {0}'.format(url))
