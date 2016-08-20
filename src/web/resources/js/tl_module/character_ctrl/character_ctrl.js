@@ -64,6 +64,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       // var first_id;
       // for(first_id in $scope.model_user.character) break;
       // $scope.model_char = $scope.model_user.character[first_id];
+      // TODO put xp default in json configuration file
       // TODO need to find right id character, and not taking first!
       if (isDefined(value.character)) {
         var firstChar = value.character[0];
@@ -75,10 +76,18 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
         if (!isDefined(firstChar.technique_maitre)) {
           $scope.model_char.technique_maitre = [];
         }
+        if (!isDefined(firstChar.xp_naissance)) {
+          $scope.model_char.xp_naissance = 5;
+        }
+        if (!isDefined(firstChar.xp_autre)) {
+          $scope.model_char.xp_autre = 0;
+        }
       } else {
         $scope.model_char = {};
         $scope.model_char.habilites = [{}];
         $scope.model_char.technique_maitre = [];
+        $scope.model_char.xp_naissance = 5;
+        $scope.model_char.xp_autre = 0;
       }
     }
   }, true);
@@ -200,6 +209,57 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     printSection.appendChild(domClone);
 
     window.print();
+  };
+
+  $scope.countTotalXp = function () {
+    if ($scope.character === null || $scope.model_char === null) {
+      return 0;
+    }
+    var total_xp = $scope.model_char.xp_naissance + $scope.model_char.xp_autre;
+    if (isDefined($scope.model_char.xp_gn_1_2016)) {
+      total_xp += $scope.model_char.xp_gn_1_2016;
+    }
+    if (isDefined($scope.model_char.xp_gn_2_2016)) {
+      total_xp += $scope.model_char.xp_gn_2_2016;
+    }
+    return total_xp;
+  };
+
+  $scope.countTotalCostXp = function () {
+    if ($scope.character === null || $scope.model_char === null) {
+      return 0;
+    }
+    var total_xp = 0;
+    if (isDefined($scope.model_char.energie)) {
+      total_xp += $scope.model_char.energie.length;
+    }
+    if (isDefined($scope.model_char.endurance)) {
+      total_xp += $scope.model_char.endurance.length;
+    }
+    if (isDefined($scope.model_char.habilites)) {
+      for (var i = 0; i < $scope.model_char.habilites.length; i++) {
+        var obj = $scope.model_char.habilites[i];
+        if (isDefined(obj.options)) {
+          total_xp += obj.options.length;
+        }
+      }
+    }
+    if (isDefined($scope.model_char.technique_maitre)) {
+      total_xp += $scope.model_char.technique_maitre.length;
+    }
+    return total_xp;
+  };
+
+  $scope.diffTotalXp = function () {
+    return $scope.countTotalXp() - $scope.countTotalCostXp()
+  };
+
+  $scope.showDiffTotalXp = function () {
+    var diff = $scope.diffTotalXp();
+    if (diff > 0) {
+      return "+" + diff;
+    }
+    return diff;
   };
 
   // socket.onmessage = function (e) {
