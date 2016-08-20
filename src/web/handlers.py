@@ -6,8 +6,6 @@ import tornado
 import tornado.web
 import hashlib
 import sys
-import userapp
-import userapp.tornado
 import base_handler
 import jsonhandler
 
@@ -81,8 +79,8 @@ class LogoutHandler(base_handler.BaseHandler):
 
 class AdminHandler(base_handler.BaseHandler):
     @tornado.web.asynchronous
-    @userapp.tornado.authorized()
-    @userapp.tornado.has_permission('admin')
+    # @userapp.tornado.authorized()
+    # @userapp.tornado.has_permission('admin')
     def get(self):
         self.render('admin/index.html', **self._global_arg)
 

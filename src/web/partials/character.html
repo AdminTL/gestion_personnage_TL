@@ -42,7 +42,10 @@
       <div ng-show="player">
         Point d'XP
         <div>
-          Total accumulé :
+          Total : {{! countTotalXp() }}
+        </div>
+        <div>
+          Xp consommé : {{! countTotalCostXp() }} <a class="text-decoration: none;" ng-hide="diffTotalXp() == 0" ng-style="diffTotalXp() > 0 ? {'color': 'green'} : {'color': 'red'}">{{! showDiffTotalXp() }}</a>
         </div>
       </div>
     </div>

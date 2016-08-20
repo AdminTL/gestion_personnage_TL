@@ -60,6 +60,18 @@ function TL_Schema($scope) {
       id: {
         type: "string"
       },
+      xp_naissance: {
+        type: "integer"
+      },
+      xp_gn_1_2016: {
+        type: "boolean"
+      },
+      xp_gn_2_2016: {
+        type: "boolean"
+      },
+      xp_autre: {
+        type: "integer"
+      },
       faction: {
         title: "Faction",
         type: "string"
@@ -119,13 +131,29 @@ function TL_Schema($scope) {
         }
       }
     },
-    required: ["faction"]
+    required: ["faction", "xp_naissance", "xp_autre"]
   };
 
   $scope.form_char = [
     {
       key: "name",
       placeholder: "Votre nom de joueur"
+    },
+    {
+      key: "xp_naissance",
+      placeholder: "Défaut 6 xp pour nouveau joueur."
+    },
+    {
+      key: "xp_gn_1_2016",
+      placeholder: "Êtes-vous venu au jeu du 27 mai 2016?"
+    },
+    {
+      key: "xp_gn_2_2016",
+      placeholder: "Êtes-vous venu au jeu du 29 juillet 2016?"
+    },
+    {
+      key: "xp_autre",
+      placeholder: "Peut-être des points de mérites ou autre."
     },
     {
       key: "faction",

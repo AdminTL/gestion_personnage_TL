@@ -24,29 +24,58 @@
 <!-- Fixed navbar -->
 <nav role="navigation" class="navbar navbar-default navbar-fixed-top">
   <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <a class="navbar-brand">Traître-Lame</a>
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Traître-Lame</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
       <ul class="nav navbar-nav">
-        <li><a href="/">Accueil</a></li>
+        <li ng-class="{ active: isActive('/') }"><a href="/">Accueil</a></li>
         {% if current_user and current_user.is_admin() %}
-        <li><a href="admin">Admin</a></li>
+        <li ng-class="{ active: isActive('/admin') }"><a href="admin">Admin</a></li>
         {% end %}
         {% if not disable_character %}
-        <li><a href="character">Personnage</a></li>
+        <li ng-class="{ active: isActive('/character') }"><a href="character">Personnage</a></li>
         {% end %}
-        <li><a href="manual">Livre de règle</a></li>
+        <li ng-class="{ active: isActive('/manual') }"><a href="/manual">Livre de règle</a></li>
       </ul>
+
+      <ul class="nav navbar-nav" ng-show="nav_ariane_menu.length > 0">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Style <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li ng-repeat="style_name in style" ng-class="{ active: isStyle(style_name)}"><a ng-click="updateStyle(style_name)" href="#">{{! style_name }}</a></li>
+          </ul>
+        </li>
+      </ul>
+
       <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Style <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li ng-repeat="style_name in style" ng-class="{ active: isStyle(style_name)}"><a ng-click="updateStyle(style_name)" href="#">{{! style_name }}</a></li>
+          </ul>
+        </li>
         {% if not disable_login %}
         {% if not current_user %}
-        <li><a href="login">Login</a></li>
+        <li ng-class="{ active: isActive('/login') }"><a href="login">Login</a></li>
         {% else %}
         <li><a style="color:#2864E6;" href="#" ua-logout>Log out</a></li>
         {% end %}
         {% end %}
       </ul>
-    </div>
-  </div>
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container -->
 </nav>
 
 <noscript>
@@ -65,14 +94,6 @@
 <!--</div>-->
 {% end %}
 
-<nav class="navbar navbar-inverse navbar-fixed-bottom linkbdp" style="background-color: black; text-align: center">
-  <div class="container-fluid">
-    Visitez notre <a href="https://www.facebook.com/groups/TraitreLame/?ref=bookmarks">groupe Facebook</a>,
-    Visitez notre <a href="https://www.facebook.com/traitrelame/">page Facebook,</a>
-    Visitez le site de <a href="http://gn.qc.ca/">l'Atelier du Loisir</a>.
-  </div>
-</nav>
-
 {% if use_internet_static %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 <script src="https://raw.githubusercontent.com/geraintluff/tv4/master/tv4.min.js"></script>
@@ -87,8 +108,6 @@
 <script src="https://raw.githubusercontent.com/json-schema-form/angular-schema-form/development/dist/schema-form.min.js"></script>
 <script src="https://raw.githubusercontent.com/json-schema-form/angular-schema-form-bootstrap/develop/bootstrap-decorator.min.js"></script>
 <script src="https://raw.githubusercontent.com/OptimalBPM/angular-schema-form-dynamic-select/master/angular-schema-form-dynamic-select.min.js"></script>
-<script src="https://app.userapp.io/js/userapp.client.js"></script>
-<script src="https://app.userapp.io/js/angularjs.userapp.js"></script>
 {% elif debug %}
 <script src="{{ static_url('bower_components/jquery/dist/jquery.js') }}"></script>
 <script src="{{ static_url('bower_components/tv4/tv4.js') }}"></script>
@@ -103,8 +122,6 @@
 <script src="{{ static_url('bower_components/angular-schema-form/dist/schema-form.js') }}"></script>
 <script src="{{ static_url('bower_components/angular-schema-form/dist/bootstrap-decorator.js') }}"></script>
 <script src="{{ static_url('bower_components/angular-schema-form-dynamic-select/angular-schema-form-dynamic-select.js') }}"></script>
-<script src="{{ static_url('bower_components/userapp/userapp.client.js') }}"></script>
-<script src="{{ static_url('bower_components/userapp-angular/angularjs.userapp.js') }}"></script>
 {% else %}
 <script src="{{ static_url('bower_components/jquery/dist/jquery.min.js') }}"></script>
 <script src="{{ static_url('bower_components/tv4/tv4.js') }}"></script>
@@ -119,8 +136,6 @@
 <script src="{{ static_url('bower_components/angular-schema-form/dist/schema-form.min.js') }}"></script>
 <script src="{{ static_url('bower_components/angular-schema-form/dist/bootstrap-decorator.min.js') }}"></script>
 <script src="{{ static_url('bower_components/angular-schema-form-dynamic-select/angular-schema-form-dynamic-select.min.js') }}"></script>
-<script src="{{ static_url('bower_components/userapp/userapp.client.js') }}"></script>
-<script src="{{ static_url('bower_components/userapp-angular/angularjs.userapp.js') }}"></script>
 {% end %}
 <script src="{{ static_url('resources/js/tool.js') }}"></script>
 <script src="{{ static_url('resources/js/tl_module/tl_module.js') }}"></script>
