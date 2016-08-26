@@ -5,6 +5,10 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   // var data_source = "http://" + window.location.host + "/update_user";
   // var socket = new SockJS(data_source);
 
+  // todo move this variable in json
+  $scope.xp_default = 6;
+  $scope.xp_bogue = 5;
+
   $scope.player = null;
   $scope.last_player = null;
   $scope.character = null;
@@ -77,7 +81,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
           $scope.model_char.technique_maitre = [];
         }
         if (!isDefined(firstChar.xp_naissance)) {
-          $scope.model_char.xp_naissance = 5;
+          $scope.model_char.xp_naissance = $scope.xp_bogue;
         }
         if (!isDefined(firstChar.xp_autre)) {
           $scope.model_char.xp_autre = 0;
@@ -86,7 +90,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
         $scope.model_char = {};
         $scope.model_char.habilites = [{}];
         $scope.model_char.technique_maitre = [];
-        $scope.model_char.xp_naissance = 5;
+        $scope.model_char.xp_naissance = $scope.xp_bogue;
         $scope.model_char.xp_autre = 0;
       }
     }
@@ -215,13 +219,17 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     if ($scope.character === null || $scope.model_char === null) {
       return 0;
     }
-    var total_xp = $scope.model_char.xp_naissance + $scope.model_char.xp_autre;
+    // todo doit enlever 5 dans tous les champs de la bd
+    var total_xp = $scope.model_char.xp_naissance + $scope.model_char.xp_autre - 5 + $scope.xp_default;
     if (isDefined($scope.model_char.xp_gn_1_2016)) {
       total_xp += $scope.model_char.xp_gn_1_2016;
     }
     if (isDefined($scope.model_char.xp_gn_2_2016)) {
       total_xp += $scope.model_char.xp_gn_2_2016;
     }
+    // if (isDefined($scope.model_char.xp_gn_3_2016)) {
+    //   total_xp += $scope.model_char.xp_gn_3_2016;
+    // }
     return total_xp;
   };
 
