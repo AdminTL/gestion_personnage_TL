@@ -87,3 +87,23 @@ body {
     margin-top: -60px; /*same height as header*/
     visibility: hidden;
 }
+
+h1 {
+    color: #3C8FB7;
+}
+
+h2 {
+    color: #3CB798;
+}
+
+h3 {
+    color: #6CB73C;
+}
+
+h4 {
+    color: #B7B13C;
+}
+
+h5 {
+    color: #B7883C;
+}
