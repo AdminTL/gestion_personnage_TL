@@ -7,15 +7,19 @@
   <!--Nav Bar menu interactive follow scroll position -->
   <!-- Bug, only can manage 2 levels -->
   <div class="col-xs-3 bs-docs-sidebar" ng-hide="isMobile()">
+    <!-- LEVEL 1 -->
     <ul id="sidebar" class="nav nav-stacked">
       <li ng-repeat="manual_sect_1 in manual">
         <a target="_self" ng-href="#{{! formatAnchor(manual_sect_1) }}"
            ng-bind-html="formatMenuNavHtml(manual_sect_1.title)"></a>
+
+        <!-- LEVEL 2 -->
         <ul class="nav nav-stacked">
           <li ng-repeat="manual_sect_2 in manual_sect_1.section">
             <a target="_self" ng-href="#{{! formatAnchor(manual_sect_2) }}" ng-bind-html="manual_sect_2.title"></a>
           </li>
         </ul>
+
       </li>
       <button class="btn btn-primary" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i>Imprimer
       </button>
@@ -28,43 +32,64 @@
     <span class="anchor" id="top"></span>
     <h1 class="tl" style="text-align: center">Livre du joueur de Traître-Lame</h1>
 
+    <!-- LEVEL 1 -->
     <div ng-repeat="manual_sect_1 in manual">
-
       <!-- This span class anchor only exist to help anchor with nav menu top fixed -->
       <span class="anchor" id="{{! formatAnchor(manual_sect_1) }}"></span>
-      <h1 ng-bind-html="getTitleHtml(manual_sect_1)"></h1>
+
+      <div>
+        <h1 style="display:inline" ng-bind-html="getTitleHtml(manual_sect_1)"></h1>
+        <a target="_self" ng-href="#{{! formatAnchor(manual_sect_1, true) }}"><span
+            class="glyphicon glyphicon-link print-hide"></span></a>
+      </div>
 
       <p ng-bind-html="formatHtmlDescription(manual_sect_1.description)"></p>
 
+      <!-- LEVEL 2 -->
       <div ng-repeat="manual_sect_2 in manual_sect_1.section">
         <span class="anchor" id="{{! formatAnchor(manual_sect_2) }}"></span>
 
-        <h2 ng-bind-html="getTitleHtml(manual_sect_2)"></h2>
+        <div>
+          <h2 style="display:inline" ng-bind-html="getTitleHtml(manual_sect_2)"></h2>
+          <a target="_self" ng-href="#{{! formatAnchor(manual_sect_2, true) }}"><span
+              class="glyphicon glyphicon-link print-hide"></span></a>
+        </div>
 
         <p ng-bind-html="formatHtmlDescription(manual_sect_2.description)"></p>
 
+        <!-- LEVEL 3 -->
         <div ng-repeat="manual_sect_3 in manual_sect_2.section">
           <span class="anchor" id="{{! formatAnchor(manual_sect_3) }}"></span>
 
-          <h3 ng-bind-html="getTitleHtml(manual_sect_3)"></h3>
+          <div>
+            <h3 style="display:inline" ng-bind-html="getTitleHtml(manual_sect_3)"></h3>
+            <a target="_self" ng-href="#{{! formatAnchor(manual_sect_3, true) }}"><span
+                class="glyphicon glyphicon-link print-hide"></span></a>
+          </div>
 
           <p ng-bind-html="formatHtmlDescription(manual_sect_3.description)"></p>
 
+          <!-- LEVEL 4 -->
           <div class="panel panel-primary" ng-repeat="manual_sect_4 in manual_sect_3.section">
             <span class="anchor" id="{{! formatAnchor(manual_sect_4) }}"></span>
 
             <div class="panel-heading">
-              <h4 class="panel-title" ng-bind-html="getTitleHtml(manual_sect_4)"></h4>
+              <h4 style="display:inline" class="panel-title" ng-bind-html="getTitleHtml(manual_sect_4)"></h4>
+              <a target="_self" ng-href="#{{! formatAnchor(manual_sect_4, true) }}"><span
+                  class="glyphicon glyphicon-link print-hide"></span></a>
             </div>
 
             <div class="panel-body">
               <p ng-bind-html="formatHtmlDescription(manual_sect_4.description)"></p>
 
+              <!-- LEVEL 5 -->
               <div class="panel panel-primary" ng-repeat="manual_sect_5 in manual_sect_4.section">
                 <span class="anchor" id="{{! formatAnchor(manual_sect_5) }}"></span>
 
                 <div class="panel-heading">
-                  <h5 class="panel-title" ng-bind-html="getTitleHtml(manual_sect_5)"></h5>
+                  <h5 style="display:inline" class="panel-title" ng-bind-html="getTitleHtml(manual_sect_5)"></h5>
+                  <a target="_self" ng-href="#{{! formatAnchor(manual_sect_5, true) }}"><span
+                      class="glyphicon glyphicon-link print-hide"></span></a>
                 </div>
 
                 <div class="panel-body">

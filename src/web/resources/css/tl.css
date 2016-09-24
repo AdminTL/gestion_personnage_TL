@@ -83,7 +83,7 @@ body {
 
 .anchor {
     display: block;
-    height: 40px; /*same height as header*/
-    margin-top: -40px; /*same height as header*/
+    height: 60px; /*same height as header*/
+    margin-top: -60px; /*same height as header*/
     visibility: hidden;
 }

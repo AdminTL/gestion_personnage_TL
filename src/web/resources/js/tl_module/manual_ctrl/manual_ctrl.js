@@ -1,7 +1,7 @@
 // Formulaire de Traitre-Lame
 "use strict";
 
-characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", /*"$timeout",*/ function ($scope, $q, $http, $window) {
+characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", "$location", "$timeout", "$anchorScroll", function ($scope, $q, $http, $window, $location, $timeout, $anchorScroll) {
   $scope.manual = null;
   $scope._lst_unique_anchor = [];
 
@@ -13,7 +13,9 @@ characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", /*"$
     return title + " <b class=\"caret\" />";
   };
 
-  $scope.formatAnchor = function (obj) {
+  $scope.formatAnchor = function (obj, only_temp=false) {
+    // arg only_temp : don't save when ask formatAnchor. Can have a bogue if key is duplicate and this at True, because
+    // if we need to give anchor of second creation of key, we will give reference on first one.
     // TODO this function only work in serial process when validate unique anchor name
     if (isUndefined(obj)) {
       return "";
@@ -25,10 +27,14 @@ characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", /*"$
 
     // an anchor cannot work with space
     var anchor = title.replace(/\s+/g, '');
+    if (!only_temp) {
+      // we don't need to save the information in database
+      return anchor;
+    }
 
     var max_loop = 1000;
     // validate duplication
-    if ($scope._lst_unique_anchor.includes(anchor)) {
+    if (!only_temp && $scope._lst_unique_anchor.includes(anchor)) {
       // find a new name, begin suffix with _2
       var new_anchor;
       for (var i = 2; i < max_loop; i++) {
@@ -48,7 +54,7 @@ characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", /*"$
         obj.titleAnchor = anchor = new_anchor;
         $scope._lst_unique_anchor.push(anchor);
       }
-    } else {
+    } else if (!only_temp) {
       $scope._lst_unique_anchor.push(anchor);
       obj.titleAnchor = anchor;
     }
@@ -56,10 +62,13 @@ characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", /*"$
   };
 
   $scope.getTitleHtml = function (obj) {
+    var response;
     if ("title_html" in obj) {
-      return obj["title_html"];
+      response = obj["title_html"];
+    } else {
+      response = obj["title"];
     }
-    return obj["title"];
+    return response;
   };
 
   $scope.formatHtmlDescription = function (desc) {
@@ -105,7 +114,16 @@ characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", /*"$
   $http.get("/cmd/rule").success(
     function (data/*, status, headers, config*/) {
       $scope.manual = data.manual;
+
+      // Need to wait to receive information before move to good position in page
+      $timeout(function() {
+        var hash = $location.path();
+        // remove first "/" of path
+        hash = hash.substring(1);
+        $anchorScroll(hash);
+      });
     }
   );
+
 
 }]);
