@@ -9,53 +9,67 @@
   <div class="col-xs-3 bs-docs-sidebar" ng-hide="isMobile()">
     <ul id="sidebar" class="nav nav-stacked">
       <li ng-repeat="manual_sect_1 in manual">
-        <a target="_self" ng-href="#{{! formatAnchor(manual_sect_1) }}" ng-bind-html="formatMenuNavHtml(manual_sect_1.title)"></a>
+        <a target="_self" ng-href="#{{! formatAnchor(manual_sect_1) }}"
+           ng-bind-html="formatMenuNavHtml(manual_sect_1.title)"></a>
         <ul class="nav nav-stacked">
           <li ng-repeat="manual_sect_2 in manual_sect_1.section">
             <a target="_self" ng-href="#{{! formatAnchor(manual_sect_2) }}" ng-bind-html="manual_sect_2.title"></a>
           </li>
         </ul>
       </li>
+      <button class="btn btn-primary" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i>Imprimer
+      </button>
       <a class="nav nav-stacked" target="_self" href="#top"> Retour en haut </a>
     </ul>
   </div> <!-- end nav content -->
 
   <!-- Main content -->
-  <div class="col-sm-9" style="padding-bottom: 70px;">
+  <div id="manual_main_content" class="col-sm-9" style="padding-bottom: 70px;">
     <span class="anchor" id="top"></span>
     <h1 class="tl" style="text-align: center">Livre du joueur de Traître-Lame</h1>
 
     <div ng-repeat="manual_sect_1 in manual">
+
       <!-- This span class anchor only exist to help anchor with nav menu top fixed -->
       <span class="anchor" id="{{! formatAnchor(manual_sect_1) }}"></span>
       <h1 ng-bind-html="getTitleHtml(manual_sect_1)"></h1>
+
       <p ng-bind-html="formatHtmlDescription(manual_sect_1.description)"></p>
 
       <div ng-repeat="manual_sect_2 in manual_sect_1.section">
         <span class="anchor" id="{{! formatAnchor(manual_sect_2) }}"></span>
+
         <h2 ng-bind-html="getTitleHtml(manual_sect_2)"></h2>
+
         <p ng-bind-html="formatHtmlDescription(manual_sect_2.description)"></p>
 
         <div ng-repeat="manual_sect_3 in manual_sect_2.section">
           <span class="anchor" id="{{! formatAnchor(manual_sect_3) }}"></span>
+
           <h3 ng-bind-html="getTitleHtml(manual_sect_3)"></h3>
+
           <p ng-bind-html="formatHtmlDescription(manual_sect_3.description)"></p>
 
           <div class="panel panel-primary" ng-repeat="manual_sect_4 in manual_sect_3.section">
             <span class="anchor" id="{{! formatAnchor(manual_sect_4) }}"></span>
+
             <div class="panel-heading">
               <h4 class="panel-title" ng-bind-html="getTitleHtml(manual_sect_4)"></h4>
             </div>
+
             <div class="panel-body">
               <p ng-bind-html="formatHtmlDescription(manual_sect_4.description)"></p>
 
               <div class="panel panel-primary" ng-repeat="manual_sect_5 in manual_sect_4.section">
                 <span class="anchor" id="{{! formatAnchor(manual_sect_5) }}"></span>
+
                 <div class="panel-heading">
                   <h5 class="panel-title" ng-bind-html="getTitleHtml(manual_sect_5)"></h5>
                 </div>
+
                 <div class="panel-body">
                   <p ng-bind-html="formatHtmlDescription(manual_sect_5.description)"></p>
+
                 </div>
               </div>
             </div>

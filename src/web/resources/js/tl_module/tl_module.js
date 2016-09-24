@@ -1,6 +1,6 @@
 'use strict';
 
-var characterApp = angular.module('creation_personnage_TL', ['ngSanitize', 'ngRoute', 'schemaForm', 'mgcrea.ngStrap']);
+var characterApp = angular.module('creation_personnage_TL', ['ngSanitize', 'ngRoute', 'schemaForm', 'mgcrea.ngStrap', 'ngPrint']);
 
 characterApp.config(['$routeProvider', function ($routeProvider) {
   // $routeProvider.when('/login', {templateUrl: 'templates/login.html', login: true});
