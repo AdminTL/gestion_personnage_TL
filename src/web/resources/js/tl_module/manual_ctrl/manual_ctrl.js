@@ -13,7 +13,7 @@ characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", "$lo
     return title + " <b class=\"caret\" />";
   };
 
-  $scope.formatAnchor = function (obj, only_temp=false) {
+  $scope.formatAnchor = function (obj, lst_obj_parent, only_temp=false) {
     // arg only_temp : don't save when ask formatAnchor. Can have a bogue if key is duplicate and this at True, because
     // if we need to give anchor of second creation of key, we will give reference on first one.
     // TODO this function only work in serial process when validate unique anchor name
@@ -23,41 +23,21 @@ characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", "$lo
     if (isDefined(obj.titleAnchor)) {
       return obj.titleAnchor;
     }
-    var title = obj.title;
 
-    // an anchor cannot work with space
-    var anchor = title.replace(/\s+/g, '');
-    if (!only_temp) {
-      // we don't need to save the information in database
-      return anchor;
-    }
-
-    var max_loop = 1000;
-    // validate duplication
-    if (!only_temp && $scope._lst_unique_anchor.includes(anchor)) {
-      // find a new name, begin suffix with _2
-      var new_anchor;
-      for (var i = 2; i < max_loop; i++) {
-        new_anchor = anchor + "_" + i;
-        if (!(new_anchor in $scope._lst_unique_anchor)) {
-          // validate if unique and exit
-          break;
+    function createAnchor(item_1, lst_item) {
+      var result = "";
+      if (lst_item) {
+        for (var i = 0; i < lst_item.length; i++) {
+          result += lst_item[i].title.replace(/\s+/g, '') + "_";
         }
       }
-      // inform developers about this problem
-      if (i >= max_loop) {
-        console.error("Manual ctrl - cannot find unique name for anchor " + anchor);
-        // don't append empty anchor in $scope._lst_unique_anchor
-        anchor = "";
-      } else {
-        console.warn("Manual ctrl - error duplication anchor name, rename it from " + anchor + " to " + new_anchor);
-        obj.titleAnchor = anchor = new_anchor;
-        $scope._lst_unique_anchor.push(anchor);
-      }
-    } else if (!only_temp) {
-      $scope._lst_unique_anchor.push(anchor);
-      obj.titleAnchor = anchor;
+      result += item_1.title.replace(/\s+/g, '')
+      return result;
     }
+
+    // an anchor cannot work with space
+    var anchor = createAnchor(obj, lst_obj_parent);
+    obj.titleAnchor = anchor;
     return anchor;
   };
 
@@ -121,9 +101,21 @@ characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", "$lo
         // remove first "/" of path
         hash = hash.substring(1);
         $anchorScroll(hash);
+
+        // bootstrap_doc_sidebar
+        $('body').scrollspy({
+          target: '.bs-docs-sidebar',
+          offset: 40
+        });
+        $("#sidebar").affix({
+          offset: {
+            top: 60
+          }
+        });
+
       });
+
     }
   );
-
 
 }]);
