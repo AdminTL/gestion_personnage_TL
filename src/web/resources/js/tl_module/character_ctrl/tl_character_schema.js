@@ -69,6 +69,9 @@ function TL_Schema($scope) {
       xp_gn_2_2016: {
         type: "boolean"
       },
+      xp_gn_3_2016: {
+        type: "boolean"
+      },
       xp_autre: {
         type: "integer"
       },
@@ -150,6 +153,10 @@ function TL_Schema($scope) {
     {
       key: "xp_gn_2_2016",
       placeholder: "Êtes-vous venu au jeu du 29 juillet 2016?"
+    },
+    {
+      key: "xp_gn_3_2016",
+      placeholder: "Êtes-vous venu au jeu du 26 août 2016?"
     },
     {
       key: "xp_autre",
