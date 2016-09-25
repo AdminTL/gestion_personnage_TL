@@ -13,9 +13,7 @@ characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", "$lo
     return title + " <b class=\"caret\" />";
   };
 
-  $scope.formatAnchor = function (obj, lst_obj_parent, only_temp=false) {
-    // arg only_temp : don't save when ask formatAnchor. Can have a bogue if key is duplicate and this at True, because
-    // if we need to give anchor of second creation of key, we will give reference on first one.
+  $scope.formatAnchor = function (obj, lst_obj_parent) {
     // TODO this function only work in serial process when validate unique anchor name
     if (isUndefined(obj)) {
       return "";
