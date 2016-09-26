@@ -227,9 +227,12 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     if (isDefined($scope.model_char.xp_gn_2_2016)) {
       total_xp += $scope.model_char.xp_gn_2_2016;
     }
-    // if (isDefined($scope.model_char.xp_gn_3_2016)) {
-    //   total_xp += $scope.model_char.xp_gn_3_2016;
-    // }
+    if (isDefined($scope.model_char.xp_gn_3_2016)) {
+      total_xp += $scope.model_char.xp_gn_3_2016;
+    }
+//    if (isDefined($scope.model_char.xp_gn_4_2016)) {
+//      total_xp += $scope.model_char.xp_gn_4_2016;
+//    }
     return total_xp;
   };
 
@@ -253,7 +256,11 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       }
     }
     if (isDefined($scope.model_char.technique_maitre)) {
-      total_xp += $scope.model_char.technique_maitre.length;
+      for (var i = 0; i < $scope.model_char.technique_maitre.length; i++) {
+        if ($scope.model_char.technique_maitre[i]) {
+          total_xp += 1;
+        }
+      }
     }
     return total_xp;
   };
