@@ -82,7 +82,9 @@ class AdminHandler(base_handler.BaseHandler):
     # @userapp.tornado.authorized()
     # @userapp.tornado.has_permission('admin')
     def get(self):
-        self.render('admin/index.html', **self._global_arg)
+        if self._global_arg["disable_admin"]:
+            return
+        self.render('admin_character.html', **self._global_arg)
 
 
 class CharacterHandler(base_handler.BaseHandler):

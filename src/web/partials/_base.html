@@ -40,7 +40,7 @@
 
       <ul class="nav navbar-nav">
         <li ng-class="{ active: isActive('/') }"><a href="/">Accueil</a></li>
-        {% if current_user and current_user.is_admin() %}
+        {% if not disable_admin and current_user and current_user.is_admin() %}
         <li ng-class="{ active: isActive('/admin') }"><a href="admin">Admin</a></li>
         {% end %}
         {% if not disable_character %}

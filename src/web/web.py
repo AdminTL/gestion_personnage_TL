@@ -33,6 +33,7 @@ def main(parse_arg):
                 "db": DB(parse_arg),
                 "rule": Rule(parse_arg),
                 "disable_character": parse_arg.disable_character,
+                "disable_admin": parse_arg.disable_admin,
                 "disable_login": parse_arg.disable_login
                 }
     routes = [
