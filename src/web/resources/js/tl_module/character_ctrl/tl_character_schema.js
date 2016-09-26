@@ -60,21 +60,26 @@ function TL_Schema($scope) {
       id: {
         type: "string"
       },
-      xp_naissance: {
-        type: "integer"
-      },
-      xp_gn_1_2016: {
-        type: "boolean"
-      },
-      xp_gn_2_2016: {
-        type: "boolean"
-      },
-      xp_gn_3_2016: {
-        type: "boolean"
-      },
-      xp_autre: {
-        type: "integer"
-      },
+//      xp_naissance: {
+//        type: "integer",
+//        is_admin: true
+//      },
+//      xp_gn_1_2016: {
+//        type: "boolean",
+//        is_admin: true
+//      },
+//      xp_gn_2_2016: {
+//        type: "boolean",
+//        is_admin: true
+//      },
+//      xp_gn_3_2016: {
+//        type: "boolean",
+//        is_admin: true
+//      },
+//      xp_autre: {
+//        type: "integer",
+//        is_admin: true
+//      },
       faction: {
         title: "Faction",
         type: "string"
@@ -133,8 +138,9 @@ function TL_Schema($scope) {
           type: "string"
         }
       }
-    },
-    required: ["faction", "xp_naissance", "xp_autre"]
+    }
+//    },
+//    required: ["faction", "xp_naissance", "xp_autre"]
   };
 
   $scope.form_char = [

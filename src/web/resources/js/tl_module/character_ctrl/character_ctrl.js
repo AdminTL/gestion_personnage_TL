@@ -283,9 +283,28 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   //   $scope.$apply();
   // };
 
-  $http.get("/cmd/character_view").success(
+// For admin page
+//  $http.get("/cmd/character_view").success(
+//    function (data/*, status, headers, config*/) {
+//      $scope.ddb_user = data;
+//    }
+//  );
+
+  $scope.player_id_from_get = $window.location.hash.substring("#/?id_player=".length);
+  $http.get("/cmd/character_view?player_id=" + $scope.player_id_from_get).success(
+    // Send id from URL
     function (data/*, status, headers, config*/) {
       $scope.ddb_user = data;
+      // special effect, if only one character, select first one
+//      if (data.length == 1) {
+//        $scope.player = data[0];
+//        $scope.character = data[0].character[0];
+//        $scope.setCharacterData(data[0]);
+//        $scope.player = data[0];
+//        $scope.setCharacterData($scope.character);
+
+//        $scope.$apply();
+//      }
     }
   );
 

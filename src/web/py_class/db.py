@@ -33,9 +33,11 @@ class DB(object):
         eid = self._db_user.insert(data)
         return self._db_user.get(eid=eid)
 
-    def get_all_user(self):
-        # get all user list
-        return self._db_user.all()
+    def get_all_user(self, id=None):
+        if not id:
+            # get all user list
+            return self._db_user.all()
+        return self._db_user.search(self._query_user.id == id)
 
     def get_user(self, email=None, password=None, _uuid=None):
         if email:

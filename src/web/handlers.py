@@ -100,8 +100,15 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
     def get(self):
         if self._global_arg["disable_character"]:
             return
+
+        player_id = self.request.query[len("player_id="):]
+        if self._global_arg["disable_admin"] and not player_id:
+            # leave now, missing permission
+            self.finish()
+            return
+
         # TODO manage what we get and user management permission
-        data = json.dumps(self._db.get_all_user())
+        data = json.dumps(self._db.get_all_user(id=player_id))
         self.write(data)
         self.finish()
 
