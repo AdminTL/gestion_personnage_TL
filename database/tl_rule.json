@@ -71,6 +71,7 @@
         },
         {
           "title": "Effets de jeu",
+          "title_html": "Effets de jeu <span class='label label-info'><span class='glyphicon glyphicon-info-sign'></span> Super important!!!</span>",
           "description": [
             [
               "Assommé : tombe inconscient jusqu’à la fin des hostilités. Après 2 minutes de calme, le joueur revient à ses esprits sans énergie et avec deux points de vie.",
@@ -105,7 +106,7 @@
     },
     {
       "title": "Habiletés et Techniques",
-      "title_html": "Habiletés et techniques <a target=\"_self\" href=\"#techmaitre\" class=\"btn btn-default\">Technique de Maitre <span class=\"glyphicon glyphicon-star-empty\"></span></a>",
+      "title_html": "Habiletés et techniques",
       "description": [
         "Les habiletés déterminent les possibilités d’un personnage en jeu. Chaque joueur peut puiser ses habiletés parmi cinq disciplines : commune, combattante, sournoise, magique et professionnelle.",
         "Chaque habileté donne accès à 5 techniques selon deux modèles :",
@@ -368,11 +369,14 @@
     },
     {
       "title": "Techniques de maître",
+      "description": [
+        "Les techniques de maître sont des techniques qui peuvent être choisi qu'après avoir reçu une formation en-jeu avec un PNJ. Un personnage peut avoir dix techniques de maître sur sa fiche de personnage en plus des espaces offertes par les habiletés complètes (5 talents)."
+      ],
       "section": [
         {
           "title": "Discipline commune",
           "description": [
-            "On peut choisir maximum deux fois endurance ou énergie."
+            "On peut choisir Endurance et Énergie deux autre fois supplémentaire."
           ],
           "section": [
             {
@@ -485,7 +489,7 @@
               "description": [
                 [
                   "Main de fer [sur une poignée de main] démembré",
-                  "Égorgement [couteau passé sous la gorge] mort",
+                  "Égorgement [couteau passé sous la gorge] mort  <span class='label label-danger'><span class='glyphicon glyphicon-remove-sign'></span> Bloqué par l’administration</span>",
                   "Étouffement [dague au torse] muet",
                   "Feinte [sauvegarde] touche (ne fonctionne que sur les attaques normales, ne bloquent pas les techniques, ni les rituels)"
                 ]
@@ -780,14 +784,14 @@
             {
               "title": "Baguette",
               "description": [
-                "Permet, une fois par combat, de payer le coût en composante du dernier rituel mémorisé pour le mémoriser de nouveau. Usage unique.",
+                "<small>(Baguette: Permet, une fois par combat, de payer le coût en composante du dernier rituel mémorisé pour le mémoriser de nouveau. Usage unique.)</small>",
                 "Une baguette créé par un Rituel de Création permet de stocker un rituel[sort] et de s’en servir plus tard. N’importe qui peut utiliser une baguette \"magique\" une fois fabriquée. Pour se faire la baguette doit être la cible du Rituel désiré, le faire en suivant ses protocoles et en payer les composantes. Le fabricant de la baguette \"magique\" n’est pas obliger d’être celui qui connaît le rituel à infuser. Puis, la même baguettes doit être au centre du Rituel de Création, en suivre les protocoles et payer 5 fois les composantes magique du rituel infusé. Il est possible d’augmenter les charges unique de la baguette en payant chaque fois, 5 fois les composantes magique du rituel infusé."
               ]
             },
             {
               "title": "Filet",
               "description": [
-                "Permet de paralyser une cible dont on couvre la tête du filet. Peut être cassé par une lame",
+                "<small>(Filet: Permet de paralyser une cible dont on couvre la tête du filet. Peut être cassé par une lame.)</small>",
                 [
                   "6 - 7 composantes: filet avec effet sur capture",
                   [
@@ -826,6 +830,7 @@
             {
               "title": "Corde",
               "description": [
+                "<small>(Corde: Permet de paralyser une cible désarmée. Peut être détruite par une lame.)</small>",
                 [
                   "6 - 7 composantes: corde avec effet sur capture",
                   [
@@ -863,7 +868,7 @@
             {
               "title": "Fortification",
               "description": [
-                "<small>(Fortification : redonne un point de vie à une forteresse. Une forteresse peut avoir jusqu’à 5 points de vie, mais commence le jeu avec 3.)</small>",
+                "<small>(Fortification: Redonne un point de vie à une forteresse. Une forteresse peut avoir jusqu’à 5 points de vie, mais commence le jeu avec 3.)</small>",
                 [
                   "6 - 7 composantes: effet à usage unique affectant tous le monde à l’intérieur d’un bâtiment",
                   [
@@ -974,12 +979,14 @@
             {
               "title": "Forgeron",
               "description": [
-                "Cette sous-école rassemble les rituels affectant tous les objets de métal. Elle comprend également les rituels touchant à l’or, l’argent et les métaux spéciaux. La magie des bijoux provient généralement de cette sous-école.",
+                "Cette sous-école rassemble les rituels affectant tous les objets de métal. Elle comprend également les rituels touchant à l’or, l’argent et les métaux spéciaux. La magie des bijoux provient généralement de cette sous-école."
+              ]
+            },
+            {
+              "title": "Armures",
+              "description": [
+                "<small>(Armure : permet au forgeron de réparer une armure en combat en 15 secondes.)</small>",
                 [
-                  "Armures"
-                ],
-                [
-                  "(Armure : permet au forgeron de réparer une armure en combat en 15 secondes.)",
                   "6 - 18 composantes: effet permanent sur le porteur (c = nombre de composantes)",
                   [
                     "+[c/6]karma au début du jeu",
@@ -1020,9 +1027,7 @@
             {
               "title": "Armes",
               "description": [
-                [
-                  "(Arme : remplace une arme cassée)"
-                ],
+                "<small>(Arme : remplace une arme cassée)</small>",
                 [
                   "6 - 7 composantes: imite une technique gratuitement, une fois par combat",
                   [
@@ -1077,64 +1082,64 @@
             {
               "title": "Bouclier",
               "description": [
+                "<small>(Bouclier : remplace un bouclier cassé)</small>",
                 [
-                  "(Bouclier : remplace un bouclier cassé;)"
-                ],
-                "6 - 7 composantes: imite une technique gratuitement, une fois par combat",
-                [
-                  "Esquive",
-                  "Déflexion",
-                  "Déviation"
-                ],
-                "8 - 9 composantes: imite une technique gratuitement, une fois par combat",
-                [
-                  "Santé",
-                  "Second-souffle",
-                  "Verbomoteur"
-                ],
-                "10 - 11 composantes: donne accès à une technique, utilisant l’énergie du porteur",
-                [
-                  "Esquive",
-                  "Déflexion",
-                  "Déviation"
-                ],
-                "12 - 13 composantes: donne accès à une technique, utilisant l’énergie du porteur",
-                [
-                  "Santé",
-                  "Second-souffle",
-                  "Verbomoteur"
-                ],
-                "14 - 15 composantes: le bouclier prend la forme d’un bijou. Donne accès une technique, utilisant l’énergie du porteur. ",
-                [
-                  "Mensonge",
-                  "Évasion",
-                  "Dissimulation",
-                  "Camouflage"
-                ],
-                "16 - 20 composantes: Sauvegarde les rituels provenant d’une école de rituel, au coût d’un d’énergie.",
-                [
-                  "Protection",
-                  "Création",
-                  "Nécromancie",
-                  "Démonologie",
-                  "Élémentaire",
-                  "Naturel."
-                ],
-                "21 - 30 composantes: sauvegarde contre les mécaniques de combat et scénario d’une nature.",
-                [
-                  "École rituel précise",
-                  "Pouvoir de source infernal",
-                  "Pouvoir de source divine",
-                  "Pouvoir de source cosmique",
-                  "Pouvoir de source druidique",
-                  "Pouvoir de source naturelle corrompue"
+                  "6 - 7 composantes: imite une technique gratuitement, une fois par combat",
+                  [
+                    "Esquive",
+                    "Déflexion",
+                    "Déviation"
+                  ],
+                  "8 - 9 composantes: imite une technique gratuitement, une fois par combat",
+                  [
+                    "Santé",
+                    "Second-souffle",
+                    "Verbomoteur"
+                  ],
+                  "10 - 11 composantes: donne accès à une technique, utilisant l’énergie du porteur",
+                  [
+                    "Esquive",
+                    "Déflexion",
+                    "Déviation"
+                  ],
+                  "12 - 13 composantes: donne accès à une technique, utilisant l’énergie du porteur",
+                  [
+                    "Santé",
+                    "Second-souffle",
+                    "Verbomoteur"
+                  ],
+                  "14 - 15 composantes: le bouclier prend la forme d’un bijou. Donne accès une technique, utilisant l’énergie du porteur. ",
+                  [
+                    "Mensonge",
+                    "Évasion",
+                    "Dissimulation",
+                    "Camouflage"
+                  ],
+                  "16 - 20 composantes: Sauvegarde les rituels provenant d’une école de rituel, au coût d’un d’énergie.",
+                  [
+                    "Protection",
+                    "Création",
+                    "Nécromancie",
+                    "Démonologie",
+                    "Élémentaire",
+                    "Naturel."
+                  ],
+                  "21 - 30 composantes: sauvegarde contre les mécaniques de combat et scénario d’une nature.",
+                  [
+                    "École rituel précise",
+                    "Pouvoir de source infernal",
+                    "Pouvoir de source divine",
+                    "Pouvoir de source cosmique",
+                    "Pouvoir de source druidique",
+                    "Pouvoir de source naturelle corrompue"
+                  ]
                 ]
               ]
             },
             {
               "title": "Cadenas",
               "description": [
-                "(Cadenas et clef : empêche l’ouverture d’un coffre sans la clef)",
+                "<small>(Cadenas et clef : empêche l’ouverture d’un coffre sans la clef)</small>",
                 "Un cadenas magique ne peut -être ouvert que par un mot de commande écrit dans une enveloppe dans le coffre qu’il sert à barrer. Pour crocheter le cadenas, il faut d’abord briser l’enchantement. Un mage avec infusion et disjonction doit ramasser un nombre de composantes égal au nombre cumulé pour faire le cadenas et faire un rituel cumulant autant de points de protocole.",
                 "Le cadenas redevient alors normal, et peut être crocheté. Le nombre de composantes investit dans le rituel de création du cadenas doit être clairement indiqué sur la représentation du cadenas. Dès qu’un cadenas magique est créé, la mécanique pour les briser doit faire partie du speech de départ. Le Poste de Traite informe aussi les voleurs curieux de la procédure."
               ]
@@ -1142,7 +1147,7 @@
             {
               "title": "Engin de siège",
               "description": [
-                "(Engin de siège : inflige 1 de dégât à une fortification. Une personne touchée par un projectile d’engin de siège est morte.)",
+                "<small>(Engin de siège : inflige 1 de dégât à une fortification. Une personne touchée par un projectile d’engin de siège est morte.)</small>",
                 [
                   "Inflige 1+[c/6] dégât à une fortification (entre 2 et 6). Cumulable avec l’effet d’un enchantement."
                 ]
@@ -2467,7 +2472,7 @@
         {
           "title": "Joyaux",
           "description": [
-            "(Joyau : effets scénario divers. Limite de 3 joyaux par personnage dans un même jeu)",
+            "<small>(Joyau : effets scénario divers. Limite de 3 joyaux par personnage dans un même jeu)</small>",
             [
               "6 - 7 composantes: effet sur le porteur, instantané, une fois par jeu.",
               [
@@ -2520,7 +2525,7 @@
             {
               "title": "Alchimie",
               "description": [
-                "(Ressources : champignon, venin ou plante. Poison: réduit de 2 l’énergie. Toxine: foudroie, Venin: ajoute 1 de dégât.)",
+                "<small>(Ressources : champignon, venin ou plante. Poison: réduit de 2 l’énergie. Toxine: foudroie, Venin: ajoute 1 de dégât.)</small>",
                 "Légende :",
                 [
                   "[Sang] Transmise quand on touche le joueur assommé ou mort.",
@@ -2552,7 +2557,7 @@
             {
               "title": "Herboristerie",
               "description": [
-                "(Ressources : calmant, stimulant et contrepoison. Baume : guérit 2 points de vie. Injection : guérit assommé. Antidote : contrepoison.)",
+                "<small>(Ressources : calmant, stimulant et contrepoison. Baume : guérit 2 points de vie. Injection : guérit assommé. Antidote : contrepoison.)</small>",
                 "Les rituels avec les médicaments permettent de guérir les gens des maladies créées par les rituels de création sur l’alchimie. La force doit être équivalente à celle utilisée pour créer la maladie. Le rituel crée une recette qu’un herboriste peut utiliser pour synthétiser un bloc de production en remède pour la maladie précise. Chaque fois que le rituel est répété, il est possible d’enseigner la recette à un autre herboriste.",
                 "Le rituel va toujours donner le bon remède si le joueur peut identifier la maladie et la puissance nécessaire pour la révoquer. Un joueur peut aussi essayer de transformer un remède sans connaître de maladie. À ce moment, le joueur apprend une recette au hasard capable de soigner une des maladies de la liste alchimie. Appliquer la maladie la plus près en puissance."
               ]
@@ -2560,7 +2565,7 @@
             {
               "title": "Potions",
               "description": [
-                "(Ressources : philtre, poudre et essence. Fortitude: une sauvegarde poison. Guérison : guérit 1 pv. Sagesse : redonne 2 d’énergie.)",
+                "<small>(Ressources : philtre, poudre et essence. Fortitude: une sauvegarde poison. Guérison : guérit 1 pv. Sagesse : redonne 2 d’énergie.)</small>",
                 "Les potions utilisées en rituel de création permettent de bénir un certain nombre de participants pour la durée du jeu, à moins d’avertissement contraire. Les avantages ne peuvent pas surpasser les maximums établis du système. Certains rituels font effet dès qu’ils sont terminer, d’autre permette de garder l’effet en bouteille.",
                 "Légende:",
                 [
