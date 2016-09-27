@@ -6,6 +6,7 @@ characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", "$lo
   $scope._lst_unique_anchor = [];
 
   $scope.in_filter_edition = false;
+  $scope.filter_list = [];
 
   $scope.isMobile = function () {
     return $scope.$parent.active_style == 'Petite personne';
@@ -125,11 +126,98 @@ characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", "$lo
     }
   }
 
+  $scope.select_all_filter = function (filter_list) {
+    // prepare data
+    for (var i1 = 0; i1 < $scope.manual.length; i1++) {
+      var sec1 = $scope.manual[i1];
+      sec1.visible = filter_list.indexOf($scope.formatAnchor(sec1, null)) >= 0;
+      if (sec1.section) {
+        for (var i2 = 0; i2 < sec1.section.length; i2++) {
+          var sec2 = sec1.section[i2];
+          sec2.visible = filter_list.indexOf($scope.formatAnchor(sec2, [sec1])) >= 0;
+          if (sec2.section) {
+            for (var i3 = 0; i3 < sec2.section.length; i3++) {
+              var sec3 = sec2.section[i3];
+              sec3.visible = filter_list.indexOf($scope.formatAnchor(sec3, [sec1, sec2])) >= 0;
+              if (sec3.section) {
+                for (var i4 = 0; i4 < sec3.section.length; i4++) {
+                  var sec4 = sec3.section[i4];
+                  sec4.visible = filter_list.indexOf($scope.formatAnchor(sec4, [sec1, sec2, sec3])) >= 0;
+                  if (sec4.section) {
+                    for (var i5 = 0; i5 < sec4.section.length; i5++) {
+                      var sec5 = sec4.section[i5];
+                      sec5.visible = filter_list.indexOf($scope.formatAnchor(sec5, [sec1, sec2, sec3, sec4])) >= 0;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  $scope.change_location_filter = function() {
+    if (!$scope.manual) {
+      return "";
+    }
+    $scope.filter_list = [];
+
+    // detect visible
+    for (var i1 = 0; i1 < $scope.manual.length; i1++) {
+      var sec1 = $scope.manual[i1];
+      if (sec1.visible) {
+        $scope.filter_list.push(sec1.titleAnchor);
+      }
+      if (sec1.section) {
+        for (var i2 = 0; i2 < sec1.section.length; i2++) {
+          var sec2 = sec1.section[i2];
+          if (sec2.visible) {
+            $scope.filter_list.push(sec2.titleAnchor);
+          }
+          if (sec2.section) {
+            for (var i3 = 0; i3 < sec2.section.length; i3++) {
+              var sec3 = sec2.section[i3];
+              if (sec3.visible) {
+                $scope.filter_list.push(sec3.titleAnchor);
+              }
+              if (sec3.section) {
+                for (var i4 = 0; i4 < sec3.section.length; i4++) {
+                  var sec4 = sec3.section[i4];
+                  if (sec4.visible) {
+                    $scope.filter_list.push(sec4.titleAnchor);
+                  }
+                  if (sec4.section) {
+                    for (var i5 = 0; i5 < sec4.section.length; i5++) {
+                      var sec5 = sec4.section[i5];
+                      if (sec5.visible) {
+                        $scope.filter_list.push(sec5.titleAnchor);
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return $window.location.origin + "/manual#/filter=" + $scope.filter_list.join("&");
+  }
+
   $http.get("/cmd/rule").success(
     function (data/*, status, headers, config*/) {
       $scope.manual = data.manual;
 
-      $scope.select_all(true);
+      var key = "/filter=";
+      if ($location.path().substring(0, key.length) == key) {
+        $scope.filter_list = $location.path().substring(key.length).split("&");
+        $scope.select_all_filter($scope.filter_list);
+      } else {
+        $scope.select_all(true);
+      }
 
       // Need to wait to receive information before move to good position in page
       $timeout(function() {
