@@ -9,6 +9,9 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   $scope.xp_default = 6;
   $scope.xp_bogue = 5;
 
+
+  $scope.html_qr_code = "";
+
   $scope.player = null;
   $scope.last_player = null;
   $scope.character = null;
@@ -61,39 +64,42 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   }, true);
 
   $scope.$watch("player", function (value) {
-    if (value) {
-      $scope.prettyPlayer = JSON.stringify(value, undefined, 2);
-      // update model information
-      $scope.model_user = filterIgnore(value, ["$$hashKey", "character"]);
-      // var first_id;
-      // for(first_id in $scope.model_user.character) break;
-      // $scope.model_char = $scope.model_user.character[first_id];
-      // TODO put xp default in json configuration file
-      // TODO need to find right id character, and not taking first!
-      if (isDefined(value.character)) {
-        var firstChar = value.character[0];
-        $scope.model_char = filterIgnore(firstChar, ["$$hashKey"]);
-        // TODO need to feel empty field
-        if (!isDefined(firstChar.habilites)) {
-          $scope.model_char.habilites = [{}];
-        }
-        if (!isDefined(firstChar.technique_maitre)) {
-          $scope.model_char.technique_maitre = [];
-        }
-        if (!isDefined(firstChar.xp_naissance)) {
-          $scope.model_char.xp_naissance = $scope.xp_bogue;
-        }
-        if (!isDefined(firstChar.xp_autre)) {
-          $scope.model_char.xp_autre = 0;
-        }
-      } else {
-        $scope.model_char = {};
+    if (!value) {
+      return;
+    }
+    $scope.prettyPlayer = JSON.stringify(value, undefined, 2);
+    // update model information
+    $scope.model_user = filterIgnore(value, ["$$hashKey", "character"]);
+    // var first_id;
+    // for(first_id in $scope.model_user.character) break;
+    // $scope.model_char = $scope.model_user.character[first_id];
+    // TODO put xp default in json configuration file
+    // TODO need to find right id character, and not taking first!
+    if (isDefined(value.character)) {
+      var firstChar = value.character[0];
+      $scope.model_char = filterIgnore(firstChar, ["$$hashKey"]);
+
+      // TODO need to feel empty field
+      if (!isDefined(firstChar.habilites)) {
         $scope.model_char.habilites = [{}];
+      }
+      if (!isDefined(firstChar.technique_maitre)) {
         $scope.model_char.technique_maitre = [];
+      }
+      if (!isDefined(firstChar.xp_naissance)) {
         $scope.model_char.xp_naissance = $scope.xp_bogue;
+      }
+      if (!isDefined(firstChar.xp_autre)) {
         $scope.model_char.xp_autre = 0;
       }
+    } else {
+      $scope.model_char = {};
+      $scope.model_char.habilites = [{}];
+      $scope.model_char.technique_maitre = [];
+      $scope.model_char.xp_naissance = $scope.xp_bogue;
+      $scope.model_char.xp_autre = 0;
     }
+    $scope.get_html_qr_code();
   }, true);
 
   $scope.newPlayer = function () {
@@ -275,6 +281,16 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       return "+" + diff;
     }
     return diff;
+  };
+
+  $scope.get_html_qr_code = function () {
+    var typeNumber = 5;
+    var errorCorrectionLevel = 'L';
+    var qr = qrcode(typeNumber, errorCorrectionLevel);
+    var data = "http://traitrelame.ca:5551/character#/?id_player=" + $scope.player.id
+    qr.addData(data);
+    qr.make();
+    $scope.html_qr_code = qr.createImgTag();
   };
 
   // socket.onmessage = function (e) {

@@ -22,6 +22,7 @@
     "bootstrap": "3.3.6",
     "sockjs": "0.3.4",
     "angular-schema-form-dynamic-select": "master",
-    "ngPrint": "master"
+    "ngPrint": "master",
+    "angular-qrcode": "master"
   }
 }

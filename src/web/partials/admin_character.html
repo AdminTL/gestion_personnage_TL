@@ -50,7 +50,7 @@
         </div>
         <hr>
         <div>
-          debug Xp naissance : <input type="number" ng-model="model_char.xp_naissance" />
+          debug Xp naissance : <input type="number" ng-model="model_char.xp_naissance"/>
         </div>
       </div>
     </div>
@@ -68,6 +68,9 @@
       <div>{{!prettyModelChar}}</div>
       <hr/>
       <div>{{!prettyPlayer}}</div>
+      <hr/>
+      <div>http://traitrelame.ca:5551/character#/?id_player={{! player.id }}</div>
+      <div style="height:200px;width:200px;background:white" ng-bind-html="html_qr_code"></div>
       <hr/>
     </form>
   </div>
