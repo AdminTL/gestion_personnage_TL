@@ -3,14 +3,14 @@
 {% block content %}
 <div ng-controller="character_ctrl">
   <div ng-show="!player_id_from_get && !ddb_user" class="col-sm-offset-4"><h1>Pour accéder à votre fiche de personnage, veuillez
-    communiquer à l'organisation du grandeur nature Traître-Lame.</h1></div>
-  <div class="sidebar-left">
+    communiquer avec l'organisation du grandeur nature Traître-Lame.</h1></div>
+  <div class="col-xs-3 bs-docs-sidebar" ng-hide="isMobile() && player">
     <br/>
-    <div class="bs-sidebar hidden-print affix" role="complementary">
+    <div ng-hide="!ddb_user" class="bs-sidebar hidden-print affix" role="complementary">
 
       Joueur
       <div class="list-group" ng-show="!new_player">
-        Nb joueur : {{!ddb_user.length}}
+        Nb joueur : {{! ddb_user.length }}
         <select class="form-control" ng-model="player" ng-options="user.name for user in ddb_user | orderBy:'name'" ng-change="setCharacterData(null)">
           <option value="">--Sélectionner un joueur--</option>
         </select>
@@ -41,6 +41,7 @@
           showDiffTotalXp() }}</a>
         </div>
       </div>
+      <div ng-hide="isMobile() || !html_qr_code" style="height:200px;width:200px;background:white" ng-bind-html="html_qr_code"></div>
     </div>
   </div>
 
@@ -50,6 +51,10 @@
       <hr/>
       <div sf-schema="schema_char" sf-form="form_char" sf-model="model_char"></div>
     </form>
+    <div ng-show="isMobile()">
+      Xp : {{! countTotalCostXp() }} <a class="text-decoration: none;" ng-hide="diffTotalXp() == 0" ng-style="diffTotalXp() > 0 ? {'color': 'green'} : {'color': 'red'}">{{!
+      showDiffTotalXp() }}</a>
+    </div>
   </div>
 
 </div> <!-- end of character_ctrl -->

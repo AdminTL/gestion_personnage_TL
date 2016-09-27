@@ -2,7 +2,7 @@
 
 {% block content %}
 <div ng-controller="character_ctrl">
-  <div class="sidebar-left">
+  <div class="col-xs-3 bs-docs-sidebar" ng-hide="isMobile() && player">
     <br/>
     <div class="bs-sidebar hidden-print affix" role="complementary">
 
@@ -53,26 +53,32 @@
           debug Xp naissance : <input type="number" ng-model="model_char.xp_naissance"/>
         </div>
       </div>
+      <div ng-hide="isMobile() || !html_qr_code" style="height:200px;width:200px;background:white" ng-bind-html="html_qr_code"></div>
     </div>
   </div>
 
   <div ng-show="player" role="main" class="col-sm-offset-4">
-    <h3>Bogue quand on change l'utilisateur, choisir "sélection..." comme option avant de choisir un joueur.</h3>
     <form name="my_form_char" ng-submit="onSubmit(my_form_char)">
       <div sf-schema="schema_user" sf-form="form_user" sf-model="model_user"></div>
       <hr/>
       <div sf-schema="schema_char" sf-form="form_char" sf-model="model_char"></div>
-      <hr/>
-      <div>{{!prettyModelUser}}</div>
-      <hr/>
-      <div>{{!prettyModelChar}}</div>
-      <hr/>
-      <div>{{!prettyPlayer}}</div>
-      <hr/>
-      <div>http://traitrelame.ca:5551/character#/?id_player={{! player.id }}</div>
-      <div style="height:200px;width:200px;background:white" ng-bind-html="html_qr_code"></div>
-      <hr/>
+      <div ng-hide="isMobile()">
+        <hr/>
+        <div>{{!prettyModelUser}}</div>
+        <hr/>
+        <div>{{!prettyModelChar}}</div>
+        <hr/>
+        <div>{{!prettyPlayer}}</div>
+        <hr/>
+        <div>http://traitrelame.ca:5551/character#/?id_player={{! player.id }}</div>
+        <div>{{! url_qr_code }}</div>
+        <hr/>
+      </div>
     </form>
+    <div ng-show="isMobile()">
+      Xp : {{! countTotalCostXp() }} <a class="text-decoration: none;" ng-hide="diffTotalXp() == 0" ng-style="diffTotalXp() > 0 ? {'color': 'green'} : {'color': 'red'}">{{!
+      showDiffTotalXp() }}</a>
+    </div>
   </div>
 
 </div> <!-- end of character_ctrl -->

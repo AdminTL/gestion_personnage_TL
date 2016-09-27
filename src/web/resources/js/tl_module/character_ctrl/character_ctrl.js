@@ -6,11 +6,16 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   // var socket = new SockJS(data_source);
   $scope.is_admin = "/admin" == $window.location.pathname;
 
+  $scope.isMobile = function () {
+    return $scope.$parent.active_style == 'Petite personne';
+  };
+
   // todo move this variable in json
   $scope.xp_default = 6;
   $scope.xp_bogue = 5;
 
   $scope.html_qr_code = "";
+  $scope.url_qr_code = "";
 
   $scope.player = null;
   $scope.last_player = null;
@@ -287,7 +292,8 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     var typeNumber = 5;
     var errorCorrectionLevel = 'L';
     var qr = qrcode(typeNumber, errorCorrectionLevel);
-    var data = "http://traitrelame.ca:5551/character#/?id_player=" + $scope.player.id
+    var data = $window.location.origin + "/character#/?id_player=" + $scope.player.id
+    $scope.url_qr_code = data;
     qr.addData(data);
     qr.make();
     $scope.html_qr_code = qr.createImgTag();
