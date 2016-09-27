@@ -4,11 +4,11 @@
 characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /*"$timeout",*/ function ($scope, $q, $http, $window) {
   // var data_source = "http://" + window.location.host + "/update_user";
   // var socket = new SockJS(data_source);
+  $scope.is_admin = "/admin" == $window.location.pathname;
 
   // todo move this variable in json
   $scope.xp_default = 6;
   $scope.xp_bogue = 5;
-
 
   $scope.html_qr_code = "";
 
@@ -307,7 +307,12 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
 //  );
 
   $scope.player_id_from_get = $window.location.hash.substring("#/?id_player=".length);
-  $http.get("/cmd/character_view?player_id=" + $scope.player_id_from_get).success(
+  if ($scope.is_admin) {
+    $scope.url_view_character = "/cmd/character_view?is_admin";
+  } else {
+    $scope.url_view_character = "/cmd/character_view?player_id=" + $scope.player_id_from_get;
+  }
+  $http.get($scope.url_view_character).success(
     // Send id from URL
     function (data/*, status, headers, config*/) {
       $scope.ddb_user = data;
