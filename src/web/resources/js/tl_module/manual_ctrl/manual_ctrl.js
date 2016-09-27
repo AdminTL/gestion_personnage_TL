@@ -5,9 +5,13 @@ characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", "$lo
   $scope.manual = null;
   $scope._lst_unique_anchor = [];
 
+  $scope.in_filter_edition = false;
+
   $scope.isMobile = function () {
     return $scope.$parent.active_style == 'Petite personne';
   };
+
+  $scope.advance_option = false;
 
   $scope.formatMenuNavHtml = function (title) {
     return title + " <b class=\"caret\" />";
@@ -89,9 +93,43 @@ characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", "$lo
     return response;
   };
 
+  $scope.select_all = function (is_selected) {
+    // prepare data
+    for (var i1 = 0; i1 < $scope.manual.length; i1++) {
+      var sec1 = $scope.manual[i1];
+      sec1.visible = is_selected;
+      if (sec1.section) {
+        for (var i2 = 0; i2 < sec1.section.length; i2++) {
+          var sec2 = sec1.section[i2];
+          sec2.visible = is_selected;
+          if (sec2.section) {
+            for (var i3 = 0; i3 < sec2.section.length; i3++) {
+              var sec3 = sec2.section[i3];
+              sec3.visible = is_selected;
+              if (sec3.section) {
+                for (var i4 = 0; i4 < sec3.section.length; i4++) {
+                  var sec4 = sec3.section[i4];
+                  sec4.visible = is_selected;
+                  if (sec4.section) {
+                    for (var i5 = 0; i5 < sec4.section.length; i5++) {
+                      var sec5 = sec4.section[i5];
+                      sec5.visible = is_selected;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
   $http.get("/cmd/rule").success(
     function (data/*, status, headers, config*/) {
       $scope.manual = data.manual;
+
+      $scope.select_all(true);
 
       // Need to wait to receive information before move to good position in page
       $timeout(function() {

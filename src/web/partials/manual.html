@@ -6,24 +6,34 @@
 
   <!--Nav Bar menu interactive follow scroll position -->
   <!-- Bug, only can manage 2 levels -->
-  <div class="col-xs-3 bs-docs-sidebar" ng-hide="isMobile()">
+  <div class="col-xs-3 bs-docs-sidebar print-hide" ng-hide="isMobile()">
     <!-- LEVEL 1 -->
     <ul id="sidebar" class="nav nav-stacked">
-      <li ng-repeat="manual_sect_1 in manual">
+      <li ng-repeat="manual_sect_1 in manual" ng-show="in_filter_edition || manual_sect_1.visible">
         <a target="_self" ng-href="#{{! formatAnchor(manual_sect_1, null) }}"
            ng-bind-html="formatMenuNavHtml(manual_sect_1.title)"></a>
 
         <!-- LEVEL 2 -->
         <ul class="nav nav-stacked">
-          <li ng-repeat="manual_sect_2 in manual_sect_1.section">
+          <li ng-repeat="manual_sect_2 in manual_sect_1.section" ng-show="in_filter_edition || manual_sect_2.visible">
             <a target="_self" ng-href="#{{! formatAnchor(manual_sect_2, [manual_sect_1]) }}" ng-bind-html="manual_sect_2.title"></a>
           </li>
         </ul>
 
       </li>
-      <button class="btn btn-primary" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i>Imprimer
-      </button>
       <a class="nav nav-stacked" target="_self" href="#top"> Retour en haut </a>
+      <button class="btn btn-primary" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i>Imprimer</button>
+      <br/>
+      <br/>
+      <a ng-click="advance_option=!advance_option">Option avancée : <span ng-show="advance_option" class="glyphicon glyphicon-triangle-bottom"></span><span ng-hide="advance_option"
+                                                                                                                                                            class="glyphicon glyphicon-triangle-right"></span></a>
+      <div ng-show="advance_option">
+        <button class="btn btn-primary" ng-click="in_filter_edition=true;" ng-show="!in_filter_edition">Créer filtre</button>
+        <button class="btn btn-primary" ng-click="in_filter_edition=false;" ng-show="in_filter_edition">Filtre terminé</button>
+        <br/>
+        <button class="btn btn-primary" ng-click="select_all(true)" ng-show="in_filter_edition">Tous</button>
+        <button class="btn btn-primary" ng-click="select_all(false)" ng-show="in_filter_edition">Aucun</button>
+      </div>
     </ul>
   </div> <!-- end nav content -->
 
@@ -37,43 +47,53 @@
       <!-- This span class anchor only exist to help anchor with nav menu top fixed -->
       <span class="anchor" id="{{! formatAnchor(manual_sect_1, null) }}"></span>
 
-      <div>
-        <h1 style="display:inline" ng-bind-html="getTitleHtml(manual_sect_1)"></h1>
-        <a target="_self" style="color: #C7C7C7" ng-href="#{{! formatAnchor(manual_sect_1, null) }}"><span
-            class="glyphicon glyphicon-link print-hide"></span></a>
-      </div>
+      <div ng-show="in_filter_edition || manual_sect_1.visible" ng-class="{'print-hide': !manual_sect_1.visible}">
+        <div>
+          <input ng-show="in_filter_edition" type="checkbox" ng-model="manual_sect_1.visible">
+          <h1 style="display:inline" ng-bind-html="getTitleHtml(manual_sect_1)"></h1>
+          <a target="_self" style="color: #C7C7C7" ng-href="#{{! formatAnchor(manual_sect_1, null) }}"><span
+              class="glyphicon glyphicon-link print-hide"></span></a>
+        </div>
 
-      <p ng-bind-html="formatHtmlDescription(manual_sect_1.description)"></p>
+        <p ng-bind-html="formatHtmlDescription(manual_sect_1.description)"></p>
+      </div>
 
       <!-- LEVEL 2 -->
       <div ng-repeat="manual_sect_2 in manual_sect_1.section">
         <span class="anchor" id="{{! formatAnchor(manual_sect_2, [manual_sect_1]) }}"></span>
 
-        <div>
-          <h2 style="display:inline" ng-bind-html="getTitleHtml(manual_sect_2)"></h2>
-          <a target="_self" style="color: #C7C7C7" ng-href="#{{! formatAnchor(manual_sect_2, [manual_sect_1]) }}"><span
-              class="glyphicon glyphicon-link print-hide"></span></a>
-        </div>
+        <div ng-show="in_filter_edition || manual_sect_2.visible" ng-class="{'print-hide': !manual_sect_1.visible}">
+          <div>
+            <input ng-show="in_filter_edition" type="checkbox" ng-model="manual_sect_2.visible">
+            <h2 style="display:inline" ng-bind-html="getTitleHtml(manual_sect_2)"></h2>
+            <a target="_self" style="color: #C7C7C7" ng-href="#{{! formatAnchor(manual_sect_2, [manual_sect_1]) }}"><span
+                class="glyphicon glyphicon-link print-hide"></span></a>
+          </div>
 
-        <p ng-bind-html="formatHtmlDescription(manual_sect_2.description)"></p>
+          <p ng-bind-html="formatHtmlDescription(manual_sect_2.description)"></p>
+        </div>
 
         <!-- LEVEL 3 -->
         <div ng-repeat="manual_sect_3 in manual_sect_2.section">
           <span class="anchor" id="{{! formatAnchor(manual_sect_3, [manual_sect_1, manual_sect_2]) }}"></span>
 
-          <div>
-            <h3 style="display:inline" ng-bind-html="getTitleHtml(manual_sect_3)"></h3>
-            <a target="_self" style="color: #C7C7C7" ng-href="#{{! formatAnchor(manual_sect_3, [manual_sect_1, manual_sect_2]) }}"><span
-                class="glyphicon glyphicon-link print-hide"></span></a>
+          <div ng-show="in_filter_edition || manual_sect_3.visible" ng-class="{'print-hide': !manual_sect_1.visible}">
+            <div>
+              <input ng-show="in_filter_edition" type="checkbox" ng-model="manual_sect_3.visible">
+              <h3 style="display:inline" ng-bind-html="getTitleHtml(manual_sect_3)"></h3>
+              <a target="_self" style="color: #C7C7C7" ng-href="#{{! formatAnchor(manual_sect_3, [manual_sect_1, manual_sect_2]) }}"><span
+                  class="glyphicon glyphicon-link print-hide"></span></a>
+            </div>
+
+            <p ng-bind-html="formatHtmlDescription(manual_sect_3.description)"></p>
           </div>
 
-          <p ng-bind-html="formatHtmlDescription(manual_sect_3.description)"></p>
-
           <!-- LEVEL 4 -->
-          <div class="panel panel-primary" ng-repeat="manual_sect_4 in manual_sect_3.section">
+          <div class="panel panel-primary" ng-show="in_filter_edition || manual_sect_4.visible" ng-class="{'print-hide': !manual_sect_1.visible}" ng-repeat="manual_sect_4 in manual_sect_3.section">
             <span class="anchor" id="{{! formatAnchor(manual_sect_4, [manual_sect_1, manual_sect_2, manual_sect_3]) }}"></span>
 
             <div class="panel-heading">
+              <input ng-show="in_filter_edition" type="checkbox" ng-model="manual_sect_4.visible">
               <h4 style="display:inline" class="panel-title" ng-bind-html="getTitleHtml(manual_sect_4)"></h4>
               <a target="_self" style="color: #C7C7C7" ng-href="#{{! formatAnchor(manual_sect_4, [manual_sect_1, manual_sect_2, manual_sect_3]) }}"><span
                   class="glyphicon glyphicon-link print-hide"></span></a>
@@ -83,10 +103,12 @@
               <p ng-bind-html="formatHtmlDescription(manual_sect_4.description)"></p>
 
               <!-- LEVEL 5 -->
-              <div class="panel panel-primary" ng-repeat="manual_sect_5 in manual_sect_4.section">
+              <div class="panel panel-primary" ng-show="in_filter_edition || manual_sect_5.visible" ng-class="{'print-hide': !manual_sect_1.visible}"
+                   ng-repeat="manual_sect_5 in manual_sect_4.section">
                 <span class="anchor" id="{{! formatAnchor(manual_sect_5, [manual_sect_1, manual_sect_2, manual_sect_3, manual_sect_4]) }}"></span>
 
                 <div class="panel-heading">
+                  <input ng-show="in_filter_edition" type="checkbox" ng-model="manual_sect_5.visible">
                   <h5 style="display:inline" class="panel-title" ng-bind-html="getTitleHtml(manual_sect_5)"></h5>
                   <a target="_self" style="color: #C7C7C7" ng-href="#{{! formatAnchor(manual_sect_5, [manual_sect_1, manual_sect_2, manual_sect_3, manual_sect_4]) }}"><span
                       class="glyphicon glyphicon-link print-hide"></span></a>
