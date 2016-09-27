@@ -91,6 +91,9 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       if (!isDefined(firstChar.technique_maitre)) {
         $scope.model_char.technique_maitre = [];
       }
+      if (!isDefined(firstChar.rituel)) {
+        $scope.model_char.rituel = [];
+      }
       if (!isDefined(firstChar.xp_naissance)) {
         $scope.model_char.xp_naissance = $scope.xp_bogue;
       }
@@ -101,6 +104,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       $scope.model_char = {};
       $scope.model_char.habilites = [{}];
       $scope.model_char.technique_maitre = [];
+      $scope.model_char.rituel = [];
       $scope.model_char.xp_naissance = $scope.xp_bogue;
       $scope.model_char.xp_autre = 0;
     }

@@ -106,6 +106,17 @@ function TL_Schema($scope) {
         type: "array",
         items: {type: "string"}
       },
+      rituel: {
+        type: "array",
+        title: "Rituel",
+        maxItems: 100,
+        minItems: 0,
+        uniqueItems: true,
+        items: {
+          title: "Rituel",
+          type: "string"
+        }
+      },
       technique_maitre: {
         type: "array",
         title: "Techniques de Maitre",
@@ -431,6 +442,13 @@ function TL_Schema($scope) {
         ]
       },
       {
+        key: "rituel",
+        add: "Ajout d'un rituel",
+        style: {
+          add: "btn-success"
+        },
+      },
+      {
         key: "technique_maitre",
         add: "Ajouter Technique de maitre",
         style: {
@@ -443,9 +461,7 @@ function TL_Schema($scope) {
         title: "Enregistrer"
       }
     ];
-  console.log("admin");
   } else {
-  console.log("user");
     $scope.form_user = [
       {
         key: "name",
@@ -728,6 +744,13 @@ function TL_Schema($scope) {
           {value: "Protection", name: "Protection"},
           {value: "Élémentaire", name: "Élémentaire"}
         ]
+      },
+      {
+        key: "rituel",
+        add: "Ajout d'un rituel",
+        style: {
+          add: "btn-success"
+        },
       },
       {
         key: "technique_maitre",
