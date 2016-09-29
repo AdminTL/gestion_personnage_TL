@@ -2600,6 +2600,25 @@
           ]
         }
       ]
+    },
+    {
+      "title": "Fortification",
+      "title_html": "Fortification <span class='label label-info'><span class='glyphicon glyphicon-star'></span> Nouveau</span>",
+      "description": ["La résistance d’une porte, que ce soit une porte de forteresse ou de taverne, dépend du nombre de bloc de production (bp) artisanat : Fortification.",
+        "1 porte de Forteresse : 50 bp artisanat : Fortification maximum",
+        "1 porte de bâtiment : 10 bp artisanat : Fortification maximum,",
+        "1 bp artisanat : Fortification = 1 point de vie de fortification.",
+        "1 bp artisanat : Fortification Enchantée = 2 points de vie de fortification.",
+        "1 bp forgeron : Engin de siège = 1 projectile d’arme de siège ou 1 coup de bélier.",
+        "* Un projectile d’arme de siège cause 1 point de dégât de fortification et fait le sortilège ''mort'' sur un personnage, sans possibilité de sauvegarde. Le projectile doit absolument avoir été tiré par un engin de siège décorum. Un coup de bélier cause 1 point de dégât de fortification.",
+        "1 bp forgeron : Engin de siège enchanté = 1 projectile enchanté d’arme de siège ou 1 coup de bélier enchanté**.",
+        "** Un projectile d’arme de siège enchanté cause 2 points de dégât de fortification et fait le sortilège ''mort'' sur un personnage, sans possibilité de sauvegarde. Le projectile doit absolument avoir été tiré par un engin de siège décorum. Un coup de bélier enchanté cause 2 points de dégât de fortification.**",
+        "Engin de siège en bluam : Permet de désenchanter une fortification. Une seule utilisation.",
+        "Engin de siège en sanglite : Permet de causer 50 points de dégât de fortification à une fortification. Une seule utilisation.",
+        "Engin de siège en malachite : Une fortification détruite par un engin de siège en malachite ne peut pas être reconstruite pour la durée d'une lune entière.",
+        "Rituels Inédits : Ces rituels sont uniques et disponibles uniquement en jeu. Ils affectent toutes les fortifications. Exemples: Mur de pierre, Mur de fer, Mur de force, Séisme, Trou Noir, Forteresse Immédiate Balmonts, Mur des enfer, Mur d’ombre. Forteresse de Bluam, Forteresse Végétale, ect.",
+        "Tous les rituels de création affectant une fortification peuvent prendre l’apparence d’un Symbole Magique. Celui-ci peut alors être activé par n’importe qui ayant participé au rituel. Ce Symbole doit mesurer minimum 30 cm."
+        ]
     }
   ]
 }
