@@ -20,7 +20,7 @@
             },
             {
               "title": "Armure",
-              "description": "Un plastron de cuir confère 1 point de vie. Un plastron de métal confère 2 points de vie. Une protection aux jambes et aux bras confère 1 point de vie supplémentaire. Les points de vie de l’armure sont les premiers à être perdu en combat. Une armure ainsi brisée doit être réparée par la technique forgeron hors-combat au cout d’un d’énergie pour conférer à nouveau ses points de vie."
+              "description": "Un plastron de cuir confère 1 point de vie. Un plastron de métal confère 2 points de vie. Une protection aux jambes et aux bras confère 1 point de vie supplémentaire. Les points de vie de l’armure sont les premiers à être perdu en combat. Une armure ainsi brisée doit être réparée par la technique forgeron hors-combat au coût d’un d’énergie pour conférer à nouveau ses points de vie."
             },
             {
               "title": "Le karma et la mort",
@@ -64,7 +64,7 @@
                   "Mémorisation : Pour mémoriser un rituel, le joueur doit produire une cérémonie spécifique pour chacun de ces rituels connus. Ces cérémonies doivent cumuler autant de points de protocole que le nombre de composantes magiques nécessaires pour faire la cérémonie. La façon d’obtenir des points de protocole est décrite à l’annexe 2 : points de protocole en page 15. La cérémonie de mémorisation ne peut être accomplie que hors combat.",
                   "Utilisation : Une fois le rituel mémoriser, le joueur doit prononcer la formule de 12 syllabes qu’il a composée pour son rituel, en suivant les mêmes règles que pour tout autre sort. Il applique l’effet de son rituel selon sa description."
                 ],
-                "Note : les objets baguettes et baguettes enchantées permettent à un mage de mémoriser instantanément le dernier rituel mémorisé en payant son cout en composantes. Une baguette est détruite après usage, alors qu’une baguette enchantée peut être utilisée une fois par combat. L’usage de baguettes successives mémorisent toujours le même rituel."
+                "Note : les objets baguettes et baguettes enchantées permettent à un mage de mémoriser instantanément le dernier rituel mémorisé en payant son coût en composantes. Une baguette est détruite après usage, alors qu’une baguette enchantée peut être utilisée une fois par combat. L’usage de baguettes successives mémorisent toujours le même rituel."
               ]
             }
           ]
@@ -368,258 +368,6 @@
       ]
     },
     {
-      "title": "Techniques de maître",
-      "description": [
-        "Les techniques de maître sont des techniques qui peuvent être choisi qu'après avoir reçu une formation en-jeu avec un PNJ. Un personnage peut avoir dix techniques de maître sur sa fiche de personnage en plus des espaces offertes par les habiletés complètes (5 talents)."
-      ],
-      "section": [
-        {
-          "title": "Discipline commune",
-          "description": [
-            "On peut choisir Endurance et Énergie deux autre fois supplémentaire."
-          ],
-          "section": [
-            {
-              "title": "Endurance [l]",
-              "description": [
-                [
-                  "+1 point de vie maximum",
-                  "+1 point de vie maximum"
-                ]
-              ]
-            },
-            {
-              "title": "Énergie [l]",
-              "description": [
-                [
-                  "+2 points d’énergie maximum",
-                  "+2 points d’énergie maximum"
-                ]
-              ]
-            }
-          ]
-        },
-        {
-          "title": "Discipline combattante",
-          "section": [
-            {
-              "title": "Discipline [c]",
-              "description": [
-                [
-                  "Lévitation [passif] immunisé à foudroyé",
-                  "Formation [Dire “formation”] Entre 3 et 6 joueurs prennent position dans une formation. Tant qu’ils tiennent cette formation, ils on 1 point de vie maximum supplémentaires",
-                  "Survie [passif] génère une ration par jeu. Est considéré comme ayant suture.",
-                  "Entretien [sauvegarde] cassé."
-                ]
-              ]
-            },
-            {
-              "title": "Karma [l]",
-              "description": [
-                [
-                  "Bénédiction [passif] +3 karma",
-                  "Phoenix [-5 karma] le joueur reviens à la vie avec toute son énergie et tous ses points de vie",
-                  "Sacrifice [passif] peut échanger 1 point de karma contre 1 point d’énergie",
-                  "Sanguinaire [passif] Quand le personnage perd du karma, il est guérit d’un point de vie"
-                ]
-              ]
-            },
-            {
-              "title": "Discipline [c]",
-              "description": [
-                [
-                  "Lévitation [passif] immunisé à foudroyé",
-                  "Formation [Dire “formation”] Entre 3 et 6 joueurs prennent position dans une formation. Tant qu’ils tiennent cette formation, ils on 1 point de vie maximum supplémentaires",
-                  "Survie [passif] génère une ration par jeu. Est considéré comme ayant suture.",
-                  "Entretien [sauvegarde] cassé."
-                ]
-              ]
-            },
-            {
-              "title": "Offense [c]",
-              "description": [
-                [
-                  "Décapitation [touche au plexus et touche au dos] mort",
-                  "Brise-Bouclier [sur une charge de 3 pas] bouclier touché est cassé",
-                  "Casse-Lame [3 touches consécutives sur l’arme] arme touchée est cassée",
-                  "Titan [passif] Arme à deux mains inflige 2 de dégât (sauf les lances)"
-                ]
-              ]
-            },
-            {
-              "title": "Défense [c]",
-              "description": [
-                [
-                  "Robuste [passif] +1 point de vie",
-                  "Volonté de fer [sauvegarde] domination",
-                  "Estomac d’acier [sauvegarde] poison et maladies transmises par la salive",
-                  "Santé de fer [sauvegarde] maladies transmises par l’air, le sang ou la famine"
-                ]
-              ]
-            }
-          ]
-        },
-        {
-          "title": "Discipline sournoise",
-          "section": [
-            {
-              "title": "Alchimie [l]",
-              "description": [
-                [
-                  "Alchimiste prolifique [passif] +3 blocs alchimiques",
-                  "Alchimiste versatile [passif] peut utiliser un bloc d’herboristerie comme un bloc d’alchimie",
-                  "Suicide [passif] à tout moment, le joueur peut choisir d’être mort",
-                  "Distillerie [production] potions"
-                ]
-              ]
-            },
-            {
-              "title": "Embuscade [c]",
-              "description": [
-                [
-                  "Nocturne [passif] +1 point de vie la nuit",
-                  "Maître des pièges [sauvegarde] pièges et toiles",
-                  "Commotion [sur une personne assommée] oublie les 5 dernières minutes",
-                  "Déguisement [passif] permet d’avoir un autre costume et d’affirmer être un autre personnage"
-                ]
-              ]
-            },
-            {
-              "title": "Fourberie [c]",
-              "description": [
-                [
-                  "Main de fer [sur une poignée de main] démembré",
-                  "Égorgement [couteau passé sous la gorge] mort  <span class='label label-danger'><span class='glyphicon glyphicon-remove-sign'></span> Bloqué par l’administration</span>",
-                  "Étouffement [dague au torse] muet",
-                  "Feinte [sauvegarde] touche (ne fonctionne que sur les attaques normales, ne bloquent pas les techniques, ni les rituels)"
-                ]
-              ]
-            },
-            {
-              "title": "Travail de précision [c]",
-              "description": [
-                [
-                  "Chanceux [passif] génère 6 blocs au choix par jeu",
-                  "Escroc [passif] génère 50 piécettes par jeu",
-                  "Orfèvre [production] joyau",
-                  "Triche [instantané] permet d’avoir une chance additionnelle dans un jeu de hasard"
-                ]
-              ]
-            }
-          ]
-        },
-        {
-          "title": "Discipline magique",
-          "section": [
-            {
-              "title": "Artisanat Arcane [c]",
-              "description": [
-                [
-                  "Chimiste prolifique [passif] +3 blocs de production de potions",
-                  "Chimiste versatile [passif] peut utiliser les blocs d’enchantement pour faire des potions",
-                  "Enchanteur prolifique [passif] +3 blocs de production d’enchantement",
-                  "Enchanteur versatile [passif] peut utiliser les blocs de potion pour enchanter"
-                ]
-              ]
-            },
-            {
-              "title": "Rituel [l]",
-              "description": [
-                [
-                  "Versatilité I [passif] donne accès à une sous-écoles d’une école de magie différente de la spécialité du joueur. Il doit utiliser des composantes de cette école de magie pour invoquer les rituels.",
-                  "Versatilité II [passif] idem",
-                  "Versatilité III [passif] idem",
-                  "Maître des rituels [passif] +5 composantes par jeu"
-                ]
-              ]
-            },
-            {
-              "title": "Sorcellerie [c]",
-              "description": [
-                [
-                  "Télékinésie [balle] la cible recule de 10 pas",
-                  "Tonnerre [balle] 2 de dégât, foudroyé",
-                  "Sorcier débrouillard[passif] peut utiliser un bloc de potion pour lancer un sort de sorcellerie",
-                  "Désintégration [balle à un membre] démembré"
-                ]
-              ]
-            },
-            {
-              "title": "Thaumaturgie [c]",
-              "description": [
-                [
-                  "Réincarnation [touché] ramène un mort à la vie avec 3 points de vie et 0 énergie",
-                  "Guérison suprême [touché] guérit 2 points de vie",
-                  "Guérisseur débrouillard [passif] peut utiliser un bloc d’enchantement pour lancer un sort de thaumaturgie",
-                  "Restauration [touché] régénère les 4 membres"
-                ]
-              ]
-            }
-          ]
-        },
-        {
-          "title": "Discipline professionnelle",
-          "section": [
-            {
-              "title": "Baratin [c]",
-              "description": [
-                [
-                  "Alcoolique [passif] une consommation redonne un point de vie",
-                  "Triche [instantané] permet d’avoir une chance additionnelle dans un jeu de hasard",
-                  "Rumeurs [passif] le joueur obtiens quelques informations sur 3 scènes du jeu suivant. Il obtient notamment l’heure approximative, les factions impliquées, et une idée de l’évènement principal",
-                  "Éloquence [suite à un discours] Les joueurs défendant la même cause que l’initiateur reçoivent +1 énergie jusqu’à ce que la cause ait été défendue une fois"
-                ]
-              ]
-            },
-            {
-              "title": "Marchandage [l]",
-              "description": [
-                [
-                  "Marchand prolifique [passif] +3 bloc au choix par jeu",
-                  "Échange [passif] le marchand peut échanger n’importe quel deux blocs ou composantes pour un autre type de bloc ou une composante magique",
-                  "Contrebande [passif] chaque jeu, le joueur peut participé à une enchère avant le jeu avec les autres escrocs pour des objets prédéfinies",
-                  "Caravane [passif] génère 100 pièces par jeu",
-                  "Noblesse [passif] génère 50 pièces par jeu"
-                ]
-              ]
-            },
-            {
-              "title": "Médecine [c]",
-              "description": [
-                [
-                  "Techniques médicales [passif] permet d’apprendre les techniques de médecine avancées. Chacun doit être apprise en jeu lors d’un séminaire donné par un acteur.",
-                  [
-                    "Diagnostic [Stravinsky] Permet à un joueur ayant l’habileté médecine de faire un diagnostique complet d’un patient en passant 15 minutes avec lui. Après la session, le joueur doit révéler au médecin l’ensemble des effets qui pèsent sur lui, incluant tous les effets passifs qui lui sont conférés par des objets ou des techniques. Si le joueur est ignorant d’une condition pesant sur lui, le docteur considère qu’il ne l’a simplement pas découverte. Un diagnostique ne peut pas être perpétrer sur une personne contre son gré.",
-                    "Psychanalyse [Stravinsky] Un patient ayant fait ses consultations régulières pour 3 jeux consécutifs est assez près de son médecin pour recevoir ses conseils psychologiques. Chaque jeu, le médecin peut poser une question à son patient qui doit lui répondre la vérité. Le médecin infère cette information des discussions et observations sur son patient, l’habileté mensonge n’est donc pas efficace.",
-                    "Autopsie [Stravinsky] permet de déterminer la cause de la mort d’un joueur"
-                  ],
-                  "Techniques chirurgicales [passif] permet d’apprendre les techniques de chirurgie avancées. Chacune doit être apprise en jeu lors d’un séminaire donné par un acteur.",
-                  [
-                    "Amputation [Von Brett] le médecin peut retirer un membre d’un joueur mort ou assommé de façon propre et professionnelle. Si le docteur retire un bras, la cible ne peut plus se servir de ce bras avant d’être guérit magiquement (guérison est efficace)",
-                    "Ablation [Von Brett] permet de retirer un organe à un joueur mort ou assommé. Un joueur assommé meurt à la fin de la procédure. Quand le joueur revient à la vie, il a une pnalité d’un d’énergie jusqu’à ce qu’il prenne un remède.",
-                    "Transfusion [Von Brett] permet de faire une transfusion sanguine entre deux joueurs. Les potions, poisons et maladie qui affecte le joueur donateur sont transmises au joueur receveur. Toute potion ou remède administré 5 minutes avant la transfusion prend effet dans le corps receveur aussi."
-                  ],
-                  "Recherche pharmacologique [passif] le joueur apprend les recettes avancée de médicaments",
-                  "Dextérité [passif] réduit le temps d’opération et suture de 10 secondes"
-                ]
-              ]
-            },
-            {
-              "title": "Métier [c]",
-              "description": [
-                [
-                  "Artisan versatile [passif] permet d’utiliser un bloc de forge comme un bloc d’artisanat, et inversement",
-                  "Forgeron prolifique [passif] +3 blocs de forge",
-                  "Artisan prolifique [passif] +3 blocs artisanaux",
-                  "Herboriste prolifique [passif] +3 blocs d’herboristerie"
-                ]
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
       "title": "Production",
       "description": [
         "Pour produire un objet, un joueur doit écrire sur son bloc de production l’objet qu’il désir créer selon les listes de la présente section. Il doit dépenser un d’énergie et il doit être hors-combat.",
@@ -645,7 +393,7 @@
           "title": "Artisan",
           "description": [
             [
-              "Baguette [c] : permet, une fois par combat, de payer le cout en composante du dernier rituel mémorisé pour le mémoriser de nouveau. Usage unique",
+              "Baguette [c] : permet, une fois par combat, de payer le coût en composante du dernier rituel mémorisé pour le mémoriser de nouveau. Usage unique",
               "Corde [p] : permet de paralyser une cible désarmée. Peut être détruit par une lame",
               "Filet [p] : permet de paralyser une cible dont on couvre la tête du filet. Peut être détruit par une lame.",
               "Fortification [c] : redonne un point de vie à une forteresse. Une forteresse peut avoir jusqu’à 5 points de vie, mais commence le jeu avec 3",
@@ -709,7 +457,7 @@
     {
       "title": "Rituels de départ",
       "description": [
-        "Au moment de choisir l’habileté rituel, un personnage peut inscrire deux des trois rituels disponibles à son école dans son livre de sort. Il peut faire de même pour l’école de création quand il choisit la technique infusion. Les rituels sont présentés comme suit. Le nombre entre parenthèses est le cout en composantes. Le nom du rituel suit. L’information entre crochets précise la durée et la portée du sort si applicable. La description conclut."
+        "Au moment de choisir l’habileté rituel, un personnage peut inscrire deux des trois rituels disponibles à son école dans son livre de sort. Il peut faire de même pour l’école de création quand il choisit la technique infusion. Les rituels sont présentés comme suit. Le nombre entre parenthèses est le coût en composantes. Le nom du rituel suit. L’information entre crochets précise la durée et la portée du sort si applicable. La description conclut."
       ],
       "section": [
         {
@@ -888,7 +636,7 @@
                   [
                     "Réanimation",
                     "Résurrection",
-                    "Foudroyé;,",
+                    "Foudroyé",
                     "Nécrose"
                   ],
                   "12 - 13 composantes: effet à usage unique affectant tous le monde à l’intérieur d’une enceinte",
@@ -975,13 +723,15 @@
                   ]
                 ]
               ]
-            },
-            {
-              "title": "Forgeron",
-              "description": [
-                "Cette sous-école rassemble les rituels affectant tous les objets de métal. Elle comprend également les rituels touchant à l’or, l’argent et les métaux spéciaux. La magie des bijoux provient généralement de cette sous-école."
-              ]
-            },
+            }
+          ]
+        },
+        {
+          "title": "Forgeron",
+          "description": [
+            "Cette sous-école rassemble les rituels affectant tous les objets de métal. Elle comprend également les rituels touchant à l’or, l’argent et les métaux spéciaux. La magie des bijoux provient généralement de cette sous-école."
+          ],
+          "section": [
             {
               "title": "Armures",
               "description": [
@@ -1140,7 +890,7 @@
               "title": "Cadenas",
               "description": [
                 "<small>(Cadenas et clef : empêche l’ouverture d’un coffre sans la clef)</small>",
-                "Un cadenas magique ne peut -être ouvert que par un mot de commande écrit dans une enveloppe dans le coffre qu’il sert à barrer. Pour crocheter le cadenas, il faut d’abord briser l’enchantement. Un mage avec infusion et disjonction doit ramasser un nombre de composantes égal au nombre cumulé pour faire le cadenas et faire un rituel cumulant autant de points de protocole.",
+                "Un cadenas magique ne peut-être ouvert que par un mot de commande écrit dans une enveloppe dans le coffre qu’il sert à barrer. Pour crocheter le cadenas, il faut d’abord briser l’enchantement. Un mage avec infusion et disjonction doit ramasser un nombre de composantes égal au nombre cumulé pour faire le cadenas et faire un rituel cumulant autant de points de protocole.",
                 "Le cadenas redevient alors normal, et peut être crocheté. Le nombre de composantes investit dans le rituel de création du cadenas doit être clairement indiqué sur la représentation du cadenas. Dès qu’un cadenas magique est créé, la mécanique pour les briser doit faire partie du speech de départ. Le Poste de Traite informe aussi les voleurs curieux de la procédure."
               ]
             },
@@ -1150,6 +900,145 @@
                 "<small>(Engin de siège : inflige 1 de dégât à une fortification. Une personne touchée par un projectile d’engin de siège est morte.)</small>",
                 [
                   "Inflige 1+[c/6] dégât à une fortification (entre 2 et 6). Cumulable avec l’effet d’un enchantement."
+                ]
+              ]
+            },
+            {
+              "title": "Joyaux",
+              "description": [
+                "<small>(Joyau : effets scénario divers. Limite de 3 joyaux par personnage dans un même jeu)</small>",
+                [
+                  "6 - 7 composantes: effet sur le porteur, instantané, une fois par jeu.",
+                  [
+                    "+1 karma",
+                    "Guérison 2",
+                    "Regain de 2 d’énergie"
+                  ],
+                  "8 - 9 composantes: effets économique mineur",
+                  [
+                    "Génère 1 bloc par jeu",
+                    "Génère 10 pièces par jeu",
+                    "Génère 1 composante par jeu"
+                  ],
+                  "10 - 11 composantes: effet au touché, instantané, une fois par jeu.",
+                  [
+                    "Muet",
+                    "Aveugle",
+                    "Démembré."
+                  ],
+                  "12 - 13 composantes: technique octroyée au porteur",
+                  [
+                    "Mensonge",
+                    "Résilience",
+                    "Loyauté"
+                  ],
+                  "14 - 15 composantes: effet permanent sur le porteur",
+                  [
+                    "Protection contre l’animation",
+                    "Protection contre la possession",
+                    "+2 points de vie quand ne porte pas d’armure"
+                  ],
+                  "16 - 30 composantes: effet économique majeur",
+                  [
+                    "Génère [c/10] blocs, au choix, par jeu",
+                    "Génère 1 + [c/10] composantes par jeu",
+                    "Génère [c/10] pierres d’âme par jeu;",
+                    "Génère [c/5] pierres de sanglite par jeu",
+                    "Génère [c/5] pierres de bluame par jeu",
+                    "Génère [c/5] pierres de malachite par jeu"
+                  ]
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Mélanges et Liquides",
+          "description": [
+            "Cette sous-école correspond aux habiletés d’alchimie, herboristerie et concoctions de potion. Les rituels à base d’un objet d'alchimie crée des maladies. Les rituels à base d’herboristerie crée des antidotes et des remèdes aux maladies magiques. Les rituels a base de potion sont quand à eux varié, certain permettent d'améliorer une potion a des niveaux de magie hallucinante d’autre de provoquer des effets spectaculaires et unique."
+          ],
+          "section": [
+            {
+              "title": "Alchimie",
+              "description": [
+                "<small>(Ressources : champignon, venin ou plante. Poison: réduit de 2 l’énergie. Toxine: foudroie, Venin: ajoute 1 de dégât.)</small>",
+                "Légende :",
+                [
+                  "[Sang] Transmise quand on touche le joueur assommé ou mort.",
+                  "[Air] Transmise le joueur touche à main nue la peau d’un autre joueur.",
+                  "[Salive] Transmise quand un joueur partage de la nourriture ou un breuvage.",
+                  "[Famine] Un joueur est infecté pour chaque point en carence alimentaire dans la géopolitique (selon leur faction).",
+                  "[6] Peste commune: [sang] 1 nécrose inopérable.",
+                  "[6] Spore parasite: [air] - 2 à l’énergie.",
+                  "[6] Grippe: [air] -2 au karma.",
+                  "[8] Peste noire: [sang] 2 nécroses inopérables.",
+                  "[8] Spore débilitant: [salive] -4 à l’énergie.",
+                  "[8] Choléra: [salive] -4 au karma.",
+                  "[10] Peste Figaro: [sang] 3 nécroses inopérables.",
+                  "[10] Démence: [famine] -6 à l’énergie.",
+                  "[10] Malédiction: [famine] -6 au karma.",
+                  "[15] Virus de Valcenne: [air] 1 nécrose inopérable, -2 à l’énergie et au karma.",
+                  "[15] Bactérie cannibale: [sang] 2 nécroses inopérables et -4 au karma.",
+                  "[15] Décomposition nerveuse: [famine] 2 nécroses inopérables et -4 à l’énergie.",
+                  "[15] Dépression: [famine] -4 karma et énergie.",
+                  "[20] Lèpre: [sang] 2 nécroses inopérables, -4 à l’énergie et au karma.",
+                  "[20] Cancer: [famine] 3 nécroses inopérables et -6 au karma.",
+                  "[20] Bactérie nervophage: [salive] 3 nécroses inopérables et -6 à l’énergie.",
+                  "[20] Nécrose de l’âme: [famine] -6 à l’énergie et au karma.",
+                  "[30] Vengeance de Finosia: [sang] 3 nécroses inopérables, -6 au karma et à l’énergie.",
+                  "[30] Drain de l’âme: [famine] Ne peut pas utiliser de techniques."
+                ]
+              ]
+            },
+            {
+              "title": "Herboristerie",
+              "description": [
+                "<small>(Ressources : calmant, stimulant et contrepoison. Baume : guérit 2 points de vie. Injection : guérit assommé. Antidote : contrepoison.)</small>",
+                "Les rituels avec les médicaments permettent de guérir les gens des maladies créées par les rituels de création sur l’alchimie. La force doit être équivalente à celle utilisée pour créer la maladie. Le rituel crée une recette qu’un herboriste peut utiliser pour synthétiser un bloc de production en remède pour la maladie précise. Chaque fois que le rituel est répété, il est possible d’enseigner la recette à un autre herboriste.",
+                "Le rituel va toujours donner le bon remède si le joueur peut identifier la maladie et la puissance nécessaire pour la révoquer. Un joueur peut aussi essayer de transformer un remède sans connaître de maladie. À ce moment, le joueur apprend une recette au hasard capable de soigner une des maladies de la liste alchimie. Appliquer la maladie la plus près en puissance."
+              ]
+            },
+            {
+              "title": "Potions",
+              "description": [
+                "<small>(Ressources : philtre, poudre et essence. Fortitude: une sauvegarde poison. Guérison : guérit 1 pv. Sagesse : redonne 2 d’énergie.)</small>",
+                "Les potions utilisées en rituel de création permettent de bénir un certain nombre de participants pour la durée du jeu, à moins d’avertissement contraire. Les avantages ne peuvent pas surpasser les maximums établis du système. Certains rituels font effet dès qu’ils sont terminer, d’autre permette de garder l’effet en bouteille.",
+                "Légende:",
+                [
+                  "[bénédiction] L’effet du rituel est instantané et affect le nombre de joueur inscrit dans la description.",
+                  "[bouteille] Le rituel se conserve en bouteille et doit être bu pour faire effet.",
+                  "[6] Nuit liquide: [bouteille] Usage unique. Une fois lancé au sol la fiole libère un nuage de noirceur qui aveugle toute les cible dans un rayon de 5 pas de la bouteille. (Utiliser une bouteille incassable)",
+                  "[6] Bénédiction I: [bénédiction] +1 point de vie pour 3 personnes.",
+                  "Méditation I: [bénédiction] +1 énergie pour 3 personnes.",
+                  "[6] Prière I: [bénédiction] +2 karma pour 3 personnes.",
+                  "[8] Bénédiction I: [bénédiction] +1 point de vie pour 6 personnes.",
+                  "[8] Méditation I: [bénédiction] +1 énergie pour 6 personnes.",
+                  "[8] Prière I: [bénédiction] +2 karma pour 6 personnes.",
+                  "[10] Bénédiction I: [bénédiction] +1 point de vie pour 9 personnes.",
+                  "[10] Méditation I: [bénédiction] +1 énergie pour 9 personnes.",
+                  "[10] Prière I: [bénédiction] +2 karma pour 9 personnes.",
+                  "[15] Bénédiction II: [bénédiction] +2 points de vie pour 3 personnes.",
+                  "[15] Méditation II: [bénédiction] +2 énergie pour 3 personnes.",
+                  "[15] Prière II: [bénédiction] +4 karma pour 3 personnes.",
+                  "[20] Bénédiction II: [bénédiction] +2 points de vie pour 6 personnes.",
+                  "[20] Méditation II: [bénédiction] +2 énergie pour 6 personnes.",
+                  "[20] Prière II: [bénédiction] +4 karma pour 6 personnes.",
+                  "[25] Bénédiction II: [bénédiction] +2 points de vie pour 9 personnes.",
+                  "[25] Méditation II: [bénédiction] +2 énergie pour 9 personnes.",
+                  "[25] Prière II: [bénédiction] +4 karma pour 9 personnes.",
+                  "[20] Bénédiction III: [bénédiction] +3 points de vie pour 3 personnes.",
+                  "[20] Méditation III: [bénédiction] +3 énergie pour 3 personnes.",
+                  "[20] Prière III: [bénédiction] +6 karma pour 3 personnes.",
+                  "[30] Bénédiction III: [bénédiction] +3 points de vie pour 6 personnes.",
+                  "[30] Méditation III: [bénédiction] +3 énergie pour 6 personnes.",
+                  "[30] Prière III: [bénédiction] +6 karma pour 6 personnes.",
+                  "[40] Bénédiction III: [bénédiction] +3 points de vie pour 9 personnes.",
+                  "[40] Méditation III: [bénédiction] +3 énergie pour 9 personnes.",
+                  "[40] Prière III: [bénédiction] +6 karma pour 9 personnes.",
+                  "[30] Gloire: [bénédiction] +1 point de vie, +1 d’énergie et +2 karma pour tous les participants.",
+                  "[30] Pouvoir de Brokrand: [bénédiction] +2 points de vie et +2 d’énergie pour tous les participants.",
+                  "[30] Lumière d’Eccani: [bénédiction] +2 d’énergie et +4 karma pour tous les participants.",
+                  "[30] Force de Nox: [bénédiction] +2 points de vie et +4 karma pour tous les participants."
                 ]
               ]
             }
@@ -1163,6 +1052,7 @@
       "section": [
         {
           "title": "Démonologie",
+          "under_level_color": "panel-danger",
           "section": [
             {
               "title": "Possession",
@@ -1369,6 +1259,7 @@
         },
         {
           "title": "Élémentaire",
+          "under_level_color": "panel-warning",
           "section": [
             {
               "title": "Terre",
@@ -1693,6 +1584,7 @@
         },
         {
           "title": "Nature",
+          "under_level_color": "panel-success",
           "section": [
             {
               "title": "Metamorphose",
@@ -1916,6 +1808,7 @@
         },
         {
           "title": "Nécromantie",
+          "under_level_color": "panel-primary",
           "section": [
             {
               "title": "Animation",
@@ -2218,6 +2111,7 @@
         },
         {
           "title": "Protection",
+          "under_level_color": "panel-info",
           "section": [
             {
               "title": "Bénédiction",
@@ -2467,142 +2361,239 @@
       ]
     },
     {
-      "title": "Autre",
+      "title": "Techniques de maître",
+      "description": [
+        "Les techniques de maître sont des techniques qui peuvent être choisi qu'après avoir reçu une formation en-jeu avec un PNJ. Un personnage peut avoir dix techniques de maître sur sa fiche de personnage en plus des espaces offertes par les habiletés complètes (5 talents)."
+      ],
       "section": [
         {
-          "title": "Joyaux",
+          "title": "Discipline commune",
           "description": [
-            "<small>(Joyau : effets scénario divers. Limite de 3 joyaux par personnage dans un même jeu)</small>",
-            [
-              "6 - 7 composantes: effet sur le porteur, instantané, une fois par jeu.",
-              [
-                "+1 karma",
-                "Guérison 2",
-                "Regain de 2 d’énergie"
-              ],
-              "8 - 9 composantes: effets économique mineur",
-              [
-                "Génère 1 bloc par jeu",
-                "Génère 10 pièces par jeu",
-                "Génère 1 composante par jeu"
-              ],
-              "10 - 11 composantes: effet au touché, instantané, une fois par jeu.",
-              [
-                "Muet",
-                "Aveugle",
-                "Démembré."
-              ],
-              "12 - 13 composantes: technique octroyée au porteur",
-              [
-                "Mensonge",
-                "Résilience",
-                "Loyauté"
-              ],
-              "14 - 15 composantes: effet permanent sur le porteur",
-              [
-                "Protection contre l’animation",
-                "Protection contre la possession",
-                "+2 points de vie quand ne porte pas d’armure"
-              ],
-              "16 - 30 composantes: effet économique majeur",
-              [
-                "Génère [c/10] blocs, au choix, par jeu",
-                "Génère 1 + [c/10] composantes par jeu",
-                "Génère [c/10] pierres d’âme par jeu;",
-                "Génère [c/5] pierres de sanglite par jeu",
-                "Génère [c/5] pierres de bluame par jeu",
-                "Génère [c/5] pierres de malachite par jeu"
-              ]
-            ]
-          ]
-        },
-        {
-          "title": "Mélanges et Liquides",
-          "description": [
-            "Cette sous-école correspond aux habiletés d’alchimie, herboristerie et concoctions de potion. Les rituels à base d’un objet d'alchimie crée des maladies. Les rituels à base d’herboristerie crée des antidotes et des remèdes aux maladies magiques. Les rituels a base de potion sont quand à eux varié, certain permettent d'améliorer une potion a des niveaux de magie hallucinante d’autre de provoquer des effets spectaculaires et unique."
+            "On peut choisir Endurance et Énergie deux autre fois supplémentaire."
           ],
           "section": [
             {
-              "title": "Alchimie",
+              "title": "Endurance [l]",
               "description": [
-                "<small>(Ressources : champignon, venin ou plante. Poison: réduit de 2 l’énergie. Toxine: foudroie, Venin: ajoute 1 de dégât.)</small>",
-                "Légende :",
                 [
-                  "[Sang] Transmise quand on touche le joueur assommé ou mort.",
-                  "[Air] Transmise le joueur touche à main nue la peau d’un autre joueur.",
-                  "[Salive] Transmise quand un joueur partage de la nourriture ou un breuvage.",
-                  "[Famine] Un joueur est infecté pour chaque point en carence alimentaire dans la géopolitique (selon leur faction).",
-                  "[6] Peste commune: [sang] 1 nécrose inopérable.",
-                  "[6] Spore parasite: [air] - 2 à l’énergie.",
-                  "[6] Grippe: [air] -2 au karma.",
-                  "[8] Peste noire: [sang] 2 nécroses inopérables.",
-                  "[8] Spore débilitant: [salive] -4 à l’énergie.",
-                  "[8] Choléra: [salive] -4 au karma.",
-                  "[10] Peste Figaro: [sang] 3 nécroses inopérables.",
-                  "[10] Démence: [famine] -6 à l’énergie.",
-                  "[10] Malédiction: [famine] -6 au karma.",
-                  "[15] Virus de Valcenne: [air] 1 nécrose inopérable, -2 à l’énergie et au karma.",
-                  "[15] Bactérie cannibale: [sang] 2 nécroses inopérables et -4 au karma.",
-                  "[15] Décomposition nerveuse: [famine] 2 nécroses inopérables et -4 à l’énergie.",
-                  "[15] Dépression: [famine] -4 karma et énergie.",
-                  "[20] Lèpre: [sang] 2 nécroses inopérables, -4 à l’énergie et au karma.",
-                  "[20] Cancer: [famine] 3 nécroses inopérables et -6 au karma.",
-                  "[20] Bactérie nervophage: [salive] 3 nécroses inopérables et -6 à l’énergie.",
-                  "[20] Nécrose de l’âme: [famine] -6 à l’énergie et au karma.",
-                  "[30] Vengeance de Finosia: [sang] 3 nécroses inopérables, -6 au karma et à l’énergie.",
-                  "[30] Drain de l’âme: [famine] Ne peut pas utiliser de techniques."
+                  "+1 point de vie maximum",
+                  "+1 point de vie maximum"
                 ]
               ]
             },
             {
-              "title": "Herboristerie",
+              "title": "Énergie [l]",
               "description": [
-                "<small>(Ressources : calmant, stimulant et contrepoison. Baume : guérit 2 points de vie. Injection : guérit assommé. Antidote : contrepoison.)</small>",
-                "Les rituels avec les médicaments permettent de guérir les gens des maladies créées par les rituels de création sur l’alchimie. La force doit être équivalente à celle utilisée pour créer la maladie. Le rituel crée une recette qu’un herboriste peut utiliser pour synthétiser un bloc de production en remède pour la maladie précise. Chaque fois que le rituel est répété, il est possible d’enseigner la recette à un autre herboriste.",
-                "Le rituel va toujours donner le bon remède si le joueur peut identifier la maladie et la puissance nécessaire pour la révoquer. Un joueur peut aussi essayer de transformer un remède sans connaître de maladie. À ce moment, le joueur apprend une recette au hasard capable de soigner une des maladies de la liste alchimie. Appliquer la maladie la plus près en puissance."
+                [
+                  "+2 points d’énergie maximum",
+                  "+2 points d’énergie maximum"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Discipline combattante",
+          "section": [
+            {
+              "title": "Discipline [c]",
+              "description": [
+                [
+                  "Lévitation [passif] immunisé à foudroyé",
+                  "Formation [Dire “formation”] Entre 3 et 6 joueurs prennent position dans une formation. Tant qu’ils tiennent cette formation, ils on 1 point de vie maximum supplémentaires",
+                  "Survie [passif] génère une ration par jeu. Est considéré comme ayant suture.",
+                  "Entretien [sauvegarde] cassé."
+                ]
               ]
             },
             {
-              "title": "Potions",
+              "title": "Karma [l]",
               "description": [
-                "<small>(Ressources : philtre, poudre et essence. Fortitude: une sauvegarde poison. Guérison : guérit 1 pv. Sagesse : redonne 2 d’énergie.)</small>",
-                "Les potions utilisées en rituel de création permettent de bénir un certain nombre de participants pour la durée du jeu, à moins d’avertissement contraire. Les avantages ne peuvent pas surpasser les maximums établis du système. Certains rituels font effet dès qu’ils sont terminer, d’autre permette de garder l’effet en bouteille.",
-                "Légende:",
                 [
-                  "[bénédiction] L’effet du rituel est instantané et affect le nombre de joueur inscrit dans la description.",
-                  "[bouteille] Le rituel se conserve en bouteille et doit être bu pour faire effet.",
-                  "[6] Nuit liquide: [bouteille] Usage unique. Une fois lancé au sol la fiole libère un nuage de noirceur qui aveugle toute les cible dans un rayon de 5 pas de la bouteille. (Utiliser une bouteille incassable)",
-                  "[6] Bénédiction I: [bénédiction] +1 point de vie pour 3 personnes.",
-                  "Méditation I: [bénédiction] +1 énergie pour 3 personnes.",
-                  "[6] Prière I: [bénédiction] +2 karma pour 3 personnes.",
-                  "[8] Bénédiction I: [bénédiction] +1 point de vie pour 6 personnes.",
-                  "[8] Méditation I: [bénédiction] +1 énergie pour 6 personnes.",
-                  "[8] Prière I: [bénédiction] +2 karma pour 6 personnes.",
-                  "[10] Bénédiction I: [bénédiction] +1 point de vie pour 9 personnes.",
-                  "[10] Méditation I: [bénédiction] +1 énergie pour 9 personnes.",
-                  "[10] Prière I: [bénédiction] +2 karma pour 9 personnes.",
-                  "[15] Bénédiction II: [bénédiction] +2 points de vie pour 3 personnes.",
-                  "[15] Méditation II: [bénédiction] +2 énergie pour 3 personnes.",
-                  "[15] Prière II: [bénédiction] +4 karma pour 3 personnes.",
-                  "[20] Bénédiction II: [bénédiction] +2 points de vie pour 6 personnes.",
-                  "[20] Méditation II: [bénédiction] +2 énergie pour 6 personnes.",
-                  "[20] Prière II: [bénédiction] +4 karma pour 6 personnes.",
-                  "[25] Bénédiction II: [bénédiction] +2 points de vie pour 9 personnes.",
-                  "[25] Méditation II: [bénédiction] +2 énergie pour 9 personnes.",
-                  "[25] Prière II: [bénédiction] +4 karma pour 9 personnes.",
-                  "[20] Bénédiction III: [bénédiction] +3 points de vie pour 3 personnes.",
-                  "[20] Méditation III: [bénédiction] +3 énergie pour 3 personnes.",
-                  "[20] Prière III: [bénédiction] +6 karma pour 3 personnes.",
-                  "[30] Bénédiction III: [bénédiction] +3 points de vie pour 6 personnes.",
-                  "[30] Méditation III: [bénédiction] +3 énergie pour 6 personnes.",
-                  "[30] Prière III: [bénédiction] +6 karma pour 6 personnes.",
-                  "[40] Bénédiction III: [bénédiction] +3 points de vie pour 9 personnes.",
-                  "[40] Méditation III: [bénédiction] +3 énergie pour 9 personnes.",
-                  "[40] Prière III: [bénédiction] +6 karma pour 9 personnes.",
-                  "[30] Gloire: [bénédiction] +1 point de vie, +1 d’énergie et +2 karma pour tous les participants.",
-                  "[30] Pouvoir de Brokrand: [bénédiction] +2 points de vie et +2 d’énergie pour tous les participants.",
-                  "[30] Lumière d’Eccani: [bénédiction] +2 d’énergie et +4 karma pour tous les participants.",
-                  "[30] Force de Nox: [bénédiction] +2 points de vie et +4 karma pour tous les participants."
+                  "Bénédiction [passif] +3 karma",
+                  "Phoenix [-5 karma] le joueur reviens à la vie avec toute son énergie et tous ses points de vie",
+                  "Sacrifice [passif] peut échanger 1 point de karma contre 1 point d’énergie",
+                  "Sanguinaire [passif] Quand le personnage perd du karma, il est guérit d’un point de vie"
+                ]
+              ]
+            },
+            {
+              "title": "Offense [c]",
+              "description": [
+                [
+                  "Décapitation [touche au plexus et touche au dos] mort",
+                  "Brise-Bouclier [sur une charge de 3 pas] bouclier touché est cassé",
+                  "Casse-Lame [3 touches consécutives sur l’arme] arme touchée est cassée",
+                  "Titan [passif] Arme à deux mains inflige 2 de dégât (sauf les lances)"
+                ]
+              ]
+            },
+            {
+              "title": "Défense [c]",
+              "description": [
+                [
+                  "Robuste [passif] +1 point de vie",
+                  "Volonté de fer [sauvegarde] domination",
+                  "Estomac d’acier [sauvegarde] poison et maladies transmises par la salive",
+                  "Santé de fer [sauvegarde] maladies transmises par l’air, le sang ou la famine"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Discipline sournoise",
+          "section": [
+            {
+              "title": "Alchimie [l]",
+              "description": [
+                [
+                  "Alchimiste prolifique [passif] +3 blocs alchimiques",
+                  "Alchimiste versatile [passif] peut utiliser un bloc d’herboristerie comme un bloc d’alchimie",
+                  "Suicide [passif] à tout moment, le joueur peut choisir d’être mort",
+                  "Distillerie [production] potions"
+                ]
+              ]
+            },
+            {
+              "title": "Embuscade [c]",
+              "description": [
+                [
+                  "Nocturne [passif] +1 point de vie la nuit",
+                  "Maître des pièges [sauvegarde] pièges et toiles",
+                  "Commotion [sur une personne assommée] oublie les 5 dernières minutes",
+                  "Déguisement [passif] permet d’avoir un autre costume et d’affirmer être un autre personnage"
+                ]
+              ]
+            },
+            {
+              "title": "Fourberie [c]",
+              "description": [
+                [
+                  "Main de fer [sur une poignée de main] démembré",
+                  "Égorgement [couteau passé sous la gorge] mort  <span class='label label-danger'><span class='glyphicon glyphicon-remove-sign'></span> Bloqué par l’administration</span>",
+                  "Étouffement [dague au torse] muet",
+                  "Feinte [sauvegarde] touche (ne fonctionne que sur les attaques normales, ne bloquent pas les techniques, ni les rituels)"
+                ]
+              ]
+            },
+            {
+              "title": "Travail de précision [c]",
+              "description": [
+                [
+                  "Chanceux [passif] génère 6 blocs au choix par jeu",
+                  "Escroc [passif] génère 50 piécettes par jeu",
+                  "Orfèvre [production] joyau",
+                  "Triche [instantané] permet d’avoir une chance additionnelle dans un jeu de hasard"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Discipline magique",
+          "section": [
+            {
+              "title": "Artisanat Arcane [c]",
+              "description": [
+                [
+                  "Chimiste prolifique [passif] +3 blocs de production de potions",
+                  "Chimiste versatile [passif] peut utiliser les blocs d’enchantement pour faire des potions",
+                  "Enchanteur prolifique [passif] +3 blocs de production d’enchantement",
+                  "Enchanteur versatile [passif] peut utiliser les blocs de potion pour enchanter"
+                ]
+              ]
+            },
+            {
+              "title": "Rituel [l]",
+              "description": [
+                [
+                  "Versatilité I [passif] donne accès à une sous-écoles d’une école de magie différente de la spécialité du joueur. Il doit utiliser des composantes de cette école de magie pour invoquer les rituels.",
+                  "Versatilité II [passif] idem",
+                  "Versatilité III [passif] idem",
+                  "Maître des rituels [passif] +5 composantes par jeu"
+                ]
+              ]
+            },
+            {
+              "title": "Sorcellerie [c]",
+              "description": [
+                [
+                  "Télékinésie [balle] la cible recule de 10 pas",
+                  "Tonnerre [balle] 2 de dégât, foudroyé",
+                  "Sorcier débrouillard[passif] peut utiliser un bloc de potion pour lancer un sort de sorcellerie",
+                  "Désintégration [balle à un membre] démembré"
+                ]
+              ]
+            },
+            {
+              "title": "Thaumaturgie [c]",
+              "description": [
+                [
+                  "Réincarnation [touché] ramène un mort à la vie avec 3 points de vie et 0 énergie",
+                  "Guérison suprême [touché] guérit 2 points de vie",
+                  "Guérisseur débrouillard [passif] peut utiliser un bloc d’enchantement pour lancer un sort de thaumaturgie",
+                  "Restauration [touché] régénère les 4 membres"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Discipline professionnelle",
+          "section": [
+            {
+              "title": "Baratin [c]",
+              "description": [
+                [
+                  "Alcoolique [passif] une consommation redonne un point de vie",
+                  "Triche [instantané] permet d’avoir une chance additionnelle dans un jeu de hasard",
+                  "Rumeurs [passif] le joueur obtiens quelques informations sur 3 scènes du jeu suivant. Il obtient notamment l’heure approximative, les factions impliquées, et une idée de l’évènement principal",
+                  "Éloquence [suite à un discours] Les joueurs défendant la même cause que l’initiateur reçoivent +1 énergie jusqu’à ce que la cause ait été défendue une fois"
+                ]
+              ]
+            },
+            {
+              "title": "Marchandage [l]",
+              "description": [
+                [
+                  "Marchand prolifique [passif] +3 bloc au choix par jeu",
+                  "Échange [passif] le marchand peut échanger n’importe quel deux blocs ou composantes pour un autre type de bloc ou une composante magique",
+                  "Contrebande [passif] chaque jeu, le joueur peut participé à une enchère avant le jeu avec les autres escrocs pour des objets prédéfinies",
+                  "Caravane [passif] génère 100 pièces par jeu",
+                  "Noblesse [passif] génère 50 pièces par jeu"
+                ]
+              ]
+            },
+            {
+              "title": "Médecine [c]",
+              "description": [
+                [
+                  "Techniques médicales [passif] permet d’apprendre les techniques de médecine avancées. Chacun doit être apprise en jeu lors d’un séminaire donné par un acteur.",
+                  [
+                    "Diagnostic [Stravinsky] Permet à un joueur ayant l’habileté médecine de faire un diagnostique complet d’un patient en passant 15 minutes avec lui. Après la session, le joueur doit révéler au médecin l’ensemble des effets qui pèsent sur lui, incluant tous les effets passifs qui lui sont conférés par des objets ou des techniques. Si le joueur est ignorant d’une condition pesant sur lui, le docteur considère qu’il ne l’a simplement pas découverte. Un diagnostique ne peut pas être perpétrer sur une personne contre son gré.",
+                    "Psychanalyse [Stravinsky] Un patient ayant fait ses consultations régulières pour 3 jeux consécutifs est assez près de son médecin pour recevoir ses conseils psychologiques. Chaque jeu, le médecin peut poser une question à son patient qui doit lui répondre la vérité. Le médecin infère cette information des discussions et observations sur son patient, l’habileté mensonge n’est donc pas efficace.",
+                    "Autopsie [Stravinsky] permet de déterminer la cause de la mort d’un joueur"
+                  ],
+                  "Techniques chirurgicales [passif] permet d’apprendre les techniques de chirurgie avancées. Chacune doit être apprise en jeu lors d’un séminaire donné par un acteur.",
+                  [
+                    "Amputation [Von Brett] le médecin peut retirer un membre d’un joueur mort ou assommé de façon propre et professionnelle. Si le docteur retire un bras, la cible ne peut plus se servir de ce bras avant d’être guérit magiquement (guérison est efficace)",
+                    "Ablation [Von Brett] permet de retirer un organe à un joueur mort ou assommé. Un joueur assommé meurt à la fin de la procédure. Quand le joueur revient à la vie, il a une pnalité d’un d’énergie jusqu’à ce qu’il prenne un remède.",
+                    "Transfusion [Von Brett] permet de faire une transfusion sanguine entre deux joueurs. Les potions, poisons et maladie qui affecte le joueur donateur sont transmises au joueur receveur. Toute potion ou remède administré 5 minutes avant la transfusion prend effet dans le corps receveur aussi."
+                  ],
+                  "Recherche pharmacologique [passif] le joueur apprend les recettes avancée de médicaments",
+                  "Dextérité [passif] réduit le temps d’opération et suture de 10 secondes"
+                ]
+              ]
+            },
+            {
+              "title": "Métier [c]",
+              "description": [
+                [
+                  "Artisan versatile [passif] permet d’utiliser un bloc de forge comme un bloc d’artisanat, et inversement",
+                  "Forgeron prolifique [passif] +3 blocs de forge",
+                  "Artisan prolifique [passif] +3 blocs artisanaux",
+                  "Herboriste prolifique [passif] +3 blocs d’herboristerie"
                 ]
               ]
             }

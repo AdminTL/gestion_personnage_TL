@@ -207,6 +207,10 @@ characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", "$lo
     return $window.location.origin + "/manual#/filter=" + $scope.filter_list.join("&");
   }
 
+  $scope.class_color_level = function(section) {
+    return section.under_level_color;
+  }
+
   $http.get("/cmd/rule").success(
     function (data/*, status, headers, config*/) {
       $scope.manual = data.manual;

@@ -91,7 +91,7 @@
           </div>
 
           <!-- LEVEL 4 -->
-          <div class="panel panel-primary" ng-show="in_filter_edition || manual_sect_4.visible" ng-class="{'print-hide': !manual_sect_1.visible}" ng-repeat="manual_sect_4 in manual_sect_3.section">
+          <div class="panel" ng-show="in_filter_edition || manual_sect_4.visible" ng-class="[class_color_level(manual_sect_2), {'print-hide': !manual_sect_1.visible}]" ng-repeat="manual_sect_4 in manual_sect_3.section">
             <span class="anchor" id="{{! formatAnchor(manual_sect_4, [manual_sect_1, manual_sect_2, manual_sect_3]) }}"></span>
 
             <div class="panel-heading">
