@@ -1,19 +1,24 @@
 // Formulaire de Traitre-Lame
 "use strict";
 
-characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", /*"$timeout",*/ function ($scope, $q, $http, $window) {
+characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", "$location", "$timeout", "$anchorScroll", function ($scope, $q, $http, $window, $location, $timeout, $anchorScroll) {
   $scope.manual = null;
   $scope._lst_unique_anchor = [];
+
+  $scope.in_filter_edition = false;
+  $scope.filter_list = [];
 
   $scope.isMobile = function () {
     return $scope.$parent.active_style == 'Petite personne';
   };
 
+  $scope.advance_option = false;
+
   $scope.formatMenuNavHtml = function (title) {
     return title + " <b class=\"caret\" />";
   };
 
-  $scope.formatAnchor = function (obj) {
+  $scope.formatAnchor = function (obj, lst_obj_parent) {
     // TODO this function only work in serial process when validate unique anchor name
     if (isUndefined(obj)) {
       return "";
@@ -21,45 +26,32 @@ characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", /*"$
     if (isDefined(obj.titleAnchor)) {
       return obj.titleAnchor;
     }
-    var title = obj.title;
 
-    // an anchor cannot work with space
-    var anchor = title.replace(/\s+/g, '');
-
-    var max_loop = 1000;
-    // validate duplication
-    if ($scope._lst_unique_anchor.includes(anchor)) {
-      // find a new name, begin suffix with _2
-      var new_anchor;
-      for (var i = 2; i < max_loop; i++) {
-        new_anchor = anchor + "_" + i;
-        if (!(new_anchor in $scope._lst_unique_anchor)) {
-          // validate if unique and exit
-          break;
+    function createAnchor(item_1, lst_item) {
+      var result = "";
+      if (lst_item) {
+        for (var i = 0; i < lst_item.length; i++) {
+          result += lst_item[i].title.replace(/\s+/g, '') + "_";
         }
       }
-      // inform developers about this problem
-      if (i >= max_loop) {
-        console.error("Manual ctrl - cannot find unique name for anchor " + anchor);
-        // don't append empty anchor in $scope._lst_unique_anchor
-        anchor = "";
-      } else {
-        console.warn("Manual ctrl - error duplication anchor name, rename it from " + anchor + " to " + new_anchor);
-        obj.titleAnchor = anchor = new_anchor;
-        $scope._lst_unique_anchor.push(anchor);
-      }
-    } else {
-      $scope._lst_unique_anchor.push(anchor);
-      obj.titleAnchor = anchor;
+      result += item_1.title.replace(/\s+/g, '')
+      return result;
     }
+
+    // an anchor cannot work with space
+    var anchor = createAnchor(obj, lst_obj_parent);
+    obj.titleAnchor = anchor;
     return anchor;
   };
 
   $scope.getTitleHtml = function (obj) {
+    var response;
     if ("title_html" in obj) {
-      return obj["title_html"];
+      response = obj["title_html"];
+    } else {
+      response = obj["title"];
     }
-    return obj["title"];
+    return response;
   };
 
   $scope.formatHtmlDescription = function (desc) {
@@ -102,9 +94,155 @@ characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", /*"$
     return response;
   };
 
+  $scope.select_all = function (is_selected) {
+    // prepare data
+    for (var i1 = 0; i1 < $scope.manual.length; i1++) {
+      var sec1 = $scope.manual[i1];
+      sec1.visible = is_selected;
+      if (sec1.section) {
+        for (var i2 = 0; i2 < sec1.section.length; i2++) {
+          var sec2 = sec1.section[i2];
+          sec2.visible = is_selected;
+          if (sec2.section) {
+            for (var i3 = 0; i3 < sec2.section.length; i3++) {
+              var sec3 = sec2.section[i3];
+              sec3.visible = is_selected;
+              if (sec3.section) {
+                for (var i4 = 0; i4 < sec3.section.length; i4++) {
+                  var sec4 = sec3.section[i4];
+                  sec4.visible = is_selected;
+                  if (sec4.section) {
+                    for (var i5 = 0; i5 < sec4.section.length; i5++) {
+                      var sec5 = sec4.section[i5];
+                      sec5.visible = is_selected;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  $scope.select_all_filter = function (filter_list) {
+    // prepare data
+    for (var i1 = 0; i1 < $scope.manual.length; i1++) {
+      var sec1 = $scope.manual[i1];
+      sec1.visible = filter_list.indexOf($scope.formatAnchor(sec1, null)) >= 0;
+      if (sec1.section) {
+        for (var i2 = 0; i2 < sec1.section.length; i2++) {
+          var sec2 = sec1.section[i2];
+          sec2.visible = filter_list.indexOf($scope.formatAnchor(sec2, [sec1])) >= 0;
+          if (sec2.section) {
+            for (var i3 = 0; i3 < sec2.section.length; i3++) {
+              var sec3 = sec2.section[i3];
+              sec3.visible = filter_list.indexOf($scope.formatAnchor(sec3, [sec1, sec2])) >= 0;
+              if (sec3.section) {
+                for (var i4 = 0; i4 < sec3.section.length; i4++) {
+                  var sec4 = sec3.section[i4];
+                  sec4.visible = filter_list.indexOf($scope.formatAnchor(sec4, [sec1, sec2, sec3])) >= 0;
+                  if (sec4.section) {
+                    for (var i5 = 0; i5 < sec4.section.length; i5++) {
+                      var sec5 = sec4.section[i5];
+                      sec5.visible = filter_list.indexOf($scope.formatAnchor(sec5, [sec1, sec2, sec3, sec4])) >= 0;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  $scope.change_location_filter = function() {
+    if (!$scope.manual) {
+      return "";
+    }
+    $scope.filter_list = [];
+
+    // detect visible
+    for (var i1 = 0; i1 < $scope.manual.length; i1++) {
+      var sec1 = $scope.manual[i1];
+      if (sec1.visible) {
+        $scope.filter_list.push(sec1.titleAnchor);
+      }
+      if (sec1.section) {
+        for (var i2 = 0; i2 < sec1.section.length; i2++) {
+          var sec2 = sec1.section[i2];
+          if (sec2.visible) {
+            $scope.filter_list.push(sec2.titleAnchor);
+          }
+          if (sec2.section) {
+            for (var i3 = 0; i3 < sec2.section.length; i3++) {
+              var sec3 = sec2.section[i3];
+              if (sec3.visible) {
+                $scope.filter_list.push(sec3.titleAnchor);
+              }
+              if (sec3.section) {
+                for (var i4 = 0; i4 < sec3.section.length; i4++) {
+                  var sec4 = sec3.section[i4];
+                  if (sec4.visible) {
+                    $scope.filter_list.push(sec4.titleAnchor);
+                  }
+                  if (sec4.section) {
+                    for (var i5 = 0; i5 < sec4.section.length; i5++) {
+                      var sec5 = sec4.section[i5];
+                      if (sec5.visible) {
+                        $scope.filter_list.push(sec5.titleAnchor);
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return $window.location.origin + "/manual#/filter=" + $scope.filter_list.join("&");
+  }
+
+  $scope.class_color_level = function(section) {
+    return section.under_level_color;
+  }
+
   $http.get("/cmd/rule").success(
     function (data/*, status, headers, config*/) {
       $scope.manual = data.manual;
+
+      var key = "/filter=";
+      if ($location.path().substring(0, key.length) == key) {
+        $scope.filter_list = $location.path().substring(key.length).split("&");
+        $scope.select_all_filter($scope.filter_list);
+      } else {
+        $scope.select_all(true);
+      }
+
+      // Need to wait to receive information before move to good position in page
+      $timeout(function() {
+        var hash = $location.path();
+        // remove first "/" of path
+        hash = hash.substring(1);
+        $anchorScroll(hash);
+
+        // bootstrap_doc_sidebar
+        $('body').scrollspy({
+          target: '.bs-docs-sidebar',
+          offset: 40
+        });
+        $("#sidebar").affix({
+          offset: {
+            top: 60
+          }
+        });
+
+      });
+
     }
   );
 

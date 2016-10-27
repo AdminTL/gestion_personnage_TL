@@ -40,7 +40,7 @@
 
       <ul class="nav navbar-nav">
         <li ng-class="{ active: isActive('/') }"><a href="/">Accueil</a></li>
-        {% if current_user and current_user.is_admin() %}
+        {% if not disable_admin and current_user and current_user.is_admin() %}
         <li ng-class="{ active: isActive('/admin') }"><a href="admin">Admin</a></li>
         {% end %}
         {% if not disable_character %}
@@ -144,6 +144,7 @@
 <script src="{{ static_url('resources/js/tl_module/character_ctrl/tl_character_schema.js') }}"></script>
 
 <!-- add controller -->
+<script src="{{ static_url('bower_components/ngPrint/ngPrint.js') }}"></script>
 <script src="{{ static_url('resources/js/tl_module/character_ctrl/character_ctrl.js') }}"></script>
 <script src="{{ static_url('resources/js/tl_module/login_ctrl/login_ctrl.js') }}"></script>
 <script src="{{ static_url('resources/js/tl_module/news_ctrl/news_ctrl.js') }}"></script>
@@ -151,7 +152,9 @@
 <script src="{{ static_url('resources/js/tl_module/manual_ctrl/manual_ctrl.js') }}"></script>
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script src="{{ static_url('resources/js/bootstrap_doc_sidebar.js') }}"></script>
+<script src="{{ static_url('bower_components/qrcode-generator/js/qrcode.js') }}"></script>
+<script src="{{ static_url('bower_components/qrcode-generator/js/qrcode_UTF8.js') }}"></script>
+<script src="{{ static_url('bower_components/angular-qrcode/angular-qrcode.js') }}"></script>
 
 </body>
 </html>

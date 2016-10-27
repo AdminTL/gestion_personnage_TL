@@ -2,15 +2,23 @@
 
 {% block content %}
 <div ng-controller="character_ctrl">
-  <div ng-show="!player_id_from_get && !ddb_user" class="col-sm-offset-4"><h1>Pour accéder à votre fiche de personnage, veuillez
-    communiquer avec l'organisation du grandeur nature Traître-Lame.</h1></div>
   <div class="col-xs-3 bs-docs-sidebar" ng-hide="isMobile() && player">
     <br/>
-    <div ng-hide="!ddb_user" class="bs-sidebar hidden-print affix" role="complementary">
+    <div class="bs-sidebar hidden-print affix" role="complementary">
 
       Joueur
+      <div ng-show="!new_player">
+        <button class="btn btn-success" ng-click="newPlayer()"><span class="glyphicon glyphicon-plus"></span> <span class="glyphicon glyphicon-user"></span> Nouveau joueur</button>
+      </div>
+      <div ng-show="new_player">
+        <button class="btn btn-success" ng-click="submitCharacterData()"><span class="glyphicon glyphicon-floppy-save"></span> <span class="glyphicon glyphicon-user"></span> Enregistrer nouveau joueur
+        </button>
+      </div>
+      <div ng-show="new_player">
+        <button class="btn btn-danger" ng-click="discardPlayer()"><span class="glyphicon glyphicon-remove"></span> <span class="glyphicon glyphicon-user"></span> Annuler nouveau joueur</button>
+      </div>
       <div class="list-group" ng-show="!new_player">
-        Nb joueur : {{! ddb_user.length }}
+        Nb joueur : {{!ddb_user.length}}
         <select class="form-control" ng-model="player" ng-options="user.name for user in ddb_user | orderBy:'name'" ng-change="setCharacterData(null)">
           <option value="">--Sélectionner un joueur--</option>
         </select>
@@ -40,6 +48,10 @@
           Xp consommé : {{! countTotalCostXp() }} <a class="text-decoration: none;" ng-hide="diffTotalXp() == 0" ng-style="diffTotalXp() > 0 ? {'color': 'green'} : {'color': 'red'}">{{!
           showDiffTotalXp() }}</a>
         </div>
+        <hr>
+        <div>
+          debug Xp naissance : <input type="number" ng-model="model_char.xp_naissance"/>
+        </div>
       </div>
       <div ng-hide="isMobile() || !html_qr_code" style="height:200px;width:200px;background:white" ng-bind-html="html_qr_code"></div>
     </div>
@@ -50,6 +62,18 @@
       <div sf-schema="schema_user" sf-form="form_user" sf-model="model_user"></div>
       <hr/>
       <div sf-schema="schema_char" sf-form="form_char" sf-model="model_char"></div>
+      <div ng-hide="isMobile()">
+        <hr/>
+        <div>{{!prettyModelUser}}</div>
+        <hr/>
+        <div>{{!prettyModelChar}}</div>
+        <hr/>
+        <div>{{!prettyPlayer}}</div>
+        <hr/>
+        <div>http://traitrelame.ca:5551/character#/?id_player={{! player.id }}</div>
+        <div>{{! url_qr_code }}</div>
+        <hr/>
+      </div>
     </form>
     <div ng-show="isMobile()">
       Xp : {{! countTotalCostXp() }} <a class="text-decoration: none;" ng-hide="diffTotalXp() == 0" ng-style="diffTotalXp() > 0 ? {'color': 'green'} : {'color': 'red'}">{{!

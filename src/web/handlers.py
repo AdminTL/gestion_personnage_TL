@@ -82,7 +82,9 @@ class AdminHandler(base_handler.BaseHandler):
     # @userapp.tornado.authorized()
     # @userapp.tornado.has_permission('admin')
     def get(self):
-        self.render('admin/index.html', **self._global_arg)
+        if self._global_arg["disable_admin"]:
+            return
+        self.render('admin_character.html', **self._global_arg)
 
 
 class CharacterHandler(base_handler.BaseHandler):
@@ -98,8 +100,20 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
     def get(self):
         if self._global_arg["disable_character"]:
             return
+
+        player_id = self.request.query[len("player_id="):]
+        is_admin = self.request.query == "is_admin"
+        if player_id == "" and not is_admin:
+            # leave now, missing permission
+            self.finish()
+            return
+
         # TODO manage what we get and user management permission
-        data = json.dumps(self._db.get_all_user())
+        if is_admin:
+            data = json.dumps(self._db.get_all_user())
+        else:
+            data = json.dumps(self._db.get_all_user(id=player_id))
+
         self.write(data)
         self.finish()
 

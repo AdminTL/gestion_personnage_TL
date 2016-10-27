@@ -4,10 +4,18 @@
 characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /*"$timeout",*/ function ($scope, $q, $http, $window) {
   // var data_source = "http://" + window.location.host + "/update_user";
   // var socket = new SockJS(data_source);
+  $scope.is_admin = "/admin" == $window.location.pathname;
+
+  $scope.isMobile = function () {
+    return $scope.$parent.active_style == 'Petite personne';
+  };
 
   // todo move this variable in json
   $scope.xp_default = 6;
   $scope.xp_bogue = 5;
+
+  $scope.html_qr_code = "";
+  $scope.url_qr_code = "";
 
   $scope.player = null;
   $scope.last_player = null;
@@ -61,39 +69,46 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   }, true);
 
   $scope.$watch("player", function (value) {
-    if (value) {
-      $scope.prettyPlayer = JSON.stringify(value, undefined, 2);
-      // update model information
-      $scope.model_user = filterIgnore(value, ["$$hashKey", "character"]);
-      // var first_id;
-      // for(first_id in $scope.model_user.character) break;
-      // $scope.model_char = $scope.model_user.character[first_id];
-      // TODO put xp default in json configuration file
-      // TODO need to find right id character, and not taking first!
-      if (isDefined(value.character)) {
-        var firstChar = value.character[0];
-        $scope.model_char = filterIgnore(firstChar, ["$$hashKey"]);
-        // TODO need to feel empty field
-        if (!isDefined(firstChar.habilites)) {
-          $scope.model_char.habilites = [{}];
-        }
-        if (!isDefined(firstChar.technique_maitre)) {
-          $scope.model_char.technique_maitre = [];
-        }
-        if (!isDefined(firstChar.xp_naissance)) {
-          $scope.model_char.xp_naissance = $scope.xp_bogue;
-        }
-        if (!isDefined(firstChar.xp_autre)) {
-          $scope.model_char.xp_autre = 0;
-        }
-      } else {
-        $scope.model_char = {};
+    if (!value) {
+      return;
+    }
+    $scope.prettyPlayer = JSON.stringify(value, undefined, 2);
+    // update model information
+    $scope.model_user = filterIgnore(value, ["$$hashKey", "character"]);
+    // var first_id;
+    // for(first_id in $scope.model_user.character) break;
+    // $scope.model_char = $scope.model_user.character[first_id];
+    // TODO put xp default in json configuration file
+    // TODO need to find right id character, and not taking first!
+    if (isDefined(value.character)) {
+      var firstChar = value.character[0];
+      $scope.model_char = filterIgnore(firstChar, ["$$hashKey"]);
+
+      // TODO need to feel empty field
+      if (!isDefined(firstChar.habilites)) {
         $scope.model_char.habilites = [{}];
+      }
+      if (!isDefined(firstChar.technique_maitre)) {
         $scope.model_char.technique_maitre = [];
+      }
+      if (!isDefined(firstChar.rituel)) {
+        $scope.model_char.rituel = [];
+      }
+      if (!isDefined(firstChar.xp_naissance)) {
         $scope.model_char.xp_naissance = $scope.xp_bogue;
+      }
+      if (!isDefined(firstChar.xp_autre)) {
         $scope.model_char.xp_autre = 0;
       }
+    } else {
+      $scope.model_char = {};
+      $scope.model_char.habilites = [{}];
+      $scope.model_char.technique_maitre = [];
+      $scope.model_char.rituel = [];
+      $scope.model_char.xp_naissance = $scope.xp_bogue;
+      $scope.model_char.xp_autre = 0;
     }
+    $scope.get_html_qr_code();
   }, true);
 
   $scope.newPlayer = function () {
@@ -227,9 +242,12 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     if (isDefined($scope.model_char.xp_gn_2_2016)) {
       total_xp += $scope.model_char.xp_gn_2_2016;
     }
-    // if (isDefined($scope.model_char.xp_gn_3_2016)) {
-    //   total_xp += $scope.model_char.xp_gn_3_2016;
-    // }
+    if (isDefined($scope.model_char.xp_gn_3_2016)) {
+      total_xp += $scope.model_char.xp_gn_3_2016;
+    }
+//    if (isDefined($scope.model_char.xp_gn_4_2016)) {
+//      total_xp += $scope.model_char.xp_gn_4_2016;
+//    }
     return total_xp;
   };
 
@@ -253,7 +271,11 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       }
     }
     if (isDefined($scope.model_char.technique_maitre)) {
-      total_xp += $scope.model_char.technique_maitre.length;
+      for (var i = 0; i < $scope.model_char.technique_maitre.length; i++) {
+        if ($scope.model_char.technique_maitre[i]) {
+          total_xp += 1;
+        }
+      }
     }
     return total_xp;
   };
@@ -270,15 +292,50 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     return diff;
   };
 
+  $scope.get_html_qr_code = function () {
+    var typeNumber = 5;
+    var errorCorrectionLevel = 'L';
+    var qr = qrcode(typeNumber, errorCorrectionLevel);
+    var data = $window.location.origin + "/character#/?id_player=" + $scope.player.id
+    $scope.url_qr_code = data;
+    qr.addData(data);
+    qr.make();
+    $scope.html_qr_code = qr.createImgTag();
+  };
+
   // socket.onmessage = function (e) {
   //   $scope.message = JSON.parse(e.data);
   //   console.log($scope.message);
   //   $scope.$apply();
   // };
 
-  $http.get("/cmd/character_view").success(
+// For admin page
+//  $http.get("/cmd/character_view").success(
+//    function (data/*, status, headers, config*/) {
+//      $scope.ddb_user = data;
+//    }
+//  );
+
+  $scope.player_id_from_get = $window.location.hash.substring("#/?id_player=".length);
+  if ($scope.is_admin) {
+    $scope.url_view_character = "/cmd/character_view?is_admin";
+  } else {
+    $scope.url_view_character = "/cmd/character_view?player_id=" + $scope.player_id_from_get;
+  }
+  $http.get($scope.url_view_character).success(
+    // Send id from URL
     function (data/*, status, headers, config*/) {
       $scope.ddb_user = data;
+      // special effect, if only one character, select first one
+//      if (data.length == 1) {
+//        $scope.player = data[0];
+//        $scope.character = data[0].character[0];
+//        $scope.setCharacterData(data[0]);
+//        $scope.player = data[0];
+//        $scope.setCharacterData($scope.character);
+
+//        $scope.$apply();
+//      }
     }
   );
 
