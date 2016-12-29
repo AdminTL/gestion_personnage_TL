@@ -199,7 +199,7 @@
                   "Esquive [sauvegarde] foudroyé",
                   "Déflexion [sauvegarde] désarmé",
                   "Déviation [sauvegarde] démembré",
-                  "Santé [sauvegarde] nécrose",
+                  "Santé [sauvegarde] <a target='_self' href='#Mécaniquedebase_Effetsdejeu'>nécrose</a>",
                   "Second Souffle [sauvegarde] assommé (sauf si à 0 point de vie)"
                 ]
               ]
@@ -343,7 +343,7 @@
               "title": "Médecine [c]",
               "description": [
                 [
-                  "Opération [touché, 30 secondes] retire une nécrose",
+                  "Opération [touché, 30 secondes] retire une <a target='_self' href='#Mécaniquedebase_Effetsdejeu'>nécrose</a>",
                   "Suture [touché, 30 secondes] redonne 2 points de vie",
                   "Psychiatrie [touché] la cible devient calme",
                   "Relaxation [touché, 5 secondes] met fin à muet",
@@ -496,7 +496,7 @@
             [
               "(4) Nécromorphose [jeu, personnel] l’initiateur doit porter un maquillage (un motif visible) ou un masque blanc. L’initiateur peut discuter avec les morts. Il est aussi immunisé à la peur et à la domination.",
               "(1) Animation [touché, joueur mort] revient à la vie en tant que zombie sous la domination de l’initiateur avec 5 points de vie et aucune énergie. Un zombie est sans intelligence et ne peut pas communiquer, utiliser une technique ou retenir d’informations. Quand un zombie tombe assommé ou que 15 minutes se sont écoulées, le joueur se rend au cimetière où il revient à la vie selon les règles normales, mais sans coût de karma.",
-              "(1) Décomposition [touché] nécrose."
+              "(1) Décomposition [touché] <a target='_self' href='#Mécaniquedebase_Effetsdejeu'>nécrose</a>."
             ]
           ]
         },
@@ -562,7 +562,7 @@
                   "12 à 15 composantes: Filet avec une capacité extraordinaire",
                   [
                     "Affecte l’immatériel",
-                    "Donne une nécrose sur capture",
+                    "Donne une <a target='_self' href='#Mécaniquedebase_Effetsdejeu'>nécrose</a> sur capture",
                     "Drain complet de l’énergie",
                     "Animation [consommable] un cadavre se lève en goule sous votre contrôle (10PV, aucune énergie)"
                   ],
@@ -601,7 +601,7 @@
                   "12 à 15 composantes: Filet avec une capacité extraordinaire",
                   [
                     "Affecte l’immatériel",
-                    "Donne une nécrose sur capture",
+                    "Donne une <a target='_self' href='#Mécaniquedebase_Effetsdejeu'>nécrose</a> sur capture",
                     "Drain complet de l’énergie"
                   ],
                   "16 à 30 composantes: objets économiques et scénario",
@@ -637,27 +637,27 @@
                     "Réanimation",
                     "Résurrection",
                     "Foudroyé",
-                    "Nécrose"
+                    "<a target='_self' href='#Mécaniquedebase_Effetsdejeu'>Nécrose</a>"
                   ],
                   "12 - 13 composantes: effet à usage unique affectant tout le monde à l’intérieur d’une enceinte",
                   [
                     "Réanimation",
                     "Résurrection",
                     "Foudroyé",
-                    "Nécrose"
+                    "<a target='_self' href='#Mécaniquedebase_Effetsdejeu'>Nécrose</a>"
                   ],
                   "14 - 15 composantes: effet permanent affectant tout le monde prenant un repos dans le bâtiment",
                   [
                     "Énergie maximum. Perdure jusqu’à utilisation",
                     "Répare l’armure (ne fonctionne pas sur les rituels d’armure)",
                     "+1 point de vie maximum. Perdure jusqu’à ce que perdu",
-                    "Nécrose"
+                    "<a target='_self' href='#Mécaniquedebase_Effetsdejeu'>Nécrose</a>"
                   ],
                   "16 - 17 composantes: effet permanent affectant tout le monde prenant un repos dans l’enceinte",
                   [
                     "Répare l’armure (ne fonctionne pas sur les rituels d’armure)",
                     "+1 point de vie maximum. Perdure jusqu’à ce que perdu",
-                    "Nécrose"
+                    "<a target='_self' href='#Mécaniquedebase_Effetsdejeu'>Nécrose</a>"
                   ],
                   "18 - 19 composantes: effet permanent affectant tout le monde prenant un repos dans le bâtiment",
                   [
@@ -707,7 +707,7 @@
                   [
                     "Assommé",
                     "Paralysé (5 minutes)",
-                    "Nécrose"
+                    "<a target='_self' href='#Mécaniquedebase_Effetsdejeu'>Nécrose</a>"
                   ],
                   "16 - 20 composantes: Pièges avec faculté extraordinaire",
                   [
@@ -743,7 +743,7 @@
                     "-[c/6]karma au début du jeu",
                     "+[c/6] points de vie (entre 6 et 9, +0)",
                     "+[c/6] énergie maximum (entre 6 et 9, +0);",
-                    "+[c/6] nécroses;",
+                    "+[c/6] <a target='_self' href='#Mécaniquedebase_Effetsdejeu'>nécroses</a>;",
                     "-[c/6] énergie maximum;"
                   ],
                   "19 - 20 composantes: protège contre certains assauts",
@@ -777,7 +777,7 @@
             {
               "title": "Armes",
               "description": [
-                "<small>(Arme : remplace une arme cassée)</small>",
+                "<small>(<a target='_self' href='#Mécaniquedebase_Mécaniquedecombat_Armesetbouclier'>Arme</a> : remplace une arme cassée)</small>",
                 [
                   "6 - 7 composantes: imite une technique gratuitement, une fois par combat",
                   [
@@ -820,7 +820,7 @@
                   ],
                   "21 - 30 composantes: Armes à effet sur une touche. Utilise l’énergie du joueur jusqu’à un maximum de [1+((c-20)/5)] fois par combat.",
                   [
-                    "Nécrose",
+                    "<a target='_self' href='#Mécaniquedebase_Effetsdejeu'>Nécrose</a>",
                     "Drain 1 (inflige 1 de dégât et regagne 1 point de vie)",
                     "-1 énergie sur la cible",
                     "Peur",
@@ -832,7 +832,7 @@
             {
               "title": "Bouclier",
               "description": [
-                "<small>(Bouclier : remplace un bouclier cassé)</small>",
+                "<small>(<a target='_self' href='#Mécaniquedebase_Mécaniquedecombat_Armesetbouclier'>Bouclier</a> : remplace un bouclier cassé)</small>",
                 [
                   "6 - 7 composantes: imite une technique gratuitement, une fois par combat",
                   [
@@ -968,24 +968,24 @@
                   "[Air] Transmise quand le joueur touche à main nue la peau d’un autre joueur.",
                   "[Salive] Transmise quand un joueur partage de la nourriture ou un breuvage.",
                   "[Famine] Un joueur est infecté pour chaque point en carence alimentaire dans la géopolitique (selon leur faction).",
-                  "[6] Peste commune: [sang] 1 nécrose inopérable.",
+                  "[6] Peste commune: [sang] 1 <a target='_self' href='#Mécaniquedebase_Effetsdejeu'>nécrose</a> inopérable.",
                   "[6] Spore parasite: [air] - 2 à l’énergie.",
                   "[6] Grippe: [air] -2 au karma.",
-                  "[8] Peste noire: [sang] 2 nécroses inopérables.",
+                  "[8] Peste noire: [sang] 2 <a target='_self' href='#Mécaniquedebase_Effetsdejeu'>nécroses</a> inopérables.",
                   "[8] Spore débilitant: [salive] -4 à l’énergie.",
                   "[8] Choléra: [salive] -4 au karma.",
-                  "[10] Peste Figaro: [sang] 3 nécroses inopérables.",
+                  "[10] Peste Figaro: [sang] 3 <a target='_self' href='#Mécaniquedebase_Effetsdejeu'>nécroses</a> inopérables.",
                   "[10] Démence: [famine] -6 à l’énergie.",
                   "[10] Malédiction: [famine] -6 au karma.",
-                  "[15] Virus de Valcenne: [air] 1 nécrose inopérable, -2 à l’énergie et au karma.",
-                  "[15] Bactérie cannibale: [sang] 2 nécroses inopérables et -4 au karma.",
-                  "[15] Décomposition nerveuse: [famine] 2 nécroses inopérables et -4 à l’énergie.",
+                  "[15] Virus de Valcenne: [air] 1 <a target='_self' href='#Mécaniquedebase_Effetsdejeu'>nécrose</a> inopérable, -2 à l’énergie et au karma.",
+                  "[15] Bactérie cannibale: [sang] 2 <a target='_self' href='#Mécaniquedebase_Effetsdejeu'>nécroses</a> inopérables et -4 au karma.",
+                  "[15] Décomposition nerveuse: [famine] 2 <a target='_self' href='#Mécaniquedebase_Effetsdejeu'>nécroses</a> inopérables et -4 à l’énergie.",
                   "[15] Dépression: [famine] -4 karma et énergie.",
-                  "[20] Lèpre: [sang] 2 nécroses inopérables, -4 à l’énergie et au karma.",
-                  "[20] Cancer: [famine] 3 nécroses inopérables et -6 au karma.",
-                  "[20] Bactérie nervophage: [salive] 3 nécroses inopérables et -6 à l’énergie.",
-                  "[20] Nécrose de l’âme: [famine] -6 à l’énergie et au karma.",
-                  "[30] Vengeance de Finosia: [sang] 3 nécroses inopérables, -6 au karma et à l’énergie.",
+                  "[20] Lèpre: [sang] 2 <a target='_self' href='#Mécaniquedebase_Effetsdejeu'>nécroses</a> inopérables, -4 à l’énergie et au karma.",
+                  "[20] Cancer: [famine] 3 <a target='_self' href='#Mécaniquedebase_Effetsdejeu'>nécroses</a> inopérables et -6 au karma.",
+                  "[20] Bactérie nervophage: [salive] 3 <a target='_self' href='#Mécaniquedebase_Effetsdejeu'>nécroses</a> inopérables et -6 à l’énergie.",
+                  "[20] <a target='_self' href='#Mécaniquedebase_Effetsdejeu'>Nécrose</a> de l’âme: [famine] -6 à l’énergie et au karma.",
+                  "[30] Vengeance de Finosia: [sang] 3 <a target='_self' href='#Mécaniquedebase_Effetsdejeu'>nécroses</a> inopérables, -6 au karma et à l’énergie.",
                   "[30] Drain de l’âme: [famine] Ne peut pas utiliser de techniques."
                 ]
               ]
@@ -2048,7 +2048,7 @@
                 },
                 {
                   "description": [
-                    "Donne une nécrose.",
+                    "Donne une <a target='_self' href='#Mécaniquedebase_Effetsdejeu'>nécrose</a>.",
                     [
                       "Coût : 1",
                       "Durée : 1 utilisation",
@@ -2060,7 +2060,7 @@
                 },
                 {
                   "description": [
-                    "Donne 2 nécroses.",
+                    "Donne 2 <a target='_self' href='#Mécaniquedebase_Effetsdejeu'>nécroses</a>.",
                     [
                       "Coût : 2",
                       "Durée : 1 utilisation",
@@ -2072,7 +2072,7 @@
                 },
                 {
                   "description": [
-                    "Donne 3 nécroses.",
+                    "Donne 3 <a target='_self' href='#Mécaniquedebase_Effetsdejeu'>nécroses</a>.",
                     [
                       "Coût : 3",
                       "Durée : 1 utilisation",
@@ -2084,7 +2084,7 @@
                 },
                 {
                   "description": [
-                    "Détruit une nécrose et regagne 1 point de vie et 1 point d'énergie.",
+                    "Détruit une <a target='_self' href='#Mécaniquedebase_Effetsdejeu'>nécrose</a> et regagne 1 point de vie et 1 point d'énergie.",
                     [
                       "Coût : 1",
                       "Durée : 1 utilisation",
