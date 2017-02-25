@@ -13,7 +13,8 @@ import os
 import subprocess
 import base64
 from py_class.db import DB
-from py_class.rule import Rule
+from py_class.manual import Manual
+from py_class.lore import Lore
 
 DEFAULT_SSL_DIRECTORY = os.path.join("..", "..", "ssl_cert")
 CERT_FILE_SSL = os.path.join(DEFAULT_SSL_DIRECTORY, "ca.csr")
@@ -31,7 +32,8 @@ def main(parse_arg):
                 "login_url": "/login",
                 "use_internet_static": parse_arg.use_internet_static,
                 "db": DB(parse_arg),
-                "rule": Rule(parse_arg),
+                "manual": Manual(parse_arg),
+                "lore": Lore(parse_arg),
                 "disable_character": parse_arg.disable_character,
                 "disable_admin": parse_arg.disable_admin,
                 "disable_login": parse_arg.disable_login
@@ -44,10 +46,12 @@ def main(parse_arg):
         tornado.web.url(r"/admin", handlers.AdminHandler, name='admin', kwargs=settings),
         tornado.web.url(r"/character", handlers.CharacterHandler, name='character', kwargs=settings),
         tornado.web.url(r"/manual", handlers.ManualPageHandler, name='manual', kwargs=settings),
+        tornado.web.url(r"/lore", handlers.LorePageHandler, name='lore', kwargs=settings),
 
         # command
         tornado.web.url(r"/cmd/character_view", handlers.CharacterViewHandler, name='character_view', kwargs=settings),
-        tornado.web.url(r"/cmd/rule", handlers.RulesHandler, name='cmd_rule', kwargs=settings),
+        tornado.web.url(r"/cmd/manual", handlers.ManualHandler, name='cmd_manual', kwargs=settings),
+        tornado.web.url(r"/cmd/lore", handlers.LoreHandler, name='cmd_lore', kwargs=settings),
     ]
     application = tornado.web.Application(routes + socket_connection.urls, **settings)
 

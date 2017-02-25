@@ -1,0 +1,165 @@
+{
+  "lore": [
+    {
+      "title": "Univers de jeu",
+      "description": [
+        "Les joueurs de Traitre-Lame sont la région nordique de la Sarsonne. Il s’agit d’une péninsule reculée du continent où aucune faction ne domine réellement. On y trouve de bons lots de brigands, de créatures et d’organisations douteuses. L’histoire de la région se compte au gré des guerres, des vagues d’exilés cherchant une nouvelle vie ou purgeant une sentence et d’innombrables phénomènes ésotériques ayant rendu la région célèbre. Au loin dans le monde civilisé, on parle de la Sarsonne comme une terre maudite et sauvage.",
+        "Le terrain de l’Atelier du Loisir représente le village de Vallam et les diverses installations coloniales autour de ce carrefour important de la Sarsonne.  Vallam y représente un point central. C’est un lieu où les frontières des différentes factions de la Sarsonne se rencontrent.  Il s'agit donc d’une terre de diplomatie, de traîtrise et de constants conflits.",
+        "Les joueurs incarnent des habitants de la Sarsonne provenant de divers passés. Afin de définir le leur, les joueurs doivent déterminer leur race, et leur origine. La race ne donne pas un avantage de jeu direct, mais fournit un élément pour définir le personnage. Il existe certaines opportunités disponibles seulement aux membres de certaines races. L’origine du personnage est la faction dans lequel le joueur commence son premier jeu. Il existe 5 factions jouables :",
+        [
+          "Le royaume de Canavim",
+          "L'empire de Vanicant",
+          "La tribu de Sarsar",
+          "Le village de Vallam",
+          "Les Balmonts"
+        ],
+        "Les joueurs ont le choix une fois en jeu de choisir leur allégeance selon leur bon gré. Il existe aussi des factions à découvrir en jeu dans lesquels les joueurs peuvent s’investir. Le document est divisé en trois parties : les races, les factions de départ et autres factions."
+      ],
+      "section": [
+        {
+          "title": "Races",
+          "section": [
+            {
+              "title": "Humain",
+              "description": "Race la plus commune sur le continent. Dans la majorité des États, les humains tiennent toutes les charges de pouvoir. On les retrouve dans toutes les conditions, malgré tout."
+            },
+            {
+              "title": "Wartul",
+              "description": "Originaires de la forêt Waldur à l’est du continent, ces humanoïdes à la peau verte ont une intelligence et des aptitudes comparables aux humains. Pendant la majorité de leur histoire, les Wartuls ont été isolés dans leur forêt. Leur premier contact avec l’humanité fut leur conquête par l’empire de Vanicant. Pendant plusieurs siècles, ils ont appris à évoluer dans l’empire, restant majoritairement confinés à leur petit territoire. Grâce aux différents tumultes politiques, la forêt Waldur est redevenue un royaume Wartul autonome. Depuis, nombre de ses citoyens ont ouvert leurs horizons et partent à travers le monde."
+            },
+            {
+              "title": "Meldorsan",
+              "description": "Ces humanoïdes à la peau pâle striée de veines mauves et bleues saillantes se sont adaptés à un environnement nordique. Les souches de toutes les familles Meldorsanes remontent aux différentes péninsules nordiques qui ont tranquillement migré leur population croissante au sud. Tant dans l’empire de Vanciant que dans le royaume de Canavim, on retrouve des familles nobles Meldorsanes."
+            }
+          ]
+        },
+        {
+          "title": "Factions de départ",
+          "section": [
+            {
+              "title": "Le Royaume de Canavim",
+              "description": [
+                "Il y a un peu plus d’un siècle et demi, le grand empire de Vanicant se scindait en deux sous le choc d’une rébellion des seigneurs de l’ouest. C’était la naissance du Royaume de Canavim, sous la gouvernance du roi Herbert Aquinas 1er et de ses six seigneurs de guerre, maintenant Archiducs. Sous la dynastie Aquinas, trois rois se sont succédé, tous nommé Herbert en souvenir du mythique premier roi de Canavim. Les règnes des rois Herbert 1er, 2e et 3e furent marqués par une abondance manifeste, de nombreux succès militaires et une grande harmonie dans le royaume. Cette période glorieuse prit fin avec la mort suspecte et soudaine du roi Herbert III, alors que son fils et héritier, Herbert IV, n’était âgé que de 8 ans. Une terrible guerre civile éclata, au terme de laquelle le pouvoir du roi fut secrètement divisé entre les 6 archiducs des grandes provinces de Canavim.",
+                "C’est dans ce contexte de division que l’Archiduc Casséris Ventour, une ancienne liche des territoires nordiques, choisit d’envoyer un corps expéditionnaire en Sarsonne pour fonder un Marquisat fidèle au royaume de Canavim. La conquête de la Sarsonne se buta à la résilience des locaux et à la compétition de Vanciant. Si le Marquisat fut en définitive établi, la Marquise disparut dans de mystérieuses circonstances la même année. Devant les nombreuses difficultés de la colonisation de la Sarsonne, les forces de Canavim se sont éventuellement tournées vers le choix des alliances et de la coopération locale. Le drapeau de Canavim est rapidement devenu un symbole d’espoir en Sarsonne, les forces expéditionnaires fondant l’ordre des chevaliers du peuple pour protéger les localités de Sarsonne des nombreux périls du nord.",
+                "Les joueurs peuvent incarner un soldat membre des forces coloniales de Canavim, un colon venu du royaume ou un sympathisant local. Un groupe de joueurs peut désigner un noble parmi ses rangs, à discuter avec l’organisation.",
+                [
+                  "L'étendard de Canavim est une tête de bouc de côté sur fond bleu et blanc;",
+                  "La langue nobiliaire de Canavim est l’anglais, mais la langue populaire est le français;",
+                  "Le site principal de la faction est la forteresse à l’entrée du terrain;",
+                  "La religion officielle de Canavim est le Maratisme, une religion qui place les dieux comme des modèles que doivent imiter les êtres humains."
+                ]
+              ]
+            },
+            {
+              "title": "L'empire de Vanicant",
+              "description": [
+                "Maintenant situé principalement à l’est du continent, l’empire de Vanicant a déjà couvert presque toutes les terres continentales. C’est un empire presque millénaire, qui a su prospérer à travers les âges, traverser les crises et se renouveler pour assurer sa survie. Au coeur du fonctionnement de l’empire se trouve un rigide système de castes. Au bas de ce système se trouvent les esclaves. La majorité de la population se retrouve dans la caste des communs, qui occupent les emplois les plus humbles, mais souvent les plus nécessaires. Au-dessus, on retrouve les experts, qui occupent les professions libérales et les postes de basse administration. Finalement, on retrouve une noblesse dominée par 5 familles régnantes : les Borgata du nord-ouest, les Anturis au centre et au nord, Les Zazanov à l’Ouest, les Belchir au Sud et les Cirado à l’est. Ces familles ont longtemps dominé l’empire à travers le conseil des Patriarches, soutenu par le sénat impérial.",
+                "Quand Canavim envoya une force pour annexer la Sarsonne au nord, Vanciant mobilisa les troupes d’élite de la garde écarlate pour bloquer l’expansion de son voisin rival. Or la colonie de Vanicant au nord devait prendre une tout autre vocation avec le temps. De cette position reculée, un mouvement de révolution cherchant à endiguer la corruption des patriarches en restaurant le pouvoir de l’impératrice est né. Avec l’aide de nombreuses organisations, la force expéditionnaire de Vanicant en Sarsonne devint un repère sécuritaire pour les personnages clefs de la révolution. Alors que la guerre fait encore rage, les familles Zazanov, Belchir et Cirado se sont toutes soumises au nouveau pouvoir impérial. Les familles Borgata et Anturis ont formé leurs propres États, refusant d’abandonner leur pouvoir. La révolution a aussi séparé de Vanciant la forêt Waldur, libérant le peuple Wartul de plusieurs siècles de domination vanicante.",
+                "Les joueurs peuvent incarner des membres des forces coloniales de Vanicant, des colons de l’empire ou des sympathisants locaux. Un groupe de joueurs peut désigner un noble parmi ses membres, à discuter avec l’organisation.",
+                [
+                  "L’étendard de Vanciant est la couronne impériale en noir sur fond rouge;",
+                  "Bien que la majorité de Vanicant parle le français, les terres désertiques du sud sont largement occupées par la population Al Aquine, parlant arabe;",
+                  "Le site principal de la faction est la forteresse de croûte cachée en forêt;",
+                  "La religion officielle de Vanicant est le Sravénisme, une religion qui place le Cosmos comme une grande force qui régit tous les aspects de la vie."
+                ]
+              ]
+            },
+            {
+              "title": "La tribu Sarsar",
+              "description": [
+                "La Sarsonne a été pour la majorité de son histoire une péninsule boisée et froide, où très peu d’individus osaient s’installer. La tribu Sarsar est le seul peuple que l’on peut dire natif de la région. Ils ont toujours conservé une existence tribale et chamanique axée sur la vénération des ancêtres, la guerre et le respect de la nature. La grande capitale d’Etar’Tiak fut par contre le siège de nombreux gouverneurs coloniaux ayant capturé la Sarsonne à travers les âges. Le plus notable de ces envahisseurs, la tribu Strône de la péninsule voisine, fut évincé dans une violente révolution il y a plus d’un siècle. La tribu coexiste depuis avec les nombreuses forces de Sarsonne, se jurant de reprendre le contrôle total des terres un jour. La tribu est dirigée par un vaste conseil présidé par le Guide suprême de la tribu. Siègent sur ce conseil les vénérables patriarches, reconnus pour leur sagesse, ainsi que les guides et grands guides Sarsar qui organisent les clans de la tribu partout en Sarsonne.",
+                "La région de la Grande Forêt, celle qui borde le village de Vallam, est occupée par plusieurs clans Sarsars. Le plus célèbre est certainement le clan Ish, qui a combattu avec détermination les envahisseurs coloniaux. Ce clan a construit avec les années une proximité entre les druides et la tribu. Cela a permis d’utiliser les forces déchaînées de la nature dans leur lutte contre les empires coloniaux. On y retrouve aussi le clan Smith, composé de colons des empires ayant rejoint la tribu volontairement. Plus terre à terre, se concentrant sur la géopolitique et le commerce, ce clan compte vaincre les empires avec leurs propres armes. Nombre d’autres clans ont marché aux côtés de ces deux, et d’autres viendront certainement peupler les terres de la Grande Forêt.",
+                "Un joueur Sarsar peut incarner un membre d’un clan existant ou fonder son propre clan s’il vient avec un groupe. Un clan peut désigner son propre chef et déterminer ses propres traditions.",
+                [
+                  "Les Sarsars n’ont pas d’étendard unique. Chaque clan porte ses propres couleurs, et marque son appartenance à la tribu Sarsr par la construction de nombreux totems dévoués à la vie, à la guerre, à la nature, au Cosmos et aux ancêtres;",
+                  "La tribu Sarsar parle le français;",
+                  "Les sites principaux de la faction sont le village suspendu et la fermette;",
+                  "La religion officielle de la tribu Sarsar est le Sravénisme totémique, où l’influence du Cosmos est fractionnée en 5 totems (Ancêtre, vie, nature, Cosmos et guerre) et où le Vide représente les forces obscures."
+                ]
+              ]
+            },
+            {
+              "title": "Le village de Vallam",
+              "description": [
+                "Pendant la majorité de son histoire, la Sarsonne a servi de terre d’exil pour les deux grands empires. Quand un citoyen était accusé de crimes graves, il pouvait être condamné à une vie recluse au coeur des dangers de la Sarsonne. Cette pratique a créé les nombreux petits villages nordiques de la région, échappant au contrôle des différentes factions. Le village de Vallam occupe une position centrale en Sarsonne. Géographiquement, c’est la croisée des chemins entre les factions du nord, ce qui en fait un lieu de rencontres diplomatiques, de conquêtes et de conflits. Le village est aussi un nid de trafiquants, de bandits et de cultistes uni dans leur détermination à conserver leur autonomie. Le village a historiquement été dirigé par un maire, bien que les mandats soient réputés très courts.",
+                "Depuis l'arrivée des forces coloniales des empires, le village de Vallam a tenté de tirer son épingle du jeu tout en conservant son autonomie. On retrouve des villageois dans presque toutes les manigances, s’alliant aux créatures les plus immondes pour assurer leur survie. Le village est aussi au centre de plusieurs cultes, notamment un culte de la nuit voué au dieu Cesserak (qu’ils prononcent Kesserak pour se distinguer des autres religions). C’est aussi le village qui a accueilli la créature Natueur et fondé la base du culte de shamans noirs, qui visent à étendre l’influence de Natueur sur le continent.",
+                "Un joueur au village peut incarner un natif, un exilé venu rejoindre la localité ou un déserteur d’une des autres factions cherchant la liberté. Un groupe de joueur peut désigner un de ses membres afin d’obtenir un statut particulier (noble déchu ou fils d’un célèbre voleur, par exemple). À discuter avec l’organisation.",
+                [
+                  "Le village de Vallam change d’étendard au gré de ses dirigeants;",
+                  "Toutes les communautés et langues existent au village;",
+                  "Le site principal du village de Vallam est le village à l’entrée du terrain;",
+                  "Il y a pratiquement autant de religions que d’individus au village."
+                ]
+              ]
+            },
+            {
+              "title": "Les Balmonts",
+              "description": [
+                "Il y a de cela de nombreux siècles, la famille Balmont était une puissante famille noble de Vanicant, situé dans la région des Pics de Feu. Dans un grand tremblement de terre suivant de nombreuses éruptions volcaniques, les terres des Balmonts se volatilisèrent d’une journée à l’autre. Tous croyaient la famille disparue à jamais, mais leur malédiction était bien pire. Les Balmonts et leurs forces furent jetés dans les dunes de débris de l’Enfer où ils furent condamnés à combattre inlassablement ses habitants infernaux. Cette situation désespérée construit une faction militariste, paranoïaque et sévèrement endoctrinée dans sa recherche de la pureté. Cette dévotion et cette discipline leur ont permis de ne jamais abandonner la recherche pour une voie de sortie.",
+                "Il y a seulement deux ans, les Balmonts sont parvenus à ouvrir une brèche intermittente en Sarsonne pour permettre aux leurs de reprendre une influence dans le monde matériel. Ils ont fondé une ligue de défense pour unir les citoyens de Sarsonne à leur bannière. Depuis leur retour, les Balmonts ont tissé des liens avec les grands empires sans toutefois perdre leur indépendance. La majorité de leurs efforts tournent encore autour de la purification des nombreuses horreurs de Sarsonne et aux expéditions au-delà de la brèche infernale pour supporter leurs frères toujours en Enfer.",
+                "Les joueurs incarnent des convertis à l’idéologie Balmont. Un groupe de joueur peut nommer un capitaine qui répond pour l’unité. À discuter avec l’organisation.",
+                [
+                  "L’étendard Balmont est une croix prolongée pour former un B sur fond blanc;",
+                  "Les Balmonts parlent français;",
+                  "Le site principal des Balmonts est la petite forteresse au coeur de la forêt de bouleaux;",
+                  "Les Balmonts pratiquement le Sravénisme et le Maratisme, mais subordonne la pratique religieuse à la recherche de la pureté."
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Autres factions en Sarsonne",
+          "section": [
+            {
+              "title": "La Guilde d'Amunsrat",
+              "description": [
+                "Depuis près de 50 ans, cette organisation survie de la traite d’esclaves. Pendant longtemps, l’isolation au nord a permis à la guilde de croître avec un bon réseau stable. Or, à l'arrivée des empires coloniaux en Sarsonne, les choses ont changé. Lors de la première invasion Strône, ils furent largement décimés. Il leur a fallu 4 ans pour rebâtir, juste à temps pour la seconde invasion Strône. Or cette fois, ne voulant pas être de nouveau anéantis, ils ont choisi de supporter l’invasion en assurant la logistique de la guerre du Roi Strône.",
+                "Un nécromancien à l’humour morbide du nom de Slaven a élu domicile près de Vallam pour brasser les affaires de la guilde dans la région. On le retrouve généralement la nuit, loin dans la forêt, dans une forteresse décharnée au-delà du village Sarsar."
+              ]
+            },
+            {
+              "title": "Le Royaume de Figaro",
+              "description": [
+                "Il y a une génération, un puissant élémentaliste de Canavim se rendait en Sarsonne pour baigner de feu les forêts nordiques afin de débusquer un groupe de traitres. Dans le chaos de cette époque, un jeune page de Canavim du nom de Valentin Figaro a rassemblé brigands et clans épars de l’est de la Sarsonne pour fonder un royaume sans foi ni loi, sujet à ses caprices. Le groupe a vite développé une expertise en alchimie pour garantir leur survie. Au moment de l’arrivée des forces coloniales en Sarsonne, l’empire de Vanicant a reconnu l’auto proclamée roi en mariant une fille noble du clan Borgata à l’ignoble roi nordique. La lune de miel fut bien courte. Figaro devint un fier défenseur du gouvernement des patriarches. Ses poisons furent au coeur de nombreux assassinats politiques, incluant une tentative ratée sur l’impératrice elle-même. Ses terres sont aujourd’hui envahies par les forces de la Confrérie de Bronze, le roi Valentin Figaro maintenant en exil.",
+                "Afin de lever les fonds nécessaires pour continuer la guerre contre la Confrérie de Bronze, Figaro a envoyé un homme de main surnommé le Colosse. Ce grivois roublard rôde près de Vallam le jour, disparaissant la nuit pour diriger sa compagnie de brigands."
+              ]
+            },
+            {
+              "title": "La Confrérie de Bronze",
+              "description": [
+                "La chute du premier régime impérial de Vanicant a donné lieu à nombre de turbulences. Pour la vieille garde, le monde changeait durablement, mais beaucoup voulaient continuer à combattre pour l’ancien ordre. La confrérie de bronze a commencé comme une petite association de notables déchut dans le changement de régime. Le but ultime était de restaurer le pouvoir impérial. L’organisation avait vite muté en un nid de criminels, les idéaux passés jetés au rencart. Un jeune idéaliste du nom de Darko Zazanov a ranimé la flamme impériale du groupe avec l’aide des forces coloniales de l’empire en Sarsonne. À travers nombre d’assassinats politiques, de manipulation et de combat acharné, la Confrérie renouvelée a créé un vent de révolution qui a mené à la récente restauration du pouvoir impérial. En Sarsonne, la confrérie s’est embourbée dans une guerre d’occupation dans le royaume de Figaro.",
+                "Darko Zazanov est toujours en Sarsonne et se présente régulièrement à Vallam pour superviser les opérations de la confrérie près du village. Il passe généralement sous le couvert de la nuit."
+              ]
+            },
+            {
+              "title": "Les pirates d'Angbar d'Allurstriase",
+              "description": [
+                "Angbar d’Allurstriase est une légende vivante. C’est un aventurier, sortie de nulle part, qui dans son jeune âge a rallié par son grand charisme nombre de navires. Il s’est enrichi en pillant la marine marchande des empires sur les rives nordiques du continent. De là, il a recruté les plus puissants experts de magie de création pour créer l’unique nexus de création en existence. Au sommet de sa puissance, il a construit une armée de golems pour prendre le contrôle de la Sarsonne. Son armée fut détruite suite à la trahison d’un de ses agents et du meurtre de son maître enchanteur. Ses ambitions de conquête détruite, le pirate s’est rabattu sur le commerce d’objets magiques, et il vie comme un roi au nord de la Sarsonne. Il est présentement au coeur de l’invasion Strône, ses forces luttant pour repousser l’envahisseur.",
+                "Angbar a envoyé un de ses enchanteurs, Cyril de Valprenant, à Vallam pour obtenir le soutien des locaux contre l’invasion Strône. L’enchanteur semble impossible à trouver la nuit."
+              ]
+            },
+            {
+              "title": "Les barbares Strônes",
+              "description": [
+                "Natif d’une péninsule à l’ouest de la Sarsonne, il s’agit d’une tribu de pillards et de barbares avec une longue histoire de rivalité avec la Sarsonne. Ils ont jadis occupé le territoire et réduit à l’esclavage la tribu Sarsar. Depuis, les deux peuples sont ennemis. Depuis l'arrivée des empires en Sarsonne, les Strônes ont fait deux invasions massives. La première était dirigée par Muladath Strône, qu’on appelle aujourd’hui le dernier empereur Strône. Il a été défait pendant l’invasion de Vallam et grièvement blessé, annonçant le début d’une pénible retraite pour les barbares nordiques. Leur deuxième invasion est fort récente, et par trois fronts. D’un côté, un nouveau roi Strône mène une attaque par la petite enclave Strône en Sarsonne à travers les terres d’Angbar et de la tribu Sarsar. À partir de Port-Marais, le portail ouvert par les Strônes permet au gros de la force de déferler dans les terres Sarsar. Finalement, un clan particulièrement brutal que l’on appelle le Crâne Sanglant a conquis une lisière de territoire entre les terres Sarsar et de Figaro d’où ils mènent des pillages.",
+                "Le chef du clan du Crâne Sanglant, Morla l’arracheur de tête s’est installé près de Vallam afin de représenter les forces Strônes dans la région. S’il a ses propres objectifs également, il maraude autour du village la nuit, souvent avec quelques-uns de ses pillards."
+              ]
+            },
+            {
+              "title": "Maledastarone",
+              "description": [
+                "La Sarsonne est délimitée par un long fleuve qui coupe le continent. Au coeur de ce cours d’eau se trouve la grande cité État de Maledastarone, coeur économique de la Sarsonne. Cette ville neutre accueille tous les visiteurs et distribue tous les types de produits et services. La sécurité dans la ville est assurée par une garde sournoise faisant usage de tunnels infinis creusés sous les bâtiments de la ville. La ville est dirigée par un mystérieux personnage que l’on nomme le Grand Coordonnateur. Ses adjoints sont dénudés de leur identité et portent comme nom un numéro correspondant au nombre d’adjoints engagés avant le candidat. Ces agents gèrent les guildes marchandes et les associations d’artisans de la ville en plus d’en organiser la défense.",
+                "Le réputé collectionneur 73 fait maintenant des visites régulières à Vallam pour flairer les opportunités d’affaires. Une fois par mois, l’adjoint de haut niveau se présente au village pour parler affaires et offrir des contrats."
+              ]
+            },
+            {
+              "title": "Les Druides",
+              "description": "Sur le continent, la mention des druides soulève la peur et la haine. Ces humains à l'apparence animale veulent éliminer la civilisation humaine pour retourner le monde à une existence plus simple. Les druides ont toujours été actifs dans le nord. Près de Vallam, les clans Sarsars ont généralement supporté leur cause. Si les druides ont longtemps terrorisé la région de Vallam, ils sont devenus beaucoup plus discrets depuis l’arrivée de Natueur. La créature a détruit la Racine Mère, une importante source de magie naturelle pour les druides. Depuis cette défaite, les druides ont concentré leurs forces dans la restauration de leur puissance magique et la lutte à Natueur. Les druides sont peu sociables, alors il est très difficile de trouver leurs représentants."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

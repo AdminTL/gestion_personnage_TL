@@ -1,8 +1,8 @@
 // Formulaire de Traitre-Lame
 "use strict";
 
-characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", "$location", "$timeout", "$anchorScroll", function ($scope, $q, $http, $window, $location, $timeout, $anchorScroll) {
-  $scope.manual = null;
+characterApp.controller("lore_ctrl", ["$scope", "$q", "$http", "$window", "$location", "$timeout", "$anchorScroll", function ($scope, $q, $http, $window, $location, $timeout, $anchorScroll) {
+  $scope.lore = null;
   $scope._lst_unique_anchor = [];
 
   $scope.in_filter_edition = false;
@@ -96,8 +96,8 @@ characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", "$lo
 
   $scope.select_all = function (is_selected) {
     // prepare data
-    for (var i1 = 0; i1 < $scope.manual.length; i1++) {
-      var sec1 = $scope.manual[i1];
+    for (var i1 = 0; i1 < $scope.lore.length; i1++) {
+      var sec1 = $scope.lore[i1];
       sec1.visible = is_selected;
       if (sec1.section) {
         for (var i2 = 0; i2 < sec1.section.length; i2++) {
@@ -128,8 +128,8 @@ characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", "$lo
 
   $scope.select_all_filter = function (filter_list) {
     // prepare data
-    for (var i1 = 0; i1 < $scope.manual.length; i1++) {
-      var sec1 = $scope.manual[i1];
+    for (var i1 = 0; i1 < $scope.lore.length; i1++) {
+      var sec1 = $scope.lore[i1];
       sec1.visible = filter_list.indexOf($scope.formatAnchor(sec1, null)) >= 0;
       if (sec1.section) {
         for (var i2 = 0; i2 < sec1.section.length; i2++) {
@@ -159,14 +159,14 @@ characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", "$lo
   };
 
   $scope.change_location_filter = function () {
-    if (!$scope.manual) {
+    if (!$scope.lore) {
       return "";
     }
     $scope.filter_list = [];
 
     // detect visible
-    for (var i1 = 0; i1 < $scope.manual.length; i1++) {
-      var sec1 = $scope.manual[i1];
+    for (var i1 = 0; i1 < $scope.lore.length; i1++) {
+      var sec1 = $scope.lore[i1];
       if (sec1.visible) {
         $scope.filter_list.push(sec1.titleAnchor);
       }
@@ -204,7 +204,7 @@ characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", "$lo
       }
     }
 
-    return $window.location.origin + "/manual#/filter=" + $scope.filter_list.join("&");
+    return $window.location.origin + "/lore#/filter=" + $scope.filter_list.join("&");
   };
 
   $scope.class_color_level = function (section) {
@@ -214,12 +214,12 @@ characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", "$lo
 
   $http({
     method: "get",
-    url: "/cmd/manual",
+    url: "/cmd/lore",
     headers: {"Content-Type": "application/json; charset=UTF-8"},
     // data: $httpParamSerializerJQLike(data),
     timeout: 5000
   }).then(function (response/*, status, headers, config*/) {
-    $scope.manual = response.data.manual;
+    $scope.lore = response.data.lore;
 
     var key = "/filter=";
     if ($location.path().substring(0, key.length) == key) {

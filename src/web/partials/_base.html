@@ -70,6 +70,7 @@
         <li ng-class="{ active: isActive('/character') }"><a href="character">Personnage</a></li>
         {% end %}
         <li ng-class="{ active: isActive('/manual') }"><a href="/manual">Livre de règle</a></li>
+        <li ng-class="{ active: isActive('/lore') }"><a href="/lore">Univers</a></li>
       </ul>
 
       <ul class="nav navbar-nav" ng-show="nav_ariane_menu.length > 0">
@@ -173,6 +174,7 @@
 <script src="{{ static_url('resources/js/tl_module/news_ctrl/news_ctrl.js') }}"></script>
 <script src="{{ static_url('resources/js/tl_module/page_ctrl/page_ctrl.js') }}"></script>
 <script src="{{ static_url('resources/js/tl_module/manual_ctrl/manual_ctrl.js') }}"></script>
+<script src="{{ static_url('resources/js/tl_module/lore_ctrl/lore_ctrl.js') }}"></script>
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="{{ static_url('bower_components/qrcode-generator/js/qrcode.js') }}"></script>
