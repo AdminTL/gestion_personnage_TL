@@ -69,3 +69,4 @@ target/
 /src/web/node_modules
 *.gitconfig
 *.viminfo
+*.cmd

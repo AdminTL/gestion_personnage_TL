@@ -533,7 +533,7 @@
               "title": "Baguette",
               "description": [
                 "<small>(Baguette: Permet, une fois par combat, de payer le coût en composante du dernier rituel mémorisé pour le mémoriser de nouveau. Usage unique.)</small>",
-                "Une baguette créé par un Rituel de Création permet de stocker un rituel[sort] et de s’en servir plus tard. N’importe qui peut utiliser une baguette \"magique\" une fois fabriquée. Pour se faire la baguette doit être la cible du Rituel désiré, le faire en suivant ses protocoles et en payer les composantes. Le fabricant de la baguette \"magique\" n’est pas obligé d’être celui qui connaît le rituel à infuser. Puis, la même baguettes doit être au centre du Rituel de Création, en suivre les protocoles et payer 5 fois les composantes magiques du rituel infusé. Il est possible d’augmenter les charges uniques de la baguette en payant chaque fois, 5 fois les composantes magique du rituel infusé."
+                "Une baguette créé par un Rituel de Création permet de stocker un rituel[sort] et de s’en servir plus tard. N’importe qui peut utiliser une baguette «magique» une fois fabriquée. Pour se faire la baguette doit être la cible du Rituel désiré, le faire en suivant ses protocoles et en payer les composantes. Le fabricant de la baguette «magique» n’est pas obligé d’être celui qui connaît le rituel à infuser. Puis, la même baguette doit être au centre du Rituel de Création, en suivre les protocoles et payer 5 fois les composantes magiques du rituel infusé. Il est possible d’augmenter les charges uniques de la baguette en payant chaque fois, 5 fois les composantes magiques du rituel infusé."
               ]
             },
             {
@@ -2400,7 +2400,7 @@
               "description": [
                 [
                   "Lévitation [passif] immunisé à foudroyé",
-                  "Formation [Dire “formation”] Entre 3 et 6 joueurs prennent position dans une formation. Tant qu’ils tiennent cette formation, ils on 1 point de vie maximum supplémentaires",
+                  "Formation [Dire «formation»] Entre 3 et 6 joueurs prennent position dans une formation. Tant qu’ils tiennent cette formation, ils ont 1 point de vie maximum supplémentaires",
                   "Survie [passif] génère une ration par jeu. Est considéré comme ayant suture.",
                   "Entretien [sauvegarde] cassé."
                 ]
@@ -2411,7 +2411,7 @@
               "description": [
                 [
                   "Bénédiction [passif] +3 karma",
-                  "Phoenix [-5 karma] le joueur reviens à la vie avec toute son énergie et tous ses points de vie",
+                  "Phoenix [-5 karma] le joueur revient à la vie avec toute son énergie et tous ses points de vie",
                   "Sacrifice [passif] peut échanger 1 point de karma contre 1 point d’énergie",
                   "Sanguinaire [passif] Quand le personnage perd du karma, il est guérit d’un point de vie"
                 ]
@@ -2578,10 +2578,10 @@
                   "Techniques chirurgicales [passif] permet d’apprendre les techniques de chirurgie avancées. Chacune doit être apprise en jeu lors d’un séminaire donné par un acteur.",
                   [
                     "Amputation [Von Brett] le médecin peut retirer un membre d’un joueur mort ou assommé de façon propre et professionnelle. Si le docteur retire un bras, la cible ne peut plus se servir de ce bras avant d’être guérit magiquement (guérison est efficace)",
-                    "Ablation [Von Brett] permet de retirer un organe à un joueur mort ou assommé. Un joueur assommé meurt à la fin de la procédure. Quand le joueur revient à la vie, il a une pnalité d’un d’énergie jusqu’à ce qu’il prenne un remède.",
-                    "Transfusion [Von Brett] permet de faire une transfusion sanguine entre deux joueurs. Les potions, poisons et maladie qui affecte le joueur donateur sont transmises au joueur receveur. Toute potion ou remède administré 5 minutes avant la transfusion prend effet dans le corps receveur aussi."
+                    "Ablation [Von Brett] permet de retirer un organe à un joueur mort ou assommé. Un joueur assommé meurt à la fin de la procédure. Quand le joueur revient à la vie, il a une pénalité d’un d’énergie jusqu’à ce qu’il prend un remède.",
+                    "Transfusion [Von Brett] permet de faire une transfusion sanguine entre deux joueurs. Les potions, poisons et maladies qui affectent le joueur donateur sont transmises au joueur receveur. Toute potion ou remède administré 5 minutes avant la transfusion prend effet dans le corps receveur aussi."
                   ],
-                  "Recherche pharmacologique [passif] le joueur apprend les recettes avancée de médicaments",
+                  "Recherche pharmacologique [passif] le joueur apprend les recettes avancées de médicaments",
                   "Dextérité [passif] réduit le temps d’opération et suture de 10 secondes"
                 ]
               ]
