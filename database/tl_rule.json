@@ -533,7 +533,7 @@
               "title": "Baguette",
               "description": [
                 "<small>(Baguette: Permet, une fois par combat, de payer le coût en composante du dernier rituel mémorisé pour le mémoriser de nouveau. Usage unique.)</small>",
-                "Une baguette créé par un Rituel de Création permet de stocker un rituel[sort] et de s’en servir plus tard. N’importe qui peut utiliser une baguette \"magique\" une fois fabriquée. Pour se faire la baguette doit être la cible du Rituel désiré, le faire en suivant ses protocoles et en payer les composantes. Le fabricant de la baguette \"magique\" n’est pas obliger d’être celui qui connaît le rituel à infuser. Puis, la même baguettes doit être au centre du Rituel de Création, en suivre les protocoles et payer 5 fois les composantes magique du rituel infusé. Il est possible d’augmenter les charges unique de la baguette en payant chaque fois, 5 fois les composantes magique du rituel infusé."
+                "Une baguette créé par un Rituel de Création permet de stocker un rituel[sort] et de s’en servir plus tard. N’importe qui peut utiliser une baguette « magique » une fois fabriquée. Pour se faire la baguette doit être la cible du Rituel désiré, le faire en suivant ses protocoles et en payer les composantes. Le fabricant de la baguette « magique » n’est pas obliger d’être celui qui connaît le rituel à infuser. Puis, la même baguettes doit être au centre du Rituel de Création, en suivre les protocoles et payer 5 fois les composantes magique du rituel infusé. Il est possible d’augmenter les charges unique de la baguette en payant chaque fois, 5 fois les composantes magique du rituel infusé."
               ]
             },
             {
@@ -2400,7 +2400,7 @@
               "description": [
                 [
                   "Lévitation [passif] immunisé à foudroyé",
-                  "Formation [Dire \"formation\"] Entre 3 et 6 joueurs prennent position dans une formation. Tant qu’ils tiennent cette formation, ils on 1 point de vie maximum supplémentaires",
+                  "Formation [Dire « formation »] Entre 3 et 6 joueurs prennent position dans une formation. Tant qu’ils tiennent cette formation, ils on 1 point de vie maximum supplémentaires",
                   "Survie [passif] génère une ration par jeu. Est considéré comme ayant suture.",
                   "Entretien [sauvegarde] cassé."
                 ]

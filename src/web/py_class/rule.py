@@ -8,7 +8,7 @@ class Rule(object):
     """Contain all gaming rule."""
     def __init__(self, parser):
         self.str_rule = ""
-        with open(parser.db_rule_path) as rule_file:
+        with open(parser.db_rule_path, encoding='utf-8') as rule_file:
             self.str_rule = json.load(rule_file)
 
     def get_rule(self):

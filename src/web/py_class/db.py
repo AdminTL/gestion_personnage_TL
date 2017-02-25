@@ -14,7 +14,7 @@ class DB(object):
         if parser.db_demo:
             self._db_user = tinydb.TinyDB(storage=tinydb.storages.MemoryStorage)
             # add demo data in fake database
-            with open(parser.db_demo_path) as demo_user_file:
+            with open(parser.db_demo_path, encoding='utf-8') as demo_user_file:
                 demo_ddb_user = json.load(demo_user_file)
                 for db_user in demo_ddb_user:
                     self._db_user.insert(db_user)
