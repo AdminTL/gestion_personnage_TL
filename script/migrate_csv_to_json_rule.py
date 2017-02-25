@@ -132,7 +132,7 @@ def parse_csv(parser):
         return
 
     json_obj = {}
-    with open(parser.csv, newline='') as csvfile:
+    with open(parser.csv, newline='', encoding='utf-8') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
         for row in spamreader:
             print(', '.join(row))
