@@ -51,6 +51,8 @@ class LoginHandler(base_handler.BaseHandler):
         if self.get_secure_cookie("user"):
             print("Need to logout before login or sign in.", file=sys.stderr)
             return
+
+        #Find the user in the database
         if not email:
             print("User name is empty.", file=sys.stderr)
             return
@@ -61,13 +63,15 @@ class LoginHandler(base_handler.BaseHandler):
             secure_pass = hashlib.sha256(password.encode('UTF-8')).hexdigest()
             user = self._db.get_user(email, secure_pass)
 
+        #If user is found, give him a secure cookie based on his uuid
         if user:
-            uuid = user.get("uuid")
+            uuid = user.get("id")
             if uuid:
-                self.set_secure_cookie("user", uuid)
-            self.redirect("/")
+                self.set_secure_cookie("user", uuid, expires_days=3)
+                self.redirect("/")
         else:
-            print("Invalid email/password combination")
+            print("Invalid email/password combination", file=sys.stderr)
+            self.redirect("/login")
             
 
 
