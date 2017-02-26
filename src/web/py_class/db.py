@@ -40,23 +40,28 @@ class DB(object):
         return self._db_user.search(self._query_user.id == id)
 
     def get_user(self, email=None, password=None, _uuid=None):
+        #Lookup the user by it's email
         if email:
             _user = self._db_user.get(self._query_user.email == email)
+        #by uuid not tested
+        #If no email provided, lookup user by uuid
         elif _uuid:
             if type(_uuid) is bytes:
                 _uuid = _uuid.decode('UTF-8')
             _user = self._db_user.get(self._query_user.uuid == _uuid)
+            
         else:
-            # print("Missing uuid or email to get user.", file=sys.stderr)
+            print("Missing uuid or email to get user.", file=sys.stderr)
             return
 
         if not _user:
             return
 
         # create obj
-        _user = user.User(_user)
+        #_user = user.User(_user)
         # validate password
-        if not password or _user.get("password") == password:
+        if not password : #or _user.get("password") == password
+            print("debug: returning user")
             return _user
 
     def update_player(self, player_data, character_data=None, delete_player_id=None, delete_character_id=None):

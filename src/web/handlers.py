@@ -46,27 +46,29 @@ class LoginHandler(base_handler.BaseHandler):
     def post(self):
         if self._global_arg["disable_login"]:
             return
-        email = self.get_argument("username")
-        name = self.get_argument("name")
+        email = self.get_argument("email")
         password = self.get_argument("password")
         if self.get_secure_cookie("user"):
             print("Need to logout before login or sign in.", file=sys.stderr)
             return
         if not email:
             print("User name is empty.", file=sys.stderr)
-        if not password:
+            return
+        elif not password:
             print("Password is empty.", file=sys.stderr)
-        secure_pass = hashlib.sha256(password.encode('UTF-8')).hexdigest()
-        if name:
-            user = self._db.create_user(email, name, secure_pass)
+            user = self._db.get_user(email) #temporary until we implement safe password storage
         else:
+            secure_pass = hashlib.sha256(password.encode('UTF-8')).hexdigest()
             user = self._db.get_user(email, secure_pass)
 
         if user:
             uuid = user.get("uuid")
             if uuid:
                 self.set_secure_cookie("user", uuid)
-        self.redirect("/")
+            self.redirect("/")
+        else:
+            print("Invalid email/password combination")
+            
 
 
 class LogoutHandler(base_handler.BaseHandler):
