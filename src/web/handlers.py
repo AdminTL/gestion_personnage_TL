@@ -86,7 +86,6 @@ class LoginHandler(base_handler.BaseHandler):
             if self._db.create_user(name, email, password):
                 self.redirect("/login")
 
-
 class LogoutHandler(base_handler.BaseHandler):
     def get(self):
         if self._global_arg["disable_login"]:
