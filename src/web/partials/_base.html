@@ -62,8 +62,8 @@
 
       <ul class="nav navbar-nav">
         <li ng-class="{ active: isActive('/') }"><a href="/">Accueil</a></li>
-        {% if not disable_admin and current_user and current_user.is_admin() %}
-        <li ng-class="{ active: isActive('/admin') }"><a href="admin">Admin</a></li>
+        {% if not disable_admin and current_user %} <!--and current_user.is_admin()
+        <li ng-class="{ active: isActive('/admin') }"><a href="admin">Admin</a></li>-->
         {% end %}
         {% if not disable_character %}
         <li ng-class="{ active: isActive('/character') }"><a href="character">Personnage</a></li>
@@ -87,12 +87,11 @@
             <li ng-repeat="style_name in style" ng-class="{ active: isStyle(style_name)}"><a ng-click="updateStyle(style_name)" href="#">{{! style_name }}</a></li>
           </ul>
         </li>
-        {% if not disable_login %}
-        {% if not current_user %}
+        
+        {% if current_user %}
+        <li><a href="logout">Log out</a></li>
+        {% elif not disable_login %}
         <li ng-class="{ active: isActive('/login') }"><a href="login">Login</a></li>
-        {% else %}
-        <li><a style="color:#2864E6;" href="#" ua-logout>Log out</a></li>
-        {% end %}
         {% end %}
       </ul>
 
