@@ -86,6 +86,7 @@ class LoginHandler(base_handler.BaseHandler):
             if self._db.create_user(name, email, password):
                 self.redirect("/login")
 
+
 class LogoutHandler(base_handler.BaseHandler):
     def get(self):
         if self._global_arg["disable_login"]:
@@ -95,7 +96,6 @@ class LogoutHandler(base_handler.BaseHandler):
             self.redirect("/")
         else:
             self.redirect("/login")
-
 
 
 class AdminHandler(base_handler.BaseHandler):
@@ -110,7 +110,6 @@ class AdminHandler(base_handler.BaseHandler):
             print("Insufficient persmissions", file=sys.stderr)
             self.redirect("/") #TODO : HTTP error 403: Forbidden
         
-
 
 class CharacterHandler(base_handler.BaseHandler):
     @tornado.web.asynchronous
