@@ -4,7 +4,10 @@
 import sys
 import tinydb
 import uuid
+import base64
 from py_class import user
+import hashlib
+import os
 import json
 import datetime
 
@@ -24,61 +27,97 @@ class DB(object):
 
         self._query_user = tinydb.Query()
 
-    def create_user(self, email, name, password):
+    def create_user(self, name, email=None, password_name=None, password_mail=None, google_id=None, facebook_id=None, twitter_id=None):
+        if self._db_user.contains(self._query_user.name == name):
+            print("Cannot create user %s, already exist." % name, file=sys.stderr)
+            return
         if self._db_user.contains(self._query_user.email == email):
             print("Cannot create user %s, already exist." % email, file=sys.stderr)
             return
-        data = {"email": email, "name": name, "password": password, "uuid": uuid.uuid4().hex,
-                "perm": user.UserPermission.player}
+
+        # Check to avoid rare possible UUID collisions
+        user_id = uuid.uuid4().hex
+        while self._db_user.contains(self._query_user.user_id == user_id):
+            user_id = uuid.uuid4().hex
+
+        salt = base64.b64encode(os.urandom(48)).decode('UTF-8')
+        secure_passN = hashlib.sha256((salt+password_name).encode('UTF-8')).hexdigest() if password_name else None
+        secure_passM = hashlib.sha256((salt+password_mail).encode('UTF-8')).hexdigest() if password_mail else None
+
+        data = {"email": email, "name": name, "salt": salt, "password_name": secure_passN,
+                "password_mail": secure_passM, "user_id": user_id, "google_id": google_id,
+                "facebook_id": facebook_id, "twitter_id": twitter_id, "permission": "Joueur"}
         eid = self._db_user.insert(data)
         return self._db_user.get(eid=eid)
 
-    def get_all_user(self, id=None):
-        if not id:
+    def get_all_user(self, user_id=None):
+        if not user_id:
             # get all user list
             return self._db_user.all()
-        return self._db_user.search(self._query_user.id == id)
+        return self._db_user.search(self._query_user.user_id == user_id)
 
-    def get_user(self, email=None, password=None, _uuid=None):
-        if email:
+    def get_user(self, name=None, email=None, password=None, id_type="user", user_id=None):
+        # Lookup the user by it's name
+        if name:
+            _user = self._db_user.get(self._query_user.name == name)
+            if _user:
+                # Validate password
+                salt = _user.get("salt")
+                secure_pass = hashlib.sha256((salt+password).encode('UTF-8')).hexdigest()
+                if not password or _user.get("password_name")==secure_pass:
+                    return _user
+
+        # If no name provided, lookup user by email
+        elif email:
             _user = self._db_user.get(self._query_user.email == email)
-        elif _uuid:
-            if type(_uuid) is bytes:
-                _uuid = _uuid.decode('UTF-8')
-            _user = self._db_user.get(self._query_user.uuid == _uuid)
+            if _user:
+                # Validate password
+                salt = _user.get("salt")
+                secure_pass = hashlib.sha256((salt+password).encode('UTF-8')).hexdigest()
+                if not password or _user.get("password_mail")==secure_pass:
+                    return _user
+
+        # If no name or email provided, lookup user by id
+        elif user_id:
+            if type(user_id) is bytes:
+                user_id = user_id.decode('UTF-8')
+            _user = self._db_user.get(self._query_user.user_id == user_id)
+            return _user
+
         else:
-            # print("Missing uuid or email to get user.", file=sys.stderr)
+            print("Missing user name, email or id to get user.", file=sys.stderr)
             return
 
         if not _user:
+            print("User not found", file=sys.stderr)
             return
 
-        # create obj
-        _user = user.User(_user)
-        # validate password
-        if not password or _user.get("password") == password:
-            return _user
+    def user_exists(self, email=None, user_id=None, name=None):
+        return(not(email and not self._db_user.get(self._query_user.email == email)) and
+               not(user_id and not self._db_user.get(self._query_user.user_id == user_id)) and
+               not(name and not self._db_user.get(self._query_user.name == name))
+               )
 
-    def update_player(self, player_data, character_data=None, delete_player_id=None, delete_character_id=None):
-        if not isinstance(player_data, dict):
-            print("Cannot update player if player is not dictionary : %s" % player_data)
+    def update_user(self, user_data, character_data=None, delete_user_by_id=None, delete_character_by_id=None):
+        if not isinstance(user_data, dict):
+            print("Cannot update user if user is not dictionary : %s" % user_data)
             return
         d = datetime.datetime.utcnow().timestamp()
         # if None, it's new user
-        player_id = player_data.get("id")
+        user_id = user_data.get("user_id")
         # if None, it's new character
-        character_id = None if not isinstance(character_data, dict) else character_data.get("id")
-        if character_id is None and delete_character_id:
-            character_id = delete_character_id
+        character_id = None if not isinstance(character_data, dict) else character_data.get("user_id")
+        if character_id is None and delete_character_by_id:
+            character_id = delete_character_by_id
 
         def _update_character():
             def transform(element):
-                # element is never None, it's the actual player
+                # element is never None, it's the actual user
 
-                # update player information
-                lst_ignore_player_field_update = ("character", "id")
-                for key, value in player_data.items():
-                    if key not in lst_ignore_player_field_update:
+                # update user information
+                lst_ignore_user_field_update = ("character", "character_id")
+                for key, value in user_data.items():
+                    if key not in lst_ignore_user_field_update:
                         element[key] = value
 
                 lst_character = element.get("character", [])
@@ -86,9 +125,9 @@ class DB(object):
 
                 i = 0
                 for character in lst_character:
-                    if character.get("id") == character_id:
+                    if character.get("character_id") == character_id:
                         # TODO validate fields in data
-                        if delete_character_id:
+                        if delete_character_by_id:
                             del lst_character[i]
                         else:
                             lst_character[i] = character_data
@@ -99,23 +138,23 @@ class DB(object):
                 else:
                     if character_data:
                         # it's a creation!
-                        character_data["id"] = uuid.uuid4().hex
+                        character_data["character_id"] = uuid.uuid4().hex
                         character_data["date_modify"] = character_data["date_creation"] = d
                         lst_character.append(character_data)
 
             return transform
 
-        if delete_player_id:
+        if delete_user_by_id:
             # 1. delete user
-            self._db_user.remove(self._query_user.id == delete_player_id)
-        elif not player_id:
+            self._db_user.remove(self._query_user.user_id == delete_user_by_id)
+        elif not user_id:
             # 2. validate user exist, else create it. Ignore if delete action
-            # TODO validate player_data field
-            player_data["id"] = uuid.uuid4().hex
-            player_data["character"] = [character_data] if character_data else []
-            player_data["date_modify"] = player_data["date_creation"] = d
-            self._db_user.insert(player_data)
-        elif player_data or character_data or delete_character_id:
+            # TODO validate user_data field
+            user_data["user_id"] = uuid.uuid4().hex
+            user_data["character"] = [character_data] if character_data else []
+            user_data["date_modify"] = user_data["date_creation"] = d
+            self._db_user.insert(user_data)
+        elif user_data or character_data or delete_character_by_id:
             # 3. validate character exist for update, else create it, or delete it.
-            player_data["date_modify"] = d
-            self._db_user.update(_update_character(), self._query_user.id == player_id)
+            user_data["date_modify"] = d
+            self._db_user.update(_update_character(), self._query_user.character_id == character_id)

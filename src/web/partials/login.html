@@ -6,27 +6,41 @@
 <link href="{{ static_url('resources/css/login.css') }}" rel="stylesheet">
 <link href="{{ static_url('resources/css/login_dark.css') }}" rel="stylesheet">
 
-<div class="container" ng-controller="login_ctrl">
+{% if invalid_login == "disable_login" %}
+<div class="alert alert-warning"><strong>Désolé!</strong> Les connexions et inscriptions sont présentement désactivées.</div>
+{% else %}
+<div class="container" ng-controller="login_ctrl" ng-cloak>
+  {% if invalid_login == "password" %}
+  <div class="alert alert-danger"><strong>Erreur!</strong> Le mot de passe ne peut être vide.</div>
+  {% end %}
+
   <!--Sign in-->
   <div class="omb_login" ng-show="show_login">
-    <h3 class="omb_authTitle"><b>Login</b> or <a href="#" ng-click="show_login=false;">Sign up</a></h3>
+    {% if invalid_login == "login" %}
+    <div class="alert alert-danger"><strong>Erreur!</strong> Adresse courriel ou Mot de passe invalide.</div>
+    {% elif invalid_login == "username_or_email" %}
+    <div class="alert alert-danger"><strong>Erreur!</strong> Nom ou Adresse courriel ne peut pas être vide.</div>
+    {% elif invalid_login == "twitter" or invalid_login == "facebook" or invalid_login == "google" %}
+    <div class="alert alert-danger"><strong>Erreur!</strong> Une erreur est survenue lors de la connexion avec {{invalid_login}}.<br>Si c'est votre première connexion, il est possible qu'un compte avec le même nom existe déjà.<br>Veuillez vous connecter manuellement et liez votre compte {{invalid_login}} à partir de votre profil. </div>
+    {% end %}
+    <h3 class="omb_authTitle"><b>Connexion</b> ou <a href="#" ng-click="show_login=false;">Inscription</a></h3>
     <div class="row omb_row-sm-offset-3 omb_socialButtons">
       <div class="col-xs-4 col-sm-2">
         <a href="#" class="btn btn-lg btn-block omb_btn-facebook">
-          <i class="fa fa-facebook visible-xs"></i>
-          <span class="hidden-xs">Facebook</span>
+          <i class="fa fa-facebook visible-sm"></i>
+          <span class="hidden-sm">Facebook</span>
         </a>
       </div>
       <div class="col-xs-4 col-sm-2">
         <a href="#" class="btn btn-lg btn-block omb_btn-twitter">
-          <i class="fa fa-twitter visible-xs"></i>
-          <span class="hidden-xs">Twitter</span>
+          <i class="fa fa-twitter visible-sm"></i>
+          <span class="hidden-sm">Twitter</span>
         </a>
       </div>
       <div class="col-xs-4 col-sm-2">
         <a href="#" class="btn btn-lg btn-block omb_btn-google">
-          <i class="fa fa-google-plus visible-xs"></i>
-          <span class="hidden-xs">Google+</span>
+          <i class="fa fa-google-plus visible-sm"></i>
+          <span class="hidden-sm">Google+</span>
         </a>
       </div>
     </div>
@@ -34,28 +48,29 @@
     <div class="row omb_row-sm-offset-3 omb_loginOr">
       <div class="col-xs-12 col-sm-6">
         <hr class="omb_hrOr">
-        <span class="omb_spanOr">or</span>
+        <span class="omb_spanOr">ou</span>
       </div>
     </div>
 
     <div class="row omb_row-sm-offset-3">
       <div class="col-xs-12 col-sm-6">
-        <form ua-login name="loginForm" class="omb_loginForm" action="" autocomplete="off" method="POST">
+        <form name="loginForm" class="omb_loginForm" action="" autocomplete="off" method="POST">
+
+          <!--Username or Email-->
           <div class="input-group">
-            <span class="input-group-addon"><i class="fa fa-user"></i></span>
-            <input type="text" class="form-control" name="login" placeholder="Email address" required>
+            <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
+            <input type="text" class="form-control" name="username_or_email" placeholder="Nom ou Adresse courriel" required>
           </div>
-          <span class="help-block" ng-show="loginForm.username.$error.required">Required!</span>
           <br/>
 
+          <!--Password-->
           <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-            <input type="password" class="form-control" name="password" placeholder="Password" required>
+            <input type="password" class="form-control" name="password" placeholder="Mot de passe" required>
           </div>
-          <span class="help-block" ng-show="loginForm.password.$error.required">Required!</span>
           <br/>
 
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+          <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="if(username_or_email.value && loginForm.password.value){password.value=hashSha256(password.value, username_or_email.value);};">Se connecter</button>
         </form>
       </div>
     </div>
@@ -72,35 +87,70 @@
       </div>
     </div>
   </div>
+
   <!--Sign up-->
   <div class="omb_login" ng-hide="show_login">
-    <h3 class="omb_authTitle"><a href="#" ng-click="show_login=true;">Login</a> or <b>Sign up</b></h3>
+    {% if invalid_login == "signup" %}
+    <div class="alert alert-danger"><strong>Erreur!</strong> Veuillez remplir tout les champs correctement.</div>
+    {% elif invalid_login == "username" %}
+    <div class="alert alert-danger"><strong>Erreur!</strong> Nom ne peut pas être vide.</div>
+    {% end %}
+    <h3 class="omb_authTitle"><a href="#" ng-click="show_login=true;">Connexion</a> ou <b>Inscription</b></h3>
 
     <div class="row omb_row-sm-offset-3">
       <div class="col-xs-12 col-sm-6">
-        <form ua-signup name="signUpForm" class="omb_signUpForm" action="" autocomplete="off" method="POST">
-          <div class="input-group">
-            <span class="input-group-addon"><i class="fa fa-user"></i></span>
-            <input type="text" class="form-control" name="first_name" placeholder="Name" required>
+        <form name="signUpForm" class="omb_signUpForm" action="" autocomplete="off" method="POST">
+
+          <!--Username-->
+          <div class="input-group" ng-class="{'has-success': signUpForm.username.$valid, 'has-warning': signUpForm.username.$pending, 'has-error': (signUpForm.username.$invalid && signUpForm.username.$touched) || signUpForm.username.$error.uniqueField}">
+            <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
+            <input type="text" class="form-control" name="username" placeholder="Nom" ng-model="username" unique-field required>
+            <span class="input-group-addon" ng-if="signUpForm.username.$touched">
+              <i ng-show="signUpForm.username.$invalid" class="fa fa-times" aria-hidden="true"></i>
+              <i ng-show="signUpForm.username.$pending" class="fa fa-spinner fa-pulse fa-fw" aria-hidden="true"></i>
+              <i ng-show="signUpForm.username.$valid" class="fa fa-check" aria-hidden="true"></i>
+            </span>
           </div>
-          <span class="help-block" ng-show="signUpForm.name.$error.required">Required!</span>
+          <span class="help-block" ng-show="signUpForm.username.$error.uniqueField">Ce nom est déjà utilisé.</span>
           <br/>
 
-          <div class="input-group">
-            <span class="input-group-addon"><i class="fa fa-user"></i></span>
-            <input type="text" class="form-control" name="login" ua-is-email placeholder="Email address" required>
+          <!--Email-->
+          <div class="input-group" ng-class="{'has-success': signUpForm.email.$valid, 'has-warning': signUpForm.email.$pending, 'has-error': (signUpForm.email.$invalid && signUpForm.email.$touched) || signUpForm.email.$error.uniqueField}">
+            <span class="input-group-addon"><i class="fa fa-at" aria-hidden="true"></i></span>
+            <input type="email" class="form-control" name="email" placeholder="Adresse courriel" ng-model="email" unique-field>
+            <span class="input-group-addon" ng-if="signUpForm.email.$touched">
+              <i ng-show="signUpForm.email.$invalid" class="fa fa-times" aria-hidden="true"></i>
+              <i ng-show="signUpForm.email.$pending" class="fa fa-spinner fa-pulse fa-fw" aria-hidden="true"></i>
+              <i ng-show="signUpForm.email.$valid" class="fa fa-check" aria-hidden="true"></i>
+            </span>
           </div>
-          <span class="help-block" ng-show="signUpForm.username.$error.required">Required!</span>
+          <span class="help-block" ng-show="signUpForm.email.$error.uniqueField">Cette adresse courriel est déjà utilisée.</span>
           <br/>
 
-          <div class="input-group">
-            <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-            <input type="password" class="form-control" name="password" placeholder="Password" required>
+          <!--Password-->
+          <div class="input-group" ng-class="{'has-success': signUpForm.password.$valid, 'has-warning': signUpForm.password.$pending, 'has-error': (signUpForm.password.$invalid && signUpForm.password.$touched)}">
+            <span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
+            <input type="password" class="form-control" name="password" placeholder="Mot de passe" ng-model="password" required>
+            <span class="input-group-addon" ng-if="signUpForm.password.$touched">
+              <i ng-show="signUpForm.password.$invalid" class="fa fa-times" aria-hidden="true"></i>
+              <i ng-show="signUpForm.password.$valid" class="fa fa-check" aria-hidden="true"></i>
+            </span>
           </div>
-          <span class="help-block" ng-show="signUpForm.password.$error.required">Required!</span>
           <br/>
 
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Create account</button>
+          <!--Confirm Password-->
+          <div class="input-group" ng-class="{'has-success': signUpForm.pwconfirm.$valid, 'has-warning': signUpForm.pwconfirm.$pending, 'has-error': (signUpForm.pwconfirm.$invalid && signUpForm.pwconfirm.$touched) || signUpForm.pwconfirm.$error.fieldMatch && signUpForm.pwconfirm.$dirty}">
+            <span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
+            <input type="password" class="form-control" name="pwconfirm" placeholder="Confirmer mot de passe" ng-model="pwconfirm" field-match="password" required>
+            <span class="input-group-addon" ng-if="signUpForm.pwconfirm.$touched">
+              <i ng-show="signUpForm.pwconfirm.$invalid" class="fa fa-times" aria-hidden="true"></i>
+              <i ng-show="signUpForm.pwconfirm.$valid" class="fa fa-check" aria-hidden="true"></i>
+            </span>
+          </div>
+          <span class="help-block" ng-show="signUpForm.pwconfirm.$error.fieldMatch && signUpForm.pwconfirm.$dirty">Le mot de passe n'est pas identique.</span>
+          <br/>
+
+          <button class="btn btn-lg btn-primary btn-block" type="submit" ng-disabled="signUpForm.$invalid || signUpForm.$pending" onclick="var tempPW=password.value; password.value=hashSha256(tempPW, username.value);pwconfirm.value=hashSha256(tempPW, email.value);">Créer un compte</button>
         </form>
       </div>
     </div>
@@ -114,5 +164,5 @@
   </div>
   <p ng-show="error">{{! error.message }}</p>
 </div>
-
+{% end %}
 {% end %}

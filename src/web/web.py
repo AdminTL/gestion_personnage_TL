@@ -15,6 +15,7 @@ import base64
 from py_class.db import DB
 from py_class.manual import Manual
 from py_class.lore import Lore
+import uuid
 
 DEFAULT_SSL_DIRECTORY = os.path.join("..", "..", "ssl_cert")
 CERT_FILE_SSL = os.path.join(DEFAULT_SSL_DIRECTORY, "ca.csr")
@@ -36,7 +37,8 @@ def main(parse_arg):
                 "lore": Lore(parse_arg),
                 "disable_character": parse_arg.disable_character,
                 "disable_admin": parse_arg.disable_admin,
-                "disable_login": parse_arg.disable_login
+                "disable_login": parse_arg.disable_login,
+                "cookie_secret": uuid.uuid4().hex
                 }
     routes = [
         # pages
@@ -52,6 +54,7 @@ def main(parse_arg):
         tornado.web.url(r"/cmd/character_view", handlers.CharacterViewHandler, name='character_view', kwargs=settings),
         tornado.web.url(r"/cmd/manual", handlers.ManualHandler, name='cmd_manual', kwargs=settings),
         tornado.web.url(r"/cmd/lore", handlers.LoreHandler, name='cmd_lore', kwargs=settings),
+        tornado.web.url(r"/cmd/validate_auth", handlers.ValidateAuthHandler, name='validate_auth', kwargs=settings),
     ]
     application = tornado.web.Application(routes + socket_connection.urls, **settings)
 

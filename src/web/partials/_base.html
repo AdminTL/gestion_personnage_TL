@@ -31,9 +31,11 @@
   {% if use_internet_static %}
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   {% else %}
   <link href="{{ static_url('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
   <link href="{{ static_url('bower_components/bootstrap/dist/css/bootstrap-theme.min.css') }}" rel="stylesheet">
+  <link href="{{ static_url('bower_components/components-font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
   {% end %}
   <link href="{{ static_url('bower_components/components-font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
   <!-- Custom style -->
@@ -62,9 +64,11 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
       <ul class="nav navbar-nav">
-        <li ng-class="{ active: isActive('/') }"><a href="/" style="color:#3C8FB7">Accueil</a></li>
-        {% if not disable_admin and current_user and current_user.is_admin() %}
-        <li ng-class="{ active: isActive('/admin') }"><a href="admin" style="color:#3C8FB7">Admin</a></li>
+        <li ng-class="{ active: isActive('/') }"><a href="/">Accueil</a></li>
+        {% if not disable_admin and current_user %}
+          {% if current_user.get("permission") == "Admin" %}
+            <li ng-class="{ active: isActive('/admin') }"><a href="admin">Admin</a></li>
+          {% end %}
         {% end %}
         {% if not disable_character %}
         <li ng-class="{ active: isActive('/character') }"><a href="character" style="color:#3C8FB7">Personnage</a></li>
@@ -89,12 +93,11 @@
             <li ng-repeat="style_name in style" ng-class="{ active: isStyle(style_name)}"><a ng-click="updateStyle(style_name)" href="#">{{! style_name }}</a></li>
           </ul>
         </li>
-        {% if not disable_login %}
-        {% if not current_user %}
-        <li ng-class="{ active: isActive('/login') }"><a href="login" style="color:#3C8FB7">Login</a></li>
-        {% else %}
-        <li><a style="color:#2864E6;" href="#" ua-logout>Log out</a></li>
-        {% end %}
+        {% if current_user %}
+        <li><a href="#">{{current_user.get("name")}}</a></li>
+        <li><a href="logout">Déconnexion</a></li>
+        {% elif not disable_login %}
+        <li ng-class="{ active: isActive('/login') }"><a href="login">Connexion ou Inscription</a></li>
         {% end %}
       </ul>
 
