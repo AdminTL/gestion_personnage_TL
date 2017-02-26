@@ -77,10 +77,8 @@ class LoginHandler(base_handler.BaseHandler):
 
 class LogoutHandler(base_handler.BaseHandler):
     def get(self):
-        if self._global_arg["disable_login"]:
-            return
         self.clear_cookie("user")
-        self.redirect(u"/")
+        self.redirect("/")
 
 
 class AdminHandler(base_handler.BaseHandler):

@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import tornado.web
+import json
 # from py_class import user
 
 
@@ -27,5 +28,9 @@ class BaseHandler(tornado.web.RequestHandler):
         }
 
     def get_current_user(self):
+        user_cookie = self.get_secure_cookie("user")
+        if user_cookie:
+            return user_cookie
+        return None
         # TODO not work
-        return self._db.get_user(_uuid=self.get_secure_cookie("user"))
+        #return self._db.get_user(_uuid=self.get_secure_cookie("user"))
