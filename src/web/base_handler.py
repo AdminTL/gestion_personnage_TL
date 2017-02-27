@@ -7,7 +7,6 @@ import json
 
 
 # TODO add user detection here
-# @userapp.tornado.config(app_id=user.USER_APP_ID)
 class BaseHandler(tornado.web.RequestHandler):
     _debug = None
     _rule = None
@@ -29,8 +28,4 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def get_current_user(self):
         user_cookie = self.get_secure_cookie("user")
-        if user_cookie:
-            return user_cookie
-        return None
-        # TODO not work
-        #return self._db.get_user(_uuid=self.get_secure_cookie("user"))
+        return user_cookie if user_cookie else None

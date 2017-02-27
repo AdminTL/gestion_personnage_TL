@@ -46,45 +46,61 @@ class LoginHandler(base_handler.BaseHandler):
     def post(self):
         if self._global_arg["disable_login"]:
             return
-        email = self.get_argument("email")
-        password = self.get_argument("password")
-        if self.get_secure_cookie("user"):
-            print("Need to logout before login or sign in.", file=sys.stderr)
-            return
 
-        #Find the user in the database
-        if not email:
-            print("User name is empty.", file=sys.stderr)
+        if self.get_secure_cookie("user"):
+            print("Need to logout before login or sign up.", file=sys.stderr)
             return
-        elif not password:
+        
+        email = self.get_argument("email")
+        if not email:
+            print("Email is empty.", file=sys.stderr)
+            return
+        
+        password = self.get_argument("password")
+        if not password:
             print("Password is empty.", file=sys.stderr)
-            user = self._db.get_user(email) #temporary until we implement safe password storage
-        else:
-            secure_pass = hashlib.sha256(password.encode('UTF-8')).hexdigest()
+            #return <-- Uncomment after we implement safe password storage.
+
+        secure_pass = hashlib.sha256(password.encode('UTF-8')).hexdigest()
+        
+        #Login
+        if self.get_arguments("name") == []:
+            secure_pass = None # Temporary to let user login without password
             user = self._db.get_user(email, secure_pass)
 
-        #If user is found, give him a secure cookie based on his uuid
-        if user:
-            uuid = user.get("id")
-            if uuid:
-                self.set_secure_cookie("user", uuid, expires_days=3)
-                self.redirect("/")
+            #If user is found, give him a secure cookie based on his uuid
+            if user:
+                uuid = user.get("id")
+                if uuid:
+                    self.set_secure_cookie("user", uuid, httpOnly=True, expires_days=3)
+                    self.redirect("/")
+                else:
+                    print("User doesn't have an uuid.", file=sys.stderr)
+            else:
+                print("Invalid email/password combination", file=sys.stderr)
+                self.redirect("/login")
+                
+        #Sign Up
         else:
-            print("Invalid email/password combination", file=sys.stderr)
-            self.redirect("/login")
+            name = self.get_argument("name")
+            if not name:
+                print("User name is empty.", file=sys.stderr)
+                return
             
+            #TODO register
+            print("Debug: entering sign up code")
 
 
 class LogoutHandler(base_handler.BaseHandler):
     def get(self):
+        if self._global_arg["disable_login"]:
+            return
         self.clear_cookie("user")
         self.redirect("/")
 
 
 class AdminHandler(base_handler.BaseHandler):
     @tornado.web.asynchronous
-    # @userapp.tornado.authorized()
-    # @userapp.tornado.has_permission('admin')
     def get(self):
         if self._global_arg["disable_admin"]:
             return
