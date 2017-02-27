@@ -46,7 +46,13 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       var data = {};
       data.player = $scope.model_user;
       data.character = $scope.model_char;
-      $http.post("/cmd/character_view", data);
+      $http({
+        method: "post",
+        url: "/cmd/character_view",
+        headers: {"Content-Type": "application/json; charset=UTF-8"},
+        data: data,
+        timeout: 5000
+      });
       // TODO not suppose to need to reload the page, block by socket update
       $window.location.reload();
     }
@@ -137,7 +143,13 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     data.player = $scope.player;
     data.delete_character_id = $scope.character.id;
     // TODO: need to get id if new character or player to update ddb_user
-    $http.post("/cmd/character_view", data);
+    $http({
+      method: "post",
+      url: "/cmd/character_view",
+      headers: {"Content-Type": "application/json; charset=UTF-8"},
+      data: data,
+      timeout: 5000
+    });
     $scope.player.character.remove($scope.player.character.indexOf($scope.character));
     $scope.character = null;
     // reselect new character if exist
@@ -150,7 +162,13 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     // data.user_id = $scope.player.id;
     data.delete_player_id = $scope.player.id;
     // TODO: need to get id if new character or player to update ddb_user
-    $http.post("/cmd/character_view", data);
+    $http({
+      method: "post",
+      url: "/cmd/character_view",
+      headers: {"Content-Type": "application/json; charset=UTF-8"},
+      data: data,
+      timeout: 5000
+    });
     $scope.ddb_user.remove($scope.ddb_user.indexOf($scope.player));
     $scope.player = null;
     $scope.character = null;
@@ -183,33 +201,6 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     } else {
       $scope.character = value;
     }
-  };
-
-  $scope.submitCharacterData = function () {
-    var data = Object();
-    // TODO: use user id from user creation management to permission
-    // data.user_id = $scope.player.id;
-    // TODO: don't send all character information in player
-    data.player = $scope.player;
-    if (isDefined($scope.character) && $scope.character && isDefined($scope.character.name)) {
-      // TODO: check if contains character data in field. Only check name actually
-      data.character = $scope.character;
-    } else {
-      $scope.character = null;
-    }
-    // TODO: need to get id if new character or player to update ddb_user
-    $http.post("/cmd/character_view", data);
-    // add to ddb_user client side if new player
-    if ($scope.new_player) {
-      if ($scope.character === null) {
-        $scope.player.character = [];
-      }
-      $scope.ddb_user.push($scope.player);
-      $scope.new_player = false;
-    } else if (isDefined($scope.character) && $scope.character && isDefined($scope.character.name) && !$scope.player.character.length) {
-      $scope.player.character.push($scope.character);
-    }
-    $scope.new_character = false;
   };
 
   $scope.printCharacterSheet = function () {
@@ -311,8 +302,8 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
 
 // For admin page
 //  $http.get("/cmd/character_view").success(
-//    function (data/*, status, headers, config*/) {
-//      $scope.ddb_user = data;
+//    function (response/*, status, headers, config*/) {
+//      $scope.ddb_user = response.data;
 //    }
 //  );
 
@@ -322,11 +313,16 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   } else {
     $scope.url_view_character = "/cmd/character_view?player_id=" + $scope.player_id_from_get;
   }
-  $http.get($scope.url_view_character).success(
-    // Send id from URL
-    function (data/*, status, headers, config*/) {
-      $scope.ddb_user = data;
-      // special effect, if only one character, select first one
+  $http({
+    method: "get",
+    url: $scope.url_view_character,
+    headers: {"Content-Type": "application/json; charset=UTF-8"},
+    // data: $httpParamSerializerJQLike(data),
+    timeout: 5000
+  }).then(function (response/*, status, headers, config*/) {
+    $scope.ddb_user = response.data;
+    // console.log(response.data);
+    // special effect, if only one character, select first one
 //      if (data.length == 1) {
 //        $scope.player = data[0];
 //        $scope.character = data[0].character[0];
@@ -336,13 +332,15 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
 
 //        $scope.$apply();
 //      }
-    }
-  );
+  });
 
-  $http.get("/cmd/rule").success(
-    function (data/*, status, headers, config*/) {
-      $scope.rule = data;
-    }
-  );
-
+  // $http({
+  //   method: "get",
+  //   url: "/cmd/rule",
+  //   headers: {"Content-Type": "application/json; charset=UTF-8"},
+  //   // data: $httpParamSerializerJQLike(data),
+  //   timeout: 5000
+  // }).then(function (response/*, status, headers, config*/) {
+  //   $scope.manual = response.data.manual;
+  // });
 }]);

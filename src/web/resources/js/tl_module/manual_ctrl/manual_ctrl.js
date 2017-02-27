@@ -34,7 +34,7 @@ characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", "$lo
           result += lst_item[i].title.replace(/\s+/g, '') + "_";
         }
       }
-      result += item_1.title.replace(/\s+/g, '')
+      result += item_1.title.replace(/\s+/g, '');
       return result;
     }
 
@@ -124,7 +124,7 @@ characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", "$lo
         }
       }
     }
-  }
+  };
 
   $scope.select_all_filter = function (filter_list) {
     // prepare data
@@ -156,9 +156,9 @@ characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", "$lo
         }
       }
     }
-  }
+  };
 
-  $scope.change_location_filter = function() {
+  $scope.change_location_filter = function () {
     if (!$scope.manual) {
       return "";
     }
@@ -205,45 +205,51 @@ characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", "$lo
     }
 
     return $window.location.origin + "/manual#/filter=" + $scope.filter_list.join("&");
-  }
+  };
 
-  $scope.class_color_level = function(section) {
+  $scope.class_color_level = function (section) {
+    // under_level_color is generated from tl_rule.json
     return section.under_level_color;
-  }
+  };
 
-  $http.get("/cmd/rule").success(
-    function (data/*, status, headers, config*/) {
-      $scope.manual = data.manual;
+  $http({
+    method: "get",
+    url: "/cmd/rule",
+    headers: {"Content-Type": "application/json; charset=UTF-8"},
+    // data: $httpParamSerializerJQLike(data),
+    timeout: 5000
+  }).then(function (response/*, status, headers, config*/) {
+    $scope.manual = response.data.manual;
 
-      var key = "/filter=";
-      if ($location.path().substring(0, key.length) == key) {
-        $scope.filter_list = $location.path().substring(key.length).split("&");
-        $scope.select_all_filter($scope.filter_list);
-      } else {
-        $scope.select_all(true);
-      }
+    var key = "/filter=";
+    if ($location.path().substring(0, key.length) == key) {
+      $scope.filter_list = $location.path().substring(key.length).split("&");
+      $scope.select_all_filter($scope.filter_list);
+    } else {
+      $scope.select_all(true);
+    }
 
-      // Need to wait to receive information before move to good position in page
-      $timeout(function() {
-        var hash = $location.path();
-        // remove first "/" of path
-        hash = hash.substring(1);
-        $anchorScroll(hash);
+    // Need to wait to receive information before move to good position in page
+    $timeout(function () {
+      var hash = $location.path();
+      // remove first "/" of path
+      hash = hash.substring(1);
+      $anchorScroll(hash);
 
-        // bootstrap_doc_sidebar
-        $('body').scrollspy({
-          target: '.bs-docs-sidebar',
-          offset: 40
-        });
-        $("#sidebar").affix({
-          offset: {
-            top: 60
-          }
-        });
-
+      // bootstrap_doc_sidebar
+      $('body').scrollspy({
+        target: '.bs-docs-sidebar',
+        offset: 40
+      });
+      $("#sidebar").affix({
+        offset: {
+          top: 60
+        }
       });
 
-    }
-  );
+    });
+
+  });
+
 
 }]);
