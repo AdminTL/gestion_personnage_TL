@@ -4,7 +4,6 @@
 import json
 import tornado
 import tornado.web
-import hashlib
 import sys
 import base_handler
 import jsonhandler
@@ -50,45 +49,43 @@ class LoginHandler(base_handler.BaseHandler):
         if self.get_secure_cookie("user"):
             print("Need to logout before login or sign up.", file=sys.stderr)
             return
-        
+
         email = self.get_argument("email")
         if not email:
             print("Email is empty.", file=sys.stderr)
             return
-        
+
         password = self.get_argument("password")
         if not password:
             print("Password is empty.", file=sys.stderr)
-            #return <-- Uncomment after we implement safe password storage.
+            return
 
-        secure_pass = hashlib.sha256(password.encode('UTF-8')).hexdigest()
-        
         #Login
         if self.get_arguments("name") == []:
-            secure_pass = None # Temporary to let user login without password
-            user = self._db.get_user(email, secure_pass)
+            user = self._db.get_user(email, password)
 
-            #If user is found, give him a secure cookie based on his uuid
+            #If user is found, give him a secure cookie based on his user id
             if user:
-                uuid = user.get("id")
-                if uuid:
-                    self.set_secure_cookie("user", uuid, httpOnly=True, expires_days=3)
+                user_id = user.get("user_id")
+                if user_id:
+                    self.set_secure_cookie("user", user_id, httpOnly=True, expires_days=3)
                     self.redirect("/")
                 else:
-                    print("User doesn't have an uuid.", file=sys.stderr)
+                    print("User doesn't have an id.", file=sys.stderr)
             else:
                 print("Invalid email/password combination", file=sys.stderr)
                 self.redirect("/login")
-                
+
         #Sign Up
         else:
             name = self.get_argument("name")
             if not name:
                 print("User name is empty.", file=sys.stderr)
                 return
-            
-            #TODO register
+
             print("Debug: entering sign up code")
+            self._db.create_user(name, email, password)
+            self.redirect("/login")
 
 
 class LogoutHandler(base_handler.BaseHandler):
@@ -121,9 +118,9 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
         if self._global_arg["disable_character"]:
             return
 
-        player_id = self.request.query[len("player_id="):]
+        user_id = self.request.query[len("user_id="):]
         is_admin = self.request.query == "is_admin"
-        if player_id == "" and not is_admin:
+        if user_id == "" and not is_admin:
             # leave now, missing permission
             self.finish()
             return
@@ -132,7 +129,7 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
         if is_admin:
             data = json.dumps(self._db.get_all_user())
         else:
-            data = json.dumps(self._db.get_all_user(id=player_id))
+            data = json.dumps(self._db.get_all_user(user_id=user_id))
 
         self.write(data)
         self.finish()
@@ -144,17 +141,17 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
         self.prepare_json()
 
         # user_id = self.get_argument("user_id")
-        player = self.get_argument("player")
+        user = self.get_argument("user")
         character = self.get_argument("character")
-        delete_player_id = self.get_argument("delete_player_id")
-        delete_character_id = self.get_argument("delete_character_id")
+        delete_user_by_id = self.get_argument("delete_user_by_id")
+        delete_character_by_id = self.get_argument("delete_character_by_id")
 
-        # exception, if delete_player_id, create player if not exist
-        if not player and delete_player_id:
-            player = {"id": delete_player_id}
+        # exception, if delete_user_by_id, create user if not exist
+        if not user and delete_user_by_id:
+            user = {"user_id": delete_user_by_id}
 
-        self._db.update_player(player, character, delete_player_id=delete_player_id,
-                               delete_character_id=delete_character_id)
+        self._db.update_user(user, character, delete_user_by_id=delete_user_by_id,
+                               delete_character_by_id=delete_character_by_id)
 
 
 class RulesHandler(jsonhandler.JsonHandler):
