@@ -3,10 +3,8 @@
 
 import tornado.web
 import json
-# from py_class import user
 
 
-# TODO add user detection here
 class BaseHandler(tornado.web.RequestHandler):
     _debug = None
     _rule = None
