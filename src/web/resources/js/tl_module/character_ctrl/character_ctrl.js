@@ -196,7 +196,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
         $scope.character = $scope.player.character[0];
       } else {
         // no character on this player
-        $scope.lst_character = $scope.character = null;
+        $scope.last_character = $scope.character = null;
       }
     } else {
       $scope.character = value;
