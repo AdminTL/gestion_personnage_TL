@@ -307,7 +307,8 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
 //    }
 //  );
 
-  $scope.player_id_from_get = $window.location.hash.substring("#/?id_player=".length);
+  // Get id_player, it's suppose to be the last 32 bytes
+  $scope.player_id_from_get = $window.location.hash.substr(-32);
   if ($scope.is_admin) {
     $scope.url_view_character = "/cmd/character_view?is_admin";
   } else {
