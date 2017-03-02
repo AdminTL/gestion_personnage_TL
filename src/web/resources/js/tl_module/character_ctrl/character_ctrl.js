@@ -309,6 +309,11 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
 
   // Get id_player, it's suppose to be the last 32 bytes
   $scope.player_id_from_get = $window.location.hash.substr(-32);
+  // When no id_player, it's because == #!/
+  if ($scope.player_id_from_get == "#!/") {
+    $scope.player_id_from_get = "";
+  }
+
   if ($scope.is_admin) {
     $scope.url_view_character = "/cmd/character_view?is_admin";
   } else {

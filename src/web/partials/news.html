@@ -2,52 +2,58 @@
 
 {% block content %}
 
-<div class="2x2">
-  <div class="row">
-    <div class="col-sm-1"></div>
-    <div class="col-sm-5">
-      <div class="jombotron">
-        <h1 class="titre-a">Traître-Lame</h1>
-        <p class="titre-a">Bienvenu sur notre nouveau site internet. Trois options s'offrent à vous; Le Livre de Règles, ou toute les règles, habiletés et rituels sont décrits précisément, Personnage,
-          ou vous trouverez votre fiche de joueur, examiner vos futurs gains, ainsi que de placer vos points d'expérience ainsi que vos Mérites, l'Univers, ou vous découvrirez le géographie, la
-          politique et les guildes et groupes NPC. Pour nous contacter...</p>
-        <p><a href="#" class="btn btn-default btn-lg disabled">Contactez-nous</a><a href="#" class="btn btn-default btn-lg disabled">Prochain Évenement</a></p>
-      </div>
-    </div>
-    <a href="manual" css="size=70px">
-      <div class="col-sm-5">
-        <div class="livrederegle">
-          <button type="button" id="btn-ldr">
-            <p><br><br><br><br><br><br><br><br><font size="70px"><big><b>LIVRE DE RÈGLES</b></big></font></p>
-          </button>
-        </div>
-      </div>
+<div class="row">
+  <!-- Border left -->
+  <div class="col-sm-1"></div>
+  <!-- Panel left -->
+  <div class="col-sm-5">
+    <h1 class="titre-a">Traître-Lame</h1>
+    <p class="titre-a">Bienvenu sur le site web du grandeur nature Traître-Lame au Québec, 18+ Alcool / Saison 2017. Une activité axée sur les capacités réelles des joueurs plutôt que sur l'ancienneté
+      de leur personnage.</p>
+    <p class="titre-a">Prochaine activitée: <b>8 avril 2017 - activité type Donjon</b></p>
+    <p class="titre-a">Lieu: <a href="https://goo.gl/maps/rbhrnhw4Fp32"><u>au dortoir</u> <i class="fa fa-map"></i></a></p>
+    <p class="titre-a">Prix: 30$</p>
+    <!--<p><a href="#" class="btn btn-default btn-lg disabled">Contactez-nous</a><a href="#" class="btn btn-default btn-lg disabled">Prochain Évenement</a></p>-->
+  </div>
+  <!-- Panel right -->
+  <div class="col-sm-5">
+    <a href="manual">
+      <button type="button" id="btn-ldr">
+        <br/><br/><br/><br/>
+        <h1 style="font-size:70px">Livre de règles</h1>
+        <div style="background: rgba(0, 0, 0, 0.7)">Règles, habilités et rituels.</div>
+      </button>
     </a>
-    <div class="col-sm-1"></div>
   </div>
-  <div class="row">
-    <div class="crak"></div>
-  </div>
-  <div class="row">
-    <div class="col-sm-1"></div>
-    <a href="character" css="size=70px">
-      <div class="col-sm-5">
-        <div class="personnage">
-          <button type="button" id="btn-per">
-            <p><br><br><br><br><br><br><font size="70px"><big><b>PERSONNAGE</b></big></font></p>
-          </button>
-        </div>
-      </div>
+  <!-- Border right -->
+  <div class="col-sm-1"></div>
+</div>
+
+<br/>
+<div class="row">
+  <!-- Border left -->
+  <div class="col-sm-1"></div>
+  <!-- Panel left -->
+  <div class="col-sm-5">
+    <a href="character">
+      <button type="button" id="btn-per">
+        <br/><br/><br/><br/><br/><br/>
+        <h1 style="font-size:70px">Personnage</h1>
+        <div style="background: rgba(0, 0, 0, 0.7)">Fiche du joueur: suivi de la progression, point d'expérience et point de mérite.</div>
+      </button>
     </a>
-    <div class="col-sm-5">
-      <div class="univers">
-        <button type="button" id="btn-uni">
-          <p><font size="70px" color="gray"><big><b>UNIVERS</b></big></font><br><br></p>
-        </button>
-      </div>
-    </div>
-    <div class="col-sm-1"></div>
   </div>
+  <!-- Panel right -->
+  <div class="col-sm-5">
+    <button type="button" id="btn-uni">
+      <br/><br/>
+      <h1 style="font-size:70px; color:gray">Univers</h1>
+      <br/><br/><br/>
+      <div style="background: rgba(0, 0, 0, 0.7)">Politiques, guildes et groupe NPC.</div>
+    </button>
+  </div>
+  <!-- Border right -->
+  <div class="col-sm-1"></div>
 </div>
 
 <!--<div ng-controller="news_ctrl">-->
@@ -68,12 +74,44 @@
   <!--{% end %}-->
   <!--<div ng-show="user.authenticated">Welcome {{! user.first_name }}!</div>-->
 <!--</div>-->
+<br/>
+
+<div class="row">
+  <div class="col-sm-1"></div>
+  <div class="col-sm-5">
+    <h1>Dates 2017</h1>
+    <ul>
+      <li>8 avril: Donjon</li>
+      <li>5-7 mai: TL (Zone 1)</li>
+      <li>7-9 juillet: TL (Zone 1+2)</li>
+      <li>1-3 septembre: TL (Zone 1+2)</li>
+      <li>6-8 octobre: TL (Zone 1+2)</li>
+    </ul>
+    <h1>Localisation</h1>
+    <a href="https://goo.gl/maps/YpaQu3zk9Xy"><u>1801 Chemin Béthanie, Béthanie (Québec), J0H 1E1, (450) 548-2720.</u> <i class="fa fa-map"></i></a><br/><br/>
+    <a href="http://gn.qc.ca/atelier/directions/"><u>Pour plus d'information sur l'indication de la route.</u> <i class="fa fa-link"></i></a>
+  </div>
+
+  <div class="col-sm-5">
+    <h1>Tarif 2017</h1>
+    Billet: 45$<br/>
+    Donjon: 30$<br/>
+    Passe saisonnière (4 activités): 150$<br/>
+    Nouveau joueur: 30$<br/>
+    Accès au dortoir: 15$<br/>
+    <h1>Remerciement</h1>
+    Merci aux organisateurs de l'activités et bénévolats.<br/>
+    <a href="https://github.com/AdminTL/gestion_personnage_TL/blob/master/README.fr.md"><u>Merci aux contributeurs du logiciel web. Visitez ici pour plus d'information.</u> <i class="fa fa-link"></i></a>
+  </div>
+  <div class="col-sm-1"></div>
+</div>
 
 <nav class="navbar navbar-inverse navbar-fixed-bottom linkbdp" style="background-color: black; text-align: center">
   <div class="container-fluid">
-    Visitez notre <a href="https://www.facebook.com/groups/TraitreLame/?ref=bookmarks">groupe Facebook</a>,
-    Visitez notre <a href="https://www.facebook.com/traitrelame/">page Facebook,</a>
-    Visitez le site de <a href="http://gn.qc.ca/">l'Atelier du Loisir</a>.
+    <u><a href="https://www.facebook.com/groups/TraitreLame">Groupe Facebook</a></u> | 
+    <u><a href="https://www.facebook.com/traitrelame/">Page Facebook</a></u> |
+    <u><a href="http://gn.qc.ca/traitre-lame/">Atelier du Loisir</a></u> |
+    <u><a href="https://github.com/AdminTL/gestion_personnage_TL">Code source du logiciel</a></u>
   </div>
 </nav>
 

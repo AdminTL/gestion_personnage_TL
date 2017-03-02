@@ -1,8 +1,3 @@
-.livrederegle .personnage .univers {
-    min-height: 250px;
-    width: col-sm-5;
-}
-
 body {
     background-color: black;
     padding-bottom: 70px;
@@ -14,15 +9,6 @@ body {
 
 .titre-a p {
     text-align: justify;
-}
-
-.crak {
-    min-height: 15px;
-}
-
-.box {
-    min-height: 250px;
-    max-width: col-sm-5;
 }
 
 .navbar-brand {
