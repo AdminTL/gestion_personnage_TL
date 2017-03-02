@@ -14,6 +14,9 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   $scope.xp_default = 6;
   $scope.xp_bogue = 5;
 
+  $scope.sheet_view = {};
+  $scope.sheet_view.mode = "form_write";
+
   $scope.html_qr_code = "";
   $scope.url_qr_code = "";
 
@@ -33,6 +36,12 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   $scope.model_char = {};
   $scope.schema_char = {};
   $scope.form_char = [];
+
+  // using character sheet as cs for brevity
+  $scope.cs_player = $scope.player;
+  $scope.cs_character = $scope.character;
+  $scope.cs_setting = "filled";
+  $scope.cs_checks = [];
 
   // fill user and character schema and form
   TL_Schema($scope);
@@ -106,6 +115,9 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       if (!isDefined(firstChar.xp_autre)) {
         $scope.model_char.xp_autre = 0;
       }
+
+      $scope.cs_player = $scope.player;
+      $scope.cs_setting = "filled";
     } else {
       $scope.model_char = {};
       $scope.model_char.habilites = [{}];
@@ -113,9 +125,48 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       $scope.model_char.rituel = [];
       $scope.model_char.xp_naissance = $scope.xp_bogue;
       $scope.model_char.xp_autre = 0;
+
+      $scope.cs_player = {};
     }
     $scope.get_html_qr_code();
   }, true);
+
+  $scope.$watch("character", function(value){
+    $scope.cs_character = $scope.character;
+  }, true);
+
+  $scope.characterSheetPrintOptionChange = function (value) {
+    if ($scope.cs_setting == "filled") {
+      $scope.cs_player = $scope.player;
+      $scope.cs_character = $scope.character;
+      console.log($scope.getSheetOutput($scope.cs_character.endurance.total));
+    } else {
+      $scope.cs_player = {};
+      $scope.cs_character = {};
+    }
+  };
+
+  //get the string to output on the character sheet
+  $scope.getSheetOutput = function(value) {
+
+    if (value == undefined) {
+      return "";
+    } else {
+      return value.toString();
+    }
+
+  };
+
+  //fills the checks array with booleans used as models to determine whether checkboxes are checked or not
+  $scope.setChecks = function () {
+
+    $scope.cs_checks = [];
+
+    [1, 2, 3].foreach(function (value) {
+      $scope.cs_checks.push(cs_character.endurance.length >= value);
+      $scope.cs_checks.push(cs_character.energie.length >= value);
+    });
+  };
 
   $scope.newPlayer = function () {
     // create empty player with empty character

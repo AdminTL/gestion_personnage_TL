@@ -11,7 +11,8 @@
         <button class="btn btn-success" ng-click="newPlayer()"><span class="glyphicon glyphicon-plus"></span> <span class="glyphicon glyphicon-user"></span> Nouveau joueur</button>
       </div>
       <div ng-show="new_player">
-        <button class="btn btn-success" ng-click="onSubmit(my_form_char)"><span class="glyphicon glyphicon-floppy-save"></span> <span class="glyphicon glyphicon-user"></span> Enregistrer nouveau joueur
+        <button class="btn btn-success" ng-click="onSubmit(my_form_char)"><span class="glyphicon glyphicon-floppy-save"></span> <span class="glyphicon glyphicon-user"></span>
+          Enregistrer nouveau joueur
         </button>
       </div>
       <div ng-show="new_player">
@@ -22,10 +23,19 @@
         <select class="form-control" ng-model="player" ng-options="user.name for user in ddb_user | orderBy:'name'" ng-change="setCharacterData(null)">
           <option value="">--Sélectionner un joueur--</option>
         </select>
+        <br/>
+        Vue de fiche:<br/>
+        <label>
+          <input type="radio" ng-model="sheet_view.mode" value="fiche_read"> Fiche en lecture
+        </label><br/>
+        <label>
+          <input type="radio" ng-model="sheet_view.mode" value="form_write"> Formulaire
+        </label><br/>
+        <button class="btn btn-primary" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i>Imprimer</button>
       </div>
 
       <div ng-show="player && !new_player">
-        Fiche personnage<br/>
+        Fiche personnage
         <!--<div ng-show="!new_character">-->
         <!--<button class="btn btn-success" ng-click="newCharacter()"><span class="glyphicon glyphicon-plus"></span> <span class="glyphicon glyphicon-file"></span> Nouveau personnage</button>-->
         <!--</div>-->
@@ -58,29 +68,32 @@
   </div>
 
   <div ng-show="player" role="main" class="col-sm-offset-4">
-    <form name="my_form_char" ng-submit="onSubmit(my_form_char)">
-      <div sf-schema="schema_user" sf-form="form_user" sf-model="model_user"></div>
-      <hr/>
-      <div sf-schema="schema_char" sf-form="form_char" sf-model="model_char"></div>
-      <div ng-hide="isMobile()">
+    <div ng-show="sheet_view.mode == 'form_write'">
+      <form name="my_form_char" ng-submit="onSubmit(my_form_char)">
+        <div sf-schema="schema_user" sf-form="form_user" sf-model="model_user"></div>
         <hr/>
-        <div>{{!prettyModelUser}}</div>
-        <hr/>
-        <div>{{!prettyModelChar}}</div>
-        <hr/>
-        <div>{{!prettyPlayer}}</div>
-        <hr/>
-        <div>http://traitrelame.ca:5551/character#/?id_player={{! player.id }}</div>
-        <div>{{! url_qr_code }}</div>
-        <hr/>
+        <div sf-schema="schema_char" sf-form="form_char" sf-model="model_char"></div>
+        <div ng-hide="isMobile()">
+          <hr/>
+          <div>{{!prettyModelUser}}</div>
+          <hr/>
+          <div>{{!prettyModelChar}}</div>
+          <hr/>
+          <div>{{!prettyPlayer}}</div>
+          <hr/>
+          <div>http://traitrelame.ca:5551/character#/?id_player={{! player.id }}</div>
+          <div>{{! url_qr_code }}</div>
+          <hr/>
+        </div>
+      </form>
+      <div ng-show="isMobile()">
+        Xp : {{! countTotalCostXp() }} <a class="text-decoration: none;" ng-hide="diffTotalXp() == 0" ng-style="diffTotalXp() > 0 ? {'color': 'green'} : {'color': 'red'}">{{!
+        showDiffTotalXp() }}</a>
       </div>
-    </form>
-    <div ng-show="isMobile()">
-      Xp : {{! countTotalCostXp() }} <a class="text-decoration: none;" ng-hide="diffTotalXp() == 0" ng-style="diffTotalXp() > 0 ? {'color': 'green'} : {'color': 'red'}">{{!
-      showDiffTotalXp() }}</a>
-    </div>
-  </div>
+    </div> <!-- end div form write -->
 
+    {% include "character_sheet_print.html" %}
+
+  </div> <!-- end div if player -->
 </div> <!-- end of character_ctrl -->
-
 {% end %}
