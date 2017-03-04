@@ -2,8 +2,11 @@
 
 {% block content %}
 <div ng-controller="character_ctrl">
-  <div ng-show="!player_id_from_get && !ddb_user" class="col-sm-offset-4"><h1>Pour accéder à votre fiche de personnage, veuillez
-    communiquer avec l'organisation du grandeur nature Traître-Lame.</h1></div>
+  <div ng-show="!player_id_from_get && !ddb_user" class="col-sm-offset-4">
+    <h1>Pour accéder à votre fiche de personnage, veuillez communiquer avec l'organisation du grandeur nature Traître-Lame.</h1>
+    <a href="https://www.facebook.com/groups/TraitreLame"><u>Via le groupe Facebook.</u> <i class="fa fa-link"></i></a><br/>
+    L'accès au compte et création de personnage sera bientôt accessible!
+  </div>
   <div class="col-xs-3 bs-docs-sidebar" ng-hide="isMobile() && player">
     <br/>
     <div ng-hide="!ddb_user" class="bs-sidebar hidden-print affix" role="complementary">
