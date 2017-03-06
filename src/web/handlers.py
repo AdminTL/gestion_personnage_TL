@@ -83,12 +83,12 @@ class LoginHandler(base_handler.BaseHandler):
                 print("User name is empty.", file=sys.stderr)
                 return
 
-            print("Debug: entering sign up code")
-            self._db.create_user(name, email, password)
-            self.redirect("/login")
+            if self._db.create_user(name, email, password):
+                self.redirect("/login")
 
 
 class LogoutHandler(base_handler.BaseHandler):
+    @tornado.web.authenticated
     def get(self):
         if self._global_arg["disable_login"]:
             return
@@ -98,10 +98,16 @@ class LogoutHandler(base_handler.BaseHandler):
 
 class AdminHandler(base_handler.BaseHandler):
     @tornado.web.asynchronous
+    @tornado.web.authenticated
     def get(self):
         if self._global_arg["disable_admin"]:
             return
-        self.render('admin_character.html', **self._global_arg)
+        if self.current_user.get("permission") == "Admin":
+            self.render('admin_character.html', **self._global_arg)
+        else:
+            print("Insufficient persmissions", file=sys.stderr)
+            self.redirect("/") #TODO : HTTP error 403: Forbidden
+        
 
 
 class CharacterHandler(base_handler.BaseHandler):
