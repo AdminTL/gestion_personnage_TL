@@ -3,6 +3,7 @@
 
 import tornado.web
 import json
+from py_class import db
 
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -26,4 +27,4 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def get_current_user(self):
         user_cookie = self.get_secure_cookie("user")
-        return user_cookie if user_cookie else None
+        return self._db.get_user(user_id=user_cookie) if user_cookie else None

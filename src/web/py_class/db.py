@@ -44,9 +44,8 @@ class DB(object):
         secure_pass = hashlib.sha256((salt+password).encode('UTF-8')).hexdigest()
         
         data = {"email": email, "name": name, "salt": salt, "password": secure_pass,
-                "user_id": user_id} #"perm": user.UserPermission.player
+                "user_id": user_id, "permission": "Joueur"}
         eid = self._db_user.insert(data)
-        print(self._db_user.get(eid=eid))
         return self._db_user.get(eid=eid)
 
     def get_all_user(self, user_id=None):
@@ -59,12 +58,18 @@ class DB(object):
         # Lookup the user by it's email
         if email:
             _user = self._db_user.get(self._query_user.email == email)
-        #by user id not tested
+            # Validate password
+            salt = _user.get("salt")
+            secure_pass = hashlib.sha256((salt+password).encode('UTF-8')).hexdigest()
+            if not password or _user.get("password") == secure_pass:
+                return _user
+            
         # If no email provided, lookup user by id
         elif user_id:
             if type(user_id) is bytes:
-                user_id = base64.b64encode(user_id).decode('UTF-8')
+                user_id = user_id.decode('UTF-8')
             _user = self._db_user.get(self._query_user.user_id == user_id)
+            return _user
             
         else:
             print("Missing user id or email to get user.", file=sys.stderr)
@@ -73,14 +78,6 @@ class DB(object):
         if not _user:
             return
 
-        # create obj
-        #_user = user.User(_user)
-        # Validate password
-        salt = _user.get("salt")
-        secure_pass = hashlib.sha256((salt+password).encode('UTF-8')).hexdigest()
-        if not password or _user.get("password") == secure_pass:
-            print("debug: returning user")
-            return _user
 
     def update_user(self, user_data, character_data=None, delete_user_by_id=None, delete_character_by_id=None):
         if not isinstance(user_data, dict):

@@ -14,6 +14,7 @@ import subprocess
 import base64
 from py_class.db import DB
 from py_class.rule import Rule
+import uuid
 
 DEFAULT_SSL_DIRECTORY = os.path.join("..", "..", "ssl_cert")
 CERT_FILE_SSL = os.path.join(DEFAULT_SSL_DIRECTORY, "ca.csr")
@@ -34,7 +35,8 @@ def main(parse_arg):
                 "rule": Rule(parse_arg),
                 "disable_character": parse_arg.disable_character,
                 "disable_admin": parse_arg.disable_admin,
-                "disable_login": parse_arg.disable_login
+                "disable_login": parse_arg.disable_login,
+                "cookie_secret": uuid.uuid4().hex
                 }
     routes = [
         # pages
