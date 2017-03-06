@@ -9,7 +9,7 @@
 <div class="container" ng-controller="login_ctrl">
   <!--Sign in-->
   <div class="omb_login" ng-show="show_login">
-    <h3 class="omb_authTitle"><b>Login</b> or <a href="#" ng-click="show_login=false;">Sign up</a></h3>
+    <h3 class="omb_authTitle"><b>Connexion</b> ou <a href="#" ng-click="show_login=false;">Inscription</a></h3>
     <div class="row omb_row-sm-offset-3 omb_socialButtons">
       <div class="col-xs-4 col-sm-2">
         <a href="#" class="btn btn-lg btn-block omb_btn-facebook">
@@ -34,7 +34,7 @@
     <div class="row omb_row-sm-offset-3 omb_loginOr">
       <div class="col-xs-12 col-sm-6">
         <hr class="omb_hrOr">
-        <span class="omb_spanOr">or</span>
+        <span class="omb_spanOr">ou</span>
       </div>
     </div>
 
@@ -43,19 +43,19 @@
         <form name="loginForm" class="omb_loginForm" action="" autocomplete="off" method="POST">
           <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-user"></i></span>
-            <input type="text" class="form-control" name="email" placeholder="Email address" required>
+            <input type="text" class="form-control" name="email" placeholder="Adresse courriel" required>
           </div>
-          <span class="help-block" ng-show="loginForm.username.$error.required">Required!</span>
+          <span class="help-block" ng-show="loginForm.username.$error.required">Adresse courriel requise!</span>
           <br/>
 
           <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-            <input type="password" class="form-control" name="password" placeholder="Password" required>
+            <input type="password" class="form-control" name="password" placeholder="Mot de passe" required>
           </div>
-          <span class="help-block" ng-show="loginForm.password.$error.required">Required!</span>
+          <span class="help-block" ng-show="loginForm.password.$error.required">Mot de passe requis!</span>
           <br/>
 
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Se connecter</button>
         </form>
       </div>
     </div>
@@ -74,33 +74,33 @@
   </div>
   <!--Sign up-->
   <div class="omb_login" ng-hide="show_login">
-    <h3 class="omb_authTitle"><a href="#" ng-click="show_login=true;">Login</a> or <b>Sign up</b></h3>
+    <h3 class="omb_authTitle"><a href="#" ng-click="show_login=true;">Connexion</a> ou <b>Inscription</b></h3>
 
     <div class="row omb_row-sm-offset-3">
       <div class="col-xs-12 col-sm-6">
         <form name="signUpForm" class="omb_signUpForm" action="" autocomplete="off" method="POST">
           <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-user"></i></span>
-            <input type="text" class="form-control" name="name" placeholder="Name" required>
+            <input type="text" class="form-control" name="name" placeholder="Nom" required>
           </div>
-          <span class="help-block" ng-show="signUpForm.name.$error.required">Required!</span>
+          <span class="help-block" ng-show="signUpForm.name.$error.required">Nom requis!</span>
           <br/>
 
           <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-user"></i></span>
-            <input type="text" class="form-control" name="email" placeholder="Email address" required>
+            <input type="text" class="form-control" name="email" placeholder="Adresse courriel" required>
           </div>
-          <span class="help-block" ng-show="signUpForm.username.$error.required">Required!</span>
+          <span class="help-block" ng-show="signUpForm.username.$error.required">Adresse courriel requise!</span>
           <br/>
 
           <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-            <input type="password" class="form-control" name="password" placeholder="Password" required>
+            <input type="password" class="form-control" name="password" placeholder="Mot de passe" required>
           </div>
-          <span class="help-block" ng-show="signUpForm.password.$error.required">Required!</span>
+          <span class="help-block" ng-show="signUpForm.password.$error.required">Mot de passe requis!</span>
           <br/>
 
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Create account</button>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Créer un compte</button>
         </form>
       </div>
     </div>
