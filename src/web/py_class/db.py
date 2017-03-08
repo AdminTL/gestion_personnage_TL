@@ -69,16 +69,22 @@ class DB(object):
             if type(user_id) is bytes:
                 user_id = user_id.decode('UTF-8')
             _user = self._db_user.get(self._query_user.user_id == user_id)
-            return _user
-            
+            return _user 
+
         else:
-            print("Missing user id or email to get user.", file=sys.stderr)
+            print("Missing user email, id or name to get user.", file=sys.stderr)
             return
 
         if not _user:
             return
 
-
+    def user_exists(self, email=None, user_id=None, name=None):
+        return(not(email and not self._db_user.get(self._query_user.email == email)) and
+               not(user_id and not self._db_user.get(self._query_user.user_id == user_id)) and
+               not(name and not self._db_user.get(self._query_user.name == name))
+               )
+        
+    
     def update_user(self, user_data, character_data=None, delete_user_by_id=None, delete_character_by_id=None):
         if not isinstance(user_data, dict):
             print("Cannot update user if user is not dictionary : %s" % user_data)
