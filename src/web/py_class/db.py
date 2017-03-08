@@ -34,7 +34,7 @@ class DB(object):
         if self._db_user.contains(self._query_user.name == name):
             print("Cannot create user %s, already exist." % name, file=sys.stderr)
             return
-        
+
         # Check to avoid rare possible UUID collisions
         user_id = uuid.uuid4().hex
         while self._db_user.contains(self._query_user.email == email):
@@ -42,7 +42,7 @@ class DB(object):
 
         salt = base64.b64encode(os.urandom(48)).decode('UTF-8')
         secure_pass = hashlib.sha256((salt+password).encode('UTF-8')).hexdigest()
-        
+
         data = {"email": email, "name": name, "salt": salt, "password": secure_pass,
                 "user_id": user_id, "permission": "Joueur"}
         eid = self._db_user.insert(data)
@@ -63,16 +63,16 @@ class DB(object):
             secure_pass = hashlib.sha256((salt+password).encode('UTF-8')).hexdigest()
             if not password or _user.get("password") == secure_pass:
                 return _user
-            
+
         # If no email provided, lookup user by id
         elif user_id:
             if type(user_id) is bytes:
                 user_id = user_id.decode('UTF-8')
             _user = self._db_user.get(self._query_user.user_id == user_id)
-            return _user 
+            return _user
 
         else:
-            print("Missing user email, id or name to get user.", file=sys.stderr)
+            print("Missing user email or id to get user.", file=sys.stderr)
             return
 
         if not _user:
@@ -83,8 +83,7 @@ class DB(object):
                not(user_id and not self._db_user.get(self._query_user.user_id == user_id)) and
                not(name and not self._db_user.get(self._query_user.name == name))
                )
-        
-    
+
     def update_user(self, user_data, character_data=None, delete_user_by_id=None, delete_character_by_id=None):
         if not isinstance(user_data, dict):
             print("Cannot update user if user is not dictionary : %s" % user_data)
