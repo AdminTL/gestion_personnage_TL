@@ -48,6 +48,7 @@ class LoginHandler(base_handler.BaseHandler):
 
         if self.get_secure_cookie("user"):
             print("Need to logout before login or sign up.", file=sys.stderr)
+            self.error = "Need to logout before login or sign up."
             return
 
         email = self.get_argument("email")
@@ -88,12 +89,15 @@ class LoginHandler(base_handler.BaseHandler):
 
 
 class LogoutHandler(base_handler.BaseHandler):
-    @tornado.web.authenticated
     def get(self):
         if self._global_arg["disable_login"]:
             return
-        self.clear_cookie("user")
-        self.redirect("/")
+        if self.current_user:
+            self.clear_cookie("user")
+            self.redirect("/")
+        else:
+            self.redirect("/login")
+
 
 
 class AdminHandler(base_handler.BaseHandler):
@@ -164,4 +168,22 @@ class RulesHandler(jsonhandler.JsonHandler):
     @tornado.web.asynchronous
     def get(self):
         self.write(self._rule.get_rule())
+        self.finish()
+        
+
+class ValidateAuthHandler(base_handler.BaseHandler):
+    """This class is designed purely for client-side validation"""
+    @tornado.web.asynchronous
+    def get(self):
+        uniquename = self.get_argument("uniquename", default=None)
+        uniqueemail = self.get_argument("uniqueemail", default=None)
+        
+        if uniquename:
+            self.write("0" if self._db.user_exists(name=uniquename) else "1")
+        elif uniqueemail:
+            self.write("0" if self._db.user_exists(name=uniquemail) else "1")
+
+        # Produce a missing argument error
+        else:
+            self.get_argument("uniquename or uniqueemail")
         self.finish()

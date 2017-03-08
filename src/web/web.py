@@ -50,6 +50,7 @@ def main(parse_arg):
         # command
         tornado.web.url(r"/cmd/character_view", handlers.CharacterViewHandler, name='character_view', kwargs=settings),
         tornado.web.url(r"/cmd/rule", handlers.RulesHandler, name='cmd_rule', kwargs=settings),
+        tornado.web.url(r"/cmd/validate_auth", handlers.ValidateAuthHandler, name='validate_auth', kwargs=settings),
     ]
     application = tornado.web.Application(routes + socket_connection.urls, **settings)
 
