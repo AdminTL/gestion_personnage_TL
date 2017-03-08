@@ -48,7 +48,6 @@ class LoginHandler(base_handler.BaseHandler):
 
         if self.get_secure_cookie("user"):
             print("Need to logout before login or sign up.", file=sys.stderr)
-            self.error = "Need to logout before login or sign up."
             return
 
         email = self.get_argument("email")
