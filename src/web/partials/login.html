@@ -8,7 +8,7 @@
 
 <div class="container" ng-controller="login_ctrl" ng-cloak>
   <!--Sign in-->
-  <div class="omb_login" ng-show="show_login" ng-cloak>
+  <div class="omb_login" ng-show="show_login">
     <h3 class="omb_authTitle"><b>Connexion</b> ou <a href="#" ng-click="show_login=false;">Inscription</a></h3>
     <div class="row omb_row-sm-offset-3 omb_socialButtons">
       <div class="col-xs-4 col-sm-2">
@@ -42,13 +42,13 @@
       <div class="col-xs-12 col-sm-6">
         <form name="loginForm" class="omb_loginForm" action="" autocomplete="off" method="POST">
           <div class="input-group">
-            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+            <span class="input-group-addon"><i class="fa fa-at" aria-hidden="true"></i></span>
             <input type="email" class="form-control" name="email" placeholder="Adresse courriel" required>
           </div>
           <br/>
 
           <div class="input-group">
-            <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+            <span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
             <input type="password" class="form-control" name="password" placeholder="Mot de passe" required>
           </div>
           <br/>
@@ -71,14 +71,14 @@
     </div>
   </div>
   <!--Sign up-->
-  <div class="omb_login" ng-hide="show_login" ng-cloak>
+  <div class="omb_login" ng-hide="show_login">
     <h3 class="omb_authTitle"><a href="#" ng-click="show_login=true;">Connexion</a> ou <b>Inscription</b></h3>
 
     <div class="row omb_row-sm-offset-3">
       <div class="col-xs-12 col-sm-6">
         <form name="signUpForm" class="omb_signUpForm" action="" autocomplete="off" method="POST">
           <div class="input-group">
-            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+            <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
             <input type="text" class="form-control" name="name" placeholder="Nom" ng-model="name" unique-name required>
           </div>
           <span class="help-block" ng-if="signUpForm.name.$pending.unique">...</span>
@@ -86,7 +86,7 @@
           <br/>
 
           <div class="input-group">
-            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+            <span class="input-group-addon"><i class="fa fa-at" aria-hidden="true"></i></span>
             <input type="email" class="form-control" name="email" placeholder="Adresse courriel" ng-model="email" unique-email required>
           </div>
           <span class="help-block" ng-if="signUpForm.email.$pending.unique">...</span>
@@ -94,7 +94,7 @@
           <br/>
 
           <div class="input-group">
-            <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+            <span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
             <input type="password" class="form-control" name="password" placeholder="Mot de passe" required>
           </div>
           <br/>

@@ -31,18 +31,20 @@
   {% if use_internet_static %}
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+
   {% else %}
   <link href="{{ static_url('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
   <link href="{{ static_url('bower_components/bootstrap/dist/css/bootstrap-theme.min.css') }}" rel="stylesheet">
+  <link href="{{ static_url('bower_components/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"> -->
   {% end %}
-  <link href="{{ static_url('bower_components/components-font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
   <!-- Custom style -->
   <link href="{{ static_url('resources/css/_base.css') }}" rel="stylesheet">
   <link href="{{ static_url('resources/css/_base_dark.css') }}" rel="stylesheet">
   <link href="{{ static_url('resources/css/bootstrap_doc_sidebar.css') }}" rel="stylesheet">
   <link href="{{ static_url('resources/css/tl.css') }}" rel="stylesheet">
 </head>
-<body ng-controller="page_ctrl">
+<body ng-controller="page_ctrl" ng-cloack>
 
 <!-- Fixed navbar -->
 <nav role="navigation" class="navbar navbar-default navbar-fixed-top">
