@@ -38,8 +38,9 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   $scope.form_char = [];
 
   // using character sheet as cs for brevity
-  $scope.cs_player = $scope.player;
-  $scope.cs_character = $scope.character;
+  $scope.cs_player = {};
+  $scope.cs_character = {};
+  $scope.cs_character_habilites = {};
   $scope.cs_setting = "filled";
   $scope.cs_checks = [];
 
@@ -131,30 +132,133 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     $scope.get_html_qr_code();
   }, true);
 
-  $scope.$watch("character", function(value){
+  $scope.$watch("character", function (value) {
     $scope.cs_character = $scope.character;
+    $scope.fill_cs_character_habilites();
   }, true);
 
   $scope.characterSheetPrintOptionChange = function (value) {
     if ($scope.cs_setting == "filled") {
       $scope.cs_player = $scope.player;
       $scope.cs_character = $scope.character;
+      $scope.fill_cs_character_habilites();
       console.log($scope.getSheetOutput($scope.cs_character.endurance.total));
     } else {
       $scope.cs_player = {};
       $scope.cs_character = {};
+      $scope.cs_character_habilites = [];
     }
   };
 
-  //get the string to output on the character sheet
-  $scope.getSheetOutput = function(value) {
+  $scope.fill_cs_character_habilites = function () {
+    // lvl 1 : 4 disciplines
+    // lvl 2 : 2 habilités
+    // lvl 3 : 3 options
+    // var max_discipline = 4;
+    // var max_unique_discipline = 2;
+    // var max_hability = 2;
+    // var max_unique_hability = 1;
+    var i_discipline = 0;
 
-    if (value == undefined) {
-      return "";
-    } else {
-      return value.toString();
+    var dct_model = [
+      {
+        "discipline": "",
+        "hab_A": "",
+        "hab_A_1": "",
+        "hab_A_2": "",
+        "hab_A_3": "",
+        "hab_B": "",
+        "hab_B_1": "",
+        "hab_B_2": "",
+        "hab_B_3": ""
+      },
+      {
+        "discipline": "",
+        "hab_A": "",
+        "hab_A_1": "",
+        "hab_A_2": "",
+        "hab_A_3": "",
+        "hab_B": "",
+        "hab_B_1": "",
+        "hab_B_2": "",
+        "hab_B_3": ""
+      },
+      {
+        "discipline": "",
+        "hab_A": "",
+        "hab_A_1": "",
+        "hab_A_2": "",
+        "hab_A_3": "",
+        "hab_B": "",
+        "hab_B_1": "",
+        "hab_B_2": "",
+        "hab_B_3": ""
+      },
+      {
+        "discipline": "",
+        "hab_A": "",
+        "hab_A_1": "",
+        "hab_A_2": "",
+        "hab_A_3": "",
+        "hab_B": "",
+        "hab_B_1": "",
+        "hab_B_2": "",
+        "hab_B_3": ""
+      }
+    ];
+
+    if ($scope.character && $scope.character.habilites) {
+      $scope.character.habilites.forEach(function (value) {
+        var option_0 = $scope.getSheetOutput(value.options[0]);
+        var option_1 = $scope.getSheetOutput(value.options[1]);
+        var option_2 = $scope.getSheetOutput(value.options[2]);
+        var find = false;
+        // validate if exist
+        for (var i = 0; i < i_discipline; i++) {
+
+          if (dct_model[i].discipline == value.discipline) {
+            // check if repeating ability
+            if (!dct_model[i].hab_A) {
+              // fill free space
+              dct_model[i].hab_A = value.habilite;
+              dct_model[i].hab_A_1 = option_0;
+              dct_model[i].hab_A_2 = option_1;
+              dct_model[i].hab_A_3 = option_2;
+
+              find = true;
+              break;
+            } else if (!dct_model[i].hab_B) {
+              // fill free space
+              dct_model[i].hab_B = value.habilite;
+              dct_model[i].hab_B_1 = option_0;
+              dct_model[i].hab_B_2 = option_1;
+              dct_model[i].hab_B_3 = option_2;
+
+              find = true;
+              break;
+            }
+            // no free space, discipline will be recreate in !find section
+          }
+        }
+        if (!find) {
+          // not exist
+          dct_model[i_discipline].discipline = value.discipline;
+          dct_model[i_discipline].hab_A = value.habilite;
+          dct_model[i_discipline].hab_A_1 = option_0;
+          dct_model[i_discipline].hab_A_2 = option_1;
+          dct_model[i_discipline].hab_A_3 = option_2;
+
+          i_discipline++;
+        }
+      });
     }
 
+    $scope.cs_character_habilites = dct_model;
+  };
+
+  //get the string to output on the character sheet
+  $scope.getSheetOutput = function (value) {
+    return isDefined(value) ? value.toString() : "";
   };
 
   //fills the checks array with booleans used as models to determine whether checkboxes are checked or not
