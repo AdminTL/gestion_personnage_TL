@@ -35,6 +35,12 @@ class ManualPageHandler(base_handler.BaseHandler):
         self.render('manual.html', **self._global_arg)
 
 
+class LorePageHandler(base_handler.BaseHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        self.render('lore.html', **self._global_arg)
+
+
 class LoginHandler(base_handler.BaseHandler):
     @tornado.web.asynchronous
     def get(self):
@@ -137,8 +143,15 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
                                delete_character_id=delete_character_id)
 
 
-class RulesHandler(jsonhandler.JsonHandler):
+class ManualHandler(jsonhandler.JsonHandler):
     @tornado.web.asynchronous
     def get(self):
-        self.write(self._rule.get_rule())
+        self.write(self._manual.get_str_all())
+        self.finish()
+
+
+class LoreHandler(jsonhandler.JsonHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        self.write(self._lore.get_str_all())
         self.finish()

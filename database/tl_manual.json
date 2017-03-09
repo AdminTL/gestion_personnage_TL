@@ -2620,6 +2620,120 @@
         "Rituels Inédits : Ces rituels sont uniques et disponibles uniquement en jeu. Ils affectent toutes les fortifications. Exemples: Mur de pierre, Mur de fer, Mur de force, Séisme, Trou Noir, Forteresse Immédiate Balmonts, Mur des enfer, Mur d’ombre. Forteresse de Bluam, Forteresse Végétale, ect.",
         "Tous les rituels de création affectant une fortification peuvent prendre l’apparence d’un Symbole Magique. Celui-ci peut alors être activé par n’importe qui ayant participé au rituel. Ce Symbole doit mesurer minimum 30 cm."
       ]
+    },
+    {
+      "title": "Distribution de points de mérite",
+      "description": "Il est possible d'obtenir des points de mérite selon son implication sur l'activité de Traître-Lame. Dans cette section, on vous montre ce qu'on peut obtenir en échange de point(s) de mérite.",
+      "section": [
+        {
+          "title": "Coût de 1 point de mérite",
+          "section": [
+            {
+              "title": "Expérience",
+              "description": "Donne 1 point d'expérience sur la fiche du personnage actif."
+            },
+            {
+              "title": "Karma",
+              "description": "Donne 10 point de Karma temporaire pour le jeu. (max 1/jeu)."
+            },
+            {
+              "title": "Énergie Star",
+              "description": "Donne 4 points d'énergie temporaire pour le jeu. (max 1/jeu)."
+            },
+            {
+              "title": "Money Bag",
+              "description": "Donne un bonus unique de 50 pièces d'or au début du jeu."
+            },
+            {
+              "title": "Ritualiste",
+              "description": "Donne un bonus unique de 20 composantes magiques au début du jeu."
+            },
+            {
+              "title": "Artisan",
+              "description": "Donne un bonus unique de 30 blocs de production au choix au début du jeu."
+            },
+            {
+              "title": "Métal Rare",
+              "description": "Donne un bonus unique d'un lingot rare au choix au début du jeu."
+            }
+          ]
+        },
+        {
+          "title": "Coût de 3 points de mérite",
+          "section": [
+            {
+              "title": "Marché Public",
+              "description": "Donne accès a un commerce de Malédastarone gratuitement."
+            },
+            {
+              "title": "Marché Tribale",
+              "description": "Donne accès a un commerce de la Sarsonne gratuitement."
+            },
+            {
+              "title": "Money Chest",
+              "description": "Donne un bonus unique de 200 pièces d'or au début du jeu."
+            },
+            {
+              "title": "Cercle de Mage",
+              "description": "Donne un bonus unique de 50 composantes magiques au début du jeu."
+            },
+            {
+              "title": "Atelier en série",
+              "description": "Donne un bonus unique de 100 blocs de production au choix au début du jeu."
+            }
+          ]
+        },
+        {
+          "title": "Coût de 5 points de mérite",
+          "section": [
+            {
+              "title": "Marché Noir",
+              "description": "Donne accès a un commerce Illicite gratuitement."
+            },
+            {
+              "title": "Appuis: Commercial",
+              "description": "Donne un bonus de 3 Appuis: Commercial au début du jeu. (Faction, Sous-Faction ou Personnelle)"
+            },
+            {
+              "title": "Appuis: Militaire",
+              "description": "Donne un bonus de 3 Appuis: Militaire au début du jeu. (Faction, Sous-Faction ou Personnelle)"
+            },
+            {
+              "title": "Appuis: Info",
+              "description": "Donne un bonus de 3 Appuis: Information au début du jeu. (Faction, Sous-Faction ou Personnelle)"
+            },
+            {
+              "title": "Appuis: Politique",
+              "description": "Donne un bonus de 3 Appuis: Politique au début du jeu. (Faction, Sous-Faction ou Personnelle)"
+            },
+            {
+              "title": "Appuis: Criminel",
+              "description": "Donne un bonus de 3 Appuis: Criminel au début du jeu. (Faction, Sous-Faction ou Personnelle)"
+            }
+          ]
+        },
+        {
+          "title": "Coût de 10 points de mérite",
+          "section": [
+            {
+              "title": "Résurection",
+              "description": "Permet de ramener un personnage mort permanent à la vie sans même avoir une miette du défunt."
+            },
+            {
+              "title": "Coffre du Roi",
+              "description": "Donne un bonus de 500 pièces d'or, 5 joyaux et une couronne."
+            },
+            {
+              "title": "Nexus de magie",
+              "description": "Donne un bonus unique de 150 composantes magiques et une sphère de magie."
+            },
+            {
+              "title": "Atelier du Père Noël",
+              "description": "Donne un bonus de 200 blocs de production au choix et 3 lingots rares aux choix."
+            }
+          ]
+        }
+      ]
     }
   ]
 }
