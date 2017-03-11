@@ -76,3 +76,10 @@ input {
     background-color: black;
 }
 
+.alert {
+    text-align: center;
+}
+
+.omb_signUpForm>.help_block {
+    color: red;
+}

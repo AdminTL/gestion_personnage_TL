@@ -58,11 +58,12 @@ class DB(object):
         # Lookup the user by it's email
         if email:
             _user = self._db_user.get(self._query_user.email == email)
-            # Validate password
-            salt = _user.get("salt")
-            secure_pass = hashlib.sha256((salt+password).encode('UTF-8')).hexdigest()
-            if not password or _user.get("password") == secure_pass:
-                return _user
+            if _user:
+                # Validate password
+                salt = _user.get("salt")
+                secure_pass = hashlib.sha256((salt+password).encode('UTF-8')).hexdigest()
+                if not password or _user.get("password") == secure_pass:
+                    return _user
 
         # If no email provided, lookup user by id
         elif user_id:
@@ -76,6 +77,7 @@ class DB(object):
             return
 
         if not _user:
+            print("User not found", file=sys.stderr)
             return
 
     def user_exists(self, email=None, user_id=None, name=None):

@@ -6,9 +6,21 @@
 <link href="{{ static_url('resources/css/login.css') }}" rel="stylesheet">
 <link href="{{ static_url('resources/css/login_dark.css') }}" rel="stylesheet">
 
+{% if invalid_login == "disable_login" %}
+<div class="alert alert-warning"><strong>Désolé!</strong> Les connexions et inscriptions sont présentement désactivées.</div>
+{% else %}
 <div class="container" ng-controller="login_ctrl" ng-cloak>
+  {% if invalid_login == "email" %}
+  <div class="alert alert-danger"><strong>Erreur!</strong> L'adresse courriel ne peut être vide.</div>
+  {% elif invalid_login == "password" %}
+  <div class="alert alert-danger"><strong>Erreur!</strong> Le mot de passe ne peut être vide.</div>
+  {% end %}
+
   <!--Sign in-->
   <div class="omb_login" ng-show="show_login">
+    {% if invalid_login == "login" %}
+    <div class="alert alert-danger"><strong>Erreur!</strong> Adresse courriel ou Mot de passe invalide.</div>
+    {% end %}
     <h3 class="omb_authTitle"><b>Connexion</b> ou <a href="#" ng-click="show_login=false;">Inscription</a></h3>
     <div class="row omb_row-sm-offset-3 omb_socialButtons">
       <div class="col-xs-4 col-sm-2">
@@ -70,42 +82,67 @@
       </div>
     </div>
   </div>
+
   <!--Sign up-->
   <div class="omb_login" ng-hide="show_login">
+    {% if invalid_login == "signup" %}
+    <div class="alert alert-danger"><strong>Erreur!</strong> Veuillez remplir tout les champs correctement.</div>
+    {% elif invalid_login == "name" %}
+    <div class="alert alert-danger"><strong>Erreur!</strong> Nom ne peut pas être vide.</div>
+    {% end %}
     <h3 class="omb_authTitle"><a href="#" ng-click="show_login=true;">Connexion</a> ou <b>Inscription</b></h3>
 
     <div class="row omb_row-sm-offset-3">
       <div class="col-xs-12 col-sm-6">
         <form name="signUpForm" class="omb_signUpForm" action="" autocomplete="off" method="POST">
-          <div class="input-group">
+
+          <div class="input-group" ng-class="{'has-success': signUpForm.name.$valid, 'has-warning': signUpForm.name.$pending, 'has-error': (signUpForm.name.$invalid && signUpForm.name.$touched) || signUpForm.name.$error.uniqueField}">
             <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
-            <input type="text" class="form-control" name="name" placeholder="Nom" ng-model="name" unique-name required>
+            <input type="text" class="form-control" name="name" placeholder="Nom" ng-model="name" unique-field required>
+            <span class="input-group-addon" ng-if="signUpForm.name.$touched">
+              <i ng-show="signUpForm.name.$invalid" class="fa fa-times" aria-hidden="true"></i>
+              <i ng-show="signUpForm.name.$pending" class="fa fa-spinner fa-pulse fa-fw" aria-hidden="true"></i>
+              <i ng-show="signUpForm.name.$valid" class="fa fa-check" aria-hidden="true"></i>
+            </span>
           </div>
-          <span class="help-block" ng-if="signUpForm.name.$pending.unique">...</span>
-          <span class="help-block" ng-if="signUpForm.name.$error.unique">Ce nom est déjà utilisé.</span>
+          <span class="help-block" ng-show="signUpForm.name.$error.uniqueField">Ce nom est déjà utilisé.</span>
           <br/>
 
-          <div class="input-group">
+          <div class="input-group" ng-class="{'has-success': signUpForm.email.$valid, 'has-warning': signUpForm.email.$pending, 'has-error': (signUpForm.email.$invalid && signUpForm.email.$touched) || signUpForm.email.$error.uniqueField}">
             <span class="input-group-addon"><i class="fa fa-at" aria-hidden="true"></i></span>
-            <input type="email" class="form-control" name="email" placeholder="Adresse courriel" ng-model="email" unique-email required>
+            <input type="email" class="form-control" name="email" placeholder="Adresse courriel" ng-model="email" unique-field required>
+            <span class="input-group-addon" ng-if="signUpForm.email.$touched">
+              <i ng-show="signUpForm.email.$invalid" class="fa fa-times" aria-hidden="true"></i>
+              <i ng-show="signUpForm.email.$pending" class="fa fa-spinner fa-pulse fa-fw" aria-hidden="true"></i>
+              <i ng-show="signUpForm.email.$valid" class="fa fa-check" aria-hidden="true"></i>
+            </span>
           </div>
-          <span class="help-block" ng-if="signUpForm.email.$pending.unique">...</span>
-          <span class="help-block" ng-if="signUpForm.email.$error.unique">Cette adresse courriel déjà utilisée.</span>
+          <span class="help-block" ng-show="signUpForm.email.$error.uniqueField">Cette adresse courriel est déjà utilisée.</span>
           <br/>
 
-          <div class="input-group">
+          <div class="input-group" ng-class="{'has-success': signUpForm.password.$valid, 'has-warning': signUpForm.password.$pending, 'has-error': (signUpForm.password.$invalid && signUpForm.password.$touched) || signUpForm.password.$error.uniqueField}">
             <span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
             <input type="password" class="form-control" name="password" placeholder="Mot de passe" required>
+            <span class="input-group-addon" ng-if="signUpForm.password.$touched">
+              <i ng-show="signUpForm.password.$invalid" class="fa fa-times" aria-hidden="true"></i>
+              <i ng-show="signUpForm.password.$pending" class="fa fa-spinner fa-pulse fa-fw" aria-hidden="true"></i>
+              <i ng-show="signUpForm.password.$valid" class="fa fa-check" aria-hidden="true"></i>
+            </span>
           </div>
           <br/>
           
-          <div class="input-group">
+          <div class="input-group" ng-class="{'has-success': signUpForm.passwordconfirm.$valid, 'has-warning': signUpForm.passwordconfirm.$pending, 'has-error': (signUpForm.passwordconfirm.$invalid && signUpForm.passwordconfirm.$touched) || signUpForm.passwordconfirm.$error.uniqueField}">
             <span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
             <input type="password" class="form-control" name="passwordconfirm" placeholder="Confirmer mot de passe <WIP doesn't do anything yet>" required>
+            <span class="input-group-addon" ng-if="signUpForm.passwordconfirm.$touched">
+              <i ng-show="signUpForm.passwordconfirm.$invalid" class="fa fa-times" aria-hidden="true"></i>
+              <i ng-show="signUpForm.passwordconfirm.$pending" class="fa fa-spinner fa-pulse fa-fw" aria-hidden="true"></i>
+              <i ng-show="signUpForm.passwordconfirm.$valid" class="fa fa-check" aria-hidden="true"></i>
+            </span>
           </div>
           <br/>
 
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Créer un compte</button>
+          <button class="btn btn-lg btn-primary btn-block" type="submit" ng-disabled="signUpForm.$invalid || signUpForm.$pending">Créer un compte</button>
         </form>
       </div>
     </div>
@@ -119,5 +156,5 @@
   </div>
   <p ng-show="error">{{! error.message }}</p>
 </div>
-
+{% end %}
 {% end %}
