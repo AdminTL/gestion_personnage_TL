@@ -37,14 +37,19 @@ class ManualPageHandler(base_handler.BaseHandler):
 class LoginHandler(base_handler.BaseHandler):
     @tornado.web.asynchronous
     def get(self):
+        if self.get_secure_cookie("user"):
+            self.redirect("/")
+            
+        invalid_login = self.get_argument("invalid", default=None)
         if self._global_arg["disable_login"]:
-            return
-        self.render('login.html', **self._global_arg)
+            invalid_login = "disable_login"
+            
+        self.render('login.html', invalid_login=invalid_login, **self._global_arg)
 
     @tornado.web.asynchronous
     def post(self):
         if self._global_arg["disable_login"]:
-            return
+            self.redirect("/login?invalid=disable_login")
 
         if self.get_secure_cookie("user"):
             print("Need to logout before login or sign up.", file=sys.stderr)
@@ -53,12 +58,12 @@ class LoginHandler(base_handler.BaseHandler):
         email = self.get_argument("email")
         if not email:
             print("Email is empty.", file=sys.stderr)
-            return
+            self.redirect("/login?invalid=email")
 
         password = self.get_argument("password")
         if not password:
             print("Password is empty.", file=sys.stderr)
-            return
+            self.redirect("/login?invalid=password")
 
         #Login
         if self.get_arguments("name") == []:
@@ -74,17 +79,19 @@ class LoginHandler(base_handler.BaseHandler):
                     print("User doesn't have an id.", file=sys.stderr)
             else:
                 print("Invalid email/password combination", file=sys.stderr)
-                self.redirect("/login")
+                self.redirect("/login?invalid=login")
 
         #Sign Up
         else:
             name = self.get_argument("name")
             if not name:
                 print("User name is empty.", file=sys.stderr)
-                return
+                self.redirect("/login?invalid=name")
 
             if self._db.create_user(name, email, password):
                 self.redirect("/login")
+            else:
+                self.redirect("/login?invalid=signup")
 
 
 class LogoutHandler(base_handler.BaseHandler):
@@ -174,15 +181,15 @@ class ValidateAuthHandler(base_handler.BaseHandler):
     """This class is designed purely for client-side validation"""
     @tornado.web.asynchronous
     def get(self):
-        uniquename = self.get_argument("uniquename", default=None)
-        uniqueemail = self.get_argument("uniqueemail", default=None)
+        name = self.get_argument("name", default=None)
+        email = self.get_argument("email", default=None)
         
-        if uniquename:
-            self.write("0" if self._db.user_exists(name=uniquename) else "1")
-        elif uniqueemail:
-            self.write("0" if self._db.user_exists(name=uniquemail) else "1")
+        if name:
+            self.write("0" if self._db.user_exists(name=name) else "1")
+        elif email:
+            self.write("0" if self._db.user_exists(email=email) else "1")
 
         # Produce a missing argument error
         else:
-            self.get_argument("uniquename or uniqueemail")
+            self.get_argument("name or email")
         self.finish()

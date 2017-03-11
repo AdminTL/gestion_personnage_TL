@@ -103,3 +103,11 @@ a:focus {
     .site-title {display:none;}
 
 }
+
+.alert {
+    text-align: center;
+}
+
+.omb_signUpForm .help-block {
+    color: red;
+}
