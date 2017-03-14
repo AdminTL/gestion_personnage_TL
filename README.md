@@ -4,6 +4,10 @@ Character player web application for live role-playing game Traître-Lame
 =======================================================================
 Web software to manage character player sheet, maintenance, xp, help and communication in game.
 
+Web server in production
+========================
+http://www.traitrelame.ca
+
 INSTALL
 =======
 [Read INSTALL.md file](./INSTALL.md)
@@ -33,7 +37,7 @@ Project under GPLv3
 Contribution
 ============
 We are open to any contribution.
-* by chat [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/AdminTL/gestion_personnage_TL?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+* by chat [![Gitter](https://badges.gitter.im/AdminTL/gestion_personnage_TL.svg)](https://gitter.im/AdminTL/gestion_personnage_TL?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 * by issue on [Github AdminTL organisation](https://github.com/AdminTL/gestion_personnage_TL/issues)
 * by pull request
 
@@ -44,3 +48,4 @@ Contributors
 1. Mathieu Benoit - mathben
 2. Jérémie Gosselin
 3. alexisbssn
+4. Avasam
