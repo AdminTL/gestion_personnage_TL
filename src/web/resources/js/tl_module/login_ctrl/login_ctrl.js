@@ -12,27 +12,48 @@ characterApp.controller("login_ctrl", ['$scope','$routeParams', function ($scope
 }]);
 
 characterApp.directive('uniqueField', function($http,$q) {
-      var toId;
-      return {
-        restrict: 'A',
-        require: 'ngModel',
-        link: function(scope, elem, attr, ngModel) { 
-          //when the scope changes, check the field.
-          scope.$watch(attr.ngModel, function(value) {
-            ngModel.$asyncValidators.uniqueField = function(modelValue, viewValue) {
-              var value = modelValue || viewValue;
+  return {
+    restrict: 'A',
+    require: 'ngModel',
+    link: function(scope, elem, attr, ngModel) { 
+      // When the scope changes, check the field.
+      scope.$watch(attr.ngModel, function(value) {
+        ngModel.$asyncValidators.uniqueField = function(modelValue, viewValue) {
+          var value = modelValue || viewValue;
 
-              // Lookup field by ngModel and value
-              return $http.get('http://127.0.0.1:8000/cmd/validate_auth?'+attr.ngModel+'='+value).then(
-                function(response) {
-                  console.log(response)
-                  if (response["data"] == "0") {
-                    return $q.reject("already exists");
-                  }
-                  return true;
-                });
-            };
-          })
-        }
+          // Lookup field by ngModel and value
+          return $http.get('http://127.0.0.1:8000/cmd/validate_auth?'+attr.ngModel+'='+value).then(
+            function(response) {
+              console.log(response["data"]);
+              if (response["data"] == "0") {
+                return $q.reject("already exists");
+              }
+              return true;
+            });
+        };
+      })
+    }
+  }
+});
+
+
+characterApp.directive('fieldMatch', function() {
+  return {
+    require: 'ngModel',
+    link: function(scope, elem, attr, ngModel) {
+      ngModel.$parsers.unshift(validate);
+
+      // Force-trigger the parsing pipeline.
+      scope.$watch(attr.fieldMatch, function() {
+        validate(ngModel.$viewValue);
+      });
+
+      function validate(value) {
+        var isValid = scope.$eval(attr.fieldMatch) == value;
+        ngModel.$setValidity('fieldMatch', isValid);
+        console.log(isValid);
+        return isValid ? value : undefined;
       }
-    });
+    }
+  };
+});
