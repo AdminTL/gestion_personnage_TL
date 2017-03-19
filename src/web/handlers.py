@@ -39,11 +39,11 @@ class LoginHandler(base_handler.BaseHandler):
     def get(self):
         if self.get_secure_cookie("user"):
             self.redirect("/")
-            
+
         invalid_login = self.get_argument("invalid", default=None)
         if self._global_arg["disable_login"]:
             invalid_login = "disable_login"
-            
+
         self.render('login.html', invalid_login=invalid_login, **self._global_arg)
 
     @tornado.web.asynchronous
@@ -105,7 +105,6 @@ class LogoutHandler(base_handler.BaseHandler):
             self.redirect("/login")
 
 
-
 class AdminHandler(base_handler.BaseHandler):
     @tornado.web.asynchronous
     @tornado.web.authenticated
@@ -117,8 +116,18 @@ class AdminHandler(base_handler.BaseHandler):
         else:
             print("Insufficient persmissions", file=sys.stderr)
             self.redirect("/") #TODO : HTTP error 403: Forbidden
-        
 
+class ProfileHandler(base_handler.BaseHandler):
+    @tornado.web.asynchronous
+    @tornado.web.authenticated
+    def get(self, user_id=None):
+        if self._global_arg["disable_character"]:
+            return
+        if user_id:
+            user = self._db.get_user(user_id=user_id)
+        else:
+            user = self.current_user
+        self.render('profile.html', user=user, **self._global_arg)
 
 class CharacterHandler(base_handler.BaseHandler):
     @tornado.web.asynchronous
@@ -175,7 +184,7 @@ class RulesHandler(jsonhandler.JsonHandler):
     def get(self):
         self.write(self._rule.get_rule())
         self.finish()
-        
+
 
 class ValidateAuthHandler(base_handler.BaseHandler):
     """This class is designed purely for client-side validation"""
@@ -183,7 +192,7 @@ class ValidateAuthHandler(base_handler.BaseHandler):
     def get(self):
         name = self.get_argument("name", default=None)
         email = self.get_argument("email", default=None)
-        
+
         if name:
             self.write("0" if self._db.user_exists(name=name) else "1")
         elif email:
