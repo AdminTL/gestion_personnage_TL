@@ -39,18 +39,23 @@ def main(parse_arg):
                 "cookie_secret": uuid.uuid4().hex
                 }
     routes = [
+        # To create parameters: /(?P<param1>[^\/]+)/?(?P<param2>[^\/]+)/?
+        # Add ? after ) to make a parameter optionnal
+
         # pages
-        tornado.web.url(r"/", handlers.IndexHandler, name='index', kwargs=settings),
-        tornado.web.url(r"/login", handlers.LoginHandler, name='login', kwargs=settings),
-        tornado.web.url(r"/logout", handlers.LogoutHandler, name='logout', kwargs=settings),
-        tornado.web.url(r"/admin", handlers.AdminHandler, name='admin', kwargs=settings),
-        tornado.web.url(r"/character", handlers.CharacterHandler, name='character', kwargs=settings),
-        tornado.web.url(r"/manual", handlers.ManualPageHandler, name='manual', kwargs=settings),
+        tornado.web.url(r"/?", handlers.IndexHandler, name='index', kwargs=settings),
+        tornado.web.url(r"/login/?", handlers.LoginHandler, name='login', kwargs=settings),
+        tornado.web.url(r"/logout/?", handlers.LogoutHandler, name='logout', kwargs=settings),
+        tornado.web.url(r"/admin/?", handlers.AdminHandler, name='admin', kwargs=settings),
+        tornado.web.url(r"/profile/?(?P<user_id>[^\/]+)?/?", handlers.ProfileHandler, name='profile', kwargs=settings),
+        tornado.web.url(r"/character/?", handlers.CharacterHandler, name='character', kwargs=settings),
+        tornado.web.url(r"/manual/?", handlers.ManualPageHandler, name='manual', kwargs=settings),
 
         # command
-        tornado.web.url(r"/cmd/character_view", handlers.CharacterViewHandler, name='character_view', kwargs=settings),
-        tornado.web.url(r"/cmd/rule", handlers.RulesHandler, name='cmd_rule', kwargs=settings),
-        tornado.web.url(r"/cmd/validate_auth", handlers.ValidateAuthHandler, name='validate_auth', kwargs=settings),
+
+        tornado.web.url(r"/cmd/character_view/?", handlers.CharacterViewHandler, name='character_view', kwargs=settings),
+        tornado.web.url(r"/cmd/rule/?", handlers.RulesHandler, name='cmd_rule', kwargs=settings),
+        tornado.web.url(r"/cmd/validate_auth/?", handlers.ValidateAuthHandler, name='validate_auth', kwargs=settings),
     ]
     application = tornado.web.Application(routes + socket_connection.urls, **settings)
 

@@ -36,7 +36,8 @@
   {% else %}
   <link href="{{ static_url('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
   <link href="{{ static_url('bower_components/bootstrap/dist/css/bootstrap-theme.min.css') }}" rel="stylesheet">
-  <link href="{{ static_url('bower_components/components-font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"> -->
+
+  <link href="{{ static_url('bower_components/components-font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
   {% end %}
   <!-- Custom style -->
   <link href="{{ static_url('resources/css/_base.css') }}" rel="stylesheet">
@@ -92,9 +93,9 @@
             <li ng-repeat="style_name in style" ng-class="{ active: isStyle(style_name)}"><a ng-click="updateStyle(style_name)" href="#">{{! style_name }}</a></li>
           </ul>
         </li>
-        
+
         {% if current_user %}
-        <li><a href="#">{{current_user.get("name")}}</a></li>
+        <li><a href="/profile/">{{current_user.get("name")}}</a></li>
         <li><a href="logout">Déconnexion</a></li>
         {% elif not disable_login %}
         <li ng-class="{ active: isActive('/login') }"><a href="login">Connexion ou Inscription</a></li>
