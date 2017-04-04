@@ -56,6 +56,24 @@ function TL_Schema($scope) {
       xp_gn_3_2016: {
         type: "boolean",
       },
+      xp_gn_4_2016: {
+        type: "boolean",
+      },
+      xp_donjon_1_2017: {
+        type: "boolean",
+      },
+      xp_gn_1_2017: {
+        type: "boolean",
+      },
+      xp_gn_2_2017: {
+        type: "boolean",
+      },
+      xp_gn_3_2017: {
+        type: "boolean",
+      },
+      xp_gn_4_2017: {
+        type: "boolean",
+      },
       xp_autre: {
         type: "integer",
       },
@@ -178,6 +196,30 @@ function TL_Schema($scope) {
       {
         key: "xp_gn_3_2016",
         placeholder: "Êtes-vous venu au jeu du 26 août 2016?"
+      },
+      {
+        key: "xp_gn_4_2016",
+        placeholder: "Êtes-vous venu au jeu du 30 septembre 2016?"
+      },
+      {
+        key: "xp_donjon_1_2017",
+        placeholder: "Êtes-vous venu au donjon du 8 avril 2017?"
+      },
+      {
+        key: "xp_gn_1_2017",
+        placeholder: "Êtes-vous venu au donjon du 5 mai 2017?"
+      },
+      {
+        key: "xp_gn_2_2017",
+        placeholder: "Êtes-vous venu au donjon du 7 juillet 2017?"
+      },
+      {
+        key: "xp_gn_3_2017",
+        placeholder: "Êtes-vous venu au donjon du 1 septembre 2017?"
+      },
+      {
+        key: "xp_gn_4_2017",
+        placeholder: "Êtes-vous venu au donjon du 6 octobre 2017?"
       },
       {
         key: "xp_autre",

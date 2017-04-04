@@ -4,6 +4,10 @@ Gestion de personnage du jeu de rôle grandeur nature Traître-Lame.
 ==================================================================
 Logiciel de gestion des personnages pour la création, maintenance, expérience, guide et communication en jeu.
 
+Serveur web en production
+=========================
+http://www.traitrelame.ca
+
 Installation
 ============
 [Lire INSTALL.md](./INSTALL.md)
@@ -33,7 +37,7 @@ Projet licencié GPLv3
 Contribution
 ============
 Nous sommes ouvert à toutes contributions.
-* par clavardage [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/AdminTL/gestion_personnage_TL?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+* par clavardage [![Gitter](https://badges.gitter.im/AdminTL/gestion_personnage_TL.svg)](https://gitter.im/AdminTL/gestion_personnage_TL?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 * par tâche [Github AdminTL organisation](https://github.com/AdminTL/gestion_personnage_TL/issues)
 * par «pull request»
 
@@ -44,3 +48,4 @@ Participant
 1. Mathieu Benoit - mathben
 2. Jérémie Gosselin
 3. alexisbssn
+4. Avasam

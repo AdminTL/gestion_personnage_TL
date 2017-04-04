@@ -15,6 +15,14 @@ body {
     color: #FF4E00;
 }
 
+/* Landscape phones and down */
+@media (max-width: 345px) {
+    .navbar-brand {
+        color: #FF4E00;
+        font-size: smaller;
+    }
+}
+
 #btn-ldr {
     background-image: url("../icon/livrederegle1.jpg");
     color: #EB7915;

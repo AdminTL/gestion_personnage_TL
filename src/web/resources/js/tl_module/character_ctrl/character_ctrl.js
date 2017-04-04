@@ -236,9 +236,24 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     if (isDefined($scope.model_char.xp_gn_3_2016)) {
       total_xp += $scope.model_char.xp_gn_3_2016;
     }
-//    if (isDefined($scope.model_char.xp_gn_4_2016)) {
-//      total_xp += $scope.model_char.xp_gn_4_2016;
-//    }
+    if (isDefined($scope.model_char.xp_gn_4_2016)) {
+      total_xp += $scope.model_char.xp_gn_4_2016;
+    }
+    if (isDefined($scope.model_char.xp_donjon_1_2017)) {
+      total_xp += $scope.model_char.xp_donjon_1_2017;
+    }
+    if (isDefined($scope.model_char.xp_gn_1_2017)) {
+      total_xp += $scope.model_char.xp_gn_1_2017;
+    }
+    if (isDefined($scope.model_char.xp_gn_2_2017)) {
+      total_xp += $scope.model_char.xp_gn_2_2017;
+    }
+    if (isDefined($scope.model_char.xp_gn_3_2017)) {
+      total_xp += $scope.model_char.xp_gn_3_2017;
+    }
+    if (isDefined($scope.model_char.xp_gn_4_2017)) {
+      total_xp += $scope.model_char.xp_gn_4_2017;
+    }
     return total_xp;
   };
 
