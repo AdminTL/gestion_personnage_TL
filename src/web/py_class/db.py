@@ -41,12 +41,13 @@ class DB(object):
             user_id = uuid.uuid4().hex
 
         salt = base64.b64encode(os.urandom(48)).decode('UTF-8')
-        secure_passN = hashlib.sha256((salt+password_name).encode('UTF-8')).hexdigest() if password_name else None
-        secure_passM = hashlib.sha256((salt+password_mail).encode('UTF-8')).hexdigest() if password_mail else None
+        secure_pass_name = hashlib.sha256((salt+password_name).encode('UTF-8')).hexdigest() if password_name else None
+        secure_pass_mail = hashlib.sha256((salt+password_mail).encode('UTF-8')).hexdigest() if password_mail else None
 
-        data = {"email": email, "name": name, "salt": salt, "password_name": secure_passN,
-                "password_mail": secure_passM, "user_id": user_id, "google_id": google_id,
+        data = {"email": email, "name": name, "salt": salt, "password_name": secure_pass_name,
+                "password_mail": secure_pass_mail, "user_id": user_id, "google_id": google_id,
                 "facebook_id": facebook_id, "twitter_id": twitter_id, "permission": "Joueur"}
+
         eid = self._db_user.insert(data)
         return self._db_user.get(eid=eid)
 
@@ -81,9 +82,21 @@ class DB(object):
         elif user_id:
             if type(user_id) is bytes:
                 user_id = user_id.decode('UTF-8')
-            _user = self._db_user.get(self._query_user.user_id == user_id)
-            return _user
 
+            if id_type == "user":
+                query = self._query_user.user_id
+            elif id_type == "google":
+                query = self._query_user.google_id
+            elif id_type == "facebook":
+                query = self._query_user.facebook_id
+            elif id_type == "twitter":
+                query = self._query_user.twitter_id
+            else:
+                print("Invalid ID type: "+str(id_type), file=sys.stderr)
+                return
+
+            _user = self._db_user.get(query == user_id)
+            return _user
         else:
             print("Missing user name, email or id to get user.", file=sys.stderr)
             return
@@ -93,6 +106,7 @@ class DB(object):
             return
 
     def user_exists(self, email=None, user_id=None, name=None):
+        """Returns True if all the arguments given are found"""
         return(not(email and not self._db_user.get(self._query_user.email == email)) and
                not(user_id and not self._db_user.get(self._query_user.user_id == user_id)) and
                not(name and not self._db_user.get(self._query_user.name == name))

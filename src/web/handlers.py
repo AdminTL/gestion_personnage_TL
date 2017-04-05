@@ -4,6 +4,7 @@
 import json
 import tornado
 import tornado.web
+import tornado.auth
 import sys
 import base_handler
 import jsonhandler
@@ -88,12 +89,7 @@ class LoginHandler(base_handler.BaseHandler):
 
             #If user is found, give him a secure cookie based on his user id
             if user:
-                user_id = user.get("user_id")
-                if user_id:
-                    self.set_secure_cookie("user", user_id, httpOnly=True, expires_days=3)
-                    self.redirect("/")
-                else:
-                    print("User doesn't have an id.", file=sys.stderr)
+                self.give_cookie(user.get("user_id"))
             else:
                 print("Invalid email/password combination", file=sys.stderr)
                 self.redirect("/login?invalid=login")

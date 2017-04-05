@@ -24,7 +24,7 @@ characterApp.directive('uniqueField', function($http,$q) {
           // Lookup field by ngModel and value
           return $http({
             method: "get",
-            url: '/cmd/validate_auth?'+attr.ngModel+'='+value,
+            url: '/cmd/auth/validate?'+attr.ngModel+'='+value,
             //headers: {"Content-Type": "application/json; charset=UTF-8"},
             timeout: 5000
           }).then(
