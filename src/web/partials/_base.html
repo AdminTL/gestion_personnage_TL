@@ -55,27 +55,27 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Traître-Lame, grandeur nature</a>
+      <a class="navbar-brand" href="#" style="color:#3C8FB7">Traître-Lame, grandeur nature</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
       <ul class="nav navbar-nav">
-        <li ng-class="{ active: isActive('/') }"><a href="/">Accueil</a></li>
+        <li ng-class="{ active: isActive('/') }"><a href="/" style="color:#3C8FB7">Accueil</a></li>
         {% if not disable_admin and current_user and current_user.is_admin() %}
-        <li ng-class="{ active: isActive('/admin') }"><a href="admin">Admin</a></li>
+        <li ng-class="{ active: isActive('/admin') }"><a href="admin" style="color:#3C8FB7">Admin</a></li>
         {% end %}
         {% if not disable_character %}
-        <li ng-class="{ active: isActive('/character') }"><a href="character">Personnage</a></li>
+        <li ng-class="{ active: isActive('/character') }"><a href="character" style="color:#3C8FB7">Personnage</a></li>
         {% end %}
-        <li ng-class="{ active: isActive('/manual') }"><a href="/manual">Livre de règle</a></li>
-        <li ng-class="{ active: isActive('/lore') }"><a href="/lore">Univers</a></li>
+        <li ng-class="{ active: isActive('/manual') }"><a href="/manual" style="color:#3C8FB7">Livre de règle</a></li>
+        <li ng-class="{ active: isActive('/lore') }"><a href="/lore" style="color:#3C8FB7">Univers</a></li>
       </ul>
 
       <ul class="nav navbar-nav" ng-show="nav_ariane_menu.length > 0">
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Style <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Affichage <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li ng-repeat="style_name in style" ng-class="{ active: isStyle(style_name)}"><a ng-click="updateStyle(style_name)" href="#">{{! style_name }}</a></li>
           </ul>
@@ -84,14 +84,14 @@
 
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Style <span class="caret"></span></a>
+          <a href="#" style="color:#3C8FB7" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Affichage <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li ng-repeat="style_name in style" ng-class="{ active: isStyle(style_name)}"><a ng-click="updateStyle(style_name)" href="#">{{! style_name }}</a></li>
           </ul>
         </li>
         {% if not disable_login %}
         {% if not current_user %}
-        <li ng-class="{ active: isActive('/login') }"><a href="login">Login</a></li>
+        <li ng-class="{ active: isActive('/login') }"><a href="login" style="color:#3C8FB7">Login</a></li>
         {% else %}
         <li><a style="color:#2864E6;" href="#" ua-logout>Log out</a></li>
         {% end %}
