@@ -49,3 +49,4 @@ Participant
 2. Jérémie Gosselin
 3. alexisbssn
 4. Avasam
+5. Simon Savard
