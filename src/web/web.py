@@ -80,7 +80,6 @@ def main(parse_arg):
         tornado.web.url(r"/cmd/character_view/?", handlers.CharacterViewHandler, name='character_view', kwargs=settings),
         tornado.web.url(r"/cmd/manual/?", handlers.ManualHandler, name='cmd_manual', kwargs=settings),
         tornado.web.url(r"/cmd/lore/?", handlers.LoreHandler, name='cmd_lore', kwargs=settings),
-        tornado.web.url(r"/cmd/rule/?", handlers.RulesHandler, name='cmd_rule', kwargs=settings),
         tornado.web.url(r"/cmd/auth/validate/?", handlers.ValidateAuthHandler, name='validate_auth', kwargs=settings),
         tornado.web.url(r"/cmd/auth/google/?", handlers.GoogleOAuth2LoginHandler, name='google_login', kwargs=settings),
         tornado.web.url(r"/cmd/auth/facebook/?", handlers.FacebookGraphLoginHandler, name='facebook_login', kwargs=settings),
