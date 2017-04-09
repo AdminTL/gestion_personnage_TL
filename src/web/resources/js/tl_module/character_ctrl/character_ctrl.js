@@ -242,6 +242,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
         }
         if (!find) {
           // not exist
+          // TODO add validation here
           dct_model[i_discipline].discipline = value.discipline;
           dct_model[i_discipline].hab_A = value.habilite;
           dct_model[i_discipline].hab_A_1 = option_0;

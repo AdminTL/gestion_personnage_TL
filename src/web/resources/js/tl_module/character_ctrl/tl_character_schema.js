@@ -152,7 +152,7 @@ function TL_Schema($scope) {
   };
 
   if ($scope.is_admin) {
-      $scope.form_user = [
+    $scope.form_user = [
       {
         key: "name",
         placeholder: "Votre nom entier (prénom et nom)"
@@ -244,7 +244,9 @@ function TL_Schema($scope) {
           {value: "Faucheur", name: "Faucheur"},
           {value: "Balmont", name: "Balmont"},
           {value: "Druide", name: "Druide"},
-          {value: "Smith", name: "Smith"}
+          {value: "Smith", name: "Smith"},
+          {value: "Angbar", name: "Angbar"},
+          {value: "La Meute", name: "La Meute"}
         ]
       },
       {
@@ -548,7 +550,9 @@ function TL_Schema($scope) {
           {value: "Faucheur", name: "Faucheur"},
           {value: "Balmont", name: "Balmont"},
           {value: "Druide", name: "Druide"},
-          {value: "Smith", name: "Smith"}
+          {value: "Smith", name: "Smith"},
+          {value: "Angbar", name: "Angbar"},
+          {value: "La Meute", name: "La Meute"}
         ]
       },
       {
