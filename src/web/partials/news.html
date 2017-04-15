@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div class="row">
+<div ng-controller="news_ctrl" class="row">
   <!-- Border left -->
   <!--<div class="col-sm-1"></div>-->
   <!-- Panel left -->
@@ -51,7 +51,7 @@
       <li style="list-style-type:disc">Nouveau joueur.se: 30$</li>
       <li style="list-style-type:disc">Accès aux dortoirs: 15$</li>
     </ul>
-    <h4><span class="label label-success" style="white-space:normal">Passe saison (4 événements): 150$ <span class="badge">0</span></span></h4>
+    <h4><span class="label label-success" style="white-space:normal">Passe saison (4 événements): 150$ <span class="badge">{{! total_season_pass }}</span></span></h4>
     <h1>Localisation</h1>
     <ul>
       <li style="list-style-type:disc"><a href="https://goo.gl/maps/YpaQu3zk9Xy"><u>Au terrain <i class="fa fa-map"></i> 1801 Chemin Béthanie, Béthanie (Québec), J0H 1E1, (450) 548-2720</u></a></li>

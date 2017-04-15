@@ -155,3 +155,10 @@ class LoreHandler(jsonhandler.JsonHandler):
     def get(self):
         self.write(self._lore.get_str_all())
         self.finish()
+
+
+class StatSeasonPass(jsonhandler.JsonHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        self.write(self._db.stat_get_total_season_pass())
+        self.finish()

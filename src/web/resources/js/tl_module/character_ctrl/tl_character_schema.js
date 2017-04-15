@@ -28,6 +28,9 @@ function TL_Schema($scope) {
       comment_admin: {
         title: "ADMIN commentaire",
         type: "string"
+      },
+      passe_saison_2017: {
+        type: "boolean",
       }
     },
     required: ["name"]
@@ -174,6 +177,10 @@ function TL_Schema($scope) {
         key: "comment_admin",
         type: "textarea",
         placeholder: ""
+      },
+      {
+        key: "passe_saison_2017",
+        placeholder: "Avez-vous acheté la passe saison 2017?"
       }
     ];
     $scope.form_char = [
