@@ -101,3 +101,7 @@ h4 {
 h5 {
     color: #B7883C;
 }
+
+.navbar-default .navbar-brand, .navbar-default .navbar-nav > li > a {
+    color: #3C8FB7;
+}
