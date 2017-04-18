@@ -67,6 +67,7 @@ target/
 /database
 /src/web/bower_components
 /src/web/node_modules
+/src/web/resources/media
 *.gitconfig
 *.viminfo
 *.cmd

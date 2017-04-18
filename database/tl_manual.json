@@ -189,7 +189,27 @@
                   "Désarmement [touche à l’avant-bras] désarmé",
                   "Coupe-souffle [touche au ventre] muet",
                   "Charge [après une course de 3 pas] +1 dégât physique"
-                ]
+                ],
+                "Assaut",
+                {
+                  "type": "image",
+                  "src": "static/resources/media/assaut.png"
+                },
+                "Jambette",
+                {
+                  "type": "image",
+                  "src": "static/resources/media/jambette.png"
+                },
+                "Désarmement",
+                {
+                  "type": "image",
+                  "src": "static/resources/media/désarmement.png"
+                },
+                "Coupe-souffle",
+                {
+                  "type": "image",
+                  "src": "static/resources/media/coupe-souffle.png"
+                }
               ]
             },
             {
@@ -242,7 +262,27 @@
                   "Coup sonnant [Toxine, Dague entre les omoplates] assommé",
                   "Coupe-jarret [Dague derrière la jambe] démembré",
                   "Stylet [Dague à la main] démembré."
-                ]
+                ],
+                "Coup bas",
+                {
+                  "type": "image",
+                  "src": "static/resources/media/coup_bas.png"
+                },
+                "Coup sonnant",
+                {
+                  "type": "image",
+                  "src": "static/resources/media/coup_sonnant.png"
+                },
+                "Coupe-jarret",
+                {
+                  "type": "image",
+                  "src": "static/resources/media/coupe-jarret.png"
+                },
+                "Stylet",
+                {
+                  "type": "image",
+                  "src": "static/resources/media/stylet.png"
+                }
               ]
             },
             {
