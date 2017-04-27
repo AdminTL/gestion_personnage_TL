@@ -1,0 +1,5 @@
+### Uncomment the line below if you need to test stuff out! They only allow a limited number of tries on the real server ### 
+# CA="https://acme-staging.api.letsencrypt.org/directory"
+
+### This setting assumes you are running the justletsencrypt.sh script, and using a path relative to that ###
+WELLKNOWN="autossl/acme-challenge"
