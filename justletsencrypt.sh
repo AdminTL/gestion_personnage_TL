@@ -31,6 +31,8 @@ if [ $# -eq 0 ]
   exit 1
 fi
 
+mkdir -p autossl/acme-challenge
+
 # On a normal server, we need sudo to bind a web server to port 80
 # The server is made to turn off after a single request
 echo "Running the web server as a pseudo-daeomon. We need root to bind to port 80. Only port 80 is supported for the LetsEncrypt check."
