@@ -71,7 +71,7 @@ Options
 --static_dir : Web: Static files directory (default=WEB_DEFAULT_STATIC_DIR)
 --template_dir : Web: Template files directory (default=WEB_DEFAULT_TEMPLATE_DIR)
 --db_path : Specify a path for database file. (default=DB_DEFAULT_PATH)
---db_demo : Active demo database. Cannot save information in real database, only keep in memory. (default=False)
+--db_demo : Use demo database. This option keeps all information in memory and does not save to the real database. (default=False)
 --web-listen-address : Web: Web server listen address (default=Listen())
 --ssl : Activate https and create ssl files if they don't exist. Doesn't work in Windows. (default=False)
 --use_internet_static : Force using static files like css and js from another internet website. Use web browser cache. (default=False)
