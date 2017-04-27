@@ -61,7 +61,7 @@ Choose the first option if bower asks to resolve conflict.
 
 Running
 =======
-Run __main__.py to launch the server.
+Run ./web_server.sh to launch the server.
 
 Options
 -------
