@@ -4,18 +4,23 @@
 # This script uses dehydrated (a very simple Let's Encrypt client) to create a
 # Let's Encrypt SSL certificate using Tornado. Most of the relevant code is in 
 # autossl.
+#
+# Before running this script, ping the domain name to make sure it points to 
+# this server. Let's Encrypt checks ownership by checking a file on the server
+# officially associated with the domain name. So if your domain name doesn't
+# point here, this script (and dehydrated) will not work.
 # 
 # The configuration in autossl/dehydrated/config uses a relative path, so you
 # can **only** use this script FROM THE gestion_personnage_TL DIRECTORY.
-#
-# If anything fails, you might need to kill the Tornado server manually:
-#     ps aux |grep autossl
-#     sudo kill [process id]
 #
 # The web server runs in the background and shuts down after a single request,
 # so you don't have to manually kill it after this script runs. It will also
 # shut down if it fails to bind to port 80. You usually need root to bind to
 # port 80.
+#
+# If anything fails, you might need to kill the Tornado server manually:
+#     ps aux |grep autossl
+#     sudo kill [process id]
 #
 # A possible improvement would be to set the number of requests as an argument
 # in the Python script, so we would be able to use aliases (Let's Encrypt sends
