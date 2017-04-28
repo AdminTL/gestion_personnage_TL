@@ -74,5 +74,5 @@ Options
 --db_demo : Use demo database. This option keeps all information in memory and does not save to the real database. (default=False)
 --web-listen-address : Web: Web server listen address (default=Listen())
 --ssl : Activate https and create ssl files if they don't exist. Doesn't work in Windows. (default=False)
---use_internet_static : Force using static files like css and js from another internet website. Use web browser cache. (default=False)
+--use_internet_static : Not implemented. Force using static files like css and js from another internet website. Use web browser cache. (default=False)
 ```
