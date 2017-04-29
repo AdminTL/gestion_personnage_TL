@@ -31,18 +31,19 @@
   {% if use_internet_static %}
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   {% else %}
   <link href="{{ static_url('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
   <link href="{{ static_url('bower_components/bootstrap/dist/css/bootstrap-theme.min.css') }}" rel="stylesheet">
-  {% end %}
   <link href="{{ static_url('bower_components/components-font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+  {% end %}
   <!-- Custom style -->
   <link href="{{ static_url('resources/css/_base.css') }}" rel="stylesheet">
   <link href="{{ static_url('resources/css/_base_dark.css') }}" rel="stylesheet">
   <link href="{{ static_url('resources/css/bootstrap_doc_sidebar.css') }}" rel="stylesheet">
   <link href="{{ static_url('resources/css/tl.css') }}" rel="stylesheet">
 </head>
-<body ng-controller="page_ctrl">
+<body ng-controller="page_ctrl" ng-cloack>
 
 <!-- Fixed navbar -->
 <nav role="navigation" class="navbar navbar-default navbar-fixed-top">
@@ -62,12 +63,14 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
       <ul class="nav navbar-nav">
-        <li ng-class="{ active: isActive('/') }"><a href="/" style="color:#3C8FB7">Accueil</a></li>
-        {% if not disable_admin and current_user and current_user.is_admin() %}
-        <li ng-class="{ active: isActive('/admin') }"><a href="admin" style="color:#3C8FB7">Admin</a></li>
+        <li ng-class="{ active: isActive('/') }"><a href="/">Accueil</a></li>
+        {% if not disable_admin and current_user %}
+          {% if current_user.get("permission") == "Admin" %}
+            <li ng-class="{ active: isActive('/admin') }"><a href="admin">Admin</a></li>
+          {% end %}
         {% end %}
         {% if not disable_character %}
-        <li ng-class="{ active: isActive('/character') }"><a href="character" style="color:#3C8FB7">Personnage</a></li>
+        <li ng-class="{ active: isActive('/character') }"><a href="/character">Personnage</a></li>
         {% end %}
         <li ng-class="{ active: isActive('/manual') }"><a href="/manual" style="color:#3C8FB7">Livre de règle</a></li>
         <li ng-class="{ active: isActive('/lore') }"><a href="/lore" style="color:#3C8FB7">Univers</a></li>
@@ -89,12 +92,12 @@
             <li ng-repeat="style_name in style" ng-class="{ active: isStyle(style_name)}"><a ng-click="updateStyle(style_name)" href="#">{{! style_name }}</a></li>
           </ul>
         </li>
-        {% if not disable_login %}
-        {% if not current_user %}
-        <li ng-class="{ active: isActive('/login') }"><a href="login" style="color:#3C8FB7">Login</a></li>
-        {% else %}
-        <li><a style="color:#2864E6;" href="#" ua-logout>Log out</a></li>
-        {% end %}
+
+        {% if current_user %}
+        <li><a href="/profile/">{{current_user.get("name")}}</a></li>
+        <li><a href="/logout">Déconnexion</a></li>
+        {% elif not disable_login %}
+        <li ng-class="{ active: isActive('/login') }"><a href="/login">Connexion ou Inscription</a></li>
         {% end %}
       </ul>
 
@@ -120,7 +123,7 @@
   {% end %}
 </div>
 
-{% if use_internet_static %}
+{% if use_internet_static %} <!-- Using online ressources -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 <script src="https://raw.githubusercontent.com/geraintluff/tv4/master/tv4.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
@@ -134,37 +137,41 @@
 <script src="https://raw.githubusercontent.com/json-schema-form/angular-schema-form/development/dist/schema-form.min.js"></script>
 <script src="https://raw.githubusercontent.com/json-schema-form/angular-schema-form-bootstrap/develop/bootstrap-decorator.min.js"></script>
 <script src="https://raw.githubusercontent.com/OptimalBPM/angular-schema-form-dynamic-select/master/angular-schema-form-dynamic-select.min.js"></script>
-{% elif debug %}
-<script src="{{ static_url('bower_components/jquery/dist/jquery.js') }}"></script>
-<script src="{{ static_url('bower_components/tv4/tv4.js') }}"></script>
-<script src="{{ static_url('bower_components/angular/angular.js') }}"></script>
-<script src="{{ static_url('bower_components/angular-sanitize/angular-sanitize.js') }}"></script>
-<script src="{{ static_url('bower_components/angular-strap/dist/angular-strap.js') }}"></script>
-<script src="{{ static_url('bower_components/angular-strap/dist/angular-strap.tpl.js') }}"></script>
-<script src="{{ static_url('bower_components/angular-route/angular-route.js') }}"></script>
-<script src="{{ static_url('bower_components/angular-bootstrap/ui-bootstrap.js') }}"></script>
-<script src="{{ static_url('bower_components/sockjs/sockjs.js') }}"></script>
-<script src="{{ static_url('bower_components/objectpath/lib/ObjectPath.js') }}"></script>
-<script src="{{ static_url('bower_components/angular-schema-form/dist/schema-form.js') }}"></script>
-<script src="{{ static_url('bower_components/angular-schema-form/dist/bootstrap-decorator.js') }}"></script>
-<script src="{{ static_url('bower_components/angular-schema-form-dynamic-select/angular-schema-form-dynamic-select.js') }}"></script>
+<script src="https://raw.githubusercontent.com/Caligatio/jsSHA/master/src/sha256.js"></script>
 {% else %}
-<script src="{{ static_url('bower_components/jquery/dist/jquery.min.js') }}"></script>
-<script src="{{ static_url('bower_components/tv4/tv4.js') }}"></script>
-<script src="{{ static_url('bower_components/angular/angular.min.js') }}"></script>
-<script src="{{ static_url('bower_components/angular-sanitize/angular-sanitize.min.js') }}"></script>
-<script src="{{ static_url('bower_components/angular-strap/dist/angular-strap.min.js') }}"></script>
-<script src="{{ static_url('bower_components/angular-strap/dist/angular-strap.tpl.min.js') }}"></script>
-<script src="{{ static_url('bower_components/angular-route/angular-route.min.js') }}"></script>
-<script src="{{ static_url('bower_components/angular-bootstrap/ui-bootstrap.min.js') }}"></script>
-<script src="{{ static_url('bower_components/sockjs/sockjs.min.js') }}"></script>
-<script src="{{ static_url('bower_components/objectpath/lib/ObjectPath.js') }}"></script>
-<script src="{{ static_url('bower_components/angular-schema-form/dist/schema-form.min.js') }}"></script>
-<script src="{{ static_url('bower_components/angular-schema-form/dist/bootstrap-decorator.min.js') }}"></script>
-<script src="{{ static_url('bower_components/angular-schema-form-dynamic-select/angular-schema-form-dynamic-select.min.js') }}"></script>
+  {% if debug %} <!-- Using local debug mode -->
+  <script src="{{ static_url('bower_components/jquery/dist/jquery.js') }}"></script>
+  <script src="{{ static_url('bower_components/angular/angular.js') }}"></script>
+  <script src="{{ static_url('bower_components/angular-sanitize/angular-sanitize.js') }}"></script>
+  <script src="{{ static_url('bower_components/angular-strap/dist/angular-strap.js') }}"></script>
+  <script src="{{ static_url('bower_components/angular-strap/dist/angular-strap.tpl.js') }}"></script>
+  <script src="{{ static_url('bower_components/angular-route/angular-route.js') }}"></script>
+  <script src="{{ static_url('bower_components/angular-bootstrap/ui-bootstrap.js') }}"></script>
+  <script src="{{ static_url('bower_components/sockjs/sockjs.js') }}"></script>
+  <script src="{{ static_url('bower_components/angular-schema-form/dist/schema-form.js') }}"></script>
+  <script src="{{ static_url('bower_components/angular-schema-form/dist/bootstrap-decorator.js') }}"></script>
+  <script src="{{ static_url('bower_components/angular-schema-form-dynamic-select/angular-schema-form-dynamic-select.js') }}"></script>
+  {% else %} <!-- Using local regular mode -->
+  <script src="{{ static_url('bower_components/jquery/dist/jquery.min.js') }}"></script>
+  <script src="{{ static_url('bower_components/angular/angular.min.js') }}"></script>
+  <script src="{{ static_url('bower_components/angular-sanitize/angular-sanitize.min.js') }}"></script>
+  <script src="{{ static_url('bower_components/angular-strap/dist/angular-strap.min.js') }}"></script>
+  <script src="{{ static_url('bower_components/angular-strap/dist/angular-strap.tpl.min.js') }}"></script>
+  <script src="{{ static_url('bower_components/angular-route/angular-route.min.js') }}"></script>
+  <script src="{{ static_url('bower_components/angular-bootstrap/ui-bootstrap.min.js') }}"></script>
+  <script src="{{ static_url('bower_components/sockjs/sockjs.min.js') }}"></script>
+  <script src="{{ static_url('bower_components/angular-schema-form/dist/schema-form.min.js') }}"></script>
+  <script src="{{ static_url('bower_components/angular-schema-form/dist/bootstrap-decorator.min.js') }}"></script>
+  <script src="{{ static_url('bower_components/angular-schema-form-dynamic-select/angular-schema-form-dynamic-select.min.js') }}"></script>
+  {% end %} <!-- Using either local modes -->
+  <script src="{{ static_url('bower_components/tv4/tv4.js') }}"></script>
+  <script src="{{ static_url('bower_components/objectpath/lib/ObjectPath.js') }}"></script>
+  <script src="{{ static_url('bower_components/jsSHA/src/sha256.js') }}"></script>
 {% end %}
+
 <script src="{{ static_url('resources/js/tool.js') }}"></script>
 <script src="{{ static_url('resources/js/tl_module/tl_module.js') }}"></script>
+
 
 <!-- add TL schema -->
 <script src="{{ static_url('resources/js/tl_module/character_ctrl/tl_character_schema.js') }}"></script>
