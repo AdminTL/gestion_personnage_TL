@@ -86,6 +86,12 @@ class DB(object):
 
             if id_type == "user":
                 query = self._query_user.user_id
+            elif id_type == "google":
+                query = self._query_user.google_id
+            elif id_type == "facebook":
+                query = self._query_user.facebook_id
+            elif id_type == "twitter":
+                query = self._query_user.twitter_id
             else:
                 print("Invalid ID type: " + str(id_type), file=sys.stderr)
                 return

@@ -15,6 +15,7 @@ import base64
 from py_class.db import DB
 from py_class.manual import Manual
 from py_class.lore import Lore
+from py_class.keys import Keys
 import uuid
 
 DEFAULT_SSL_DIRECTORY = os.path.join("..", "..", "ssl_cert")
@@ -38,6 +39,8 @@ def main(parse_arg):
 
         ssl_options = {"certfile": CERT_FILE_SSL, "keyfile": KEY_FILE_SSL}
 
+    url = "http{2}://{0}:{1}".format(parse_arg.listen.address, parse_arg.listen.port, "s" if ssl_options else "")
+    keys = Keys(parse_arg)
     # TODO store cookie_secret if want to reuse it if restart server
     settings = {"static_path": parse_arg.static_dir,
                 "template_path": parse_arg.template_dir,
@@ -51,7 +54,13 @@ def main(parse_arg):
                 "disable_character": parse_arg.disable_character,
                 "disable_admin": parse_arg.disable_admin,
                 "disable_login": parse_arg.disable_login,
+                "url": url,
                 "cookie_secret": uuid.uuid4().hex,
+                "google_oauth": keys.get("google_oauth"),
+                "facebook_api_key": keys.get("facebook_api_key"),
+                "facebook_secret": keys.get("facebook_secret"),
+                "twitter_consumer_key": keys.get("twitter_consumer_key"),
+                "twitter_consumer_secret": keys.get("twitter_consumer_secret"),
                 }
     routes = [
         # To create parameters: /(?P<param1>[^\/]+)/?(?P<param2>[^\/]+)/?
@@ -75,6 +84,10 @@ def main(parse_arg):
         tornado.web.url(r"/cmd/stat/total_season_pass/?", handlers.StatSeasonPass, name='cmd_stat_total_season_pass',
                         kwargs=settings),
         tornado.web.url(r"/cmd/auth/validate/?", handlers.ValidateAuthHandler, name='validate_auth', kwargs=settings),
+        tornado.web.url(r"/cmd/auth/google/?", handlers.GoogleOAuth2LoginHandler, name='google_login', kwargs=settings),
+        tornado.web.url(r"/cmd/auth/facebook/?", handlers.FacebookGraphLoginHandler, name='facebook_login',
+                        kwargs=settings),
+        tornado.web.url(r"/cmd/auth/twitter/?", handlers.TwitterLoginHandler, name='twitter_login', kwargs=settings),
     ]
     application = tornado.web.Application(routes + socket_connection.urls, **settings)
 

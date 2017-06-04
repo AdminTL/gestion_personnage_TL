@@ -4,6 +4,7 @@
 import json
 import tornado
 import tornado.web
+import tornado.auth
 import sys
 import base_handler
 import jsonhandler
@@ -112,14 +113,127 @@ class LoginHandler(base_handler.BaseHandler):
                 self.redirect("/login?invalid=signup")
 
 
-        else:
-            user = self._db.get_user(email, secure_pass)
+class GoogleOAuth2LoginHandler(base_handler.BaseHandler, tornado.auth.GoogleOAuth2Mixin):
+    @tornado.gen.coroutine
+    def get(self):
+        if self.get_argument('code', False):
+            try:
+                google_user = yield self.get_authenticated_user(
+                    redirect_uri=self._global_arg["url"] + '/cmd/auth/google',
+                    code=self.get_argument('code'))
+                access_token = google_user["access_token"]
+                google_user = yield self.oauth2_request(
+                    "https://www.googleapis.com/oauth2/v1/userinfo",
+                    access_token=access_token)
 
-        if user:
-            uuid = user.get("uuid")
-            if uuid:
-                self.set_secure_cookie("user", uuid)
-        self.redirect("/")
+                # Save the user with e.g. set_secure_cookie
+                google_id = google_user["id"]
+                user = self._db.get_user(id_type="google", user_id=google_id)
+
+                # Login
+                # If user is found, give him a secure cookie based on his user_id and Google access_token
+                if user:
+                    self.give_cookie(user.get("user_id"), google_access_token=access_token)
+
+                # Sign up
+                else:
+                    name = google_user["name"]
+                    email = google_user.get("email")
+                    user = self._db.create_user(name, email, google_id=google_id)
+                    if user:
+                        self.give_cookie(user.get("user_id"), google_access_token=access_token)
+                    else:
+                        self.redirect("/login?invalid=google")
+
+            except KeyError as exception:
+                print("KeyError: " + str(exception) + " in GoogleOAuth2LoginHandler", file=sys.stderr)
+                self.redirect("/login?invalid=google")
+                return
+
+        else:
+            yield self.authorize_redirect(
+                redirect_uri=self._global_arg["url"] + '/cmd/auth/google',
+                client_id=self.settings['google_oauth']['key'],
+                scope=['profile', 'email'],
+                response_type='code',
+                extra_params={'approval_prompt': 'auto'})
+
+
+class FacebookGraphLoginHandler(base_handler.BaseHandler, tornado.auth.FacebookGraphMixin):
+    @tornado.gen.coroutine
+    def get(self):
+        if self.get_argument("code", None):
+            try:
+                facebook_user = yield self.get_authenticated_user(
+                    redirect_uri=self._global_arg["url"] + '/cmd/auth/facebook',
+                    client_id=self.settings["facebook_api_key"],
+                    client_secret=self.settings["facebook_secret"],
+                    code=self.get_argument("code"),
+                    extra_fields=["email"])
+                access_token = facebook_user["access_token"]
+
+                facebook_id = facebook_user["id"]
+                user = self._db.get_user(id_type="facebook", user_id=facebook_id)
+
+                # Login
+                # If user is found, give him a secure cookie based on his user_id and Facebook access_token
+                if user:
+                    self.give_cookie(user.get("user_id"), facebook_access_token=access_token)
+
+                # Sign up
+                else:
+                    name = facebook_user["name"]
+                    email = facebook_user.get("email")
+                    user = self._db.create_user(name, email, facebook_id=facebook_id)
+                    if user:
+                        self.give_cookie(user.get("user_id"), facebook_access_token=access_token)
+                    else:
+                        self.redirect("/login?invalid=facebook")
+
+            except KeyError as exception:
+                print("KeyError: " + str(exception) + " in FacebookGraphLoginHandler", file=sys.stderr)
+                self.redirect("/login?invalid=facebook")
+                return
+
+        else:
+            yield self.authorize_redirect(
+                redirect_uri=self._global_arg["url"] + '/cmd/auth/facebook',
+                client_id=self.settings["facebook_api_key"],
+                # Permissions: https://developers.facebook.com/docs/facebook-login/permissions
+                extra_params={"scope": "email"})
+class TwitterLoginHandler(base_handler.BaseHandler, tornado.auth.TwitterMixin):
+    @tornado.gen.coroutine
+    def get(self):
+        if self.get_argument("oauth_token", None):
+            try:
+                twitter_user = yield self.get_authenticated_user()
+                access_token = twitter_user.get("access_token")
+                twitter_user = yield self.twitter_request("/account/verify_credentials",
+                                                          access_token=access_token, include_email="true")
+
+                twitter_id = twitter_user["id_str"]
+                user = self._db.get_user(id_type="twitter", user_id=twitter_id)
+
+                # Login
+                # If user is found, give him a secure cookie based on his user_id and Twitter access_token
+                if user:
+                    self.give_cookie(user.get("user_id"), twitter_access_token=access_token)
+
+                # Sign up
+                else:
+                    name = twitter_user["name"]
+                    email = twitter_user.get("email")
+                    user = self._db.create_user(name, email, twitter_id=twitter_id)
+                    if user:
+                        self.give_cookie(user.get("user_id"), twitter_access_token=access_token)
+                    else:
+                        self.redirect("/login?invalid=twitter")
+            except KeyError as exception:
+                print("KeyError: " + str(exception) + " in TwitterLoginHandler", file=sys.stderr)
+                self.redirect("/login?invalid=twitter")
+                return
+        else:
+            yield self.authenticate_redirect()
 
 
 class LogoutHandler(base_handler.BaseHandler):
