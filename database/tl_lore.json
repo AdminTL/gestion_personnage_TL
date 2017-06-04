@@ -17,6 +17,32 @@
       ],
       "section": [
         {
+          "title": "Cartes",
+          "description": "",
+          "section": [
+            {
+              "title": "La Sarsonne",
+              "description": [
+                "Carte du terrain.",
+                {
+                  "type": "image",
+                  "src": "static/resources/media/carte_de_demi_terrain.jpg"
+                }
+              ]
+            },
+            {
+              "title": "Carte du monde",
+              "description": [
+                "Map du monde.",
+                {
+                  "type": "image",
+                  "src": "static/resources/media/carte_du_monde.jpg"
+                }
+              ]
+            }
+          ]
+        },
+        {
           "title": "Races",
           "section": [
             {
@@ -47,7 +73,11 @@
                   "La langue nobiliaire de Canavim est l’anglais, mais la langue populaire est le français;",
                   "Le site principal de la faction est la forteresse à l’entrée du terrain;",
                   "La religion officielle de Canavim est le Maratisme, une religion qui place les dieux comme des modèles que doivent imiter les êtres humains."
-                ]
+                ],
+                {
+                  "type": "image",
+                  "src": "static/resources/media/Canavim.jpg"
+                }
               ]
             },
             {
@@ -61,7 +91,11 @@
                   "Bien que la majorité de Vanicant parle le français, les terres désertiques du sud sont largement occupées par la population Al Aquine, parlant arabe;",
                   "Le site principal de la faction est la forteresse de croûte cachée en forêt;",
                   "La religion officielle de Vanicant est le Sravénisme, une religion qui place le Cosmos comme une grande force qui régit tous les aspects de la vie."
-                ]
+                ],
+                {
+                  "type": "image",
+                  "src": "static/resources/media/Vanicant.jpg"
+                }
               ]
             },
             {

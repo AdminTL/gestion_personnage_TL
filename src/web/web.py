@@ -52,6 +52,8 @@ def main(parse_arg):
         tornado.web.url(r"/cmd/character_view", handlers.CharacterViewHandler, name='character_view', kwargs=settings),
         tornado.web.url(r"/cmd/manual", handlers.ManualHandler, name='cmd_manual', kwargs=settings),
         tornado.web.url(r"/cmd/lore", handlers.LoreHandler, name='cmd_lore', kwargs=settings),
+        tornado.web.url(r"/cmd/stat/total_season_pass", handlers.StatSeasonPass, name='cmd_stat_total_season_pass',
+                        kwargs=settings),
     ]
     application = tornado.web.Application(routes + socket_connection.urls, **settings)
 

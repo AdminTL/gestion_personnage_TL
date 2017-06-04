@@ -86,6 +86,12 @@ characterApp.controller("lore_ctrl", ["$scope", "$q", "$http", "$window", "$loca
             }
           }
           response += "</ul>";
+        } else if (Object.prototype.toString.call(desc_item) === '[object Object]') {
+          if (isDefined(desc_item.type)) {
+            if (desc_item.type == "image" && isDefined(desc_item.src)) {
+              response += "<img src=\"" + desc_item.src + "\" style=\"max-width: 100%; height: auto; display: block;\" class=\"img-responsive img-thumbnail\" alt=\"Responsive image\">";
+            }
+          }
         }
       }
     } else {

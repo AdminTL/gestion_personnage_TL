@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div class="row">
+<div ng-controller="news_ctrl" class="row">
   <!-- Border left -->
   <!--<div class="col-sm-1"></div>-->
   <!-- Panel left -->
@@ -16,60 +16,102 @@
         <h3 class="panel-title">Prochain événement <i class="fa fa-calendar-check-o"></i></h3>
       </div>
       <div class="panel-body">
-        <p class="titre-a">Type d'événement: <b>Donjon</b></p>
-        <p class="titre-a">Date: <b>8 avril 2017</b></p>
-        <p class="titre-a">Lieu: <a href="https://goo.gl/maps/rbhrnhw4Fp32"><u>Aux dortoirs/À l'école <i class="fa fa-map"></i> 1321 Chemin de Béthanie, Roxton Falls, QC J0H 1E0</u></a></p>
-        <p class="titre-a">Prix: 40$</p>
+        <p class="titre-a">Type d'événement: <b>GN - Zone 1</b></p>
+        <p class="titre-a">Date: <b>5-7 mai 2017</b></p>
+        <p class="titre-a">Lieu: <b><a href="https://goo.gl/maps/YpaQu3zk9Xy"><u>Au terrain <i class="fa fa-map"></i> 1801 Chemin Béthanie, Béthanie (Québec), J0H 1E1, (450) 548-2720</u></a></b></p>
+        <p class="titre-a">Prix: <b>45$</b></p>
+        <p class="titre-a">Prix nouveaux joueur.se.s: <b>30$</b></p>
+        <p class="titre-a">Passe de saison: <b>150$ pour les 4 prochains jeux. <u>Économie de 30$</u>!</b></p>
         <p class="titre-a">
-          <a href="https://www.facebook.com/events/1321853271191374/"><i class="fa fa-facebook-square"></i> <u>Événement Facebook <i class="fa fa-link"></i></u></a>
+          <a href="https://www.facebook.com/events/713921115460001/"><i class="fa fa-facebook-square"></i> <u>Événement Facebook <i class="fa fa-link"></i></u></a>
         </p>
         <h4><span class="label label-primary" style="white-space:normal">Tirage pour les participant.e.s de l'événement! <i class="fa fa-facebook-square"></i></span></h4>
         <!--<p><a href="#" class="btn btn-default btn-lg disabled">Contactez-nous</a><a href="#" class="btn btn-default btn-lg disabled">Prochain Évenement</a></p>-->
       </div>
       <div class="panel-footer">
         <p style="color:black;">
-          Jeu supplémentaire de Traître-lame, intérieur, se déroulant dans une école transformée en donjon pour l'événement. Le tout avec les mêmes règles* qu'en saison régulière, avec autant de
-          combats et d'intrigues. Cependant, la production de ressources sera interrompue puisque ce n'est pas un jeu standard.<br/>
-          Les détails du synopsis sont à venir.<br/>
-          Le jeu débute vers 17h et se termine aux alentours de minuit le même soir. Les portes seront ouvertes à partir de 15h pour l'insciption et la mise à jour de vos fiches.<br/>
-          * Pour ce jeu, les arcs et armes à projectiles sont interdites. <i class="fa fa-hand-peace-o"></i>
+          Synopsis Jeu 38: Ordre et Chaos<br/>
+          <br/>
+          Mise en situation<br/>
+          L’hiver fut long et rude. La guerre des Strônes s’est figée dans la glace tuant les survivants qui n’avaient plus de quoi se nourrir. Tout le Nord de la Sarsonne ressemble à la fin du monde.
+          De Angbar, plus aucunes nouvelles sinon les rumeurs d’un génocide quasi complet. Seulement un millier d’esclaves capturés au début de la guerre seraient en vie, leur peuple devenant ainsi
+          presque éteint. Pour les tribus sarsares du Nord c’est aussi l’enfer. Les sarsares n’ont fait que perdre du terrain et, à moins d’un miracle, ne pourront pas tenir un an de plus dans ces
+          conditions sans que les Strônes ne réussissent à leur voler leurs terres. Cependant, les Strônes, toujours alliés à l’intendant suprême Casséris Ventour de Canavim, ne gardent, ni
+          n’exploitent, les terres qu’ils dérobent et se contentent d’un massacre. La seule constance chez eux est toutefois leur capture continue d’esclaves sarsares.<br/>
+          <br/>
+          Le royaume de Figaro maintenant bien tenu par la puissance de l’empire de Vanican (rien de bien impressionnant étant donné la situation) change de nom pour la Cité des Lacs Pourpres; une des
+          131 propositions législatives effectuées dans la cité afin de retirer du vocabulaire quotidien le nom de l’ancien chef d’état et dictateur Valentin Figaro.<br/>
+          <br/>
+          Chez Amunzrat, l’on produit plus d’esclaves que la demande ou que leur réseau ne permet de fournir. Ils ont débuté des projets de construction sans précédent, en plus d’envoyer des
+          émissaires au quatre coins du continent à la recherche de clients et de revendeurs. Les rumeurs parlent d’un manoir aussi noir que la nuit aux allures de mausolée.<br/>
+          <br/>
+          Chez Canavim, le roi n'a toujours pas été remplacé et les seigneurs et intendants ne semblent pas pressés de placer leur héritier sur le trône, comme si une menace surplombait celui-ci. Huit
+          enfants ont le potentiel de devenir Roi de Canavim. L’un d’eux est malade voir mourant d’une maladie congénitale et les autres ont tous été dissimulés par leurs familles afin de les
+          protéger. Ils sont tous trop jeunes de quelques années pour porter la couronne, même si un intendant s’occupait du royaume pour les 10 années à venir, aucun de ces enfants n’a encore 8
+          ans.<br/>
+          <br/>
+          Pour Vanican, c’est le calme avant la tempête, ou après, on ne sait plus. L’empire se sent bien moins puissante depuis la perte des territoires d’Anturis, maintenant liés par le mariage aux
+          Balmont. Leur défense est montée en flèche, leurs frontières se sont fortifiées et leurs politiques extérieures devenues invisibles. Ils ont ouvert de nouvelles académiques de templiers.
+          Peut-être pour contrer la montée de la foi chez les Canavim qui sait?<br/>
+          <br/>
+          Les forêts des wartuls ne font également plus partie intégrante de l’empire. Leurs colonies de bûcherons ont été soit expulsées, soit massacrées et ils ont élu une femme Wartul comme reine.
+          Leurs forêts s’appellent désormais la Wartulie. Durant tout l’hiver, les arbres de leurs forêts ont subitement grossi, les wartuls ont commencé l’esclavage et d’étranges nuages flottent
+          au-dessus de leurs forêts. Serait-ce un retour des druides, ou un signe encore plus effrayant?<br/>
+          <br/>
+          Pour ce que qui est de la grande cité État de Malédastarone, les émeutes de cet hiver ont provoqué de grandes vagues de colère parmi les citoyens de la cité et ils ont unanimement commencé à
+          les repousser en dehors de leur cité, cessant de leur vendre leurs produits ou même de
+          leur offrir l’hospitalité. Aujourd’hui, seuls sont admis les marchands et les caravanes. Les étrangers doivent avoir des invitations et tout émeutier disparaît avant que la semaine n’aie
+          passée. Très peu de fonctionnaires de la cité sont au courant des événement tragiques ayant mené à la mort de 69, mais 73 et 100 l’ont encore sur la conscience et ceci pourrait affecter
+          leurs négociations futures avec les habitants de Vallam. De plus, les responsables du vol de la voûte et de la machine de Midas seront recherchés et traqués. Les meilleurs inspecteurs de la
+          cité étant déjà sur leurs traces.<br/>
+          <br/>
+          Les propriétaires de marché et de commerces de production peuvent se compter chanceux. Les prix de tout nouveau commerce ont presque triplés depuis le dernier mois et les ventes de commerces
+          ont augmenté en masse faisant risquer le pire aux commerçants locaux… les embargos. Plus les commerces deviennent lucratifs, plus l’on tente de les bloquer. Présentement, aucun embargo ne
+          frappe la région de Vallam mais les rumeurs de leur implication dans la disparition de 69 pourraient leur causer de grands ennuis.<br/>
+          <br/>
+          Plus près à Vallam, la résurrection d’un certain personnage a provoqué de grands tumultes hivernaux et, dans la forteresse de Canavim, la faille des morts que tous ont refermée à de
+          nombreuses reprises s’est ouverte à nouveau. Elle n’est encore qu’une simple microfaille, mais il s’agit là d’un des signes les plus crédibles annonçant une future déchirure. Les troupe
+          devront s’en occuper au plus vite mais comment?<br/>
+          <br/>
+          Le feu des artefacts Illithide à la rivière aurait pu détruire toute la région si le Némésis du feu n’avait pas absorbé sa puissance destructrice, mais cela l’a rendu fou d’une rage magique
+          sans fin le faisant tout détruire dans son sillage. Il est désormais sur le chemin du retour, droit vers Vallam et la tribu qui a laissé le feu Illithide se répandre sur la terre de leurs
+          ancêtres.<br/>
+          <br/>
+          Et que dire de Saydii et le cosmos sinon que le pire n’était pas le Moment mais une personne que tous ont Oubliée.<br/>
+          <br/>
+          Jerm, Votre Coordo<br/>
+          * Pour ce jeu, les dortoirs ne sont pas accessibles.
         </p>
       </div>
     </div>
-    <h1>Dates 2017</h1>
-    <ul>
-      <li>8 avril: Donjon</li>
-      <li>5-7 mai: TL (Zone 1)</li>
-      <li>7-9 juillet: TL (Zone 1+2)</li>
-      <li>1-3 septembre: TL (Zone 1+2)</li>
-      <li>6-8 octobre: TL (Zone 1+2)</li>
-    </ul>
-    <h1>Tarifs 2017</h1>
-    <ul>
-      <li style="list-style-type:disc">Billet: 45$</li>
-      <li style="list-style-type:disc">Donjon: 40$</li>
-      <li style="list-style-type:disc">Nouveau joueur.se: 30$</li>
-      <li style="list-style-type:disc">Accès aux dortoirs: 15$</li>
-    </ul>
-    <h4><span class="label label-success" style="white-space:normal">Passe saison (4 événements): 150$ <span class="badge">0</span></span></h4>
-    <h1>Localisation</h1>
-    <ul>
-      <li style="list-style-type:disc"><a href="https://goo.gl/maps/YpaQu3zk9Xy"><u>Au terrain <i class="fa fa-map"></i> 1801 Chemin Béthanie, Béthanie (Québec), J0H 1E1, (450) 548-2720</u></a></li>
-      <li style="list-style-type:disc"><a href="https://goo.gl/maps/rbhrnhw4Fp32"><u>Aux dortoirs <i class="fa fa-map"></i> 1321 Chemin de Béthanie, Roxton Falls, QC J0H 1E0</u></a></li>
-      <li style="list-style-type:disc"><a href="http://gn.qc.ca/atelier/directions/"><u>Pour plus d'information sur l'indication de la route.</u> <i class="fa fa-link"></i></a></li>
-    </ul>
-    <h1>Remerciement</h1>
-    Merci aux organisateur.trice.s et aux bévénoles.<br/>
-    Merci aux contributeur.trice.s du logiciel web.<br/>
-    Merci à <a href="http://www.calendriergn.ca"><u>www.calendriergn.ca</u> <i class="fa fa-link"></i></a> pour leur projet de calendrier du GN au Québec.<br/>
-    <a href="https://github.com/AdminTL/gestion_personnage_TL/blob/master/README.fr.md"><u>Visitez ici pour plus d'information sur le développement du logiciel.</u> <i class="fa fa-link"></i></a><br/>
-    <h1>Dates 2017 de constructions sur le terrain</h1>
-    <ul>
-      <li>8-9 avril</li>
-      <li>22-23 mai</li>
-      <li>18-19 novembre</li>
-      <li>9-10 décembre</li>
-    </ul>
+    <h1>Qu'est-ce que Traître-Lame?</h1>
+    <p>
+      Traître-Lame est une activité née au sein de l'Atelier du loisir en 2009 mettant l'emphase sur le combat et la géopolitique. L'activité se démarque par un système de règles avec une base simple,
+      mais avec une grande variété d'options. Le système de magie y est conçu pour être intéressant sans briser le flot des combats ou permettre de terrasser un adversaire sans faire usage de sagacité
+      ou d'adresse au combat.
+    </p>
+    <p>
+      Traître-Lame se veut une activité orientée pour les adultes. La consommation d'alcool y est permise de façon responsable et mature. Le jeu est principalement propulsé par un scénario profond et
+      complexe s'appuyant sur la structure à quatre factions de l'univers de Traître-Lame. Les joueur.se.s sont invité.e.s à la création de leur personnage à choisir l'une de quatre factions jouables
+      de la
+      Sarsonne qui détermine le style de leur jeu.
+    </p>
+    <p>
+      L'empire de Vanicant offre un style de jeu actif et combatif, dans une atmosphère politique tordue où les jeux de pouvoir et les trahisons sont nombreux.
+    </p>
+    <p>
+      Le Royaume de Canavim offre la possibilité aux joueur.se.s d'évoluer dans un cadre militaire plus organisé au coeur d'une société moderne et hiérarchisée. Il s'agit aussi d'une faction où
+      l'anglais
+      est très présent.
+    </p>
+    <p>
+      La tribu Sarsar propose aux joueur.se.s d'incarner un groupe de combattant en constante guérilla où la politique et la religion tribale sont intimement liées.
+    </p>
+    <p>
+      Finalement, les exilés du village de Vallam sont au centre des querelles économiques et politiques de l'économie réelle et parallèle et propose aux joueur.se.s un jeu moins orienté vers le
+      combat et
+      plus vers l'intrigue et l'ésotérisme.
+    </p>
   </div>
   <!-- Panel right -->
   <div class="col-sm-6">
@@ -100,34 +142,40 @@
         <div style="background: rgba(0, 0, 0, 0.7)">Politiques, guildes et groupe NPC.</div>
       </button>
     </a>
-    <h1>Qu'est-ce que Traître-Lame?</h1>
-    <p>
-      Traître-Lame est une activité née au sein de l'Atelier du loisir en 2009 mettant l'emphase sur le combat et la géopolitique. L'activité se démarque par un système de règles avec une base simple,
-      mais avec une grande variété d'options. Le système de magie y est conçu pour être intéressant sans briser le flot des combats ou permettre de terrasser un adversaire sans faire usage de sagacité
-      ou d'adresse au combat.
-    </p>
-    <p>
-      Traître-Lame se veut une activité orientée pour les adultes. La consommation d'alcool y est permise de façon responsable et mature. Le jeu est principalement propulsé par un scénario profond et
-      complexe s'appuyant sur la structure à quatre factions de l'univers de Traître-Lame. Les joueur.se.s sont invité.e.s à la création de leur personnage à choisir l'une de quatre factions jouables
-      de la
-      Sarsonne qui détermine le style de leur jeu.
-    </p>
-    <p>
-      L'empire de Vanicant offre un style de jeu actif et combatif, dans une atmosphère politique tordue où les jeux de pouvoir et les trahisons sont nombreux.
-    </p>
-    <p>
-      Le Royaume de Canavim offre la possibilité aux joueur.se.s d'évoluer dans un cadre militaire plus organisé au coeur d'une société moderne et hiérarchisée. Il s'agit aussi d'une faction où
-      l'anglais
-      est très présent.
-    </p>
-    <p>
-      La tribu Sarsar propose aux joueur.se.s d'incarner un groupe de combattant en constante guérilla où la politique et la religion tribale sont intimement liées.
-    </p>
-    <p>
-      Finalement, les exilés du village de Vallam sont au centre des querelles économiques et politiques de l'économie réelle et parallèle et propose aux joueur.se.s un jeu moins orienté vers le
-      combat et
-      plus vers l'intrigue et l'ésotérisme.
-    </p>
+    <h1>Dates 2017</h1>
+    <ul>
+      <li>8 avril: Donjon</li>
+      <li>5-7 mai: TL (Zone 1)</li>
+      <li>7-9 juillet: TL (Zone 1+2)</li>
+      <li>1-3 septembre: TL (Zone 1+2)</li>
+      <li>6-8 octobre: TL (Zone 1+2)</li>
+    </ul>
+    <h1>Tarifs 2017</h1>
+    <ul>
+      <li style="list-style-type:disc">Billet: 45$</li>
+      <li style="list-style-type:disc">Donjon: 40$</li>
+      <li style="list-style-type:disc">Nouveau joueur.se: 30$</li>
+      <li style="list-style-type:disc">Accès aux dortoirs: <b>Dortoir non accessible pour la saison 2017</b></li>
+    </ul>
+    <h4><span class="label label-success" style="white-space:normal">Passe saison (4 événements): 150$ <span class="badge">{{! total_season_pass }}</span></span></h4>
+    <h1>Localisation</h1>
+    <ul>
+      <li style="list-style-type:disc"><a href="https://goo.gl/maps/YpaQu3zk9Xy"><u>Au terrain <i class="fa fa-map"></i> 1801 Chemin Béthanie, Béthanie (Québec), J0H 1E1, (450) 548-2720</u></a></li>
+      <li style="list-style-type:disc"><a href="https://goo.gl/maps/rbhrnhw4Fp32"><u>Aux dortoirs <i class="fa fa-map"></i> 1321 Chemin de Béthanie, Roxton Falls, QC J0H 1E0</u></a></li>
+      <li style="list-style-type:disc"><a href="http://gn.qc.ca/atelier/directions/"><u>Pour plus d'information sur l'indication de la route.</u> <i class="fa fa-link"></i></a></li>
+    </ul>
+    <h1>Remerciement</h1>
+    Merci aux organisateur.trice.s et aux bévénoles.<br/>
+    Merci aux contributeur.trice.s du logiciel web.<br/>
+    Merci à <a href="http://www.calendriergn.ca"><u>www.calendriergn.ca</u> <i class="fa fa-link"></i></a> pour leur projet de calendrier du GN au Québec.<br/>
+    <a href="https://github.com/AdminTL/gestion_personnage_TL/blob/master/README.fr.md"><u>Visitez ici pour plus d'information sur le développement du logiciel.</u> <i class="fa fa-link"></i></a><br/>
+    <h1>Dates 2017 de constructions sur le terrain</h1>
+    <ul>
+      <li>8-9 avril</li>
+      <li>22-23 mai</li>
+      <li>18-19 novembre</li>
+      <li>9-10 décembre</li>
+    </ul>
   </div>
   <!-- Border right -->
   <!--<div class="col-sm-1"></div>-->

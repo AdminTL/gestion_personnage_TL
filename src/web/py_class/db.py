@@ -119,3 +119,7 @@ class DB(object):
             # 3. validate character exist for update, else create it, or delete it.
             player_data["date_modify"] = d
             self._db_user.update(_update_character(), self._query_user.id == player_id)
+
+    def stat_get_total_season_pass(self):
+        # self._db_user.search(tinydb.Query().character.all(tinydb.Query().xp_gn_1_2016 == True))
+        return {"total_season_pass_2017": len(self._db_user.search(self._query_user.passe_saison_2017 == True))}
