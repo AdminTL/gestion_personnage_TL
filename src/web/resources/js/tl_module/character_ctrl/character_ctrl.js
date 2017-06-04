@@ -510,14 +510,4 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
 //        $scope.$apply();
 //      }
   });
-
-  // $http({
-  //   method: "get",
-  //   url: "/cmd/rule",
-  //   headers: {"Content-Type": "application/json; charset=UTF-8"},
-  //   // data: $httpParamSerializerJQLike(data),
-  //   timeout: 5000
-  // }).then(function (response/*, status, headers, config*/) {
-  //   $scope.manual = response.data.manual;
-  // });
 }]);

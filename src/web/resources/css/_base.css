@@ -126,3 +126,11 @@ a:focus {
   background-color: white;
   color: black;
 }
+
+.splash {
+    display: none;
+}
+
+[ng-cloak].splash {
+    display: block !important;
+}
