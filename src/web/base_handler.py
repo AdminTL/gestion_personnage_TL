@@ -2,11 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import tornado.web
-# from py_class import user
+import sys
 
 
-# TODO add user detection here
-# @userapp.tornado.config(app_id=user.USER_APP_ID)
 class BaseHandler(tornado.web.RequestHandler):
     _debug = None
     _manual = None

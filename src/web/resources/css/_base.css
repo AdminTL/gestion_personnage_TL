@@ -1,14 +1,16 @@
 body {
-  padding-top: 60px;
-  outline: 0;
-  margin-bottom: 100px;
+    padding-top: 60px;
+    outline: 0;
+    margin-bottom: 100px;
 }
+
 .nav-button {
-  width: 100%;
-  text-align: left;
+    width: 100%;
+    text-align: left;
 }
+
 a:focus {
-  outline: 0;
+    outline: 0;
 }
 
 .sidebar-left, .content {
@@ -36,6 +38,7 @@ a:focus {
     #printSection {
         display: none;
     }
+
     .screen-hide {
         display: none;
     }
@@ -43,21 +46,21 @@ a:focus {
 
 @media print {
     body * {
-        visibility:hidden;
+        visibility: hidden;
     }
 
     #printSection, #printSection * {
-        visibility:visible;
+        visibility: visible;
     }
 
     #printSection {
-        position:absolute;
-        left:0;
-        top:0;
+        position: absolute;
+        left: 0;
+        top: 0;
     }
 
     #manual_main_content {
-      page-break-after:always;
+        page-break-after: always;
     }
 
     .print-hide {
@@ -65,66 +68,91 @@ a:focus {
     }
 
     body {
-      font: 12pt Georgia, "Times New Roman", Times, serif;
-      line-height: 1.3;
+        font: 12pt Georgia, "Times New Roman", Times, serif;
+        line-height: 1.3;
     }
+
     #content p {
-      font-size:11pt;
-      color: black;
+        font-size: 11pt;
+        color: black;
     }
 
     #content img {
-      display:block;
-      page-break-after: avoid;
-      page-break-inside: avoid;
+        display: block;
+        page-break-after: avoid;
+        page-break-inside: avoid;
     }
 
     #content ul, li {
-      display:block;
-      border: 1px dashed #eceeca;
-      page-break-inside:avoid;
+        display: block;
+        border: 1px dashed #eceeca;
+        page-break-inside: avoid;
     }
 
-    #header {display:none;}
-    #comments {display:none;}
-    #sidebar {display:none;}
-    #footer {display:none;}
+    #header {
+        display: none;
+    }
 
-    .site-description {display:none;}
-    .site-title {display:none;}
+    #comments {
+        display: none;
+    }
+
+    #sidebar {
+        display: none;
+    }
+
+    #footer {
+        display: none;
+    }
+
+    .site-description {
+        display: none;
+    }
+
+    .site-title {
+        display: none;
+    }
 
 }
 
 .sheet-value {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 .subtitle-cell {
-  font-weight: bold;
-  text-align: center;
+    font-weight: bold;
+    text-align: center;
 }
 
 .small-cell-text {
-  font-size: 80%;
+    font-size: 80%;
 }
 
 .smaller-cell-text {
-  font-size: 60%;
+    font-size: 60%;
 }
 
 #table-to-print td {
-  border: 1px solid black;
-  width: 75px;
-  height: 25px;
-  padding-left: 5px;
+    border: 1px solid black;
+    width: 75px;
+    height: 25px;
+    padding-left: 5px;
 }
 
 #table-to-print {
-  border-collapse: collapse;
-  table-layout: fixed;
-  width: 750px;
-  background-color: white;
-  color: black;
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 750px;
+    background-color: white;
+    color: black;
+}
+
+.alert {
+    text-align: center;
+}
+
+.omb_signUpForm .help-block {
+    color: red;
 }
 
 .splash {

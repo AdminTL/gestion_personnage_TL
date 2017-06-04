@@ -1,0 +1,15 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+{% if user %}
+<div>This is {{user.get("name")}}'s profile page. (ID: {{user.get("user_id")}})</div>
+</br>
+<div>Here the user should be able to modify certain personal information as well as his name, e-mail and password.</div>
+</br>
+<a href="/character" class="btn btn-lg btn-default" role="button">Personnage</a>
+{% else %}
+<div class="alert alert-warning">This user does not exist.</div>
+{% end %}
+
+{% end %}
