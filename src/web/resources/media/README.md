@@ -1,1 +1,0 @@
-Directory media contain resources media information.
