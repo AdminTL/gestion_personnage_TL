@@ -70,3 +70,6 @@ target/
 *.gitconfig
 *.viminfo
 *.cmd
+
+# git
+*.orig

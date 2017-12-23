@@ -25,6 +25,7 @@ class JsonHandler(base_handler.BaseHandler):
         self.response = {}
 
     def set_default_headers(self):
+        super(JsonHandler, self).set_default_headers()
         self.set_header('Content-Type', 'application/json')
 
     def write_error(self, status_code, **kwargs):

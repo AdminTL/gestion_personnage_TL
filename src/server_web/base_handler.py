@@ -28,6 +28,10 @@ class BaseHandler(tornado.web.RequestHandler):
             "disable_login": kwargs.get("disable_login")
         }
 
+    def set_default_headers(self):
+        self.set_header("Access-Control-Allow-Origin", "*")
+        self.set_header("Access-Control-Allow-Headers", "x-requested-with")
+
     def get_current_user(self):
         # TODO not work
         return self._db.get_user(_uuid=self.get_secure_cookie("user"))
