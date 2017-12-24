@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { CharacterComponent } from './character/character.component';
 import { LoreComponent } from './lore/lore.component';
+import { ManualComponent } from './manual/manual.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { LoreComponent } from './lore/lore.component';
     AppComponent,
     HomeComponent,
     CharacterComponent,
-    LoreComponent
+    LoreComponent,
+    ManualComponent
   ],
   imports: [
     BrowserModule,
