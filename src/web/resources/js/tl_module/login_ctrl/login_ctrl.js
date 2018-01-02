@@ -8,7 +8,7 @@ characterApp.controller("login_ctrl", ['$scope', '$routeParams', function ($scop
     FB.login(function (response) {
       statusChangeCallback(response);
     }, {scope: 'public_profile,email'});
-  }
+  };
 }]);
 
 characterApp.directive('uniqueField', function ($http, $q) {
@@ -21,6 +21,8 @@ characterApp.directive('uniqueField', function ($http, $q) {
         ngModel.$asyncValidators.uniqueField = function (modelValue, viewValue) {
           var value = modelValue || viewValue;
 
+          // TODO add delay request, 1 second
+
           // Lookup field by ngModel and value
           return $http({
             method: "get",
@@ -29,11 +31,13 @@ characterApp.directive('uniqueField', function ($http, $q) {
             timeout: 5000
           }).then(
             function (response) {
-              console.log(response["data"]);
               if (response["data"] == "0") {
-                return $q.reject("already exists");
+                return $q.reject("Already exists");
+              } else if (response["data"] == "1") {
+                return true;
+              } else {
+                return $q.reject("Unknown response.");
               }
-              return true;
             });
         };
       })

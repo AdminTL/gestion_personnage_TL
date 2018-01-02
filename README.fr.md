@@ -28,6 +28,10 @@ Wiki pour développement
 =======================
 Le projet est en développement. [Le remu-méninge.](https://github.com/AdminTL/gestion_personnage_TL/wiki/Premier-brainstorm)
 
+Documentation
+=============
+[Lire la documentation en anglais](./doc/README.md)
+
 License
 =======
 Projet licencié GPLv3

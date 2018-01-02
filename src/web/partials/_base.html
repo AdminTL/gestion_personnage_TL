@@ -126,24 +126,25 @@
   {% end %}
 </div>
 
-{% if use_internet_static %} <!-- Using online ressources -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-<script src="https://raw.githubusercontent.com/geraintluff/tv4/master/tv4.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
-<script src="https://raw.githubusercontent.com/angular/bower-angular-sanitize/master/angular-sanitize.min.js"></script>
+{% if use_internet_static %} <!-- Using online resources -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tv4/1.0.17/tv4.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.6.2/angular-sanitize.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-strap/2.3.8/angular-strap.compat.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-strap/2.3.8/angular-strap.tpl.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.min.js"></script>
 <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-1.2.2.min.js"></script>
 <script src="http://cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"></script>
-<script src="https://raw.githubusercontent.com/mike-marcacci/objectpath/master/lib/ObjectPath.js"></script>
-<script src="https://raw.githubusercontent.com/json-schema-form/angular-schema-form/development/dist/schema-form.min.js"></script>
-<script src="https://raw.githubusercontent.com/json-schema-form/angular-schema-form-bootstrap/develop/bootstrap-decorator.min.js"></script>
-<script src="https://raw.githubusercontent.com/OptimalBPM/angular-schema-form-dynamic-select/master/angular-schema-form-dynamic-select.min.js"></script>
-<script src="https://raw.githubusercontent.com/Caligatio/jsSHA/master/src/sha256.js"></script>
-{% else %}
-{% if debug %} <!-- Using local debug mode -->
+<script src="http://traitrelame.ca/static/bower_components/objectpath/lib/ObjectPath.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-schema-form/0.8.12/schema-form.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-schema-form/0.8.12/bootstrap-decorator.min.js"></script>
+<script src="http://traitrelame.ca/static/bower_components/angular-schema-form-dynamic-select/angular-schema-form-dynamic-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+{% elif debug %} <!-- Using local debug mode -->
 <script src="{{ static_url('bower_components/jquery/dist/jquery.js') }}"></script>
+<script src="{{ static_url('bower_components/tv4/tv4.js') }}"></script>
 <script src="{{ static_url('bower_components/angular/angular.js') }}"></script>
 <script src="{{ static_url('bower_components/angular-sanitize/angular-sanitize.js') }}"></script>
 <script src="{{ static_url('bower_components/angular-strap/dist/angular-strap.js') }}"></script>
@@ -151,11 +152,15 @@
 <script src="{{ static_url('bower_components/angular-route/angular-route.js') }}"></script>
 <script src="{{ static_url('bower_components/angular-bootstrap/ui-bootstrap.js') }}"></script>
 <script src="{{ static_url('bower_components/sockjs/sockjs.js') }}"></script>
+<script src="{{ static_url('bower_components/objectpath/lib/ObjectPath.js') }}"></script>
 <script src="{{ static_url('bower_components/angular-schema-form/dist/schema-form.js') }}"></script>
 <script src="{{ static_url('bower_components/angular-schema-form/dist/bootstrap-decorator.js') }}"></script>
 <script src="{{ static_url('bower_components/angular-schema-form-dynamic-select/angular-schema-form-dynamic-select.js') }}"></script>
+<script src="{{ static_url('bower_components/bootstrap/dist/js/bootstrap.js') }}"></script>
+<script src="{{ static_url('bower_components/jsSHA/src/sha256.js') }}"></script>
 {% else %} <!-- Using local regular mode -->
 <script src="{{ static_url('bower_components/jquery/dist/jquery.min.js') }}"></script>
+<script src="{{ static_url('bower_components/tv4/tv4.js') }}"></script>
 <script src="{{ static_url('bower_components/angular/angular.min.js') }}"></script>
 <script src="{{ static_url('bower_components/angular-sanitize/angular-sanitize.min.js') }}"></script>
 <script src="{{ static_url('bower_components/angular-strap/dist/angular-strap.min.js') }}"></script>
@@ -163,18 +168,16 @@
 <script src="{{ static_url('bower_components/angular-route/angular-route.min.js') }}"></script>
 <script src="{{ static_url('bower_components/angular-bootstrap/ui-bootstrap.min.js') }}"></script>
 <script src="{{ static_url('bower_components/sockjs/sockjs.min.js') }}"></script>
+<script src="{{ static_url('bower_components/objectpath/lib/ObjectPath.js') }}"></script>
 <script src="{{ static_url('bower_components/angular-schema-form/dist/schema-form.min.js') }}"></script>
 <script src="{{ static_url('bower_components/angular-schema-form/dist/bootstrap-decorator.min.js') }}"></script>
 <script src="{{ static_url('bower_components/angular-schema-form-dynamic-select/angular-schema-form-dynamic-select.min.js') }}"></script>
-{% end %} <!-- Using either local modes -->
-<script src="{{ static_url('bower_components/tv4/tv4.js') }}"></script>
-<script src="{{ static_url('bower_components/objectpath/lib/ObjectPath.js') }}"></script>
+<script src="{{ static_url('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 <script src="{{ static_url('bower_components/jsSHA/src/sha256.js') }}"></script>
 {% end %}
 
 <script src="{{ static_url('resources/js/tool.js') }}"></script>
 <script src="{{ static_url('resources/js/tl_module/tl_module.js') }}"></script>
-
 
 <!-- add TL schema -->
 <script src="{{ static_url('resources/js/tl_module/character_ctrl/tl_character_schema.js') }}"></script>
@@ -188,7 +191,6 @@
 <script src="{{ static_url('resources/js/tl_module/manual_ctrl/manual_ctrl.js') }}"></script>
 <script src="{{ static_url('resources/js/tl_module/lore_ctrl/lore_ctrl.js') }}"></script>
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="{{ static_url('bower_components/qrcode-generator/js/qrcode.js') }}"></script>
 <script src="{{ static_url('bower_components/qrcode-generator/js/qrcode_UTF8.js') }}"></script>
 <script src="{{ static_url('bower_components/angular-qrcode/angular-qrcode.js') }}"></script>

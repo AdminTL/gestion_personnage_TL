@@ -17,21 +17,21 @@ Arch Linux
 ------
 ```{r, engine='bash', count_lines}
 sudo pacman -S python python-pip
-sudo pip install tornado sockjs-tornado tinydb
+sudo pip install tornado sockjs-tornado tinydb bcrypt
 ```
 
 Mac OSX
 -------
 ```{r, engine='bash', count_lines}
 brew install python3
-sudo pip3 install tornado sockjs-tornado tinydb
+sudo pip3 install tornado sockjs-tornado tinydb bcrypt
 ```
 
 Ubuntu / Debian
 ---------------
 ```{r, engine='bash', count_lines}
 sudo apt-get install python3 python3-pip
-sudo pip3 install tornado sockjs-tornado tinydb
+sudo pip3 install tornado sockjs-tornado tinydb bcrypt
 ```
 
 Windows
@@ -59,9 +59,20 @@ bower install
 
 Choose the first option if bower asks to resolve conflict.
 
+Authentication
+==============
+To disable authentication, use argument --disable_login
+
 Running
 =======
 Run ./web_server.sh to launch the server.
+
+Configure server
+================
+On production server, you need to specify your host and port. Run instance with argument :
+```
+-l HOST:PORT
+```
 
 Options
 -------
@@ -75,4 +86,5 @@ Options
 --web-listen-address : Web: Web server listen address (default=Listen())
 --ssl : Activate https and create ssl files if they don't exist. Doesn't work in Windows. (default=False)
 --use_internet_static : Not implemented. Force using static files like css and js from another internet website. Use web browser cache. (default=False)
+--disable_login : Disable authentication
 ```

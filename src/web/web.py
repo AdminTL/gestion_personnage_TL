@@ -15,7 +15,7 @@ import base64
 from py_class.db import DB
 from py_class.manual import Manual
 from py_class.lore import Lore
-from py_class.keys import Keys
+from py_class.auth_keys import AuthKeys
 import uuid
 
 DEFAULT_SSL_DIRECTORY = os.path.join("..", "..", "ssl_cert")
@@ -33,20 +33,17 @@ def main(parse_arg):
             # Generate a self-signed certificate and key if we don't already have one.
             cmd = 'openssl req -x509 -sha256 -newkey rsa:2048 -keyout %s -out %s -days 36500 -nodes -subj' % (
                 KEY_FILE_SSL, CERT_FILE_SSL)
-            cmd_in = cmd.split() + ["/C=CA/ST=QC/L=Montreal/O=Traitre-lame/OU=gn.qc.ca"]
+            cmd_in = cmd.split() + ["/C=CA/ST=QC/L=Montreal/O=Traitre-lame/OU=traitrelame.ca"]
 
             subprocess.call(cmd_in)
 
         ssl_options = {"certfile": CERT_FILE_SSL, "keyfile": KEY_FILE_SSL}
 
     url = "http{2}://{0}:{1}".format(parse_arg.listen.address, parse_arg.listen.port, "s" if ssl_options else "")
-    keys = Keys(parse_arg)
     # TODO store cookie_secret if want to reuse it if restart server
     settings = {"static_path": parse_arg.static_dir,
                 "template_path": parse_arg.template_dir,
                 "debug": parse_arg.debug,
-                "cookie_secret": base64.b64encode(os.urandom(50)).decode('ascii'),
-                "login_url": "/login",
                 "use_internet_static": parse_arg.use_internet_static,
                 "db": DB(parse_arg),
                 "manual": Manual(parse_arg),
@@ -55,13 +52,20 @@ def main(parse_arg):
                 "disable_admin": parse_arg.disable_admin,
                 "disable_login": parse_arg.disable_login,
                 "url": url,
+                "login_url": "/login",
                 "cookie_secret": uuid.uuid4().hex,
-                "google_oauth": keys.get("google_oauth"),
-                "facebook_api_key": keys.get("facebook_api_key"),
-                "facebook_secret": keys.get("facebook_secret"),
-                "twitter_consumer_key": keys.get("twitter_consumer_key"),
-                "twitter_consumer_secret": keys.get("twitter_consumer_secret"),
+                # TODO add xsrf_cookies
+                # "xsrf_cookies": True,
                 }
+
+    if not parse_arg.disable_login:
+        auth_keys = AuthKeys(parse_arg)
+        settings["google_oauth"] = auth_keys.get("google_oauth")
+        settings["facebook_api_key"] = auth_keys.get("facebook_api_key")
+        settings["facebook_secret"] = auth_keys.get("facebook_secret")
+        settings["twitter_consumer_key"] = auth_keys.get("twitter_consumer_key")
+        settings["twitter_consumer_secret"] = auth_keys.get("twitter_consumer_secret")
+
     routes = [
         # To create parameters: /(?P<param1>[^\/]+)/?(?P<param2>[^\/]+)/?
         # Add ? after ) to make a parameter optional
@@ -83,12 +87,18 @@ def main(parse_arg):
         tornado.web.url(r"/cmd/lore/?", handlers.LoreHandler, name='cmd_lore', kwargs=settings),
         tornado.web.url(r"/cmd/stat/total_season_pass/?", handlers.StatSeasonPass, name='cmd_stat_total_season_pass',
                         kwargs=settings),
-        tornado.web.url(r"/cmd/auth/validate/?", handlers.ValidateAuthHandler, name='validate_auth', kwargs=settings),
-        tornado.web.url(r"/cmd/auth/google/?", handlers.GoogleOAuth2LoginHandler, name='google_login', kwargs=settings),
-        tornado.web.url(r"/cmd/auth/facebook/?", handlers.FacebookGraphLoginHandler, name='facebook_login',
-                        kwargs=settings),
-        tornado.web.url(r"/cmd/auth/twitter/?", handlers.TwitterLoginHandler, name='twitter_login', kwargs=settings),
     ]
+
+    if not parse_arg.disable_login:
+        routes.append(tornado.web.url(r"/cmd/auth/validate/?", handlers.ValidateAuthHandler, name='validate_auth',
+                                      kwargs=settings))
+        routes.append(tornado.web.url(r"/cmd/auth/google/?", handlers.GoogleOAuth2LoginHandler, name='google_login',
+                                      kwargs=settings))
+        routes.append(tornado.web.url(r"/cmd/auth/facebook/?", handlers.FacebookGraphLoginHandler,
+                                      name='facebook_login', kwargs=settings))
+        routes.append(tornado.web.url(r"/cmd/auth/twitter/?", handlers.TwitterLoginHandler, name='twitter_login',
+                                      kwargs=settings))
+
     application = tornado.web.Application(routes + socket_connection.urls, **settings)
 
     io_loop = tornado.ioloop.IOLoop.instance()
@@ -99,6 +109,7 @@ def main(parse_arg):
     print("Using Tornado " + tornado.version)
     if tornado.version_info < (4, 4, 3, 0):
         print("WARNING: Please upgrade to version 4.4.3 or higher for Facebook authentication.")
+
     print('Starting server at {0}'.format(url))
 
     if parse_arg.open_browser:

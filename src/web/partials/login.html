@@ -7,25 +7,25 @@
 <link href="{{ static_url('resources/css/login_dark.css') }}" rel="stylesheet">
 
 {% if invalid_login == "disable_login" %}
-<div class="alert alert-warning"><strong>Désolé!</strong> Les connexions et inscriptions sont présentement désactivées.</div>
+<div class="alert alert-warning"><strong>Attention</strong> Les connexions et inscriptions sont présentement désactivées.</div>
 {% else %}
 <div class="container" ng-controller="login_ctrl" ng-cloak>
   {% if invalid_login == "password" %}
-  <div class="alert alert-danger"><strong>Erreur!</strong> Le mot de passe ne peut être vide.</div>
+  <div class="alert alert-danger"><strong>Erreur</strong> Le mot de passe est vide.</div>
   {% end %}
 
   <!--Sign in-->
   <div class="omb_login" ng-show="show_login">
     {% if invalid_login == "login" %}
-    <div class="alert alert-danger"><strong>Erreur!</strong> Adresse courriel ou Mot de passe invalide.</div>
+    <div class="alert alert-danger"><strong>Erreur</strong> Courriel ou mot de passe invalide.</div>
     {% elif invalid_login == "username_or_email" %}
-    <div class="alert alert-danger"><strong>Erreur!</strong> Nom ou Adresse courriel ne peut pas être vide.</div>
+    <div class="alert alert-danger"><strong>Erreur</strong> Le nom ou le courriel doit contenir une information.</div>
     {% elif invalid_login == "twitter" or invalid_login == "facebook" or invalid_login == "google" %}
-    <div class="alert alert-danger"><strong>Erreur!</strong> Une erreur est survenue lors de la connexion avec {{invalid_login}}.<br>Si c'est votre première connexion, il est possible qu'un compte
-      avec le même nom existe déjà.<br>Veuillez vous connecter manuellement et liez votre compte {{invalid_login}} à partir de votre profil.
+    <div class="alert alert-danger"><strong>Erreur</strong> Une erreur est survenue lors de la connexion avec {{invalid_login}}.<br>Si c'est votre première connexion,
+      il est possible qu'un compte existe avec le même nom.<br>Veuillez-vous connecter manuellement et lier votre compte {{invalid_login}} à partir de votre profil.
     </div>
     {% end %}
-    <h3 class="omb_authTitle"><b>Connexion</b> ou <a href="#" ng-click="show_login=false;">Inscription</a></h3>
+    <h3 class="omb_authTitle"><b>Connexion</b> ou <a href="#" ng-click="show_login=false;" style="text-decoration: underline">Inscription</a></h3>
     <div class="row omb_row-sm-offset-3 omb_socialButtons">
       <div class="col-xs-4 col-sm-2">
         <a href="/cmd/auth/facebook" class="btn btn-lg btn-block omb_btn-facebook">
@@ -34,15 +34,15 @@
         </a>
       </div>
       <div class="col-xs-4 col-sm-2">
-        <a href="/cmd/auth/twitter" class="btn btn-lg btn-block omb_btn-twitter">
-          <i class="fa fa-twitter visible-sm"></i>
-          <span class="hidden-sm">Twitter</span>
-        </a>
-      </div>
-      <div class="col-xs-4 col-sm-2">
         <a href="/cmd/auth/google" class="btn btn-lg btn-block omb_btn-google">
           <i class="fa fa-google-plus visible-sm"></i>
           <span class="hidden-sm">Google+</span>
+        </a>
+      </div>
+      <div class="col-xs-4 col-sm-2">
+        <a href="/cmd/auth/twitter" class="btn btn-lg btn-block omb_btn-twitter">
+          <i class="fa fa-twitter visible-sm"></i>
+          <span class="hidden-sm">Twitter</span>
         </a>
       </div>
     </div>
@@ -61,7 +61,7 @@
           <!--Username or Email-->
           <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
-            <input type="text" class="form-control" name="username_or_email" placeholder="Nom ou Adresse courriel" required>
+            <input type="text" class="form-control" name="username_or_email" placeholder="Nom ou courriel" required>
           </div>
           <br/>
 
@@ -72,6 +72,7 @@
           </div>
           <br/>
 
+          <!-- TODO need to be binded in angularjs model -->
           <button class="btn btn-lg btn-primary btn-block" type="submit"
                   onclick="if(username_or_email.value && loginForm.password.value){password.value=hashSha256(password.value, username_or_email.value);};">
             Se connecter
@@ -80,27 +81,27 @@
       </div>
     </div>
     <div class="row omb_row-sm-offset-3">
-      <div class="col-xs-12 col-sm-3">
-        <label class="checkbox" disabled>
-          <input type="checkbox" value="remember-me">Remember Me
-        </label>
-      </div>
-      <div class="col-xs-12 col-sm-3">
-        <p class="omb_forgotPwd">
-          <a href="#">Forgot password?</a>
-        </p>
-      </div>
+      <!--<div class="col-xs-12 col-sm-3">-->
+      <!--<label class="checkbox" disabled>-->
+      <!--<input type="checkbox" value="remember-me">Mémoriser-->
+      <!--</label>-->
+      <!--</div>-->
+      <!--<div class="col-xs-12 col-sm-3">-->
+      <!--<p class="omb_forgotPwd">-->
+      <!--<a href="#">Mot de passe oublié?</a>-->
+      <!--</p>-->
+      <!--</div>-->
     </div>
   </div>
 
   <!--Sign up-->
   <div class="omb_login" ng-hide="show_login">
     {% if invalid_login == "signup" %}
-    <div class="alert alert-danger"><strong>Erreur!</strong> Veuillez remplir tout les champs correctement.</div>
+    <div class="alert alert-danger"><strong>Erreur</strong> Veuillez remplir tous les champs correctement.</div>
     {% elif invalid_login == "username" %}
-    <div class="alert alert-danger"><strong>Erreur!</strong> Nom ne peut pas être vide.</div>
+    <div class="alert alert-danger"><strong>Erreur</strong> Le nom ne peut pas être vide.</div>
     {% end %}
-    <h3 class="omb_authTitle"><a href="#" ng-click="show_login=true;">Connexion</a> ou <b>Inscription</b></h3>
+    <h3 class="omb_authTitle"><a href="#" ng-click="show_login=true;" style="text-decoration: underline">Connexion</a> ou <b>Inscription</b></h3>
 
     <div class="row omb_row-sm-offset-3">
       <div class="col-xs-12 col-sm-6">
@@ -124,14 +125,14 @@
           <div class="input-group"
                ng-class="{'has-success': signUpForm.email.$valid, 'has-warning': signUpForm.email.$pending, 'has-error': (signUpForm.email.$invalid && signUpForm.email.$touched) || signUpForm.email.$error.uniqueField}">
             <span class="input-group-addon"><i class="fa fa-at" aria-hidden="true"></i></span>
-            <input type="email" class="form-control" name="email" placeholder="Adresse courriel" ng-model="email" unique-field>
+            <input type="email" class="form-control" name="email" placeholder="Courriel" ng-model="email" unique-field>
             <span class="input-group-addon" ng-if="signUpForm.email.$touched">
               <i ng-show="signUpForm.email.$invalid" class="fa fa-times" aria-hidden="true"></i>
               <i ng-show="signUpForm.email.$pending" class="fa fa-spinner fa-pulse fa-fw" aria-hidden="true"></i>
               <i ng-show="signUpForm.email.$valid" class="fa fa-check" aria-hidden="true"></i>
             </span>
           </div>
-          <span class="help-block" ng-show="signUpForm.email.$error.uniqueField">Cette adresse courriel est déjà utilisée.</span>
+          <span class="help-block" ng-show="signUpForm.email.$error.uniqueField">Ce courriel est déjà utilisé.</span>
           <br/>
 
           <!--Password-->
@@ -165,11 +166,25 @@
         </form>
       </div>
     </div>
+    <br/>
     <div class="row omb_row-sm-offset-3">
-      <div class="col-xs-12 col-sm-3">
-        <label class="checkbox" disabled>
-          <input type="checkbox" value="remember-me">Remember Me
-        </label>
+      <div class="col-xs-12 col-sm-6">
+        <p>Suggestion pour un bon mot de passe :
+        <ul>
+          <li>
+            Plus de 12 caractères,
+          </li>
+          <li>
+            Alphanumérique et des ponctuations.
+          </li>
+        </ul>
+        </p>
+        <p>
+          Le courriel est utilisé comme identifiant, mais aucun courriel ne sera envoyé, sauf à la demande du joueur.
+        </p>
+        <!--<label class="checkbox" disabled>-->
+        <!--<input type="checkbox" value="remember-me">Mémoriser-->
+        <!--</label>-->
       </div>
     </div>
   </div>
