@@ -25,7 +25,8 @@
     "rxjs": "^5.5.2",
     "zone.js": "^0.8.14",
     "font-awesome": "^4.7.0",
-    "bootstrap": "^3.3.7"
+    "bootstrap": "^3.3.7",
+    "primeng": "2.0.0"
   },
   "devDependencies": {
     "@angular/cli": "1.6.2",
