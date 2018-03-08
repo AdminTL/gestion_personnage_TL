@@ -39,3 +39,92 @@
   </div>
   <!-- end nav content -->
 </div>
+
+<!-- Main content -->
+<div id="lore_main_content" class="col-sm-9" style="padding-bottom: 70px;">
+  <span class="anchor" id="top"></span>
+  <h1 class="tl" style="text-align: center">L'univers de Traître-Lame</h1>
+
+  <!-- LEVEL 1 -->
+  <div *ngFor="let lore_sect_1 of lore">
+    <!-- This span class anchor only exist to help anchor with nav menu top fixed -->
+    <span class="anchor" [id]="formatAnchor(lore_sect_1, null)"></span>
+
+    <div *ngIf="in_filter_edition || lore_sect_1.visible" [ngClass]="'print-hide': !lore_sect_1.visible">
+      <div>
+        <input *ngIf="in_filter_edition" type="checkbox" [(ngModel)]="lore_sect_1.visible">
+        <h1 style="display:inline">{{ getTitleHtml(lore_sect_1) }}</h1>
+        <a target="_self" style="color: #C7C7C7" [todoHref]="formatAnchor(lore_sect_1, null)"><span
+            class="glyphicon glyphicon-link print-hide"></span></a>
+      </div>
+
+      <p>{{ formatHtmlDescription(lore_sect_1.description) }}</p>
+    </div>
+
+    <!-- LEVEL 2 -->
+    <div *ngFor="let lore_sect_2 of lore_sect_1.section">
+      <span class="anchor" [id]="formatAnchor(lore_sect_2, [lore_sect_1])"></span>
+
+      <div *ngIf="in_filter_edition || lore_sect_2.visible" [ngClass]="'print-hide': !lore_sect_1.visible">
+        <div>
+          <input *ngIf="in_filter_edition" type="checkbox" [(ngModel)]="lore_sect_2.visible">
+          <h2 style="display:inline">{{ getTitleHtml(lore_sect_2) }}</h2>
+          <a target="_self" style="color: #C7C7C7" [todoHref]="formatAnchor(lore_sect_2, [lore_sect_1])"><span
+              class="glyphicon glyphicon-link print-hide"></span></a>
+        </div>
+
+        <p>{{ formatHtmlDescription(lore_sect_2.description) }}</p>
+      </div>
+
+      <!-- LEVEL 3 -->
+      <div *ngFor="let lore_sect_3 of lore_sect_2.section">
+        <span class="anchor" [id]="formatAnchor(lore_sect_3, [lore_sect_1, lore_sect_2])"></span>
+
+        <div *ngIf="in_filter_edition || lore_sect_3.visible" [ngClass]="'print-hide': !lore_sect_1.visible">
+          <div>
+            <input *ngIf="in_filter_edition" type="checkbox" [(ngModel)]="lore_sect_3.visible">
+            <h3 style="display:inline">{{ getTitleHtml(lore_sect_3) }}</h3>
+            <a target="_self" style="color: #C7C7C7" [todoHref]="formatAnchor(lore_sect_3, [lore_sect_1, lore_sect_2])"><span
+                class="glyphicon glyphicon-link print-hide"></span></a>
+          </div>
+
+          <p>{{ formatHtmlDescription(lore_sect_3.description) }}</p>
+        </div>
+
+        <!-- LEVEL 4 -->
+        <div class="panel" *ngIf="in_filter_edition || lore_sect_4.visible" [ngClass]="[class_color_level(lore_sect_2), {'print-hide': !lore_sect_1.visible}]" *ngFor="let lore_sect_4 of lore_sect_3.section">
+          <span class="anchor" id="{{! formatAnchor(lore_sect_4, [lore_sect_1, lore_sect_2, lore_sect_3]) }}"></span>
+
+          <div class="panel-heading">
+            <input *ngIf="in_filter_edition" type="checkbox" [(ngModel)]="lore_sect_4.visible">
+            <h4 style="display:inline" class="panel-title">{{ getTitleHtml(lore_sect_4) }}</h4>
+            <a target="_self" style="color: #C7C7C7" [todoHref]="formatAnchor(lore_sect_4, [lore_sect_1, lore_sect_2, lore_sect_3])"><span
+                class="glyphicon glyphicon-link print-hide"></span></a>
+          </div>
+
+          <div class="panel-body">
+            <p>{{ formatHtmlDescription(lore_sect_4.description) }}</p>
+
+            <!-- LEVEL 5 -->
+            <div class="panel panel-primary" *ngIf="in_filter_edition || lore_sect_5.visible" [ngClass]="{'print-hide': !lore_sect_1.visible}"
+                 *ngFor="let lore_sect_5 of lore_sect_4.section">
+              <span class="anchor" [id]="formatAnchor(lore_sect_5, [lore_sect_1, lore_sect_2, lore_sect_3, lore_sect_4])"></span>
+
+              <div class="panel-heading">
+                <input *ngIf="in_filter_edition" type="checkbox" [(ngModel)]="lore_sect_5.visible">
+                <h5 style="display:inline" class="panel-title">{{ getTitleHtml(lore_sect_5) }}</h5>
+                <a target="_self" style="color: #C7C7C7" [todoHref]="formatAnchor(lore_sect_5, [lore_sect_1, lore_sect_2, lore_sect_3, lore_sect_4])"><span
+                    class="glyphicon glyphicon-link print-hide"></span></a>
+              </div>
+
+              <div class="panel-body">
+                <p>{{ formatHtmlDescription(lore_sect_5.description) }}</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> <!-- end main content -->
