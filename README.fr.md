@@ -17,7 +17,7 @@ Guide utilisation
 Démarrer le serveur web
 -----------------------
 ```{r, engine='bash', count_lines}
-./web_server.sh
+./script/web_server.sh
 ```
 
 Accès client web local

@@ -17,7 +17,7 @@ HOW TO
 Run server
 ----------
 ```{r, engine='bash', count_lines}
-./web_server.sh
+./script/web_server.sh
 ```
 
 Web access local

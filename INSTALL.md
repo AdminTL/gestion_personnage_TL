@@ -65,7 +65,7 @@ To disable authentication, use argument --disable_login
 
 Running
 =======
-Run ./web_server.sh to launch the server.
+Run ./script/web_server.sh to launch the server.
 
 Configure server
 ================
@@ -73,6 +73,16 @@ On production server, you need to specify your host and port. Run instance with 
 ```
 -l HOST:PORT
 ```
+
+Systemctl
+---------
+You can setup the daemon with Systemctl.
+
+```
+cp ./script/gestion_personnage.service /etc/systemd/system/gestion_personnage.service
+```
+
+And edit the file on destination with argument you need.
 
 Options
 -------
