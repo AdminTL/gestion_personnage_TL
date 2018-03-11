@@ -49,8 +49,4 @@ Merci!
 
 Participant
 ===========
-1. Mathieu Benoit - mathben
-2. Jérémie Gosselin
-3. alexisbssn
-4. Avasam
-5. Simon Savard
+[Read on github](https://github.com/AdminTL/gestion_personnage_TL/graphs/contributors)
