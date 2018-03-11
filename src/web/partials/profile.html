@@ -1,0 +1,13 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+{% if user %}
+<div>Profil de {{user.get("name")}}. (ID: {{ user.get("user_id") }})</div>
+</br>
+<a href="/character?id_player={{ user.get("user_id") }}" class="btn btn-lg btn-default" role="button">Personnage</a>
+{% else %}
+<div class="alert alert-warning">Veuillez sélectionner un profil.</div>
+{% end %}
+
+{% end %}

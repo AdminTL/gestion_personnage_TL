@@ -4,7 +4,7 @@
 import json
 import tornado
 import tornado.web
-import hashlib
+import tornado.auth
 import sys
 import base_handler
 import jsonhandler
@@ -44,53 +44,275 @@ class LorePageHandler(base_handler.BaseHandler):
 class LoginHandler(base_handler.BaseHandler):
     @tornado.web.asynchronous
     def get(self):
-        if self._global_arg["disable_login"]:
-            return
+        if self.get_secure_cookie("user"):
+            self.redirect("/")
+
         self.render('login.html', **self._global_arg)
 
     @tornado.web.asynchronous
     def post(self):
         if self._global_arg["disable_login"]:
-            return
-        email = self.get_argument("username")
-        name = self.get_argument("name")
-        password = self.get_argument("password")
-        if self.get_secure_cookie("user"):
-            print("Need to logout before login or sign in.", file=sys.stderr)
-            return
-        if not email:
-            print("User name is empty.", file=sys.stderr)
-        if not password:
-            print("Password is empty.", file=sys.stderr)
-        secure_pass = hashlib.sha256(password.encode('UTF-8')).hexdigest()
-        if name:
-            user = self._db.create_user(email, name, secure_pass)
-        else:
-            user = self._db.get_user(email, secure_pass)
+            self.redirect("/login?invalid=disable_login")
 
-        if user:
-            uuid = user.get("uuid")
-            if uuid:
-                self.set_secure_cookie("user", uuid)
-        self.redirect("/")
+        if self.get_secure_cookie("user"):
+            print("Need to logout before login or sign up from %s" % self.request.remote_ip, file=sys.stderr)
+            return
+
+        # EXTREMELY IMPORTANT to prevent accessing accounts that do not yet have a password.
+        password = self.get_argument("password")
+        if not password:
+            print("Password is empty from %s" % self.request.remote_ip, file=sys.stderr)
+            self.redirect("/login?invalid=password")
+
+        # Login
+        if self.get_argument("username_or_email", ""):
+
+            username_or_email = self.get_argument("username_or_email", "")
+            if not username_or_email:
+                print("Email or Username is empty.", file=sys.stderr)
+                self.redirect("/login?invalid=username_or_email")
+                return
+
+            # Try finding the user by mail...
+            user = None
+            if "@" in username_or_email:
+                user = self._db.get_user(email=username_or_email, password=password)
+            # ... or by name.
+            if not user:
+                user = self._db.get_user(name=username_or_email, password=password)
+
+            # If user is found, give him a secure cookie based on his user id
+            if user:
+                self.give_cookie(user.get("user_id"))
+            else:
+                print("Invalid email/password combination from %s" % self.request.remote_ip, file=sys.stderr)
+                self.redirect("/login?invalid=login")
+                return
+
+        # Sign Up
+        elif self.get_argument("username"):
+            name = self.get_argument("username")
+            if not name:
+                print("Username is empty from %s" % self.request.remote_ip, file=sys.stderr)
+                self.redirect("/login?invalid=username")
+                return
+
+            email = self.get_argument("email", default=None)
+
+            password_mail = self.get_argument("pwconfirm")
+            if not password_mail:
+                print("Password is empty from %s" % self.request.remote_ip, file=sys.stderr)
+                self.redirect("/login?invalid=password")
+
+            if self._db.create_user(name, email, password, password_mail):
+                self.redirect("/login")
+            else:
+                self.redirect("/login?invalid=signup")
+            return
+
+
+class GoogleOAuth2LoginHandler(base_handler.BaseHandler, tornado.auth.GoogleOAuth2Mixin):
+    @tornado.gen.coroutine
+    def get(self):
+        try:
+            if self.get_argument('code', False):
+                google_user = yield self.get_authenticated_user(
+                    redirect_uri=self._global_arg["url"] + '/cmd/auth/google',
+                    code=self.get_argument('code'))
+                access_token = google_user["access_token"]
+                google_user = yield self.oauth2_request("https://www.googleapis.com/oauth2/v1/userinfo",
+                                                        access_token=access_token)
+
+                # Save the user with e.g. set_secure_cookie
+                google_id = google_user["id"]
+                user = self._db.get_user(id_type="google", user_id=google_id)
+
+                # Login
+                # If user is found, give him a secure cookie based on his user_id and Google access_token
+                if user:
+                    self.give_cookie(user.get("user_id"), google_access_token=access_token)
+
+                # Sign up
+                else:
+                    name = google_user["name"]
+                    email = google_user.get("email")
+
+                    # check if email exist or name. If yes, associate it with this account
+                    if self._db.user_exist(email=email):
+                        # use this email to associate
+                        user = self._db.get_user(email=email, force_email_no_password=True)
+                        if user:
+                            user["google_id"] = google_id
+                            self._db.update_user(user)
+                    else:
+                        user = self._db.create_user(name, email, google_id=google_id)
+
+                    if user:
+                        self.give_cookie(user.get("user_id"), google_access_token=access_token)
+                    else:
+                        self.redirect("/login?invalid=google")
+
+            else:
+                yield self.authorize_redirect(
+                    redirect_uri=self._global_arg["url"] + '/cmd/auth/google',
+                    client_id=self.settings['google_oauth']['key'],
+                    scope=['profile', 'email'],
+                    response_type='code',
+                    extra_params={'approval_prompt': 'auto'})
+
+        except KeyError as exception:
+            print("KeyError: " + str(exception) + " in GoogleOAuth2LoginHandler from %s" % self.request.remote_ip,
+                  file=sys.stderr)
+            self.redirect("/login?invalid=google")
+        except Exception as e:
+            print("Exception: " + str(e) + " in GoogleOAuth2LoginHandler from %s" % self.request.remote_ip,
+                  file=sys.stderr)
+            self.redirect("/login?invalid=google")
+
+
+class FacebookGraphLoginHandler(base_handler.BaseHandler, tornado.auth.FacebookGraphMixin):
+    @tornado.gen.coroutine
+    def get(self):
+        try:
+            if self.get_argument("code", False):
+                facebook_user = yield self.get_authenticated_user(
+                    redirect_uri=self._global_arg["url"] + '/cmd/auth/facebook',
+                    client_id=self.settings["facebook_api_key"],
+                    client_secret=self.settings["facebook_secret"],
+                    code=self.get_argument("code"),
+                    extra_fields=["email"])
+                access_token = facebook_user["access_token"]
+
+                facebook_id = facebook_user["id"]
+                user = self._db.get_user(id_type="facebook", user_id=facebook_id)
+
+                # Login
+                # If user is found, give him a secure cookie based on his user_id and Facebook access_token
+                if user:
+                    self.give_cookie(user.get("user_id"), facebook_access_token=access_token)
+
+                # Sign up
+                else:
+                    name = facebook_user["name"]
+                    email = facebook_user.get("email")
+                    # check if email exist or name. If yes, associate it with this account
+                    if self._db.user_exist(email=email):
+                        # use this email to associate
+                        user = self._db.get_user(email=email, force_email_no_password=True)
+                        if user:
+                            user["facebook_id"] = facebook_id
+                            self._db.update_user(user)
+                    else:
+                        user = self._db.create_user(name, email, facebook_id=facebook_id)
+
+                    if user:
+                        self.give_cookie(user.get("user_id"), facebook_access_token=access_token)
+                    else:
+                        self.redirect("/login?invalid=facebook")
+
+            else:
+                yield self.authorize_redirect(
+                    redirect_uri=self._global_arg["url"] + '/cmd/auth/facebook',
+                    client_id=self.settings["facebook_api_key"],
+                    # Permissions: https://developers.facebook.com/docs/facebook-login/permissions
+                    extra_params={"scope": "email"})
+
+        except KeyError as exception:
+            print("KeyError: " + str(exception) + " in FacebookGraphLoginHandler from %s" % self.request.remote_ip,
+                  file=sys.stderr)
+            self.redirect("/login?invalid=facebook")
+        except Exception as e:
+            print("Exception: " + str(e) + " in FacebookGraphLoginHandler from %s" % self.request.remote_ip,
+                  file=sys.stderr)
+            self.redirect("/login?invalid=facebook")
+
+
+class TwitterLoginHandler(base_handler.BaseHandler, tornado.auth.TwitterMixin):
+    @tornado.gen.coroutine
+    def get(self):
+        try:
+            if self.get_argument("oauth_token", False):
+                twitter_user = yield self.get_authenticated_user()
+                access_token = twitter_user.get("access_token")
+                twitter_user = yield self.twitter_request("/account/verify_credentials",
+                                                          access_token=access_token, include_email="true")
+
+                twitter_id = twitter_user["id_str"]
+                user = self._db.get_user(id_type="twitter", user_id=twitter_id)
+
+                # Login
+                # If user is found, give him a secure cookie based on his user_id and Twitter access_token
+                if user:
+                    self.give_cookie(user.get("user_id"), twitter_access_token=access_token)
+
+                # Sign up
+                else:
+                    # nickname = twitter_user["screen_name"]
+                    name = twitter_user["name"]
+                    email = twitter_user.get("email")
+
+                    # check if email exist or name. If yes, associate it with this account
+                    if self._db.user_exist(email=email):
+                        # use this email to associate
+                        user = self._db.get_user(email=email, force_email_no_password=True)
+                        if user:
+                            user["twitter_id"] = twitter_id
+                            self._db.update_user(user)
+                    else:
+                        user = self._db.create_user(name, email, twitter_id=twitter_id)
+
+                    if user:
+                        self.give_cookie(user.get("user_id"), twitter_access_token=access_token)
+                    else:
+                        self.redirect("/login?invalid=twitter")
+            elif self.get_argument("denied", False):
+                self.redirect("/login?invalid=twitter")
+            else:
+                yield self.authorize_redirect(callback_uri=self._global_arg["url"] + '/cmd/auth/twitter')
+        except KeyError as e:
+            print("KeyError: " + str(e) + " in TwitterLoginHandler from %s" % self.request.remote_ip,
+                  file=sys.stderr)
+            self.redirect("/login?invalid=twitter")
+        except Exception as e:
+            print("Exception: " + str(e) + " in TwitterLoginHandler from %s" % self.request.remote_ip, file=sys.stderr)
+            self.redirect("/login?invalid=twitter")
 
 
 class LogoutHandler(base_handler.BaseHandler):
     def get(self):
         if self._global_arg["disable_login"]:
             return
-        self.clear_cookie("user")
-        self.redirect(u"/")
+        if self.current_user:
+            self.clear_cookie("user")
+            self.redirect("/")
+        else:
+            self.redirect("/login")
 
 
 class AdminHandler(base_handler.BaseHandler):
     @tornado.web.asynchronous
-    # @userapp.tornado.authorized()
-    # @userapp.tornado.has_permission('admin')
+    @tornado.web.authenticated
     def get(self):
         if self._global_arg["disable_admin"]:
             return
-        self.render('admin_character.html', **self._global_arg)
+        if self.current_user.get("permission") == "Admin":
+            self.render('admin_character.html', **self._global_arg)
+        else:
+            print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
+            self.redirect("/")  # TODO : HTTP error 403: Forbidden
+
+
+class ProfileHandler(base_handler.BaseHandler):
+    @tornado.web.asynchronous
+    @tornado.web.authenticated
+    def get(self, user_id=None):
+        if self._global_arg["disable_character"]:
+            return
+        if user_id:
+            user = self._db.get_user(user_id=user_id)
+        else:
+            user = self.current_user
+        self.render('profile.html', user=user, **self._global_arg)
 
 
 class CharacterHandler(base_handler.BaseHandler):
@@ -98,6 +320,7 @@ class CharacterHandler(base_handler.BaseHandler):
     def get(self):
         if self._global_arg["disable_character"]:
             return
+
         self.render('character.html', **self._global_arg)
 
 
@@ -107,9 +330,9 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
         if self._global_arg["disable_character"]:
             return
 
-        player_id = self.request.query[len("player_id="):]
+        user_id = self.request.query[len("user_id="):]
         is_admin = self.request.query == "is_admin"
-        if player_id == "" and not is_admin:
+        if user_id == "" and not is_admin:
             # leave now, missing permission
             self.finish()
             return
@@ -118,7 +341,7 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
         if is_admin:
             data = json.dumps(self._db.get_all_user())
         else:
-            data = json.dumps(self._db.get_all_user(id=player_id))
+            data = json.dumps(self._db.get_all_user(user_id=user_id))
 
         self.write(data)
         self.finish()
@@ -129,18 +352,17 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
             return
         self.prepare_json()
 
-        # user_id = self.get_argument("user_id")
-        player = self.get_argument("player")
+        user = self.get_argument("player")
         character = self.get_argument("character")
-        delete_player_id = self.get_argument("delete_player_id")
-        delete_character_id = self.get_argument("delete_character_id")
+        delete_user_by_id = self.get_argument("delete_user_by_id")
+        delete_character_by_id = self.get_argument("delete_character_by_id")
 
-        # exception, if delete_player_id, create player if not exist
-        if not player and delete_player_id:
-            player = {"id": delete_player_id}
+        # exception, if delete_user_by_id, create user if not exist
+        if not user and delete_user_by_id:
+            user = {"user_id": delete_user_by_id}
 
-        self._db.update_player(player, character, delete_player_id=delete_player_id,
-                               delete_character_id=delete_character_id)
+        self._db.update_user(user, character, delete_user_by_id=delete_user_by_id,
+                             delete_character_by_id=delete_character_by_id)
 
 
 class ManualHandler(jsonhandler.JsonHandler):
@@ -161,4 +383,26 @@ class StatSeasonPass(jsonhandler.JsonHandler):
     @tornado.web.asynchronous
     def get(self):
         self.write(self._db.stat_get_total_season_pass())
+        self.finish()
+
+
+class ValidateAuthHandler(base_handler.BaseHandler):
+    """This class is designed purely for client-side validation"""
+
+    @tornado.web.asynchronous
+    def get(self):
+        name = self.get_argument("username", default=None)
+        email = self.get_argument("email", default=None)
+        print("Request validate auth from %s. Name %s email %s" % (self.request.remote_ip, name, email))
+
+        # TODO return a json instead of a string number
+        if name:
+            self.write("0" if (self._db.user_exist(name=name) or self._db.user_exist(email=name)) else "1")
+        elif email:
+            self.write("0" if (self._db.user_exist(email=email) or self._db.user_exist(name=email)) else "1")
+
+        # Produce a missing argument error
+        else:
+            # TODO need to test this line with a unittest
+            self.get_argument("username or email")
         self.finish()

@@ -28,6 +28,10 @@ Developper wiki
 ===============
 This project is in creation. [The first brainstorm is in french.](https://github.com/AdminTL/gestion_personnage_TL/wiki/Premier-brainstorm)
 
+Documentation
+=============
+[Read documentation](./doc/README.md)
+
 License
 =======
 Project under GPLv3
