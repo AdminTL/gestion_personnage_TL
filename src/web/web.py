@@ -7,11 +7,10 @@ import tornado.ioloop
 import tornado.web
 import tornado.httpserver
 import handlers
-from py_class import web_socket
-from sockjs.tornado import SockJSRouter
+# from py_class import web_socket
+# from sockjs.tornado import SockJSRouter
 import os
 import subprocess
-import base64
 from py_class.db import DB
 from py_class.manual import Manual
 from py_class.lore import Lore
@@ -24,7 +23,7 @@ KEY_FILE_SSL = os.path.join(DEFAULT_SSL_DIRECTORY, "ca.key")
 
 
 def main(parse_arg):
-    socket_connection = SockJSRouter(web_socket.TestStatusConnection, '/update_user', user_settings=None)
+    # socket_connection = SockJSRouter(web_socket.TestStatusConnection, prefix='/update_user')
 
     ssl_options = None
     if parse_arg.ssl:
@@ -99,16 +98,17 @@ def main(parse_arg):
         routes.append(tornado.web.url(r"/cmd/auth/twitter/?", handlers.TwitterLoginHandler, name='twitter_login',
                                       kwargs=settings))
 
-    application = tornado.web.Application(routes + socket_connection.urls, **settings)
+    # application = tornado.web.Application(routes + socket_connection.urls, **settings)
+    application = tornado.web.Application(routes, **settings)
 
     io_loop = tornado.ioloop.IOLoop.instance()
 
-    http_server = tornado.httpserver.HTTPServer(application, ssl_options=ssl_options, io_loop=io_loop)
+    http_server = tornado.httpserver.HTTPServer(application, ssl_options=ssl_options)
     http_server.listen(port=parse_arg.listen.port)
 
     print("Using Tornado " + tornado.version)
-    if tornado.version_info < (4, 4, 3, 0):
-        print("WARNING: Please upgrade to version 4.4.3 or higher for Facebook authentication.")
+    if tornado.version_info < (5, 0):
+        print("WARNING: Please upgrade to version 5.0 or higher for Facebook authentication.")
 
     print('Starting server at {0}'.format(url))
 
