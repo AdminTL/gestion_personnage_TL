@@ -72,7 +72,7 @@ class LorePageHandler(base_handler.BaseHandler):
 class LoginHandler(base_handler.BaseHandler):
     @tornado.web.asynchronous
     def get(self):
-        if self.get_secure_cookie("user"):
+        if self.get_current_user():
             self.redirect("/")
             return
 
@@ -83,7 +83,7 @@ class LoginHandler(base_handler.BaseHandler):
         if self._global_arg["disable_login"]:
             self.redirect("/login?invalid=disable_login")
 
-        if self.get_secure_cookie("user"):
+        if self.get_current_user():
             print("Need to logout before login or sign up from %s" % self.request.remote_ip, file=sys.stderr)
             # Bad request
             self.set_status(400)

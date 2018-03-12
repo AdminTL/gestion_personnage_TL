@@ -3,6 +3,7 @@
 
 import tornado.web
 import sys
+import json
 
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -35,17 +36,25 @@ class BaseHandler(tornado.web.RequestHandler):
         user_cookie = self.get_secure_cookie("user")
         if not user_cookie:
             return
+
         # trim private data
-        user_id = eval(user_cookie).get("user_id")
-        return self._db.get_user(id_type="user", user_id=user_id)
+        data = json.loads(user_cookie)
+        if type(data) is dict:
+            user_id = data.get("user_id")
+            return self._db.get_user(id_type="user", user_id=user_id)
+        else:
+            print("Error type on cookie %s %s" % (data, self.request.remote_ip), file=sys.stderr)
 
     def give_cookie(self, user_id, twitter_access_token=None, facebook_access_token=None, google_access_token=None):
         if user_id:
-            data = str({"user_id": user_id,
-                        "twitter_access_token": twitter_access_token,
-                        "facebook_access_token": facebook_access_token,
-                        "google_access_token": google_access_token})
-            self.set_secure_cookie("user", data)
+            data = {
+                "user_id": user_id,
+                "twitter_access_token": twitter_access_token,
+                "facebook_access_token": facebook_access_token,
+                "google_access_token": google_access_token
+            }
+            serialize_data = json.dumps(data)
+            self.set_secure_cookie("user", serialize_data)
             self.redirect("/")
         else:
             print("User doesn't have an id.", file=sys.stderr)
