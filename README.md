@@ -17,7 +17,7 @@ HOW TO
 Run server
 ----------
 ```{r, engine='bash', count_lines}
-./web_server.sh
+./script/web_server.sh
 ```
 
 Web access local
@@ -49,8 +49,4 @@ Thanks you!
 
 Contributors
 ============
-1. Mathieu Benoit - mathben
-2. Jérémie Gosselin
-3. alexisbssn
-4. Avasam
-5. Simon Savard
+[Read on github](https://github.com/AdminTL/gestion_personnage_TL/graphs/contributors)
