@@ -1,0 +1,7 @@
+private_key.pem
+private_key.json
+domains.txt
+hook.sh
+certs/*
+archive/*
+accounts/*

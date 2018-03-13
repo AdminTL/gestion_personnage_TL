@@ -1,0 +1,14 @@
+sudo: false
+language: shell
+
+os:
+  - linux
+  - osx
+
+cache:
+  directories:
+    - ngrok
+
+script:
+  - export CI="true"
+  - ./test.sh

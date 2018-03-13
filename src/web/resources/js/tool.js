@@ -65,3 +65,13 @@ function filterIgnore(obj, ignore_key) {
     delete result[ignore_key[key]];
   return result;
 }
+
+// Hash Sha-256 and optional Salt using jsSha
+function hashSha256(secret, salt) {
+  var shaObj = new jsSHA('SHA-256', 'TEXT');
+  if (salt) {
+    shaObj.update(salt);
+  }
+  shaObj.update(secret);
+  return shaObj.getHash('HEX');
+}

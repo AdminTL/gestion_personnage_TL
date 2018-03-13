@@ -1,0 +1,14 @@
+[Unit]
+Description=Serveur gestion de personnage
+After=network.target
+
+[Service]
+Type=simple
+#User=
+WorkingDirectory=/tmp
+ExecStart=/tmp/git/gestion_personnage_TL/script/web_server.sh -l HOST:PORT
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

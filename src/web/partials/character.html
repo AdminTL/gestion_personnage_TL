@@ -2,78 +2,97 @@
 
 {% block content %}
 
+{% if invalid_login == "disable_login" %}
+<div class="col-sm-offset-4">
+  <!-- form login block -->
+  <h1>Pour accéder à votre fiche de personnage, veuillez communiquer avec l'organisation du grandeur nature Traître-Lame.</h1>
+  <a href="mailto:traitrelame@gmail.com"><u>Par courriel: <i class="fa fa-at"></i></u></a> traitrelame@gmail.com<br/>
+  <a href="https://www.facebook.com/groups/TraitreLame"><u>Via le groupe Facebook.</u> <i
+      class="fa fa-link"></i></a><br/>
+  L'accès au compte et création de personnage est désactivé.
+</div>
+{% else %}
 <div ng-controller="character_ctrl" ng-cloak>
-  <div ng-show="!player_id_from_get && !ddb_user" class="col-sm-offset-4">
-    <h1>Pour accéder à votre fiche de personnage, veuillez communiquer avec l'organisation du grandeur nature Traître-Lame.</h1>
-    <a href="mailto:traitrelame@gmail.com"><u>Par courriel: <i class="fa fa-at"></i></u></a> traitrelame@gmail.com<br/>
-    <a href="https://www.facebook.com/groups/TraitreLame"><u>Via le groupe Facebook.</u> <i class="fa fa-link"></i></a><br/>
-    L'accès au compte et création de personnage sera bientôt accessible!
+  <div ng-show="no_character" class="col-sm-offset-4">
+    <h1>Formulaire de nouvelle fiche</h1>
+    <a href="login">Cliquez ici pour vous authentifier.</a><br/>
+    Vous pouvez sinon remplir le formulaire pour envoyer une fiche en création.<br/>
+    <button style="color:black" ng-click="newPlayer()">Débuter</button>
   </div>
-  <div class="col-xs-3 bs-docs-sidebar" ng-hide="isMobile() && player">
-    <br/>
-    <div ng-hide="!ddb_user" class="bs-sidebar hidden-print affix" role="complementary">
+  <div ng-hide="no_character">
+    <div class="col-xs-3 bs-docs-sidebar" ng-hide="isMobile() && player">
+      <br/>
+      <div ng-hide="!ddb_user" class="bs-sidebar hidden-print affix" role="complementary">
 
-      Joueur
-      <div class="list-group" ng-show="!new_player">
-        Nb joueur : {{! ddb_user.length }}
-        <select class="form-control" ng-model="player" ng-options="user.name for user in ddb_user | orderBy:'name'" ng-change="setCharacterData(null)">
-          <option value="">--Sélectionner un joueur--</option>
-        </select>
-        <br/>
-        Vue de fiche:<br/>
-        <label>
-          <input type="radio" ng-model="sheet_view.mode" value="fiche_read"> Fiche en lecture
-        </label><br/>
-        <label>
-          <input type="radio" ng-model="sheet_view.mode" value="form_write"> Formulaire
-        </label><br/>
-        <button class="btn btn-primary" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i>Imprimer</button>
-      </div>
-
-      <div ng-show="player && !new_player">
-        Fiche personnage<br/>
-        <!--<div ng-show="!new_character">-->
-        <!--<button class="btn btn-success" ng-click="newCharacter()"><span class="glyphicon glyphicon-plus"></span> <span class="glyphicon glyphicon-file"></span> Nouveau personnage</button>-->
-        <!--</div>-->
-        <ul class="nav">
-          <li ng-repeat="value in player.character">
-            <button ng-style="character.name == value.name && {color:'#FF4E00'}" ng-if="character.name" type="button" class="btn btn-info nav-button" ng-click="setCharacterData(value)">
-              {{! value.name }}
-            </button>
-          </li>
-        </ul>
-        <br/>
-      </div>
-
-      <div ng-show="player && player.character">
-        Point d'XP
-        <div>
-          Total : {{! countTotalXp() }}
+        Joueur
+        <div class="list-group" ng-show="!new_player">
+          Nb joueur : {{! ddb_user.length }}
+          <select class="form-control" ng-model="player" ng-options="user.name for user in ddb_user | orderBy:'name'"
+                  ng-change="setCharacterData(null)">
+            <option value="">--Sélectionner un joueur--</option>
+          </select>
+          <br/>
+          Vue de fiche:<br/>
+          <label>
+            <input type="radio" ng-model="sheet_view.mode" value="fiche_read"> Fiche en lecture
+          </label><br/>
+          <label>
+            <input type="radio" ng-model="sheet_view.mode" value="form_write"> Formulaire
+          </label><br/>
+          <button class="btn btn-primary" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i>Imprimer
+          </button>
         </div>
-        <div>
-          Xp consommé : {{! countTotalCostXp() }} <a class="text-decoration: none;" ng-hide="diffTotalXp() == 0" ng-style="diffTotalXp() > 0 ? {'color': 'green'} : {'color': 'red'}">{{!
+
+        <div ng-show="player && !new_player">
+          Fiche personnage<br/>
+          <!--<div ng-show="!new_character">-->
+          <!--<button class="btn btn-success" ng-click="newCharacter()"><span class="glyphicon glyphicon-plus"></span> <span class="glyphicon glyphicon-file"></span> Nouveau personnage</button>-->
+          <!--</div>-->
+          <ul class="nav">
+            <li ng-repeat="value in player.character">
+              <button ng-style="character.name == value.name && {color:'#FF4E00'}" ng-if="character.name" type="button"
+                      class="btn btn-info nav-button" ng-click="setCharacterData(value)">
+                {{! value.name }}
+              </button>
+            </li>
+          </ul>
+          <br/>
+        </div>
+
+        <div ng-show="player && player.character">
+          Point d'XP
+          <div>
+            Total : {{! countTotalXp() }}
+          </div>
+          <div>
+            Xp consommé : {{! countTotalCostXp() }} <a class="text-decoration: none;" ng-hide="diffTotalXp() == 0"
+                                                       ng-style="diffTotalXp() > 0 ? {'color': 'green'} : {'color': 'red'}">{{!
+            showDiffTotalXp() }}</a>
+          </div>
+        </div>
+        <div ng-hide="isMobile() || !html_qr_code" style="height:200px;width:200px;background:white"
+             ng-bind-html="html_qr_code"></div>
+      </div>
+    </div>
+
+    <div ng-show="player" role="main" class="col-sm-offset-4">
+      <div ng-show="sheet_view.mode == 'form_write'">
+        <form name="my_form_char" ng-submit="onSubmit(my_form_char)">
+          <div sf-schema="schema_user" sf-form="form_user" sf-model="model_user"></div>
+          <hr/>
+          <div sf-schema="schema_char" sf-form="form_char" sf-model="model_char"></div>
+        </form>
+        <div ng-show="isMobile()">
+          Xp : {{! countTotalCostXp() }} <a class="text-decoration: none;" ng-hide="diffTotalXp() == 0"
+                                            ng-style="diffTotalXp() > 0 ? {'color': 'green'} : {'color': 'red'}">{{!
           showDiffTotalXp() }}</a>
         </div>
-      </div>
-      <div ng-hide="isMobile() || !html_qr_code" style="height:200px;width:200px;background:white" ng-bind-html="html_qr_code"></div>
-    </div>
+      </div><!-- end div form write -->
+
+      {% include "character_sheet_print.html" %}
+
+    </div> <!-- end div if player -->
   </div>
-
-  <div ng-show="player" role="main" class="col-sm-offset-4">
-    <div ng-show="sheet_view.mode == 'form_write'">
-      <form name="my_form_char" ng-submit="onSubmit(my_form_char)">
-        <div sf-schema="schema_user" sf-form="form_user" sf-model="model_user"></div>
-        <hr/>
-        <div sf-schema="schema_char" sf-form="form_char" sf-model="model_char"></div>
-      </form>
-      <div ng-show="isMobile()">
-        Xp : {{! countTotalCostXp() }} <a class="text-decoration: none;" ng-hide="diffTotalXp() == 0" ng-style="diffTotalXp() > 0 ? {'color': 'green'} : {'color': 'red'}">{{!
-        showDiffTotalXp() }}</a>
-      </div>
-    </div><!-- end div form write -->
-
-    {% include "character_sheet_print.html" %}
-
-  </div> <!-- end div if player -->
 </div> <!-- end of character_ctrl -->
+{% end %}
 {% end %}

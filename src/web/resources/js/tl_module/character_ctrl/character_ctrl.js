@@ -28,6 +28,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   $scope.characterEdit = true;
   $scope.new_player = false;
   $scope.new_character = false;
+  $scope.no_character = true;
 
   $scope.model_user = {};
   $scope.schema_user = {};
@@ -281,6 +282,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
 
     $scope.setCharacterData(null);
     $scope.new_player = true;
+    $scope.no_character = false;
   };
 
   $scope.newCharacter = function () {
@@ -478,11 +480,18 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
 //    }
 //  );
 
-  // Get id_player, it's suppose to be the last 32 bytes
-  $scope.player_id_from_get = $window.location.hash.substr(-32);
-  // When no id_player, it's because == #!/
-  if ($scope.player_id_from_get == "#!/") {
+  $scope.is_main = $window.location.hash.substring($window.location.hash.length - 4) == "#!/";
+  if ($scope.is_main) {
     $scope.player_id_from_get = "";
+  } else {
+    // Get id_player, it's suppose to be the last 32 bytes
+    $scope.player_id_from_get = $window.location.hash.substr(-32);
+    // When no id_player, it's because == #!/
+    if ($scope.player_id_from_get == "#!/") {
+      $scope.player_id_from_get = "";
+    } else {
+      $scope.no_character = true;
+    }
   }
 
   if ($scope.is_admin) {

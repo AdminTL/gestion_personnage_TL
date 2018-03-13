@@ -1,0 +1,3 @@
+[submodule "third-party/dehydrated"]
+	path = third-party/dehydrated
+	url = git@github.com:AdminTL/dehydrated.git

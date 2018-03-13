@@ -14,6 +14,7 @@ DB_DEFAULT_PATH = os.path.join("..", "..", "database", "tl_user.json")
 DB_DEMO_PATH = os.path.join("..", "..", "database", "demo_user.json")
 DB_MANUAL_PATH = os.path.join("..", "..", "database", "tl_manual.json")
 DB_LORE_PATH = os.path.join("..", "..", "database", "tl_lore.json")
+DB_AUTH_PATH = os.path.join("..", "..", "database", "auth.json")
 
 
 def main():
@@ -74,6 +75,7 @@ def parse_args():
     _parser.db_demo_path = DB_DEMO_PATH
     _parser.db_manual_path = DB_MANUAL_PATH
     _parser.db_lore_path = DB_LORE_PATH
+    _parser.db_auth_keys_path = DB_AUTH_PATH
     return _parser
 
 
