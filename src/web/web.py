@@ -86,6 +86,9 @@ def main(parse_arg):
         tornado.web.url(r"/cmd/lore/?", handlers.LoreHandler, name='cmd_lore', kwargs=settings),
         tornado.web.url(r"/cmd/stat/total_season_pass/?", handlers.StatSeasonPass, name='cmd_stat_total_season_pass',
                         kwargs=settings),
+
+        # auto ssl
+        tornado.web.url(r"/.well-known/acme-challenge/?", handlers.AutoSSLHandler, name="auto_ssl")
     ]
 
     if not parse_arg.disable_login:

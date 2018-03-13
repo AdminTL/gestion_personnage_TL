@@ -8,6 +8,7 @@ import tornado.auth
 import sys
 import base_handler
 import jsonhandler
+import os
 
 io_loop = tornado.ioloop.IOLoop.instance()
 config_path = "config"
@@ -21,6 +22,32 @@ def ioloop_wrapper(callback):
         io_loop.add_callback(callback, *args, **kwargs)
 
     return func
+
+
+class AutoSSLHandler(tornado.web.RequestHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        # check directory exist
+        path_acme_challenge = os.path.join(os.getcwd(), "..", "..", "ssl_cert", "acme-challenge")
+        if not os.path.isdir(path_acme_challenge):
+            print("Error, the path %s not exist." % path_acme_challenge, file=sys.stderr)
+            # leave now, file not found
+            self.set_status(404)
+            raise tornado.web.Finish()
+
+        # check file exist
+        files = os.listdir(path_acme_challenge)
+        if not files:
+            print("Error, no files in path %s" % path_acme_challenge, file=sys.stderr)
+            self.set_status(404)
+            raise tornado.web.Finish()
+
+        first_file_path = os.path.join(path_acme_challenge, files[0])
+        first_file = open(first_file_path, 'r')
+
+        # send the reading file
+        self.write(first_file.read())
+        self.finish()
 
 
 class IndexHandler(base_handler.BaseHandler):
@@ -56,6 +83,7 @@ class LoginHandler(base_handler.BaseHandler):
 
         if self.get_secure_cookie("user"):
             print("Need to logout before login or sign up from %s" % self.request.remote_ip, file=sys.stderr)
+            self.finish()
             return
 
         # EXTREMELY IMPORTANT to prevent accessing accounts that do not yet have a password.
