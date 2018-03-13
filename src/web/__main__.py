@@ -10,11 +10,11 @@ import web
 WEB_ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
 WEB_DEFAULT_STATIC_DIR = os.path.join(WEB_ROOT_DIR)
 WEB_DEFAULT_TEMPLATE_DIR = os.path.join(WEB_ROOT_DIR, 'partials')
-DB_DEFAULT_PATH = os.path.join("..", "..", "database", "tl_user.json")
-DB_DEMO_PATH = os.path.join("..", "..", "database", "demo_user.json")
-DB_MANUAL_PATH = os.path.join("..", "..", "database", "tl_manual.json")
-DB_LORE_PATH = os.path.join("..", "..", "database", "tl_lore.json")
-DB_AUTH_PATH = os.path.join("..", "..", "database", "auth.json")
+DB_DEFAULT_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "tl_user.json")
+DB_DEMO_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "demo_user.json")
+DB_MANUAL_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "tl_manual.json")
+DB_LORE_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "tl_lore.json")
+DB_AUTH_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "auth.json")
 
 
 def main():
@@ -58,7 +58,7 @@ def parse_args():
     group.add_argument('-l', '--web-listen-address', dest='listen', default=Listen(), type=parse_listen,
                        help='Web: Web server listen address')
     group.add_argument('--ssl', default=False, action='store_true',
-                       help='Active https and create ssl files if not exist. Not work in windows.')
+                       help='Active https.')
     group.add_argument('--use_internet_static', default=False, action='store_true',
                        help='Force use to use static files like css and js from another internet website.'
                             ' Use web browser cache.')
