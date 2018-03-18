@@ -15,7 +15,6 @@ from py_class.db import DB
 from py_class.manual import Manual
 from py_class.lore import Lore
 from py_class.auth_keys import AuthKeys
-import uuid
 
 WEB_ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
 DEFAULT_SSL_DIRECTORY = os.path.join(WEB_ROOT_DIR, "..", "..", "ssl_cert", "certs")
@@ -33,6 +32,8 @@ def main(parse_arg):
         if os.path.isfile(cert_file) and os.path.isfile(key_file):
             ssl_options.load_cert_chain(certfile=cert_file, keyfile=key_file)
 
+    auth_keys = AuthKeys(parse_arg)
+
     url = "http{2}://{0}:{1}".format(parse_arg.listen.address, parse_arg.listen.port, "s" if ssl_options else "")
     # TODO store cookie_secret if want to reuse it if restart server
     settings = {"static_path": parse_arg.static_dir,
@@ -47,13 +48,12 @@ def main(parse_arg):
                 "disable_login": parse_arg.disable_login,
                 "url": url,
                 "login_url": "/login",
-                "cookie_secret": uuid.uuid4().hex,
+                "cookie_secret": auth_keys.get("cookie_secret", auto_gen=True),
                 # TODO add xsrf_cookies
                 # "xsrf_cookies": True,
                 }
 
     if not parse_arg.disable_login:
-        auth_keys = AuthKeys(parse_arg)
         settings["google_oauth"] = auth_keys.get("google_oauth")
         settings["facebook_api_key"] = auth_keys.get("facebook_api_key")
         settings["facebook_secret"] = auth_keys.get("facebook_secret")
