@@ -1,5 +1,12 @@
 Installation Guide
 ==================
+Submodule
+---------
+To initial third-party, you need to update submodule.
+```{r, engine='bash'}
+git submodule update --init
+```
+
 Download
 --------
 You can clone the project with git
@@ -73,6 +80,20 @@ On production server, you need to specify your host and port. Run instance with 
 ```
 -l HOST:PORT
 ```
+
+SSL
+---
+To enable https, you can generate a certificate ssl.
+1. Edit your domain in file ssl_cert/domains.txt
+1. Adapt the configuration file ssl_cert/config
+1. On config, set your email address
+1. On config, enable CA=... with staging address to test the script.
+1. And execute : 
+```
+./script/justletsencrypt.sh
+```
+
+
 
 Systemctl
 ---------

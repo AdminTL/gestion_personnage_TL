@@ -9,17 +9,16 @@ import tornado.httpserver
 import handlers
 # from py_class import web_socket
 # from sockjs.tornado import SockJSRouter
+import ssl
 import os
-import subprocess
 from py_class.db import DB
 from py_class.manual import Manual
 from py_class.lore import Lore
 from py_class.auth_keys import AuthKeys
 import uuid
 
-DEFAULT_SSL_DIRECTORY = os.path.join("..", "..", "ssl_cert")
-CERT_FILE_SSL = os.path.join(DEFAULT_SSL_DIRECTORY, "ca.csr")
-KEY_FILE_SSL = os.path.join(DEFAULT_SSL_DIRECTORY, "ca.key")
+WEB_ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
+DEFAULT_SSL_DIRECTORY = os.path.join(WEB_ROOT_DIR, "..", "..", "ssl_cert", "certs")
 
 
 def main(parse_arg):
@@ -27,16 +26,12 @@ def main(parse_arg):
 
     ssl_options = None
     if parse_arg.ssl:
-        # use https if active ssl, secure http
-        if not os.path.isfile(CERT_FILE_SSL) or not os.path.isfile(KEY_FILE_SSL):
-            # Generate a self-signed certificate and key if we don't already have one.
-            cmd = 'openssl req -x509 -sha256 -newkey rsa:2048 -keyout %s -out %s -days 36500 -nodes -subj' % (
-                KEY_FILE_SSL, CERT_FILE_SSL)
-            cmd_in = cmd.split() + ["/C=CA/ST=QC/L=Montreal/O=Traitre-lame/OU=traitrelame.ca"]
-
-            subprocess.call(cmd_in)
-
-        ssl_options = {"certfile": CERT_FILE_SSL, "keyfile": KEY_FILE_SSL}
+        # ssl cert suppose to be in hostname directory
+        cert_file = os.path.join(DEFAULT_SSL_DIRECTORY, parse_arg.listen.address, "fullchain.pem")
+        key_file = os.path.join(DEFAULT_SSL_DIRECTORY, parse_arg.listen.address, "privkey.pem")
+        ssl_options = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+        if os.path.isfile(cert_file) and os.path.isfile(key_file):
+            ssl_options.load_cert_chain(certfile=cert_file, keyfile=key_file)
 
     url = "http{2}://{0}:{1}".format(parse_arg.listen.address, parse_arg.listen.port, "s" if ssl_options else "")
     # TODO store cookie_secret if want to reuse it if restart server
@@ -86,6 +81,9 @@ def main(parse_arg):
         tornado.web.url(r"/cmd/lore/?", handlers.LoreHandler, name='cmd_lore', kwargs=settings),
         tornado.web.url(r"/cmd/stat/total_season_pass/?", handlers.StatSeasonPass, name='cmd_stat_total_season_pass',
                         kwargs=settings),
+
+        # auto ssl
+        tornado.web.url(r"/.well-known/acme-challenge.*", handlers.AutoSSLHandler, name="auto_ssl")
     ]
 
     if not parse_arg.disable_login:
@@ -106,9 +104,8 @@ def main(parse_arg):
     http_server = tornado.httpserver.HTTPServer(application, ssl_options=ssl_options)
     http_server.listen(port=parse_arg.listen.port)
 
-    print("Using Tornado " + tornado.version)
     if tornado.version_info < (5, 0):
-        print("WARNING: Please upgrade to version 5.0 or higher for Facebook authentication.")
+        print("WARNING: Using Tornado %s. Please upgrade to version 5.0 or higher." % tornado.version)
 
     print('Starting server at {0}'.format(url))
 
