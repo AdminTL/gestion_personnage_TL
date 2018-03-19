@@ -45,6 +45,12 @@ class BaseHandler(tornado.web.RequestHandler):
         else:
             print("Error type on cookie %s %s" % (data, self.request.remote_ip), file=sys.stderr)
 
+    def is_permission_admin(self):
+        return self.current_user and self.current_user.get("permission") == "Admin"
+
+    def is_user_id(self, user_id):
+        return self.current_user and self.current_user.get("user_id") == user_id
+
     def give_cookie(self, user_id, twitter_access_token=None, facebook_access_token=None, google_access_token=None):
         if user_id:
             data = {

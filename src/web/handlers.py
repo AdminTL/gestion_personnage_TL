@@ -350,7 +350,7 @@ class AdminHandler(base_handler.BaseHandler):
             self.set_status(404)
             self.send_error(404)
             raise tornado.web.Finish()
-        if self.current_user.get("permission") == "Admin":
+        if self.is_permission_admin():
             self.render('admin/news.html', **self._global_arg)
         else:
             print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
@@ -369,7 +369,7 @@ class AdminCharacterHandler(base_handler.BaseHandler):
             self.set_status(404)
             self.send_error(404)
             raise tornado.web.Finish()
-        if self.current_user.get("permission") == "Admin":
+        if self.is_permission_admin():
             self.render('admin/character.html', **self._global_arg)
         else:
             print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
@@ -416,6 +416,7 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
             self.send_error(404)
             raise tornado.web.Finish()
 
+        # validate argument
         user_id = self.request.query[len("user_id="):]
         is_admin = self.request.query == "is_admin"
         if user_id == "" and not is_admin:
@@ -424,11 +425,25 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
             self.send_error(403)
             raise tornado.web.Finish()
 
-        # TODO manage what we get and user management permission
+        # validate permission and send result
         if is_admin:
-            data = json.dumps(self._db.get_all_user())
+            if self.is_permission_admin():
+                data = json.dumps(self._db.get_all_user())
+            else:
+                print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
+                # Forbidden
+                self.set_status(403)
+                self.send_error(403)
+                raise tornado.web.Finish()
         else:
-            data = json.dumps(self._db.get_all_user(user_id=user_id))
+            if self.is_permission_admin() or self.is_user_id(user_id):
+                data = json.dumps(self._db.get_all_user(user_id=user_id))
+            else:
+                print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
+                # Forbidden
+                self.set_status(403)
+                self.send_error(403)
+                raise tornado.web.Finish()
 
         self.write(data)
         self.finish()
