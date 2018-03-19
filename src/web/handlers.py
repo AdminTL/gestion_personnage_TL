@@ -33,6 +33,7 @@ class AutoSSLHandler(tornado.web.RequestHandler):
             print("Error, the path %s not exist." % path_acme_challenge, file=sys.stderr)
             # Not found
             self.set_status(404)
+            self.send_error(404)
             raise tornado.web.Finish()
 
         # check file exist
@@ -41,6 +42,7 @@ class AutoSSLHandler(tornado.web.RequestHandler):
             print("Error, no files in path %s" % path_acme_challenge, file=sys.stderr)
             # Not found
             self.set_status(404)
+            self.send_error(404)
             raise tornado.web.Finish()
 
         first_file_path = os.path.join(path_acme_challenge, files[0])
@@ -87,6 +89,7 @@ class LoginHandler(base_handler.BaseHandler):
             print("Need to logout before login or sign up from %s" % self.request.remote_ip, file=sys.stderr)
             # Bad request
             self.set_status(400)
+            self.send_error(400)
             raise tornado.web.Finish()
 
         # EXTREMELY IMPORTANT to prevent accessing accounts that do not yet have a password.
@@ -327,6 +330,7 @@ class LogoutHandler(base_handler.BaseHandler):
         if self._global_arg["disable_login"]:
             # Not found
             self.set_status(404)
+            self.send_error(404)
             raise tornado.web.Finish()
         if self.current_user:
             self.clear_cookie("user")
@@ -344,6 +348,7 @@ class AdminHandler(base_handler.BaseHandler):
         if self._global_arg["disable_admin"]:
             # Not Found
             self.set_status(404)
+            self.send_error(404)
             raise tornado.web.Finish()
         if self.current_user.get("permission") == "Admin":
             self.render('admin_character.html', **self._global_arg)
@@ -351,6 +356,7 @@ class AdminHandler(base_handler.BaseHandler):
             print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
             # Forbidden
             self.set_status(403)
+            self.send_error(403)
             raise tornado.web.Finish()
 
 
@@ -361,6 +367,7 @@ class ProfileHandler(base_handler.BaseHandler):
         if self._global_arg["disable_character"]:
             # Not Found
             self.set_status(404)
+            self.send_error(404)
             raise tornado.web.Finish()
         if user_id:
             user = self._db.get_user(user_id=user_id)
@@ -375,6 +382,7 @@ class CharacterHandler(base_handler.BaseHandler):
         if self._global_arg["disable_character"]:
             # Not Found
             self.set_status(404)
+            self.send_error(404)
             raise tornado.web.Finish()
 
         self.render('character.html', **self._global_arg)
@@ -386,6 +394,7 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
         if self._global_arg["disable_character"]:
             # Not Found
             self.set_status(404)
+            self.send_error(404)
             raise tornado.web.Finish()
 
         user_id = self.request.query[len("user_id="):]
@@ -393,6 +402,7 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
         if user_id == "" and not is_admin:
             # Forbidden
             self.set_status(403)
+            self.send_error(403)
             raise tornado.web.Finish()
 
         # TODO manage what we get and user management permission
@@ -409,6 +419,7 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
         if self._global_arg["disable_character"]:
             # Not Found
             self.set_status(404)
+            self.send_error(404)
             raise tornado.web.Finish()
         self.prepare_json()
 
@@ -465,5 +476,6 @@ class ValidateAuthHandler(base_handler.BaseHandler):
             # TODO need to test this line with a unittest
             # self.get_argument("username or email")
             self.set_status(400)
+            self.send_error(400)
             raise tornado.web.Finish()
         self.finish()
