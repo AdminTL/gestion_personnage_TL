@@ -4,7 +4,7 @@
 characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /*"$timeout",*/ function ($scope, $q, $http, $window) {
   // var data_source = "http://" + window.location.host + "/update_user";
   // var socket = new SockJS(data_source);
-  $scope.is_admin = "/admin" == $window.location.pathname;
+  $scope.is_admin = $window.location.pathname.indexOf("/admin") >= 0;
 
   $scope.isMobile = function () {
     return $scope.$parent.active_style == 'Petite personne';

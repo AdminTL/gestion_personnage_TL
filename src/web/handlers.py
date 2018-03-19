@@ -351,7 +351,26 @@ class AdminHandler(base_handler.BaseHandler):
             self.send_error(404)
             raise tornado.web.Finish()
         if self.current_user.get("permission") == "Admin":
-            self.render('admin_character.html', **self._global_arg)
+            self.render('admin/news.html', **self._global_arg)
+        else:
+            print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
+            # Forbidden
+            self.set_status(403)
+            self.send_error(403)
+            raise tornado.web.Finish()
+
+
+class AdminCharacterHandler(base_handler.BaseHandler):
+    @tornado.web.asynchronous
+    @tornado.web.authenticated
+    def get(self):
+        if self._global_arg["disable_admin"]:
+            # Not Found
+            self.set_status(404)
+            self.send_error(404)
+            raise tornado.web.Finish()
+        if self.current_user.get("permission") == "Admin":
+            self.render('admin/character.html', **self._global_arg)
         else:
             print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
             # Forbidden
