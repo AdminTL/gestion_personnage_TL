@@ -32,9 +32,34 @@ def main(parse_arg):
         if os.path.isfile(cert_file) and os.path.isfile(key_file):
             ssl_options.load_cert_chain(certfile=cert_file, keyfile=key_file)
 
+    host = parse_arg.listen.address
+    port = parse_arg.listen.port
+
+    if parse_arg.redirect_http_to_https:
+        if port == 80:
+            ssl_port = 443
+        else:
+            ssl_port = port + 1
+    else:
+        # force to use only https
+        if port == 80:
+            ssl_port = 443
+        else:
+            ssl_port = port
+
+    if ssl_options:
+        if ssl_port == 443:
+            url = "https://{0}".format(host)
+        else:
+            url = "https://{0}:{1}".format(host, ssl_port)
+    else:
+        if port == 80:
+            url = "http://{0}".format(host)
+        else:
+            url = "http://{0}:{1}".format(host, port)
+
     auth_keys = AuthKeys(parse_arg)
 
-    url = "http{2}://{0}:{1}".format(parse_arg.listen.address, parse_arg.listen.port, "s" if ssl_options else "")
     # TODO store cookie_secret if want to reuse it if restart server
     settings = {"static_path": parse_arg.static_dir,
                 "template_path": parse_arg.template_dir,
@@ -47,6 +72,8 @@ def main(parse_arg):
                 "disable_admin": parse_arg.disable_admin,
                 "disable_login": parse_arg.disable_login,
                 "url": url,
+                "port": port,
+                "redirect_http_to_https": parse_arg.redirect_http_to_https,
                 "login_url": "/login",
                 "cookie_secret": auth_keys.get("cookie_secret", auto_gen=True),
                 # TODO add xsrf_cookies
@@ -99,11 +126,14 @@ def main(parse_arg):
 
     # application = tornado.web.Application(routes + socket_connection.urls, **settings)
     application = tornado.web.Application(routes, **settings)
-
-    io_loop = tornado.ioloop.IOLoop.instance()
+    if parse_arg.redirect_http_to_https:
+        application.listen(port)
 
     http_server = tornado.httpserver.HTTPServer(application, ssl_options=ssl_options)
-    http_server.listen(port=parse_arg.listen.port)
+    if ssl_options:
+        http_server.listen(port=ssl_port)
+    else:
+        http_server.listen(port=port)
 
     if tornado.version_info < (5, 0):
         print("WARNING: Using Tornado %s. Please upgrade to version 5.0 or higher." % tornado.version)
@@ -115,7 +145,7 @@ def main(parse_arg):
         webbrowser.open(url, new=2)
 
     try:
-        io_loop.start()
+        tornado.ioloop.IOLoop.current().start()
     except KeyboardInterrupt:
-        io_loop.stop()
-        io_loop.close()
+        tornado.ioloop.IOLoop.current().stop()
+        tornado.ioloop.IOLoop.current().close()
