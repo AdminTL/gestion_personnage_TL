@@ -11,6 +11,8 @@ import handlers
 # from sockjs.tornado import SockJSRouter
 import ssl
 import os
+import stat
+import sys
 from py_class.db import DB
 from py_class.manual import Manual
 from py_class.lore import Lore
@@ -28,6 +30,14 @@ def main(parse_arg):
         # ssl cert suppose to be in hostname directory
         cert_file = os.path.join(DEFAULT_SSL_DIRECTORY, parse_arg.listen.address, "fullchain.pem")
         key_file = os.path.join(DEFAULT_SSL_DIRECTORY, parse_arg.listen.address, "privkey.pem")
+
+        # stop server if permission is wrong, different of 600
+        for path_cert in [cert_file, key_file]:
+            permission = oct(os.stat(path_cert)[stat.ST_MODE])[-3:]
+            if permission != "600":
+                print("Error, expect permission 600 and got %s to file %s" % (permission, path_cert))
+                sys.exit(-1)
+
         ssl_options = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
         if os.path.isfile(cert_file) and os.path.isfile(key_file):
             ssl_options.load_cert_chain(certfile=cert_file, keyfile=key_file)
