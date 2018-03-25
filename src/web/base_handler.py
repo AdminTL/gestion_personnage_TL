@@ -82,6 +82,10 @@ class BaseHandler(tornado.web.RequestHandler):
             }
             serialize_data = json.dumps(data)
             self.set_secure_cookie("user", serialize_data)
-            self.redirect("/")
+            self.redirect("/profile")
         else:
             print("User doesn't have an id.", file=sys.stderr)
+            # Bad Request
+            self.set_status(400)
+            self.send_error(400)
+            raise tornado.web.Finish()

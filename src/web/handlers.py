@@ -75,7 +75,7 @@ class LoginHandler(base_handler.BaseHandler):
     @tornado.web.asynchronous
     def get(self):
         if self.get_current_user():
-            self.redirect("/")
+            self.redirect("/profile")
             return
 
         self.render('login.html', **self._global_arg)
@@ -83,7 +83,8 @@ class LoginHandler(base_handler.BaseHandler):
     @tornado.web.asynchronous
     def post(self):
         if self._global_arg["disable_login"]:
-            self.redirect("/login?invalid=disable_login")
+            self.redirect("/")
+            return
 
         if self.get_current_user():
             print("Need to logout before login or sign up from %s" % self.request.remote_ip, file=sys.stderr)
@@ -119,6 +120,7 @@ class LoginHandler(base_handler.BaseHandler):
             # If user is found, give him a secure cookie based on his user id
             if user:
                 self.give_cookie(user.get("user_id"))
+                return
             else:
                 print("Invalid email/password combination from %s" % self.request.remote_ip, file=sys.stderr)
                 self.redirect("/login?invalid=login")
@@ -168,7 +170,7 @@ class GoogleOAuth2LoginHandler(base_handler.BaseHandler, tornado.auth.GoogleOAut
                 # If user is found, give him a secure cookie based on his user_id and Google access_token
                 if user:
                     self.give_cookie(user.get("user_id"), google_access_token=access_token)
-
+                    return
                 # Sign up
                 else:
                     name = google_user["name"]
@@ -186,6 +188,7 @@ class GoogleOAuth2LoginHandler(base_handler.BaseHandler, tornado.auth.GoogleOAut
 
                     if user:
                         self.give_cookie(user.get("user_id"), google_access_token=access_token)
+                        return
                     else:
                         self.redirect("/login?invalid=google")
                         return
@@ -230,7 +233,7 @@ class FacebookGraphLoginHandler(base_handler.BaseHandler, tornado.auth.FacebookG
                 # If user is found, give him a secure cookie based on his user_id and Facebook access_token
                 if user:
                     self.give_cookie(user.get("user_id"), facebook_access_token=access_token)
-
+                    return
                 # Sign up
                 else:
                     name = facebook_user["name"]
@@ -247,6 +250,7 @@ class FacebookGraphLoginHandler(base_handler.BaseHandler, tornado.auth.FacebookG
 
                     if user:
                         self.give_cookie(user.get("user_id"), facebook_access_token=access_token)
+                        return
                     else:
                         self.redirect("/login?invalid=facebook")
                         return
@@ -287,7 +291,7 @@ class TwitterLoginHandler(base_handler.BaseHandler, tornado.auth.TwitterMixin):
                 # If user is found, give him a secure cookie based on his user_id and Twitter access_token
                 if user:
                     self.give_cookie(user.get("user_id"), twitter_access_token=access_token)
-
+                    return
                 # Sign up
                 else:
                     # nickname = twitter_user["screen_name"]
@@ -306,6 +310,7 @@ class TwitterLoginHandler(base_handler.BaseHandler, tornado.auth.TwitterMixin):
 
                     if user:
                         self.give_cookie(user.get("user_id"), twitter_access_token=access_token)
+                        return
                     else:
                         self.redirect("/login?invalid=twitter")
                         return
