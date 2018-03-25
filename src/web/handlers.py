@@ -115,7 +115,7 @@ class LoginHandler(base_handler.BaseHandler):
                 user = self._db.get_user(email=username_or_email, password=password)
             # ... or by name.
             if not user:
-                user = self._db.get_user(name=username_or_email, password=password)
+                user = self._db.get_user(username=username_or_email, password=password)
 
             # If user is found, give him a secure cookie based on his user id
             if user:
@@ -128,15 +128,17 @@ class LoginHandler(base_handler.BaseHandler):
 
         # Sign Up
         elif self.get_argument("username", default=""):
-            name = self.get_argument("username", default="")
-            if not name:
+            username = self.get_argument("username", default="")
+            if not username:
                 print("Username is empty from %s" % self.request.remote_ip, file=sys.stderr)
                 self.redirect("/login?invalid=username")
                 return
 
             email = self.get_argument("email", default=None)
+            name = self.get_argument("name", default=None)
+            postal_code = self.get_argument("postal_code", default=None)
 
-            if self._db.create_user(name, email=email, password=password):
+            if self._db.create_user(username, name=name, email=email, password=password, postal_code=postal_code):
                 self.redirect("/login")
                 return
             else:
@@ -169,8 +171,13 @@ class GoogleOAuth2LoginHandler(base_handler.BaseHandler, tornado.auth.GoogleOAut
                     return
                 # Sign up
                 else:
-                    name = google_user["name"]
+                    username = google_user.get("name")
                     email = google_user.get("email")
+                    verified_email = google_user.get("verified_email")
+                    name = google_user.get("name")
+                    given_name = google_user.get("given_name")
+                    family_name = google_user.get("family_name")
+                    locale = google_user.get("locale")
 
                     # check if email exist or name. If yes, associate it with this account
                     if self._db.user_exist(email=email):
@@ -180,7 +187,9 @@ class GoogleOAuth2LoginHandler(base_handler.BaseHandler, tornado.auth.GoogleOAut
                             user["google_id"] = google_id
                             self._db.update_user(user)
                     else:
-                        user = self._db.create_user(name, email, google_id=google_id)
+                        user = self._db.create_user(username, email=email, google_id=google_id,
+                                                    verified_email=verified_email, name=name, given_name=given_name,
+                                                    family_name=family_name, locale=locale)
 
                     if user:
                         self.give_cookie(user.get("user_id"), google_access_token=access_token)
@@ -232,8 +241,13 @@ class FacebookGraphLoginHandler(base_handler.BaseHandler, tornado.auth.FacebookG
                     return
                 # Sign up
                 else:
-                    name = facebook_user["name"]
+                    username = facebook_user.get("name")
                     email = facebook_user.get("email")
+                    name = facebook_user.get("name")
+                    given_name = facebook_user.get("first_name")
+                    last_name = facebook_user.get("last_name")
+                    locale = facebook_user.get("locale")
+
                     # check if email exist or name. If yes, associate it with this account
                     if self._db.user_exist(email=email):
                         # use this email to associate
@@ -242,7 +256,8 @@ class FacebookGraphLoginHandler(base_handler.BaseHandler, tornado.auth.FacebookG
                             user["facebook_id"] = facebook_id
                             self._db.update_user(user)
                     else:
-                        user = self._db.create_user(name, email, facebook_id=facebook_id)
+                        user = self._db.create_user(username, name=name, given_name=given_name, last_name=last_name,
+                                                    locale=locale, email=email, facebook_id=facebook_id)
 
                     if user:
                         self.give_cookie(user.get("user_id"), facebook_access_token=access_token)
@@ -290,9 +305,11 @@ class TwitterLoginHandler(base_handler.BaseHandler, tornado.auth.TwitterMixin):
                     return
                 # Sign up
                 else:
-                    # nickname = twitter_user["screen_name"]
-                    name = twitter_user["name"]
+                    username = twitter_user["screen_name"]
+                    name = twitter_user.get("name")
                     email = twitter_user.get("email")
+                    verified_email = twitter_user.get("verified")
+                    locale = twitter_user.get("lang")
 
                     # check if email exist or name. If yes, associate it with this account
                     if self._db.user_exist(email=email):
@@ -302,7 +319,8 @@ class TwitterLoginHandler(base_handler.BaseHandler, tornado.auth.TwitterMixin):
                             user["twitter_id"] = twitter_id
                             self._db.update_user(user)
                     else:
-                        user = self._db.create_user(name, email, twitter_id=twitter_id)
+                        user = self._db.create_user(username, email=email, name=name, verified_email=verified_email,
+                                                    locale=locale, twitter_id=twitter_id)
 
                     if user:
                         self.give_cookie(user.get("user_id"), twitter_access_token=access_token)
@@ -598,13 +616,19 @@ class ProfileCmdInfoHandler(jsonhandler.JsonHandler):
         user = self.current_user
         return_user = {
             "email": user.get("email"),
+            "username": user.get("username"),
             "name": user.get("name"),
+            "given_name": user.get("given_name"),
+            "family_name": user.get("family_name"),
+            "verified_email": user.get("verified_email"),
+            "locale": user.get("locale"),
             "password": bool(user.get("password")),
             "user_id": user.get("user_id"),
             "google_id": bool(user.get("google_id")),
             "facebook_id": bool(user.get("facebook_id")),
             "twitter_id": bool(user.get("twitter_id")),
             "permission": user.get("permission"),
+            "postal_code": user.get("postal_code"),
         }
         self.write(return_user)
         self.finish()
@@ -622,15 +646,23 @@ class ValidateAuthHandler(base_handler.BaseHandler):
 
     @tornado.web.asynchronous
     def get(self):
-        name = self.get_argument("username", default=None)
+        username = self.get_argument("username", default=None)
+
+        # Validate username
+        if username:
+            if "@" in username:
+                self.write("0")
+                self.finish()
+                return
+
         email = self.get_argument("email", default=None)
-        print("Request validate auth from %s. Name %s email %s" % (self.request.remote_ip, name, email))
+        print("Request validate auth from %s. Username %s email %s" % (self.request.remote_ip, username, email))
 
         # TODO return a json instead of a string number
-        if name:
-            self.write("0" if (self._db.user_exist(name=name) or self._db.user_exist(email=name)) else "1")
+        if username:
+            self.write("0" if (self._db.user_exist(username=username) or self._db.user_exist(email=username)) else "1")
         elif email:
-            self.write("0" if (self._db.user_exist(email=email) or self._db.user_exist(name=email)) else "1")
+            self.write("0" if (self._db.user_exist(email=email) or self._db.user_exist(username=email)) else "1")
         else:
             # Bad Request
             # TODO need to test this line with a unittest

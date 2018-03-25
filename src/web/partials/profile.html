@@ -9,20 +9,24 @@
   <a href="/character?id_player={{! model_profile.info.user_id }}" class="btn btn-lg btn-default" role="button">Accéder à sa fiche</a>
 
   <h2>Information personnel</h2>
+  <p>Surnom: {{! model_profile.info.username }}</p>
   <p>Nom: {{! model_profile.info.name }}</p>
   <p>Email: {{! model_profile.info.email }}</p>
   <p>ID: {{! model_profile.info.user_id }}</p>
-  <div ng-show="model_profile.info && model_profile.info.password">
-    Modifier son mot de passe.<br/>
-    <input type="password" ng-model="dct_profile_password.old_password" placeholder="Vieux password." required>
-    <input type="password" ng-model="dct_profile_password.new_password" placeholder="Nouveau password." required>
-    <a ng-click="save_password()" class="btn btn-lg btn-default" role="button">Sauvegarder</a>
-  </div>
-  <div ng-show="model_profile.info && !model_profile.info.password">
-    Ajouter un mot de passe.<br/>
-    <input type="password" ng-model="dct_profile_new_password.password" placeholder="Mot de passe." required>
-    <input type="password" ng-model="dct_profile_new_password.check_password" placeholder="Confirmation du mot de passe." required>
-    <a ng-click="add_new_password()" class="btn btn-lg btn-default" role="button">Ajouter le mot de passe.</a>
+  <p>Code Postale: {{! model_profile.info.postal_code }}</p>
+  <div>
+    <div ng-show="model_profile.info && model_profile.info.password">
+      <h3>Modifier son mot de passe</h3>
+      <input type="password" ng-model="dct_profile_password.old_password" placeholder="Vieux password" required>
+      <input type="password" ng-model="dct_profile_password.new_password" placeholder="Nouveau password" required>
+      <a ng-click="save_password()" class="btn btn-lg btn-default" role="button">Sauvegarder</a>
+    </div>
+    <div ng-show="model_profile.info && !model_profile.info.password">
+      <h3>Ajouter un mot de passe</h3>
+      <input type="password" ng-model="dct_profile_new_password.password" placeholder="Mot de passe" required>
+      <input type="password" ng-model="dct_profile_new_password.check_password" placeholder="Confirmation du mot de passe" required>
+      <a ng-click="add_new_password()" class="btn btn-lg btn-default" role="button">Ajouter le mot de passe</a>
+    </div>
   </div>
 </div>
 {% else %}

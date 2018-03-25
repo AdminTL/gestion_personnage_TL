@@ -34,12 +34,13 @@ class DB(object):
             return False
         return bcrypt.checkpw(user_password.encode('utf-8'), hash_password.encode('utf-8'))
 
-    def create_user(self, name, email=None, password=None, google_id=None, facebook_id=None, twitter_id=None,
-                    permission="Joueur"):
+    def create_user(self, username, email=None, password=None, google_id=None, facebook_id=None, twitter_id=None,
+                    name=None, permission="Joueur", given_name=None, family_name=None, verified_email=False,
+                    locale=None, postal_code=None):
 
         # Validate no duplicate user
-        if self._db_user.contains(self._query_user.name == name):
-            print("Cannot create user %s, already exist." % name, file=sys.stderr)
+        if self._db_user.contains(self._query_user.username == username):
+            print("Cannot create user %s, already exist." % username, file=sys.stderr)
             return
         if self._db_user.contains(self._query_user.email == email):
             print("Cannot create user %s, already exist." % email, file=sys.stderr)
@@ -52,8 +53,10 @@ class DB(object):
 
         secure_pass = self.generate_password(password) if password else None
 
-        data = {"email": email, "name": name, "password": secure_pass, "user_id": user_id, "google_id": google_id,
-                "facebook_id": facebook_id, "twitter_id": twitter_id, "permission": permission}
+        data = {"email": email, "username": username, "name": name, "given_name": given_name,
+                "family_name": family_name, "password": secure_pass, "user_id": user_id, "google_id": google_id,
+                "facebook_id": facebook_id, "twitter_id": twitter_id, "permission": permission,
+                "verified_email": verified_email, "locale": locale, "postal_code": postal_code}
 
         eid = self._db_user.insert(data)
         return self._db_user.get(eid=eid)
@@ -64,18 +67,18 @@ class DB(object):
             return self._db_user.all()
         return self._db_user.search(self._query_user.user_id == user_id)
 
-    def get_user(self, name=None, email=None, password=None, id_type="user", user_id=None,
+    def get_user(self, username=None, email=None, password=None, id_type="user", user_id=None,
                  force_email_no_password=False):
         # Lookup the user by it's name
-        if name:
-            _user = self._db_user.get(self._query_user.name == name)
+        if username:
+            _user = self._db_user.get(self._query_user.username == username)
             if _user:
                 # Validate password
                 ddb_password = _user.get("password")
                 if password and ddb_password and self.compare_password(password, ddb_password):
                     return _user
 
-        # If no name provided, lookup user by email
+        # If no username provided, lookup user by email
         if email:
             _user = self._db_user.get(self._query_user.email == email)
             if _user:
@@ -87,7 +90,7 @@ class DB(object):
                 else:
                     return _user
 
-        # If no name or email provided, lookup user by id
+        # If no username or email provided, lookup user by id
         if user_id:
             if type(user_id) is bytes:
                 user_id = user_id.decode('UTF-8')
@@ -107,14 +110,14 @@ class DB(object):
             _user = self._db_user.get(query == user_id)
             return _user
         else:
-            # print("Missing user name, email or id to get user.", file=sys.stderr)
+            # print("Missing user username, email or id to get user.", file=sys.stderr)
             return
 
-    def user_exist(self, email=None, user_id=None, name=None):
+    def user_exist(self, email=None, user_id=None, username=None):
         """Returns True if all the arguments given are found"""
         return not (email and not self._db_user.get(self._query_user.email == email)) and not (
                 user_id and not self._db_user.get(self._query_user.user_id == user_id)) and not (
-                name and not self._db_user.get(self._query_user.name == name))
+                username and not self._db_user.get(self._query_user.username == username))
 
     def update_user(self, user_data, character_data=None, delete_user_by_id=None, delete_character_by_id=None):
         if not isinstance(user_data, dict):
