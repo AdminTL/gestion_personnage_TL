@@ -101,9 +101,9 @@ class LoginHandler(base_handler.BaseHandler):
             return
 
         # Login
-        if self.get_argument("username_or_email", ""):
+        if self.get_argument("username_or_email", default=""):
 
-            username_or_email = self.get_argument("username_or_email", "")
+            username_or_email = self.get_argument("username_or_email", default="")
             if not username_or_email:
                 print("Email or Username is empty.", file=sys.stderr)
                 self.redirect("/login?invalid=username_or_email")
@@ -127,8 +127,8 @@ class LoginHandler(base_handler.BaseHandler):
                 return
 
         # Sign Up
-        elif self.get_argument("username"):
-            name = self.get_argument("username")
+        elif self.get_argument("username", default=""):
+            name = self.get_argument("username", default="")
             if not name:
                 print("Username is empty from %s" % self.request.remote_ip, file=sys.stderr)
                 self.redirect("/login?invalid=username")
@@ -136,18 +136,14 @@ class LoginHandler(base_handler.BaseHandler):
 
             email = self.get_argument("email", default=None)
 
-            password_mail = self.get_argument("pwconfirm")
-            if not password_mail:
-                print("Password is empty from %s" % self.request.remote_ip, file=sys.stderr)
-                self.redirect("/login?invalid=password")
-                return
-
-            if self._db.create_user(name, email, password, password_mail):
+            if self._db.create_user(name, email=email, password=password):
                 self.redirect("/login")
                 return
             else:
                 self.redirect("/login?invalid=signup")
                 return
+
+        self.redirect("/login")
 
 
 class GoogleOAuth2LoginHandler(base_handler.BaseHandler, tornado.auth.GoogleOAuth2Mixin):
@@ -486,6 +482,131 @@ class LoreHandler(jsonhandler.JsonHandler):
     @tornado.web.asynchronous
     def get(self):
         self.write(self._lore.get_str_all())
+        self.finish()
+
+
+class ProfileCmdUpdatePasswordHandler(jsonhandler.JsonHandler):
+    @tornado.web.asynchronous
+    def post(self):
+        if self._global_arg["disable_login"]:
+            # Not Found
+            self.set_status(404)
+            self.send_error(404)
+            raise tornado.web.Finish()
+
+        # Be sure the user is connected
+        current_user = self.get_current_user()
+        if not current_user:
+            print("Cannot send user command if not connect. %s" % self.request.remote_ip, file=sys.stderr)
+            # Forbidden
+            self.set_status(403)
+            self.send_error(403)
+            raise tornado.web.Finish()
+        self.prepare_json()
+
+        # Validate password is not empty
+        old_password = self.get_argument("old_password")
+        new_password = self.get_argument("new_password")
+        if not old_password or not new_password:
+            print("Password is empty from %s" % self.request.remote_ip, file=sys.stderr)
+            data = {"error": "Password is empty."}
+            self.write(data)
+            self.finish()
+            return
+
+        # Validate old_password is good before update with the new_password
+        success_password = self._db.compare_password(old_password, self.current_user.get("password"))
+        if not success_password:
+            print("Wrong password from ip %s." % self.request.remote_ip)
+            data = {"error": "Wrong password."}
+            self.write(data)
+            self.finish()
+            return
+
+        # Validate the password is a new one
+        success_password = self._db.compare_password(new_password, self.current_user.get("password"))
+        if success_password:
+            print("Same password from ip %s." % self.request.remote_ip)
+            data = {"status": "Same password."}
+            self.write(data)
+            self.finish()
+            return
+
+        # Update password
+        current_user["password"] = self._db.generate_password(new_password)
+        self._db.update_user(current_user)
+
+        # TODO Need to validate insertion
+        data = {"status": "Password updated."}
+        self.write(data)
+        self.finish()
+
+
+class ProfileCmdAddNewPasswordHandler(jsonhandler.JsonHandler):
+    @tornado.web.asynchronous
+    def post(self):
+        if self._global_arg["disable_login"]:
+            # Not Found
+            self.set_status(404)
+            self.send_error(404)
+            raise tornado.web.Finish()
+
+        # Be sure the user is connected
+        current_user = self.get_current_user()
+        if not current_user:
+            print("Cannot send user command if not connect. %s" % self.request.remote_ip, file=sys.stderr)
+            # Forbidden
+            self.set_status(403)
+            self.send_error(403)
+            raise tornado.web.Finish()
+
+        # Validate if can add a new password
+        if current_user["password"]:
+            # Already contain a password
+            print("User password is not empty from %s" % self.request.remote_ip, file=sys.stderr)
+            data = {"error": "User password is not empty."}
+            self.write(data)
+            self.finish()
+            return
+
+        self.prepare_json()
+
+        # Validate password is not empty
+        password = self.get_argument("password")
+        if not password:
+            print("Password is empty from %s" % self.request.remote_ip, file=sys.stderr)
+            data = {"error": "Password is empty."}
+            self.write(data)
+            self.finish()
+            return
+
+        # Update password
+        current_user["password"] = self._db.generate_password(password)
+        self._db.update_user(current_user)
+
+        # TODO Need to validate insertion
+        data = {"status": "Password added."}
+        self.write(data)
+        self.finish()
+
+
+class ProfileCmdInfoHandler(jsonhandler.JsonHandler):
+    @tornado.web.asynchronous
+    @tornado.web.authenticated
+    def get(self):
+        # TODO not sure it's secure
+        user = self.current_user
+        return_user = {
+            "email": user.get("email"),
+            "name": user.get("name"),
+            "password": bool(user.get("password")),
+            "user_id": user.get("user_id"),
+            "google_id": bool(user.get("google_id")),
+            "facebook_id": bool(user.get("facebook_id")),
+            "twitter_id": bool(user.get("twitter_id")),
+            "permission": user.get("permission"),
+        }
+        self.write(return_user)
         self.finish()
 
 

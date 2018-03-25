@@ -3,11 +3,30 @@
 {% block content %}
 
 {% if user %}
-<div>Profil de {{user.get("name")}}. (ID: {{ user.get("user_id") }})</div>
-</br>
-<a href="/character?id_player={{ user.get("user_id") }}" class="btn btn-lg btn-default" role="button">Personnage</a>
+<div ng-controller="profile_ctrl" ng-cloak>
+  <h1>Profil de {{! model_profile.info.name }}</h1>
+  <h2>Fiche de personnage</h2>
+  <a href="/character?id_player={{! model_profile.info.user_id }}" class="btn btn-lg btn-default" role="button">Accéder à sa fiche</a>
+
+  <h2>Information personnel</h2>
+  <p>Nom: {{! model_profile.info.name }}</p>
+  <p>Email: {{! model_profile.info.email }}</p>
+  <p>ID: {{! model_profile.info.user_id }}</p>
+  <div ng-show="model_profile.info && model_profile.info.password">
+    Modifier son mot de passe.<br/>
+    <input type="password" ng-model="dct_profile_password.old_password" placeholder="Vieux password." required>
+    <input type="password" ng-model="dct_profile_password.new_password" placeholder="Nouveau password." required>
+    <a ng-click="save_password()" class="btn btn-lg btn-default" role="button">Sauvegarder</a>
+  </div>
+  <div ng-show="model_profile.info && !model_profile.info.password">
+    Ajouter un mot de passe.<br/>
+    <input type="password" ng-model="dct_profile_new_password.password" placeholder="Mot de passe." required>
+    <input type="password" ng-model="dct_profile_new_password.check_password" placeholder="Confirmation du mot de passe." required>
+    <a ng-click="add_new_password()" class="btn btn-lg btn-default" role="button">Ajouter le mot de passe.</a>
+  </div>
+</div>
 {% else %}
-<div class="alert alert-warning">Veuillez sélectionner un profil.</div>
+<div class="alert alert-warning">Profil inexistant, veuillez-vous créer un <a href="/login" class="btn btn-lg btn-default" role="button">compte</a>.</div>
 {% end %}
 
 {% end %}

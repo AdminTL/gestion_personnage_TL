@@ -74,7 +74,9 @@
 
           <!-- TODO need to be binded in angularjs model -->
           <button class="btn btn-lg btn-primary btn-block" type="submit"
-                  onclick="if(username_or_email.value && loginForm.password.value){password.value=hashSha256(password.value, username_or_email.value);};">
+                  onclick="if(username_or_email.value && loginForm.password.value) {
+                    password.value=hashSha256(password.value);
+                  };">
             Se connecter
           </button>
         </form>
@@ -161,7 +163,9 @@
           <br/>
 
           <button class="btn btn-lg btn-primary btn-block" type="submit" ng-disabled="signUpForm.$invalid || signUpForm.$pending"
-                  onclick="var tempPW=password.value; password.value=hashSha256(tempPW, username.value);pwconfirm.value=hashSha256(tempPW, email.value);">Créer un compte
+                  onclick="password.value=hashSha256(password.value);
+                    // TODO empty pwconfirm
+                    pwconfirm.value=password.value;">Créer un compte
           </button>
         </form>
       </div>

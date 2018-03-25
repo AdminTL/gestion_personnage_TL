@@ -24,8 +24,20 @@ class DB(object):
 
         self._query_user = tinydb.Query()
 
-    def create_user(self, name, email=None, password_name=None, password_mail=None, google_id=None, facebook_id=None,
-                    twitter_id=None, permission="Joueur"):
+    @staticmethod
+    def generate_password(password):
+        return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
+    @staticmethod
+    def compare_password(user_password, hash_password):
+        if not user_password or not hash_password:
+            return False
+        return bcrypt.checkpw(user_password.encode('utf-8'), hash_password.encode('utf-8'))
+
+    def create_user(self, name, email=None, password=None, google_id=None, facebook_id=None, twitter_id=None,
+                    permission="Joueur"):
+
+        # Validate no duplicate user
         if self._db_user.contains(self._query_user.name == name):
             print("Cannot create user %s, already exist." % name, file=sys.stderr)
             return
@@ -38,18 +50,10 @@ class DB(object):
         while self._db_user.contains(self._query_user.user_id == user_id):
             user_id = uuid.uuid4().hex
 
-        if password_name:
-            secure_pass_name = bcrypt.hashpw(password_name.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-        else:
-            secure_pass_name = None
-        if password_mail:
-            secure_pass_mail = bcrypt.hashpw(password_mail.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-        else:
-            secure_pass_mail = None
+        secure_pass = self.generate_password(password) if password else None
 
-        data = {"email": email, "name": name, "password_name": secure_pass_name, "password_mail": secure_pass_mail,
-                "user_id": user_id, "google_id": google_id, "facebook_id": facebook_id, "twitter_id": twitter_id,
-                "permission": permission}
+        data = {"email": email, "name": name, "password": secure_pass, "user_id": user_id, "google_id": google_id,
+                "facebook_id": facebook_id, "twitter_id": twitter_id, "permission": permission}
 
         eid = self._db_user.insert(data)
         return self._db_user.get(eid=eid)
@@ -67,8 +71,8 @@ class DB(object):
             _user = self._db_user.get(self._query_user.name == name)
             if _user:
                 # Validate password
-                ddb_password = _user.get("password_name")
-                if password and ddb_password and bcrypt.checkpw(password.encode('utf-8'), ddb_password.encode('utf-8')):
+                ddb_password = _user.get("password")
+                if password and ddb_password and self.compare_password(password, ddb_password):
                     return _user
 
         # If no name provided, lookup user by email
@@ -77,9 +81,8 @@ class DB(object):
             if _user:
                 if not force_email_no_password:
                     # Validate password
-                    ddb_password = _user.get("password_mail")
-                    if password and ddb_password and bcrypt.checkpw(password.encode('utf-8'),
-                                                                    ddb_password.encode('utf-8')):
+                    ddb_password = _user.get("password")
+                    if password and ddb_password and self.compare_password(password, ddb_password):
                         return _user
                 else:
                     return _user
@@ -105,10 +108,6 @@ class DB(object):
             return _user
         else:
             # print("Missing user name, email or id to get user.", file=sys.stderr)
-            return
-
-        if not _user:
-            # print("User not found", file=sys.stderr)
             return
 
     def user_exist(self, email=None, user_id=None, name=None):

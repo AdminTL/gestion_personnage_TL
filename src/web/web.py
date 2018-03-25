@@ -119,6 +119,12 @@ def main(parse_arg):
         tornado.web.url(r"/cmd/lore/?", handlers.LoreHandler, name='cmd_lore', kwargs=settings),
         tornado.web.url(r"/cmd/stat/total_season_pass/?", handlers.StatSeasonPass, name='cmd_stat_total_season_pass',
                         kwargs=settings),
+        tornado.web.url(r"/cmd/profile/update_password/?", handlers.ProfileCmdUpdatePasswordHandler,
+                        name='cmd_profile_update_password', kwargs=settings),
+        tornado.web.url(r"/cmd/profile/add_new_password/?", handlers.ProfileCmdAddNewPasswordHandler,
+                        name='cmd_profile_add_new_password', kwargs=settings),
+        tornado.web.url(r"/cmd/profile/get_info/?", handlers.ProfileCmdInfoHandler,
+                        name='cmd_profile_get_info', kwargs=settings),
 
         # auto ssl
         tornado.web.url(r"/.well-known/acme-challenge.*", handlers.AutoSSLHandler, name="auto_ssl")

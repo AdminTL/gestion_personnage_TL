@@ -91,7 +91,7 @@
         <li><a href="/profile/">{{current_user.get("name")}}</a></li>
         <li><a href="/logout">Déconnexion</a></li>
         {% elif not disable_login %}
-        <li ng-class="{ active: isActive('/login') }"><a href="/login">Connexion ou Inscription</a></li>
+        <li ng-class="{ active: isActive('/login') }"><a href="/login">Connexion</a></li>
         {% end %}
       </ul>
 
