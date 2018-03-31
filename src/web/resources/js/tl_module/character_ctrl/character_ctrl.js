@@ -12,7 +12,6 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
 
   // todo move this variable in json
   $scope.xp_default = 6;
-  $scope.xp_bogue = 5;
 
   $scope.sheet_view = {};
   $scope.sheet_view.mode = "form_write";
@@ -112,7 +111,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
         $scope.model_char.rituel = [];
       }
       if (!isDefined(firstChar.xp_naissance)) {
-        $scope.model_char.xp_naissance = $scope.xp_bogue;
+        $scope.model_char.xp_naissance = $scope.xp_default;
       }
       if (!isDefined(firstChar.xp_autre)) {
         $scope.model_char.xp_autre = 0;
@@ -125,7 +124,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       $scope.model_char.habilites = [{}];
       $scope.model_char.technique_maitre = [];
       $scope.model_char.rituel = [];
-      $scope.model_char.xp_naissance = $scope.xp_bogue;
+      $scope.model_char.xp_naissance = $scope.xp_default;
       $scope.model_char.xp_autre = 0;
 
       $scope.cs_player = {};
@@ -383,8 +382,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     if ($scope.character === null || $scope.model_char === null) {
       return 0;
     }
-    // todo doit enlever 5 dans tous les champs de la bd
-    var total_xp = $scope.model_char.xp_naissance + $scope.model_char.xp_autre - 5 + $scope.xp_default;
+    var total_xp = $scope.model_char.xp_naissance + $scope.model_char.xp_autre;
     if (isDefined($scope.model_char.xp_gn_1_2016)) {
       total_xp += $scope.model_char.xp_gn_1_2016;
     }
@@ -497,7 +495,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   if ($scope.is_admin) {
     $scope.url_view_character = "/cmd/character_view?is_admin";
   } else {
-    $scope.url_view_character = "/cmd/character_view?player_id=" + $scope.player_id_from_get;
+    $scope.url_view_character = "/cmd/character_view";
   }
   $http({
     method: "get",
@@ -507,16 +505,17 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     timeout: 5000
   }).then(function (response/*, status, headers, config*/) {
     $scope.ddb_user = response.data;
-    // console.log(response.data);
+    console.log(response.data);
+    var data = response.data;
     // special effect, if only one character, select first one
-//      if (data.length == 1) {
-//        $scope.player = data[0];
-//        $scope.character = data[0].character[0];
-//        $scope.setCharacterData(data[0]);
-//        $scope.player = data[0];
-//        $scope.setCharacterData($scope.character);
+     if (data.length >= 1) {
+       $scope.player = data[0];
+       $scope.character = data[0].character[0];
+       $scope.setCharacterData(data[0]);
+       $scope.player = data[0];
+       $scope.setCharacterData($scope.character);
 
-//        $scope.$apply();
-//      }
+       $scope.$apply();
+     }
   });
 }]);

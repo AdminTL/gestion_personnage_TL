@@ -433,6 +433,7 @@ class CharacterHandler(base_handler.BaseHandler):
 
 class CharacterViewHandler(jsonhandler.JsonHandler):
     @tornado.web.asynchronous
+    @tornado.web.authenticated
     def get(self):
         if not self.is_permission_admin() and self._global_arg["disable_user_character"] or \
                 self._global_arg["disable_character"]:
@@ -443,12 +444,12 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
 
         # validate argument
         is_admin = self.request.query == "is_admin"
-        user_id = self.request.query[len("user_id="):]
-        if user_id == "" and not is_admin:
-            # Forbidden
-            self.set_status(403)
-            self.send_error(403)
-            raise tornado.web.Finish()
+        # user_id = self.request.query[len("user_id="):]
+        # if user_id == "" and not is_admin:
+        #     # Forbidden
+        #     self.set_status(403)
+        #     self.send_error(403)
+        #     raise tornado.web.Finish()
 
         # validate permission and send result
         if is_admin:
@@ -461,14 +462,15 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
                 self.send_error(403)
                 raise tornado.web.Finish()
         else:
-            if self.is_permission_admin() or self.is_user_id(user_id):
-                data = json.dumps(self._db.get_all_user(user_id=user_id))
-            else:
+            user_id = self.current_user.get("user_id", "")
+            if not user_id:
                 print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
                 # Forbidden
                 self.set_status(403)
                 self.send_error(403)
                 raise tornado.web.Finish()
+
+            data = json.dumps(self._db.get_all_user(user_id=user_id))
 
         self.write(data)
         self.finish()

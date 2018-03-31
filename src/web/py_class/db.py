@@ -53,10 +53,25 @@ class DB(object):
 
         secure_pass = self.generate_password(password) if password else None
 
+        # TODO let user create it and not automatic create
+        empty_character = [{
+            "habilites": [
+                {}
+            ],
+            "technique_maitre": [],
+            "rituel": [],
+            "xp_naissance": 6,
+            "xp_autre": 0,
+            "character_id": "0f173f629ef64fb190bfcef7b7f85697",
+            "date_modify": 1520689829.9900929928,
+            "date_creation": 1520689829.9900929928
+        }]
+
         data = {"email": email, "username": username, "name": name, "given_name": given_name,
                 "family_name": family_name, "password": secure_pass, "user_id": user_id, "google_id": google_id,
                 "facebook_id": facebook_id, "twitter_id": twitter_id, "permission": permission,
-                "verified_email": verified_email, "locale": locale, "postal_code": postal_code}
+                "verified_email": verified_email, "locale": locale, "postal_code": postal_code,
+                "character": empty_character}
 
         eid = self._db_user.insert(data)
         return self._db_user.get(eid=eid)
