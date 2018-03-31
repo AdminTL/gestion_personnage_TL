@@ -63,36 +63,49 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
       <ul class="nav navbar-nav">
-        <li ng-class="{ active: isActive('/admin') }"><a href="/admin">Accueil</a></li>
+        <li ng-class="{ active: isActive('/admin') }"><a href="/admin"><span class="glyphicon glyphicon-home"></span> Accueil</a></li>
         {% if not disable_character %}
-        <li ng-class="{ active: isActive('/admin/character') }"><a href="/admin/character">Personnage</a></li>
+        <li ng-class="{ active: isActive('/admin/character') }"><a href="/admin/character"><span class="glyphicon glyphicon-knight"></span> Personnage</a></li>
         {% end %}
-        <li ng-class="{ active: isActive('/') }"><a href="/">Quitter</a></li>
+        <li ng-class="{ active: isActive('/') }"><a href="/"><span class="glyphicon glyphicon-remove-circle"></span> Quitter</a></li>
       </ul>
 
-      <ul class="nav navbar-nav" ng-show="nav_ariane_menu.length > 0">
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" ng-cloak>Affichage <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li ng-repeat="style_name in style" ng-class="{ active: isStyle(style_name)}"><a ng-click="updateStyle(style_name)" href="#">{{! style_name }}</a></li>
-          </ul>
-        </li>
-      </ul>
+      <!--<ul class="nav navbar-nav" ng-show="nav_ariane_menu.length > 0">-->
+      <!--{% if not disable_custom_css %}-->
+      <!--<li class="dropdown">-->
+      <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" ng-cloak>Affichage <span class="caret"></span></a>-->
+      <!--<ul class="dropdown-menu">-->
+      <!--<li ng-repeat="style_name in style" ng-class="{ active: isStyle(style_name)}"><a ng-click="updateStyle(style_name)" href="#">{{! style_name }}</a></li>-->
+      <!--</ul>-->
+      <!--</li>-->
+      <!--{% end %}-->
+
+      <!--{% if not disable_login %}-->
+      <!--{% if current_user %}-->
+      <!--<li><a href="/profile/">{{current_user.get("username")}}</a></li>-->
+      <!--<li><a href="/logout">Déconnexion</a></li>-->
+      <!--{% else %}-->
+      <!--<li ng-class="{ active: isActive('/login') }"><a href="/login">Connexion</a></li>-->
+      <!--{% end %}-->
+      <!--{% end %}-->
+      <!--</ul>-->
 
       <ul class="nav navbar-nav navbar-right">
+        {% if not disable_custom_css %}
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" ng-cloak>Affichage <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li ng-repeat="style_name in style" ng-class="{ active: isStyle(style_name)}"><a ng-click="updateStyle(style_name)" href="#">{{! style_name }}</a></li>
           </ul>
         </li>
+        {% end %}
 
         {% if not disable_login %}
         {% if current_user %}
-        <li><a href="/profile/">{{current_user.get("name")}}</a></li>
-        <li><a href="/logout">Déconnexion</a></li>
+        <li><a href="/profile/"><span class="glyphicon glyphicon-user"></span> {{current_user.get("username")}}</a></li>
+        <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Déconnexion</a></li>
         {% else %}
-        <li ng-class="{ active: isActive('/login') }"><a href="/login">Connexion</a></li>
+        <li ng-class="{ active: isActive('/login') }"><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
         {% end %}
         {% end %}
       </ul>

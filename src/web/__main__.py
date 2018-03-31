@@ -75,6 +75,8 @@ def parse_args():
                        help='Active to disable login module.')
     group.add_argument('--disable_admin', default=False, action='store_true',
                        help='Active to disable admin module.')
+    group.add_argument('--disable_custom_css', default=False, action='store_true',
+                       help='Active to disable custom css module.')
 
     _parser = parser.parse_args()
     _parser.db_demo_path = DB_DEMO_PATH
