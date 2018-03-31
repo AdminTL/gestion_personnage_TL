@@ -2,16 +2,20 @@
 
 {% block content %}
 
-{% if invalid_login == "disable_login" %}
+{% if disable_login %}
 <div class="col-sm-offset-4">
   <!-- form login block -->
-  <h1>Pour accéder à votre fiche de personnage, veuillez communiquer avec l'organisation du grandeur nature Traître-Lame.</h1>
-  <a href="mailto:traitrelame@gmail.com"><u>Par courriel: <i class="fa fa-at"></i></u></a> traitrelame@gmail.com<br/>
-  <a href="https://www.facebook.com/groups/TraitreLame"><u>Via le groupe Facebook.</u> <i
-      class="fa fa-link"></i></a><br/>
-  L'accès au compte et création de personnage est désactivé.
+  <h1>L'accès au compte utilisateur est désactivé.</h1>
 </div>
+
+{% elif disable_user_character %}
+<div class="col-sm-offset-4">
+  <!-- form login block -->
+  <h1>L'accès à la création de personnage est désactivé.</h1>
+</div>
+
 {% else %}
+
 <div ng-controller="character_ctrl" ng-cloak>
   <div ng-show="no_character" class="col-sm-offset-4">
     <h1>Formulaire de nouvelle fiche</h1>

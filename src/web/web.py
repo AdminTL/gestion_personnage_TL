@@ -79,6 +79,7 @@ def main(parse_arg):
                 "manual": Manual(parse_arg),
                 "lore": Lore(parse_arg),
                 "disable_character": parse_arg.disable_character,
+                "disable_user_character": parse_arg.disable_user_character,
                 "disable_admin": parse_arg.disable_admin,
                 "disable_login": parse_arg.disable_login,
                 "url": url,

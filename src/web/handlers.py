@@ -351,6 +351,7 @@ class LogoutHandler(base_handler.BaseHandler):
             self.set_status(404)
             self.send_error(404)
             raise tornado.web.Finish()
+
         if self.current_user:
             self.clear_cookie("user")
             self.redirect("/")
@@ -364,7 +365,7 @@ class AdminHandler(base_handler.BaseHandler):
     @tornado.web.asynchronous
     @tornado.web.authenticated
     def get(self):
-        if self._global_arg["disable_admin"]:
+        if self._global_arg["disable_admin"] or self._global_arg["disable_login"]:
             # Not Found
             self.set_status(404)
             self.send_error(404)
@@ -402,11 +403,14 @@ class ProfileHandler(base_handler.BaseHandler):
     @tornado.web.asynchronous
     @tornado.web.authenticated
     def get(self, user_id=None):
-        if self._global_arg["disable_character"]:
-            # Not Found
-            self.set_status(404)
-            self.send_error(404)
-            raise tornado.web.Finish()
+        if self._global_arg["disable_login"]:
+            # # Not Found
+            # self.set_status(404)
+            # self.send_error(404)
+            # raise tornado.web.Finish()
+            # don't crash, just redirect to main site
+            self.redirect("/")
+            return
         if user_id:
             user = self._db.get_user(user_id=user_id)
         else:
@@ -417,11 +421,12 @@ class ProfileHandler(base_handler.BaseHandler):
 class CharacterHandler(base_handler.BaseHandler):
     @tornado.web.asynchronous
     def get(self):
-        if self._global_arg["disable_character"]:
-            # Not Found
-            self.set_status(404)
-            self.send_error(404)
-            raise tornado.web.Finish()
+        # don't block the page when disable character, user need to be inform
+        # if self._global_arg["disable_character"]:
+        #     # Not Found
+        #     self.set_status(404)
+        #     self.send_error(404)
+        #     raise tornado.web.Finish()
 
         self.render('character.html', **self._global_arg)
 
@@ -429,15 +434,16 @@ class CharacterHandler(base_handler.BaseHandler):
 class CharacterViewHandler(jsonhandler.JsonHandler):
     @tornado.web.asynchronous
     def get(self):
-        if self._global_arg["disable_character"]:
+        if not self.is_permission_admin() and self._global_arg["disable_user_character"] or \
+                self._global_arg["disable_character"]:
             # Not Found
             self.set_status(404)
             self.send_error(404)
             raise tornado.web.Finish()
 
         # validate argument
-        user_id = self.request.query[len("user_id="):]
         is_admin = self.request.query == "is_admin"
+        user_id = self.request.query[len("user_id="):]
         if user_id == "" and not is_admin:
             # Forbidden
             self.set_status(403)

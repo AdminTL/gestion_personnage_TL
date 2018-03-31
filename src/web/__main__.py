@@ -69,6 +69,8 @@ def parse_args():
     group = parser.add_argument_group("Module")
     group.add_argument('--disable_character', default=False, action='store_true',
                        help='Active to disable character module.')
+    group.add_argument('--disable_user_character', default=False, action='store_true',
+                       help='Active to disable character module for not admin user.')
     group.add_argument('--disable_login', default=False, action='store_true',
                        help='Active to disable login module.')
     group.add_argument('--disable_admin', default=False, action='store_true',
@@ -84,6 +86,9 @@ def parse_args():
     if not _parser.ssl and _parser.redirect_http_to_https:
         # cannot redirect http to https if ssl is not enable
         _parser.redirect_http_to_https = False
+
+    if _parser.disable_character:
+        _parser.disable_user_character = True
 
     return _parser
 

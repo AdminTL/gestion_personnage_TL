@@ -6,7 +6,7 @@
 <link href="{{ static_url('resources/css/login.css') }}" rel="stylesheet">
 <link href="{{ static_url('resources/css/login_dark.css') }}" rel="stylesheet">
 
-{% if invalid_login == "disable_login" %}
+{% if disable_login %}
 <div class="alert alert-warning"><strong>Attention</strong> Les connexions et inscriptions sont présentement désactivées.</div>
 {% else %}
 <div class="container" ng-controller="login_ctrl" ng-cloak>

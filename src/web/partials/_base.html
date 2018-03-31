@@ -64,12 +64,10 @@
 
       <ul class="nav navbar-nav">
         <li ng-class="{ active: isActive('/') }"><a href="/">Accueil</a></li>
-        {% if not disable_character %}
         <li ng-class="{ active: isActive('/character') }"><a href="/character">Personnage</a></li>
-        {% end %}
         <li ng-class="{ active: isActive('/manual') }"><a href="/manual">Livre de règle</a></li>
         <li ng-class="{ active: isActive('/lore') }"><a href="/lore">Univers</a></li>
-        {% if not disable_admin and current_user and current_user.get("permission") == "Admin" %}
+        {% if not disable_login and not disable_admin and current_user and current_user.get("permission") == "Admin" %}
         <li ng-class="{ active: isActive('/admin') }"><a href="admin">Admin</a></li>
         {% end %}
       </ul>
@@ -91,11 +89,13 @@
           </ul>
         </li>
 
+        {% if not disable_login %}
         {% if current_user %}
         <li><a href="/profile/">{{current_user.get("name")}}</a></li>
         <li><a href="/logout">Déconnexion</a></li>
-        {% elif not disable_login %}
+        {% else %}
         <li ng-class="{ active: isActive('/login') }"><a href="/login">Connexion</a></li>
+        {% end %}
         {% end %}
       </ul>
 

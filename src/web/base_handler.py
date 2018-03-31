@@ -29,6 +29,7 @@ class BaseHandler(tornado.web.RequestHandler):
             "use_internet_static": kwargs.get("use_internet_static"),
             "db": self._db,
             "disable_character": kwargs.get("disable_character"),
+            "disable_user_character": kwargs.get("disable_user_character"),
             "disable_admin": kwargs.get("disable_admin"),
             "disable_login": kwargs.get("disable_login"),
             "url": kwargs.get("url"),
