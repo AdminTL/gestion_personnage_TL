@@ -60,7 +60,7 @@ class BaseHandler(tornado.web.RequestHandler):
             return
 
         # trim private data
-        data = json.loads(user_cookie)
+        data = json.loads(user_cookie.decode("utf-8"))
         if type(data) is dict:
             user_id = data.get("user_id")
             return self._db.get_user(id_type="user", user_id=user_id)

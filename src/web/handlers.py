@@ -138,8 +138,17 @@ class LoginHandler(base_handler.BaseHandler):
             name = self.get_argument("name", default=None)
             postal_code = self.get_argument("postal_code", default=None)
 
-            if self._db.create_user(username, name=name, email=email, password=password, postal_code=postal_code):
-                self.redirect("/login")
+            # TODO uncomment when need to validate email
+            # if self._db.create_user(username, name=name, email=email, password=password, postal_code=postal_code):
+            #     self.redirect("/login")
+            #     return
+            # else:
+            #     self.redirect("/login?invalid=signup")
+            #     return
+            # TODO comment when need to validate email
+            user = self._db.create_user(username, name=name, email=email, password=password, postal_code=postal_code)
+            if user:
+                self.give_cookie(user.get("user_id"))
                 return
             else:
                 self.redirect("/login?invalid=signup")
