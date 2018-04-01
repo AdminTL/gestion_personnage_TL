@@ -3,17 +3,20 @@
 
 characterApp.controller("profile_ctrl", ["$scope", "$q", "$http", "$window", /*"$timeout",*/ function ($scope, $q, $http, $window) {
   $scope.model_profile = {
-    info: {}
-  };
-
-  $scope.dct_profile_password = {
-    "old_password": "",
-    "new_password": ""
-  };
-
-  $scope.dct_profile_new_password = {
-    "password": "",
-    "check_password": ""
+    info: {},
+    add_password: {
+      old_password: "",
+      new_password: ""
+    },
+    update_password: {
+      password: "",
+      check_password: ""
+    },
+    status_password: {
+      text: "",
+      enabled: true,
+      is_error: false
+    }
   };
 
   // Get profile info
@@ -31,10 +34,10 @@ characterApp.controller("profile_ctrl", ["$scope", "$q", "$http", "$window", /*"
   $scope.update_profile();
 
   $scope.save_password = function (e) {
-    if ($scope.dct_profile_password.old_password != "" && $scope.dct_profile_password.new_password) {
+    if ($scope.model_profile.add_password.old_password != "" && $scope.model_profile.add_password.new_password) {
       var data = {
-        "old_password": hashSha256($scope.dct_profile_password.old_password),
-        "new_password": hashSha256($scope.dct_profile_password.new_password)
+        "old_password": hashSha256($scope.model_profile.add_password.old_password),
+        "new_password": hashSha256($scope.model_profile.add_password.new_password)
       };
       // send command to server
       $http({
@@ -45,16 +48,30 @@ characterApp.controller("profile_ctrl", ["$scope", "$q", "$http", "$window", /*"
         timeout: 5000
       }).then(function (response/*, status, headers, config*/) {
         console.info(response.data);
-        $scope.dct_profile_password.old_password = "";
-        $scope.dct_profile_password.new_password = "";
+        $scope.model_profile.add_password.old_password = "";
+        $scope.model_profile.add_password.new_password = "";
+
+        $scope.model_profile.status_password.enabled = true;
+        if ("error" in response.data) {
+          $scope.model_profile.status_password.is_error = true;
+          $scope.model_profile.status_password.text = response.data.error;
+        } else if ("status" in response.data) {
+          $scope.model_profile.status_password.is_error = false;
+          $scope.model_profile.status_password.text = response.data.status;
+        } else {
+          $scope.model_profile.status_password.is_error = true;
+          $scope.model_profile.status_password.text = "Unknown error";
+        }
       });
     }
   };
 
   $scope.add_new_password = function (e) {
-    if ($scope.dct_profile_new_password.password != "" && $scope.dct_profile_new_password.password == $scope.dct_profile_new_password.check_password) {
+    if ($scope.model_profile.update_password.password != "" &&
+      $scope.model_profile.update_password.password == $scope.model_profile.update_password.check_password) {
+
       var data = {
-        "password": hashSha256($scope.dct_profile_new_password.password)
+        "password": hashSha256($scope.model_profile.update_password.password)
       };
       // send command to server
       $http({
@@ -65,8 +82,21 @@ characterApp.controller("profile_ctrl", ["$scope", "$q", "$http", "$window", /*"
         timeout: 5000
       }).then(function (response/*, status, headers, config*/) {
         console.info(response.data);
-        $scope.dct_profile_new_password.password = "";
-        $scope.dct_profile_new_password.check_password = "";
+        $scope.model_profile.update_password.password = "";
+        $scope.model_profile.update_password.check_password = "";
+
+        $scope.model_profile.status_password.enabled = true;
+        if ("error" in response.data) {
+          $scope.model_profile.status_password.is_error = true;
+          $scope.model_profile.status_password.text = response.data.error;
+        } else if ("status" in response.data) {
+          $scope.model_profile.status_password.is_error = false;
+          $scope.model_profile.status_password.text = response.data.status;
+        } else {
+          $scope.model_profile.status_password.is_error = true;
+          $scope.model_profile.status_password.text = "Unknown error";
+        }
+
         // Update profile to change view
         $scope.update_profile();
       });

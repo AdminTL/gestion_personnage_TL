@@ -146,6 +146,9 @@ class LoginHandler(base_handler.BaseHandler):
             #     self.redirect("/login?invalid=signup")
             #     return
             # TODO comment when need to validate email
+            if email:
+                email = email.lower()
+
             user = self._db.create_user(username, name=name, email=email, password=password, postal_code=postal_code)
             if user:
                 self.give_cookie(user.get("user_id"))
@@ -705,6 +708,9 @@ class ValidateAuthHandler(base_handler.BaseHandler):
                 return
 
         email = self.get_argument("email", default=None)
+        if email:
+            email = email.lower()
+
         print("Request validate auth from %s. Username %s email %s" % (self.request.remote_ip, username, email))
 
         # TODO return a json instead of a string number

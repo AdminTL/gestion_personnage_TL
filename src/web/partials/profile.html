@@ -17,16 +17,17 @@
   <div>
     <div ng-show="model_profile.info && model_profile.info.password">
       <h3>Modifier son mot de passe</h3>
-      <input type="password" ng-model="dct_profile_password.old_password" placeholder="Vieux password" required>
-      <input type="password" ng-model="dct_profile_password.new_password" placeholder="Nouveau password" required>
+      <input type="password" ng-model="model_profile.add_password.old_password" placeholder="Vieux password" required>
+      <input type="password" ng-model="model_profile.add_password.new_password" placeholder="Nouveau password" required>
       <a ng-click="save_password()" class="btn btn-lg btn-default" role="button">Sauvegarder</a>
     </div>
     <div ng-show="model_profile.info && !model_profile.info.password">
       <h3>Ajouter un mot de passe</h3>
-      <input type="password" ng-model="dct_profile_new_password.password" placeholder="Mot de passe" required>
-      <input type="password" ng-model="dct_profile_new_password.check_password" placeholder="Confirmation du mot de passe" required>
+      <input type="password" ng-model="model_profile.update_password.password" placeholder="Mot de passe" required>
+      <input type="password" ng-model="model_profile.update_password.check_password" placeholder="Confirmation du mot de passe" required>
       <a ng-click="add_new_password()" class="btn btn-lg btn-default" role="button">Ajouter le mot de passe</a>
     </div>
+    <a ng-show="model_profile.status_password.enabled" ng-style="model_profile.status_password.is_error ? {'color': 'red'} : {'color': 'green'}">{{! model_profile.status_password.text }}</a>
   </div>
 </div>
 {% else %}
