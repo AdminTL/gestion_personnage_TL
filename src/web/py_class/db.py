@@ -55,16 +55,6 @@ class DB(object):
 
         # TODO let user create it and not automatic create
         empty_character = [{
-            "habilites": [
-                {}
-            ],
-            "technique_maitre": [],
-            "rituel": [],
-            "xp_naissance": 6,
-            "xp_autre": 0,
-            "character_id": "0f173f629ef64fb190bfcef7b7f85697",
-            "date_modify": 1520689829.9900929928,
-            "date_creation": 1520689829.9900929928
         }]
 
         data = {"email": email, "username": username, "name": name, "given_name": given_name,
@@ -75,6 +65,54 @@ class DB(object):
 
         eid = self._db_user.insert(data)
         return self._db_user.get(eid=eid)
+
+    def add_missing_info_user(self, obj_user, password=None, google_id=None, facebook_id=None, twitter_id=None,
+                              name=None, given_name=None, family_name=None, verified_email=False, locale=None,
+                              postal_code=None):
+        has_update = False
+
+        if password and not obj_user.get("password"):
+            obj_user["password"] = password
+            has_update = True
+
+        if google_id and not obj_user.get("google_id"):
+            obj_user["google_id"] = google_id
+            has_update = True
+
+        if facebook_id and not obj_user.get("facebook_id"):
+            obj_user["facebook_id"] = facebook_id
+            has_update = True
+
+        if twitter_id and not obj_user.get("twitter_id"):
+            obj_user["twitter_id"] = twitter_id
+            has_update = True
+
+        if name and not obj_user.get("name"):
+            obj_user["name"] = name
+            has_update = True
+
+        if given_name and not obj_user.get("given_name"):
+            obj_user["given_name"] = given_name
+            has_update = True
+
+        if family_name and not obj_user.get("family_name"):
+            obj_user["family_name"] = family_name
+            has_update = True
+
+        if verified_email and not obj_user.get("verified_email"):
+            obj_user["verified_email"] = verified_email
+            has_update = True
+
+        if locale and not obj_user.get("locale"):
+            obj_user["locale"] = locale
+            has_update = True
+
+        if postal_code and not obj_user.get("postal_code"):
+            obj_user["postal_code"] = postal_code
+            has_update = True
+
+        if has_update:
+            self.update_user(obj_user)
 
     def get_all_user(self, user_id=None):
         if not user_id:
@@ -168,7 +206,7 @@ class DB(object):
                         # TODO validate fields in data
                         if delete_character_by_id:
                             del lst_character[i]
-                        else:
+                        elif character_data:
                             lst_character[i] = character_data
                             # update last modify date
                             character_data["date_modify"] = datetime.datetime.utcnow().timestamp()

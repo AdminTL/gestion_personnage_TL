@@ -205,8 +205,9 @@ class GoogleOAuth2LoginHandler(base_handler.BaseHandler, tornado.auth.GoogleOAut
                         # use this email to associate
                         user = self._db.get_user(email=email, force_email_no_password=True)
                         if user:
-                            user["google_id"] = google_id
-                            self._db.update_user(user)
+                            self._db.add_missing_info_user(user, google_id=google_id, verified_email=verified_email,
+                                                           given_name=given_name, family_name=family_name,
+                                                           locale=locale)
                     else:
                         user = self._db.create_user(username, email=email, google_id=google_id,
                                                     verified_email=verified_email, name=name, given_name=given_name,
@@ -281,8 +282,8 @@ class FacebookGraphLoginHandler(base_handler.BaseHandler, tornado.auth.FacebookG
                         # use this email to associate
                         user = self._db.get_user(email=email, force_email_no_password=True)
                         if user:
-                            user["facebook_id"] = facebook_id
-                            self._db.update_user(user)
+                            self._db.add_missing_info_user(user, facebook_id=facebook_id, given_name=given_name,
+                                                           family_name=family_name, locale=locale)
                     else:
                         user = self._db.create_user(username, name=name, given_name=given_name, family_name=family_name,
                                                     locale=locale, email=email, facebook_id=facebook_id)
@@ -356,8 +357,8 @@ class TwitterLoginHandler(base_handler.BaseHandler, tornado.auth.TwitterMixin):
                         # use this email to associate
                         user = self._db.get_user(email=email, force_email_no_password=True)
                         if user:
-                            user["twitter_id"] = twitter_id
-                            self._db.update_user(user)
+                            self._db.add_missing_info_user(user, twitter_id=twitter_id, verified_email=verified_email,
+                                                           locale=locale)
                     else:
                         user = self._db.create_user(username, email=email, name=name, verified_email=verified_email,
                                                     locale=locale, twitter_id=twitter_id)
@@ -647,8 +648,8 @@ class ProfileCmdAddNewPasswordHandler(jsonhandler.JsonHandler):
             return
 
         # Update password
-        current_user["password"] = self._db.generate_password(password)
-        self._db.update_user(current_user)
+        updated_password = self._db.generate_password(password)
+        self._db.add_missing_info_user(current_user, password=updated_password)
 
         # TODO Need to validate insertion
         data = {"status": "Password added."}
