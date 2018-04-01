@@ -165,12 +165,23 @@ class GoogleOAuth2LoginHandler(base_handler.BaseHandler, tornado.auth.GoogleOAut
                 google_user = yield self.get_authenticated_user(
                     redirect_uri=self._global_arg["url"] + '/cmd/auth/google',
                     code=self.get_argument('code'))
-                access_token = google_user["access_token"]
+
+                # Cancel by the user or other reason
+                if not google_user:
+                    self.redirect("/login?invalid=google")
+                    return
+
+                access_token = google_user.get("access_token")
                 google_user = yield self.oauth2_request("https://www.googleapis.com/oauth2/v1/userinfo",
                                                         access_token=access_token)
 
+                # Cancel by the user or other reason
+                if not google_user:
+                    self.redirect("/login?invalid=google")
+                    return
+
                 # Save the user with e.g. set_secure_cookie
-                google_id = google_user["id"]
+                google_id = google_user.get("id")
                 user = self._db.get_user(id_type="google", user_id=google_id)
 
                 # Login
@@ -178,6 +189,7 @@ class GoogleOAuth2LoginHandler(base_handler.BaseHandler, tornado.auth.GoogleOAut
                 if user:
                     self.give_cookie(user.get("user_id"), google_access_token=access_token)
                     return
+
                 # Sign up
                 else:
                     username = google_user.get("name")
@@ -238,9 +250,15 @@ class FacebookGraphLoginHandler(base_handler.BaseHandler, tornado.auth.FacebookG
                     client_secret=self.settings["facebook_secret"],
                     code=self.get_argument("code"),
                     extra_fields=["email"])
-                access_token = facebook_user["access_token"]
 
-                facebook_id = facebook_user["id"]
+                # Cancel by the user or other reason
+                if not facebook_user:
+                    self.redirect("/login?invalid=facebook")
+                    return
+
+                access_token = facebook_user.get("access_token")
+
+                facebook_id = facebook_user.get("id")
                 user = self._db.get_user(id_type="facebook", user_id=facebook_id)
 
                 # Login
@@ -248,13 +266,14 @@ class FacebookGraphLoginHandler(base_handler.BaseHandler, tornado.auth.FacebookG
                 if user:
                     self.give_cookie(user.get("user_id"), facebook_access_token=access_token)
                     return
+
                 # Sign up
                 else:
                     username = facebook_user.get("name")
                     email = facebook_user.get("email")
                     name = facebook_user.get("name")
                     given_name = facebook_user.get("first_name")
-                    last_name = facebook_user.get("last_name")
+                    family_name = facebook_user.get("last_name")
                     locale = facebook_user.get("locale")
 
                     # check if email exist or name. If yes, associate it with this account
@@ -265,7 +284,7 @@ class FacebookGraphLoginHandler(base_handler.BaseHandler, tornado.auth.FacebookG
                             user["facebook_id"] = facebook_id
                             self._db.update_user(user)
                     else:
-                        user = self._db.create_user(username, name=name, given_name=given_name, last_name=last_name,
+                        user = self._db.create_user(username, name=name, given_name=given_name, family_name=family_name,
                                                     locale=locale, email=email, facebook_id=facebook_id)
 
                     if user:
@@ -300,11 +319,22 @@ class TwitterLoginHandler(base_handler.BaseHandler, tornado.auth.TwitterMixin):
         try:
             if self.get_argument("oauth_token", False):
                 twitter_user = yield self.get_authenticated_user()
+
+                # Cancel by the user or other reason
+                if not twitter_user:
+                    self.redirect("/login?invalid=twitter")
+                    return
+
                 access_token = twitter_user.get("access_token")
                 twitter_user = yield self.twitter_request("/account/verify_credentials",
                                                           access_token=access_token, include_email="true")
 
-                twitter_id = twitter_user["id_str"]
+                # Cancel by the user or other reason
+                if not twitter_user:
+                    self.redirect("/login?invalid=twitter")
+                    return
+
+                twitter_id = twitter_user.get("id_str")
                 user = self._db.get_user(id_type="twitter", user_id=twitter_id)
 
                 # Login
@@ -312,9 +342,10 @@ class TwitterLoginHandler(base_handler.BaseHandler, tornado.auth.TwitterMixin):
                 if user:
                     self.give_cookie(user.get("user_id"), twitter_access_token=access_token)
                     return
+
                 # Sign up
                 else:
-                    username = twitter_user["screen_name"]
+                    username = twitter_user.get("screen_name")
                     name = twitter_user.get("name")
                     email = twitter_user.get("email")
                     verified_email = twitter_user.get("verified")
