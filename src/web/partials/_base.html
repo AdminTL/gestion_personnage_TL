@@ -81,7 +81,7 @@
         <li ng-class="{ active: isActive('/admin') }"><a href="admin" style="color:red;"><span class="glyphicon glyphicon-king"></span> Admin</a></li>
         {% end %}
 
-        {% if not disable_login %}
+        {% if not disable_login and not hide_menu_login %}
         {% if current_user %}
         <li><a href="/profile/"><span class="glyphicon glyphicon-user"></span> {{current_user.get("username")}}</a></li>
         <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Déconnexion</a></li>

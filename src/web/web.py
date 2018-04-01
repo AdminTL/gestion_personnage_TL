@@ -82,6 +82,7 @@ def main(parse_arg):
                 "disable_user_character": parse_arg.disable_user_character,
                 "disable_admin": parse_arg.disable_admin,
                 "disable_login": parse_arg.disable_login,
+                "hide_menu_login": parse_arg.hide_menu_login,
                 "disable_custom_css": parse_arg.disable_custom_css,
                 "url": url,
                 "port": port,
