@@ -6,7 +6,7 @@
 <link href="{{ static_url('resources/css/login.css') }}" rel="stylesheet">
 <link href="{{ static_url('resources/css/login_dark.css') }}" rel="stylesheet">
 
-{% if invalid_login == "disable_login" %}
+{% if disable_login %}
 <div class="alert alert-warning"><strong>Attention</strong> Les connexions et inscriptions sont présentement désactivées.</div>
 {% else %}
 <div class="container" ng-controller="login_ctrl" ng-cloak>
@@ -61,7 +61,7 @@
           <!--Username or Email-->
           <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
-            <input type="text" class="form-control" name="username_or_email" placeholder="Nom ou courriel" required>
+            <input type="text" class="form-control" name="username_or_email" placeholder="Surnom ou courriel" required>
           </div>
           <br/>
 
@@ -74,7 +74,9 @@
 
           <!-- TODO need to be binded in angularjs model -->
           <button class="btn btn-lg btn-primary btn-block" type="submit"
-                  onclick="if(username_or_email.value && loginForm.password.value){password.value=hashSha256(password.value, username_or_email.value);};">
+                  onclick="if(username_or_email.value && loginForm.password.value) {
+                    password.value=hashSha256(password.value);
+                  };">
             Se connecter
           </button>
         </form>
@@ -103,6 +105,34 @@
     {% end %}
     <h3 class="omb_authTitle"><a href="#" ng-click="show_login=true;" style="text-decoration: underline">Connexion</a> ou <b>Inscription</b></h3>
 
+    <div class="row omb_row-sm-offset-3 omb_socialButtons">
+      <div class="col-xs-4 col-sm-2">
+        <a href="/cmd/auth/facebook" class="btn btn-lg btn-block omb_btn-facebook">
+          <i class="fa fa-facebook visible-sm"></i>
+          <span class="hidden-sm">Facebook</span>
+        </a>
+      </div>
+      <div class="col-xs-4 col-sm-2">
+        <a href="/cmd/auth/google" class="btn btn-lg btn-block omb_btn-google">
+          <i class="fa fa-google-plus visible-sm"></i>
+          <span class="hidden-sm">Google+</span>
+        </a>
+      </div>
+      <div class="col-xs-4 col-sm-2">
+        <a href="/cmd/auth/twitter" class="btn btn-lg btn-block omb_btn-twitter">
+          <i class="fa fa-twitter visible-sm"></i>
+          <span class="hidden-sm">Twitter</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="row omb_row-sm-offset-3 omb_loginOr">
+      <div class="col-xs-12 col-sm-6">
+        <hr class="omb_hrOr">
+        <span class="omb_spanOr">ou</span>
+      </div>
+    </div>
+
     <div class="row omb_row-sm-offset-3">
       <div class="col-xs-12 col-sm-6">
         <form name="signUpForm" class="omb_signUpForm" action="" autocomplete="off" method="POST">
@@ -111,14 +141,14 @@
           <div class="input-group"
                ng-class="{'has-success': signUpForm.username.$valid, 'has-warning': signUpForm.username.$pending, 'has-error': (signUpForm.username.$invalid && signUpForm.username.$touched) || signUpForm.username.$error.uniqueField}">
             <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
-            <input type="text" class="form-control" name="username" placeholder="Nom" ng-model="username" unique-field required>
+            <input type="text" class="form-control" name="username" placeholder="Surnom - Nom de connexion" ng-model="username" unique-field required>
             <span class="input-group-addon" ng-if="signUpForm.username.$touched">
               <i ng-show="signUpForm.username.$invalid" class="fa fa-times" aria-hidden="true"></i>
               <i ng-show="signUpForm.username.$pending" class="fa fa-spinner fa-pulse fa-fw" aria-hidden="true"></i>
               <i ng-show="signUpForm.username.$valid" class="fa fa-check" aria-hidden="true"></i>
             </span>
           </div>
-          <span class="help-block" ng-show="signUpForm.username.$error.uniqueField">Ce nom est déjà utilisé.</span>
+          <span class="help-block" ng-show="signUpForm.username.$error.uniqueField">Ce surnom est déjà utilisé.</span>
           <br/>
 
           <!--Email-->
@@ -158,10 +188,29 @@
             </span>
           </div>
           <span class="help-block" ng-show="signUpForm.pwconfirm.$error.fieldMatch && signUpForm.pwconfirm.$dirty">Le mot de passe n'est pas identique.</span>
+
+          <hr/>
+
+          <!-- Name and second name -->
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+            <input type="text" class="form-control" name="name" placeholder="Prénom et nom de famille">
+          </div>
           <br/>
 
+          <!-- Postal code -->
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+            <input type="text" class="form-control" name="postal_code" placeholder="Code postale">
+          </div>
+
+          <hr/>
+
+          <!-- Create Button -->
           <button class="btn btn-lg btn-primary btn-block" type="submit" ng-disabled="signUpForm.$invalid || signUpForm.$pending"
-                  onclick="var tempPW=password.value; password.value=hashSha256(tempPW, username.value);pwconfirm.value=hashSha256(tempPW, email.value);">Créer un compte
+                  onclick="password.value=hashSha256(password.value);
+                    // TODO empty pwconfirm
+                    pwconfirm.value=password.value;">Créer un compte
           </button>
         </form>
       </div>
@@ -178,9 +227,6 @@
             Alphanumérique et des ponctuations.
           </li>
         </ul>
-        </p>
-        <p>
-          Le courriel est utilisé comme identifiant, mais aucun courriel ne sera envoyé, sauf à la demande du joueur.
         </p>
         <!--<label class="checkbox" disabled>-->
         <!--<input type="checkbox" value="remember-me">Mémoriser-->

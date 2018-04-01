@@ -24,10 +24,23 @@ class DB(object):
 
         self._query_user = tinydb.Query()
 
-    def create_user(self, name, email=None, password_name=None, password_mail=None, google_id=None, facebook_id=None,
-                    twitter_id=None, permission="Joueur"):
-        if self._db_user.contains(self._query_user.name == name):
-            print("Cannot create user %s, already exist." % name, file=sys.stderr)
+    @staticmethod
+    def generate_password(password):
+        return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
+    @staticmethod
+    def compare_password(user_password, hash_password):
+        if not user_password or not hash_password:
+            return False
+        return bcrypt.checkpw(user_password.encode('utf-8'), hash_password.encode('utf-8'))
+
+    def create_user(self, username, email=None, password=None, google_id=None, facebook_id=None, twitter_id=None,
+                    name=None, permission="Joueur", given_name=None, family_name=None, verified_email=False,
+                    locale=None, postal_code=None):
+
+        # Validate no duplicate user
+        if self._db_user.contains(self._query_user.username == username):
+            print("Cannot create user %s, already exist." % username, file=sys.stderr)
             return
         if self._db_user.contains(self._query_user.email == email):
             print("Cannot create user %s, already exist." % email, file=sys.stderr)
@@ -38,21 +51,68 @@ class DB(object):
         while self._db_user.contains(self._query_user.user_id == user_id):
             user_id = uuid.uuid4().hex
 
-        if password_name:
-            secure_pass_name = bcrypt.hashpw(password_name.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-        else:
-            secure_pass_name = None
-        if password_mail:
-            secure_pass_mail = bcrypt.hashpw(password_mail.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-        else:
-            secure_pass_mail = None
+        secure_pass = self.generate_password(password) if password else None
 
-        data = {"email": email, "name": name, "password_name": secure_pass_name, "password_mail": secure_pass_mail,
-                "user_id": user_id, "google_id": google_id, "facebook_id": facebook_id, "twitter_id": twitter_id,
-                "permission": permission}
+        # TODO let user create it and not automatic create
+        empty_character = [{
+        }]
+
+        data = {"email": email, "username": username, "name": name, "given_name": given_name,
+                "family_name": family_name, "password": secure_pass, "user_id": user_id, "google_id": google_id,
+                "facebook_id": facebook_id, "twitter_id": twitter_id, "permission": permission,
+                "verified_email": verified_email, "locale": locale, "postal_code": postal_code,
+                "character": empty_character}
 
         eid = self._db_user.insert(data)
         return self._db_user.get(eid=eid)
+
+    def add_missing_info_user(self, obj_user, password=None, google_id=None, facebook_id=None, twitter_id=None,
+                              name=None, given_name=None, family_name=None, verified_email=False, locale=None,
+                              postal_code=None):
+        has_update = False
+
+        if password and not obj_user.get("password"):
+            obj_user["password"] = password
+            has_update = True
+
+        if google_id and not obj_user.get("google_id"):
+            obj_user["google_id"] = google_id
+            has_update = True
+
+        if facebook_id and not obj_user.get("facebook_id"):
+            obj_user["facebook_id"] = facebook_id
+            has_update = True
+
+        if twitter_id and not obj_user.get("twitter_id"):
+            obj_user["twitter_id"] = twitter_id
+            has_update = True
+
+        if name and not obj_user.get("name"):
+            obj_user["name"] = name
+            has_update = True
+
+        if given_name and not obj_user.get("given_name"):
+            obj_user["given_name"] = given_name
+            has_update = True
+
+        if family_name and not obj_user.get("family_name"):
+            obj_user["family_name"] = family_name
+            has_update = True
+
+        if verified_email and not obj_user.get("verified_email"):
+            obj_user["verified_email"] = verified_email
+            has_update = True
+
+        if locale and not obj_user.get("locale"):
+            obj_user["locale"] = locale
+            has_update = True
+
+        if postal_code and not obj_user.get("postal_code"):
+            obj_user["postal_code"] = postal_code
+            has_update = True
+
+        if has_update:
+            self.update_user(obj_user)
 
     def get_all_user(self, user_id=None):
         if not user_id:
@@ -60,31 +120,30 @@ class DB(object):
             return self._db_user.all()
         return self._db_user.search(self._query_user.user_id == user_id)
 
-    def get_user(self, name=None, email=None, password=None, id_type="user", user_id=None,
+    def get_user(self, username=None, email=None, password=None, id_type="user", user_id=None,
                  force_email_no_password=False):
         # Lookup the user by it's name
-        if name:
-            _user = self._db_user.get(self._query_user.name == name)
+        if username:
+            _user = self._db_user.get(self._query_user.username == username)
             if _user:
                 # Validate password
-                ddb_password = _user.get("password_name")
-                if password and ddb_password and bcrypt.checkpw(password.encode('utf-8'), ddb_password.encode('utf-8')):
+                ddb_password = _user.get("password")
+                if password and ddb_password and self.compare_password(password, ddb_password):
                     return _user
 
-        # If no name provided, lookup user by email
+        # If no username provided, lookup user by email
         if email:
             _user = self._db_user.get(self._query_user.email == email)
             if _user:
                 if not force_email_no_password:
                     # Validate password
-                    ddb_password = _user.get("password_mail")
-                    if password and ddb_password and bcrypt.checkpw(password.encode('utf-8'),
-                                                                    ddb_password.encode('utf-8')):
+                    ddb_password = _user.get("password")
+                    if password and ddb_password and self.compare_password(password, ddb_password):
                         return _user
                 else:
                     return _user
 
-        # If no name or email provided, lookup user by id
+        # If no username or email provided, lookup user by id
         if user_id:
             if type(user_id) is bytes:
                 user_id = user_id.decode('UTF-8')
@@ -104,18 +163,14 @@ class DB(object):
             _user = self._db_user.get(query == user_id)
             return _user
         else:
-            # print("Missing user name, email or id to get user.", file=sys.stderr)
+            # print("Missing user username, email or id to get user.", file=sys.stderr)
             return
 
-        if not _user:
-            # print("User not found", file=sys.stderr)
-            return
-
-    def user_exist(self, email=None, user_id=None, name=None):
+    def user_exist(self, email=None, user_id=None, username=None):
         """Returns True if all the arguments given are found"""
         return not (email and not self._db_user.get(self._query_user.email == email)) and not (
                 user_id and not self._db_user.get(self._query_user.user_id == user_id)) and not (
-                name and not self._db_user.get(self._query_user.name == name))
+                username and not self._db_user.get(self._query_user.username == username))
 
     def update_user(self, user_data, character_data=None, delete_user_by_id=None, delete_character_by_id=None):
         if not isinstance(user_data, dict):
@@ -151,7 +206,7 @@ class DB(object):
                         # TODO validate fields in data
                         if delete_character_by_id:
                             del lst_character[i]
-                        else:
+                        elif character_data:
                             lst_character[i] = character_data
                             # update last modify date
                             character_data["date_modify"] = datetime.datetime.utcnow().timestamp()

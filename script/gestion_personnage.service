@@ -6,7 +6,7 @@ After=network.target
 Type=simple
 #User=
 WorkingDirectory=/tmp
-ExecStart=/tmp/git/gestion_personnage_TL/script/web_server.sh -l HOST:PORT
+ExecStart=/tmp/git/gestion_personnage_TL/script/web_server.sh -l HOST:PORT --redirect_http_to_https
 Restart=always
 RestartSec=3
 

@@ -57,6 +57,9 @@ def parse_args():
     group = parser.add_argument_group("Web")
     group.add_argument('-l', '--web-listen-address', dest='listen', default=Listen(), type=parse_listen,
                        help='Web: Web server listen address')
+    group.add_argument('--redirect_http_to_https', default=False, action='store_true',
+                       help='Redirect all http request to https, only if ssl is enable. When enable, if port is 80, '
+                            'https port will be 443, else the port of https will be http port + 1.')
     group.add_argument('--ssl', default=False, action='store_true',
                        help='Active https.')
     group.add_argument('--use_internet_static', default=False, action='store_true',
@@ -66,16 +69,31 @@ def parse_args():
     group = parser.add_argument_group("Module")
     group.add_argument('--disable_character', default=False, action='store_true',
                        help='Active to disable character module.')
+    group.add_argument('--disable_user_character', default=False, action='store_true',
+                       help='Active to disable character module for not admin user.')
     group.add_argument('--disable_login', default=False, action='store_true',
                        help='Active to disable login module.')
     group.add_argument('--disable_admin', default=False, action='store_true',
                        help='Active to disable admin module.')
+    group.add_argument('--disable_custom_css', default=False, action='store_true',
+                       help='Active to disable custom css module.')
+    group.add_argument('--hide_menu_login', default=False, action='store_true',
+                       help='Active to hide login module from menu.')
 
     _parser = parser.parse_args()
     _parser.db_demo_path = DB_DEMO_PATH
     _parser.db_manual_path = DB_MANUAL_PATH
     _parser.db_lore_path = DB_LORE_PATH
     _parser.db_auth_keys_path = DB_AUTH_PATH
+
+    # apply condition
+    if not _parser.ssl and _parser.redirect_http_to_https:
+        # cannot redirect http to https if ssl is not enable
+        _parser.redirect_http_to_https = False
+
+    if _parser.disable_character:
+        _parser.disable_user_character = True
+
     return _parser
 
 
@@ -87,7 +105,7 @@ def parse_listen(string):
         listen.address = tokens[0]
     elif len(tokens) == 2:
         listen.address = tokens[0]
-        listen.port = tokens[1]
+        listen.port = int(tokens[1])
 
     return listen
 

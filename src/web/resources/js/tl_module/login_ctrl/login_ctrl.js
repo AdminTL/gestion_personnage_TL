@@ -1,6 +1,6 @@
 // Formulaire de Traitre-Lame
-characterApp.controller("login_ctrl", ['$scope', '$routeParams', function ($scope, $routeParams) {
-  $scope.show_login = true;
+characterApp.controller("login_ctrl", ["$scope", "$routeParams", "$window", function ($scope, $routeParams, $window) {
+  $scope.show_login = !($window.location.search.indexOf("?subscribe") >= 0);
   $scope.invalid_login = false;
 
   $scope.log_facebook = function (e) {
@@ -60,7 +60,6 @@ characterApp.directive('fieldMatch', function () {
       function validate(value) {
         var isValid = scope.$eval(attr.fieldMatch) == value;
         ngModel.$setValidity('fieldMatch', isValid);
-        console.log(isValid);
         return isValid ? value : undefined;
       }
     }

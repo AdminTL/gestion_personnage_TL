@@ -80,6 +80,11 @@ On production server, you need to specify your host and port. Run instance with 
 ```
 -l HOST:PORT
 ```
+When using http, use port 80.
+
+When using https, use port 443.
+
+When using http with https "--redirect_http_to_https", use port 80.
 
 SSL
 ---
@@ -92,8 +97,6 @@ To enable https, you can generate a certificate ssl.
 ```
 ./script/justletsencrypt.sh
 ```
-
-
 
 Systemctl
 ---------
@@ -116,6 +119,9 @@ Options
 --db_demo : Use demo database. This option keeps all information in memory and does not save to the real database. (default=False)
 --web-listen-address : Web: Web server listen address (default=Listen())
 --ssl : Activate https and create ssl files if they don't exist. Doesn't work in Windows. (default=False)
+--redirect_http_to_https : when you need to support external link with http, this will redirect request to https.
 --use_internet_static : Not implemented. Force using static files like css and js from another internet website. Use web browser cache. (default=False)
 --disable_login : Disable authentication
+--disable_character : Disable access to character
+--disable_user_character : Disable access to user of our character
 ```
