@@ -75,3 +75,7 @@ function hashSha256(secret, salt) {
   shaObj.update(secret);
   return shaObj.getHash('HEX');
 }
+
+function isObjEmpty(obj) {
+  return Object.keys(obj).length === 0;
+}

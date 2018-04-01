@@ -18,27 +18,36 @@ Or download it from here : https://github.com/AdminTL/gestion_personnage_TL/arch
 
 Dependencies
 ------------
-You need python3, python3-tornado and python3-sockjs-tornado
+You need python3.5
 
 Arch Linux
 ------
 ```{r, engine='bash', count_lines}
 sudo pacman -S python python-pip
-sudo pip install tornado sockjs-tornado tinydb bcrypt
+sudo pip install tornado sockjs-tornado tinydb bcrypt PyOpenSSL oauth2client gspread
 ```
 
 Mac OSX
 -------
 ```{r, engine='bash', count_lines}
 brew install python3
-sudo pip3 install tornado sockjs-tornado tinydb bcrypt
+sudo pip3 install tornado sockjs-tornado tinydb bcrypt PyOpenSSL oauth2client gspread
 ```
 
 Ubuntu / Debian
 ---------------
 ```{r, engine='bash', count_lines}
 sudo apt-get install python3 python3-pip
-sudo pip3 install tornado sockjs-tornado tinydb bcrypt
+sudo pip3 install tornado sockjs-tornado tinydb bcrypt PyOpenSSL oauth2client gspread
+```
+
+If you have problem with oauth2client, maybe you need to update pyasn.
+```{r, engine='bash', count_lines}
+sudo apt-get --reinstall install python-pyasn1 python-pyasn1-modules
+```
+or
+```{r, engine='bash', count_lines}
+sudo pip4 install --upgrade google-auth-oauthlib
 ```
 
 Windows
@@ -47,7 +56,7 @@ Install python 3 from https://www.python.org/downloads/ using the installer
 Install nodejs if not done already https://nodejs.org/en/download/
 Start a cmd prompt with admin privileges by right-clicking->run as administrator (git-bash works well)
 ```
-pip3 install tornado sockjs-tornado tinydb
+pip3 install tornado sockjs-tornado tinydb PyOpenSSL oauth2client gspread
 ```
 
 Bower

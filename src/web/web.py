@@ -16,6 +16,7 @@ import sys
 from py_class.db import DB
 from py_class.manual import Manual
 from py_class.lore import Lore
+from py_class.doc_generator.doc_generator_gspread import DocGeneratorGSpread
 from py_class.auth_keys import AuthKeys
 
 WEB_ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -78,10 +79,12 @@ def main(parse_arg):
                 "db": DB(parse_arg),
                 "manual": Manual(parse_arg),
                 "lore": Lore(parse_arg),
+                "doc_generator_gspread": DocGeneratorGSpread(parse_arg),
                 "disable_character": parse_arg.disable_character,
                 "disable_user_character": parse_arg.disable_user_character,
                 "disable_admin": parse_arg.disable_admin,
                 "disable_login": parse_arg.disable_login,
+                "config": parse_arg.config,
                 "hide_menu_login": parse_arg.hide_menu_login,
                 "disable_custom_css": parse_arg.disable_custom_css,
                 "url": url,
@@ -104,24 +107,29 @@ def main(parse_arg):
         # To create parameters: /(?P<param1>[^\/]+)/?(?P<param2>[^\/]+)/?
         # Add ? after ) to make a parameter optional
 
-        # pages
+        # Web page
         tornado.web.url(r"/?", handlers.IndexHandler, name='index', kwargs=settings),
         tornado.web.url(r"/login/?", handlers.LoginHandler, name='login', kwargs=settings),
         tornado.web.url(r"/logout/?", handlers.LogoutHandler, name='logout', kwargs=settings),
         tornado.web.url(r"/admin/?", handlers.AdminHandler, name='admin', kwargs=settings),
-        tornado.web.url(r"/admin/character?", handlers.AdminCharacterHandler, name='admin character', kwargs=settings),
         tornado.web.url(r"/profile/?(?P<user_id>[^\/]+)?/?", handlers.ProfileHandler, name='profile', kwargs=settings),
         tornado.web.url(r"/character/?", handlers.CharacterHandler, name='character', kwargs=settings),
         tornado.web.url(r"/manual/?", handlers.ManualPageHandler, name='manual', kwargs=settings),
         tornado.web.url(r"/lore/?", handlers.LorePageHandler, name='lore', kwargs=settings),
 
-        # command
+        # Admin web page
+        tornado.web.url(r"/admin/character?", handlers.AdminCharacterHandler, name='admin character', kwargs=settings),
+        tornado.web.url(r"/admin/editor?", handlers.AdminEditorHandler, name='admin editor', kwargs=settings),
+
+        # Command
         tornado.web.url(r"/cmd/character_view/?", handlers.CharacterViewHandler, name='character_view',
                         kwargs=settings),
         tornado.web.url(r"/cmd/manual/?", handlers.ManualHandler, name='cmd_manual', kwargs=settings),
         tornado.web.url(r"/cmd/lore/?", handlers.LoreHandler, name='cmd_lore', kwargs=settings),
         tornado.web.url(r"/cmd/stat/total_season_pass/?", handlers.StatSeasonPass, name='cmd_stat_total_season_pass',
                         kwargs=settings),
+
+        # Profile
         tornado.web.url(r"/cmd/profile/update_password/?", handlers.ProfileCmdUpdatePasswordHandler,
                         name='cmd_profile_update_password', kwargs=settings),
         tornado.web.url(r"/cmd/profile/add_new_password/?", handlers.ProfileCmdAddNewPasswordHandler,
@@ -129,7 +137,17 @@ def main(parse_arg):
         tornado.web.url(r"/cmd/profile/get_info/?", handlers.ProfileCmdInfoHandler,
                         name='cmd_profile_get_info', kwargs=settings),
 
-        # auto ssl
+        # Editor
+        tornado.web.url(r"/cmd/editor/get_info/?", handlers.EditorCmdInfoHandler,
+                        name='cmd_editor_get_info', kwargs=settings),
+        tornado.web.url(r"/cmd/editor/add_generator_share/?", handlers.EditorCmdAddGeneratorShareHandler,
+                        name='cmd_editor_add_generator_share', kwargs=settings),
+        tornado.web.url(r"/cmd/editor/generate_and_save/?", handlers.EditorCmdGenerateAndSaveHandler,
+                        name='cmd_editor_generate_and_save', kwargs=settings),
+        tornado.web.url(r"/cmd/editor/update_file_url/?", handlers.EditorCmdUpdateFileUrlHandler,
+                        name='cmd_editor_update_file_url', kwargs=settings),
+
+        # Auto ssl
         tornado.web.url(r"/.well-known/acme-challenge.*", handlers.AutoSSLHandler, name="auto_ssl")
     ]
 

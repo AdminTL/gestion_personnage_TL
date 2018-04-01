@@ -6,6 +6,7 @@
 import argparse
 import os
 import web
+from py_class.config import Config
 
 WEB_ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
 WEB_DEFAULT_STATIC_DIR = os.path.join(WEB_ROOT_DIR)
@@ -15,6 +16,8 @@ DB_DEMO_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "demo_user.jso
 DB_MANUAL_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "tl_manual.json")
 DB_LORE_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "tl_lore.json")
 DB_AUTH_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "auth.json")
+GOOGLE_API_SECRET_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "client_secret.json")
+CONFIG_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "config.json")
 
 
 def main():
@@ -85,14 +88,19 @@ def parse_args():
     _parser.db_manual_path = DB_MANUAL_PATH
     _parser.db_lore_path = DB_LORE_PATH
     _parser.db_auth_keys_path = DB_AUTH_PATH
+    _parser.db_google_API_path = GOOGLE_API_SECRET_PATH
+    _parser.db_config_path = CONFIG_PATH
 
-    # apply condition
+    # Apply condition
     if not _parser.ssl and _parser.redirect_http_to_https:
-        # cannot redirect http to https if ssl is not enable
+        # Cannot redirect http to https if ssl is not enable
         _parser.redirect_http_to_https = False
 
     if _parser.disable_character:
         _parser.disable_user_character = True
+
+    # Add general configuration in parser
+    _parser.config = Config(_parser)
 
     return _parser
 
