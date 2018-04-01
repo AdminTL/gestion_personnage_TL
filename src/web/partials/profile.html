@@ -15,18 +15,26 @@
   <p>ID: {{! model_profile.info.user_id }}</p>
   <p>Code Postale: {{! model_profile.info.postal_code }}</p>
   <div>
-    <div ng-show="model_profile.info && model_profile.info.password">
-      <h3>Modifier son mot de passe</h3>
-      <input type="password" ng-model="model_profile.add_password.old_password" placeholder="Vieux password" required>
-      <input type="password" ng-model="model_profile.add_password.new_password" placeholder="Nouveau password" required>
-      <a ng-click="save_password()" class="btn btn-lg btn-default" role="button">Sauvegarder</a>
-    </div>
+    <!-- Add new password -->
     <div ng-show="model_profile.info && !model_profile.info.password">
       <h3>Ajouter un mot de passe</h3>
-      <input type="password" ng-model="model_profile.update_password.password" placeholder="Mot de passe" required>
-      <input type="password" ng-model="model_profile.update_password.check_password" placeholder="Confirmation du mot de passe" required>
-      <a ng-click="add_new_password()" class="btn btn-lg btn-default" role="button">Ajouter le mot de passe</a>
+      <input type="password" ng-model="model_profile.add_password.password" placeholder="Mot de passe" required>
+      <input type="password" ng-model="model_profile.add_password.check_password" placeholder="Confirmation du mot de passe" required>
+      <a ng-click="add_new_password()" class="btn btn-lg btn-default" role="button" ng-class="model_profile.add_password.loading ? 'disabled' : ''"><span class="fa fa-spinner fa-spin"
+                                                                                                                                                          ng-show="model_profile.add_password.loading"></span>
+        Ajouter le mot de passe</a>
     </div>
+
+    <!-- Update password -->
+    <div ng-show="model_profile.info && model_profile.info.password">
+      <h3>Modifier son mot de passe</h3>
+      <input type="password" ng-model="model_profile.update_password.old_password" placeholder="Vieux password" required>
+      <input type="password" ng-model="model_profile.update_password.new_password" placeholder="Nouveau password" required>
+      <a ng-click="update_password()" class="btn btn-lg btn-default" ng-class="model_profile.update_password.loading ? 'disabled' : ''" role="button"><span class="fa fa-spinner fa-spin" ng-show="model_profile.update_password.loading"></span>
+        Sauvegarder</a>
+    </div>
+
+    <!-- Status of password -->
     <a ng-show="model_profile.status_password.enabled" ng-style="model_profile.status_password.is_error ? {'color': 'red'} : {'color': 'green'}">{{! model_profile.status_password.text }}</a>
   </div>
 </div>
