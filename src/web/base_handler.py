@@ -15,6 +15,7 @@ class BaseHandler(tornado.web.RequestHandler):
     _redirect_http_to_https = None
     _config = None
     _doc_generator_gspread = None
+    _project_archive = None
     _global_arg = {}
 
     def initialize(self, **kwargs):
@@ -27,6 +28,7 @@ class BaseHandler(tornado.web.RequestHandler):
         self._redirect_http_to_https = kwargs.get("redirect_http_to_https")
         self._config = kwargs.get("config")
         self._doc_generator_gspread = kwargs.get("doc_generator_gspread")
+        self._project_archive = kwargs.get("project_archive")
 
         self._global_arg = {
             "debug": self._debug,

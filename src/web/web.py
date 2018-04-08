@@ -18,6 +18,7 @@ from py_class.manual import Manual
 from py_class.lore import Lore
 from py_class.doc_generator.doc_generator_gspread import DocGeneratorGSpread
 from py_class.auth_keys import AuthKeys
+from py_class.project_archive import ProjectArchive
 
 WEB_ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
 DEFAULT_SSL_DIRECTORY = os.path.join(WEB_ROOT_DIR, "..", "..", "ssl_cert", "certs")
@@ -80,6 +81,7 @@ def main(parse_arg):
                 "manual": Manual(parse_arg),
                 "lore": Lore(parse_arg),
                 "doc_generator_gspread": DocGeneratorGSpread(parse_arg),
+                "project_archive": ProjectArchive(parse_arg),
                 "disable_character": parse_arg.disable_character,
                 "disable_user_character": parse_arg.disable_user_character,
                 "disable_admin": parse_arg.disable_admin,
@@ -120,6 +122,7 @@ def main(parse_arg):
         # Admin web page
         tornado.web.url(r"/admin/character?", handlers.AdminCharacterHandler, name='admin character', kwargs=settings),
         tornado.web.url(r"/admin/editor?", handlers.AdminEditorHandler, name='admin editor', kwargs=settings),
+        tornado.web.url(r"/admin/setting?", handlers.AdminSettingHandler, name='admin setting', kwargs=settings),
 
         # Command
         tornado.web.url(r"/cmd/character_view/?", handlers.CharacterViewHandler, name='character_view',
@@ -146,6 +149,10 @@ def main(parse_arg):
                         name='cmd_editor_generate_and_save', kwargs=settings),
         tornado.web.url(r"/cmd/editor/update_file_url/?", handlers.EditorCmdUpdateFileUrlHandler,
                         name='cmd_editor_update_file_url', kwargs=settings),
+
+        # Archive
+        tornado.web.url(r"/cmd/archive/generate_project", handlers.SettingArchiveGenerateProjectHandler,
+                        name='generate_project_archive', kwargs=settings),
 
         # Auto ssl
         tornado.web.url(r"/.well-known/acme-challenge.*", handlers.AutoSSLHandler, name="auto_ssl")
