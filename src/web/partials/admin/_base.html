@@ -68,6 +68,7 @@
         <li ng-class="{ active: isActive('/admin/character') }"><a href="/admin/character"><span class="glyphicon glyphicon-knight"></span> Personnage</a></li>
         {% end %}
         <li ng-class="{ active: isActive('/admin/editor') }"><a href="/admin/editor"><span class="glyphicon glyphicon-edit"></span> Éditeur</a></li>
+        <li ng-class="{ active: isActive('/admin/setting') }"><a href="/admin/setting"><span class="glyphicon glyphicon-cog"></span> Paramètre</a></li>
 
         {% if not disable_custom_css %}
         <li class="dropdown">
@@ -181,6 +182,7 @@
 <script src="{{ static_url('resources/js/tl_module/lore_ctrl/lore_ctrl.js') }}"></script>
 <script src="{{ static_url('resources/js/tl_module/profile_ctrl/profile_ctrl.js') }}"></script>
 <script src="{{ static_url('resources/js/tl_module/editor_ctrl/editor_ctrl.js') }}"></script>
+<script src="{{ static_url('resources/js/tl_module/setting_ctrl/setting_ctrl.js') }}"></script>
 
 <script src="{{ static_url('bower_components/qrcode-generator/js/qrcode.js') }}"></script>
 <script src="{{ static_url('bower_components/qrcode-generator/js/qrcode_UTF8.js') }}"></script>
