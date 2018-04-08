@@ -13,6 +13,8 @@ class BaseHandler(tornado.web.RequestHandler):
     _db = None
     _invalid_login = None
     _redirect_http_to_https = None
+    _config = None
+    _doc_generator_gspread = None
     _global_arg = {}
 
     def initialize(self, **kwargs):
@@ -23,6 +25,8 @@ class BaseHandler(tornado.web.RequestHandler):
         self._invalid_login = self.get_argument("invalid",
                                                 default="disable_login" if kwargs.get("disable_login") else None)
         self._redirect_http_to_https = kwargs.get("redirect_http_to_https")
+        self._config = kwargs.get("config")
+        self._doc_generator_gspread = kwargs.get("doc_generator_gspread")
 
         self._global_arg = {
             "debug": self._debug,

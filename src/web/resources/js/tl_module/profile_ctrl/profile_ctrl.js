@@ -93,7 +93,7 @@ characterApp.controller("profile_ctrl", ["$scope", "$q", "$http", "$window", /*"
           // Timeout
           $scope.model_profile.update_password.loading = false;
           $scope.model_profile.status_password.is_error = true;
-          $scope.model_profile.status_password.text = "Timeout resquest.";
+          $scope.model_profile.status_password.text = "Timeout request.";
         } else {
           // Error from server
           $scope.model_profile.update_password.loading = false;
@@ -160,7 +160,7 @@ characterApp.controller("profile_ctrl", ["$scope", "$q", "$http", "$window", /*"
           // Timeout
           $scope.model_profile.update_password.loading = false;
           $scope.model_profile.status_password.is_error = true;
-          $scope.model_profile.status_password.text = "Timeout resquest.";
+          $scope.model_profile.status_password.text = "Timeout request.";
         } else {
           // Error from server
           $scope.model_profile.update_password.loading = false;
