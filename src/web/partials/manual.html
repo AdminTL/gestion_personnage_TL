@@ -91,43 +91,40 @@
           </div>
 
           <!-- LEVEL 4 -->
-          <div class="panel" ng-show="in_filter_edition || manual_sect_4.visible" ng-class="[class_color_level(manual_sect_2), {'print-hide': !manual_sect_1.visible}]"
-               ng-repeat="manual_sect_4 in manual_sect_3.section">
+          <div ng-repeat="manual_sect_4 in manual_sect_3.section">
             <span class="anchor" id="{{! formatAnchor(manual_sect_4, [manual_sect_1, manual_sect_2, manual_sect_3]) }}"></span>
 
-            <div class="panel-heading">
-              <input ng-show="in_filter_edition" type="checkbox" ng-model="manual_sect_4.visible">
-              <h4 style="display:inline" class="panel-title" ng-bind-html="getTitleHtml(manual_sect_4)"></h4>
-              <a target="_self" style="color: #C7C7C7" ng-href="#{{! formatAnchor(manual_sect_4, [manual_sect_1, manual_sect_2, manual_sect_3]) }}"><span
-                  class="glyphicon glyphicon-link print-hide"></span></a>
+            <div ng-show="in_filter_edition || manual_sect_4.visible" ng-class="{'print-hide': !manual_sect_1.visible}">
+              <div>
+                <input ng-show="in_filter_edition" type="checkbox" ng-model="manual_sect_4.visible">
+                <h4 style="display:inline" ng-bind-html="getTitleHtml(manual_sect_4)"></h4>
+                <a target="_self" style="color: #C7C7C7" ng-href="#{{! formatAnchor(manual_sect_4, [manual_sect_1, manual_sect_2, manual_sect_3]) }}"><span
+                    class="glyphicon glyphicon-link print-hide"></span></a>
+              </div>
+
+              <p ng-bind-html="formatHtmlDescription(manual_sect_4.description)"></p>
             </div>
 
-            <div class="panel-body">
-              <p ng-bind-html="formatHtmlDescription(manual_sect_4.description)"></p>
+            <!-- LEVEL 5 -->
+            <div ng-repeat="manual_sect_5 in manual_sect_4.section">
+              <span class="anchor" id="{{! formatAnchor(manual_sect_5, [manual_sect_1, manual_sect_2, manual_sect_3, manual_sect_4]) }}"></span>
 
-              <!-- LEVEL 5 -->
-              <div class="panel panel-primary" ng-show="in_filter_edition || manual_sect_5.visible" ng-class="{'print-hide': !manual_sect_1.visible}"
-                   ng-repeat="manual_sect_5 in manual_sect_4.section">
-                <span class="anchor" id="{{! formatAnchor(manual_sect_5, [manual_sect_1, manual_sect_2, manual_sect_3, manual_sect_4]) }}"></span>
-
-                <div class="panel-heading">
+              <div ng-show="in_filter_edition || manual_sect_5.visible" ng-class="{'print-hide': !manual_sect_1.visible}">
+                <div>
                   <input ng-show="in_filter_edition" type="checkbox" ng-model="manual_sect_5.visible">
-                  <h5 style="display:inline" class="panel-title" ng-bind-html="getTitleHtml(manual_sect_5)"></h5>
+                  <h5 style="display:inline" ng-bind-html="getTitleHtml(manual_sect_5)"></h5>
                   <a target="_self" style="color: #C7C7C7" ng-href="#{{! formatAnchor(manual_sect_5, [manual_sect_1, manual_sect_2, manual_sect_3, manual_sect_4]) }}"><span
                       class="glyphicon glyphicon-link print-hide"></span></a>
                 </div>
 
-                <div class="panel-body">
-                  <p ng-bind-html="formatHtmlDescription(manual_sect_5.description)"></p>
-
-                </div>
+                <p ng-bind-html="formatHtmlDescription(manual_sect_5.description)"></p>
               </div>
+
             </div>
           </div>
         </div>
       </div>
     </div>
   </div> <!-- end main content -->
-
 </div>
 {% end %}
