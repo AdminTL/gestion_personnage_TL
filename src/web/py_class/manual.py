@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import json
+import os
 
 
 class Manual(object):
@@ -10,8 +11,11 @@ class Manual(object):
     def __init__(self, parser):
         self._str_manual = ""
         self._manual_path = parser.db_manual_path
-        with open(self._manual_path, encoding='utf-8') as manual_file:
-            self._str_manual = json.load(manual_file)
+        if os.path.isfile(self._manual_path):
+            with open(self._manual_path, encoding='utf-8') as manual_file:
+                self._str_manual = json.load(manual_file)
+        else:
+            self._str_manual = {"manual": []}
 
     def update(self, dct_manual, save=False):
         # Transform the object in json string

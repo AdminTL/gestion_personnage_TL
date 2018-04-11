@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import json
+import os
 
 
 class Lore(object):
@@ -10,8 +11,11 @@ class Lore(object):
     def __init__(self, parser):
         self._str_lore = ""
         self._lore_path = parser.db_lore_path
-        with open(self._lore_path, encoding='utf-8') as lore_file:
-            self._str_lore = json.load(lore_file)
+        if os.path.isfile(self._lore_path):
+            with open(self._lore_path, encoding='utf-8') as lore_file:
+                self._str_lore = json.load(lore_file)
+        else:
+            self._str_manual = {"lore": []}
 
     def update(self, dct_lore, save=False):
         # Transform the object in json string
