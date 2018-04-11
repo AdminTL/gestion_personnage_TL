@@ -6,7 +6,7 @@ characterApp.controller("editor_ctrl", ["$scope", "$q", "$http", "$window", /*"$
     $scope.model_editor = {
       is_ctrl_ready: false,
 
-      modulestate: {
+      module_state: {
         has_error: false,
         error: ""
       },
@@ -63,11 +63,12 @@ characterApp.controller("editor_ctrl", ["$scope", "$q", "$http", "$window", /*"$
       timeout: 5000
     }).then(function (response/*, status, headers, config*/) {
       $scope.model_editor.info = response.data;
+      console.info(response.data);
       $scope.model_editor.is_ctrl_ready = true;
 
       if ("error" in $scope.model_editor.info) {
-        $scope.model_editor.modulestate.has_error = true;
-        $scope.model_editor.modulestate.error = $scope.model_editor.info.error;
+        $scope.model_editor.module_state.has_error = true;
+        $scope.model_editor.module_state.error = $scope.model_editor.info.error;
       }
     }, function errorCallback(response) {
       console.error(response);
@@ -88,7 +89,7 @@ characterApp.controller("editor_ctrl", ["$scope", "$q", "$http", "$window", /*"$
   $scope.update_editor();
 
   // Send request to receive writer permission
-  $scope.send_writingpermission = function (e) {
+  $scope.send_writing_permission = function (e) {
     if ($scope.model_editor.is_sharing_doc) {
       return;
     }

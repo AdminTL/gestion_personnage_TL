@@ -6,17 +6,17 @@
   <h1>Gestionnaire de documentation</h1>
   <h2>Générateur de documentation à partir de Google Drive Spreadsheet</h2>
   <div ng-hide="model_editor.is_ctrl_ready">
-    <span class="fa fa-spinner fa-spin"></span> Mise à jour des informations.
+    <span class="fa fa-spinner fa-spin"></span> Téléchargement des informations.
   </div>
   <div ng-show="model_editor.is_ctrl_ready">
     Cet outil permet d'ouvrir un fichier sur Google Drive Spreadsheet, d'itérer dans le document pour extraire les données, valider le formatage du document et générer la base de donnée des documents.
     <hr/>
-    <div ng-show="model_editor.modulestate.has_error">
+    <div ng-show="model_editor.module_state.has_error">
       <a style="color:red">
-        {{! model_editor.modulestate.error }}
+        {{! model_editor.module_state.error }}
       </a>
     </div>
-    <div ng-hide="model_editor.modulestate.has_error">
+    <div ng-hide="model_editor.module_state.has_error">
       <div>
         Mettre à jour le lien : <input type="text" ng-model="model_editor.update_file_url.url" placeholder="URL du fichier"/>
         <a ng-click="update_file_url()" class="btn btn-lg btn-success" ng-class="model_editor.is_updating_file_url ? 'disabled' : ''" role="button">
@@ -33,7 +33,7 @@
         Lien du document : <a href="{{! model_editor.info.file_url }}" style="text-decoration: underline">{{! model_editor.info.file_url }}</a>
         <div ng-show="!model_editor.info.user_has_writer_perm && model_editor.info.has_access_perm">
           Vous n'avez pas les permissions d'écriture.
-          <a ng-click="send_writingpermission()" class="btn btn-lg btn-danger" role="button">
+          <a ng-click="send_writing_permission()" class="btn btn-lg btn-danger" role="button">
             <span class="fa fa-spinner fa-spin" ng-show="model_editor.is_sharing_doc"></span> Recevoir les permissions d'écriture par courriel.
           </a>
         </div>

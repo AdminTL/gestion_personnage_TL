@@ -754,11 +754,7 @@ class EditorCmdInfoHandler(jsonhandler.JsonHandler):
         file_url = self._doc_generator_gspread.get_url()
         email_google_service = self._doc_generator_gspread.get_email_service()
         is_auth = self._doc_generator_gspread.is_auth()
-        can_generate = bool(doc_generator and
-                            not self._doc_generator_gspread.has_error() and
-                            not doc_generator.has_error() and
-                            has_access_perm and is_auth
-                            )
+        can_generate = bool(doc_generator and has_access_perm and is_auth)
 
         info = {
             "file_url": file_url,

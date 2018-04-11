@@ -226,6 +226,7 @@ characterApp.controller("lore_ctrl", ["$scope", "$q", "$http", "$window", "$loca
     timeout: 5000
   }).then(function (response/*, status, headers, config*/) {
     $scope.lore = response.data.lore;
+    console.info(response.data);
 
     var key = "/filter=";
     if ($location.path().substring(0, key.length) == key) {
