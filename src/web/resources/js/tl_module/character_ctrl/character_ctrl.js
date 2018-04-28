@@ -45,7 +45,26 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   $scope.cs_checks = [];
 
   // fill user and character schema and form
-  TL_Schema($scope);
+  $scope.update_character = function (e) {
+    var char_rule_url = $scope.is_admin ? "/cmd/char_rule_admin" : "/cmd/char_rule";
+    $http({
+      method: "get",
+      url: char_rule_url,
+      headers: {"Content-Type": "application/json; charset=UTF-8"},
+      timeout: 5000
+    }).then(function (response/*, status, headers, config*/) {
+      console.info(response);
+      var data = response.data;
+      $scope.schema_user = data.schema_user;
+      $scope.schema_char = data.schema_char;
+      $scope.form_user = data.form_user;
+      $scope.form_char = data.form_char;
+    }, function errorCallback(response) {
+      console.error(response);
+    });
+
+  };
+  $scope.update_character();
 
   $scope.onSubmit = function (form) {
     // First we broadcast an event so all fields validate themselves
@@ -434,8 +453,9 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     }
     if (isDefined($scope.model_char.technique_maitre)) {
       for (var i = 0; i < $scope.model_char.technique_maitre.length; i++) {
-        if ($scope.model_char.technique_maitre[i]) {
-          total_xp += 1;
+        var obj = $scope.model_char.technique_maitre[i];
+        if (isDefined(obj.options)) {
+          total_xp += obj.options.length;
         }
       }
     }
@@ -508,14 +528,14 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     console.log(response.data);
     var data = response.data;
     // special effect, if only one character, select first one
-     if (data.length >= 1) {
-       $scope.player = data[0];
-       $scope.character = data[0].character[0];
-       $scope.setCharacterData(data[0]);
-       $scope.player = data[0];
-       $scope.setCharacterData($scope.character);
+    if (data.length >= 1 && !$scope.is_admin) {
+      $scope.player = data[0];
+      $scope.character = data[0].character[0];
+      $scope.setCharacterData(data[0]);
+      $scope.player = data[0];
+      $scope.setCharacterData($scope.character);
 
-       $scope.$apply();
-     }
+      $scope.$apply();
+    }
   });
 }]);
