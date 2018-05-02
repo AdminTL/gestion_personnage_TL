@@ -225,121 +225,139 @@ class DocConnectorGSpread:
                 # Ignore empty line
                 continue
 
-            if sum_section > 1:
-                self._error = "L.%s S.%s: Cannot contain more than 1 section at time. " \
-                              "H1: %s, H2: %s, H3: %s, H4: %s, H5: %s." % (
-                                  line_number, doc_sheet_name, is_first_section, is_second_section, is_third_section,
-                                  is_fourth_section,
-                                  is_fifth_section)
+            try:
+                if sum_section > 1:
+                    msg = "Cannot contain more than 1 section at time. H1: %s, H2: %s, H3: %s, H4: %s, H5: %s." % (
+                        is_first_section, is_second_section, is_third_section, is_fourth_section, is_fifth_section)
+
+                    self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                    print(self._error, file=sys.stderr)
+                    return
+
+                if is_first_section:
+                    status = self._extract_section(0, row, line_number, doc_sheet_name, lst_doc_section)
+
+                elif is_second_section:
+                    second_section = None
+                    third_section = None
+                    first_section = lst_doc_section[-1]
+
+                    # Get section from last section
+                    if "section" in first_section:
+                        lst_section = first_section.get("section")
+                    else:
+                        lst_section = []
+                        first_section["section"] = lst_section
+
+                    status = self._extract_section(1, row, line_number, doc_sheet_name, lst_section)
+
+                elif is_third_section:
+                    third_section = None
+                    if not first_section:
+                        msg = "Missing section H1 to insert section H3."
+                        self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                        print(self._error, file=sys.stderr)
+                        return
+
+                    lst_section = first_section.get("section")
+                    if not lst_section:
+                        msg = "Missing section H2 to insert section H3."
+                        self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                        print(self._error, file=sys.stderr)
+                        return
+
+                    second_section = lst_section[-1]
+
+                    # Get section from last section
+                    if "section" in second_section:
+                        lst_section = second_section.get("section")
+                    else:
+                        lst_section = []
+                        second_section["section"] = lst_section
+
+                    status = self._extract_section(2, row, line_number, doc_sheet_name, lst_section)
+
+                elif is_fourth_section:
+                    if not first_section:
+                        msg = "Missing section H1 to insert section H4."
+                        self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                        print(self._error, file=sys.stderr)
+                        return
+
+                    if not second_section:
+                        msg = "Missing section H2 to insert section H4."
+                        self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                        print(self._error, file=sys.stderr)
+                        return
+
+                    # Create third_section
+                    lst_section = second_section.get("section")
+                    if not lst_section:
+                        msg = "Missing section H3 to insert section H4."
+                        self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                        print(self._error, file=sys.stderr)
+                        return
+
+                    third_section = lst_section[-1]
+
+                    # Get section from last section
+                    if "section" in third_section:
+                        lst_section = third_section.get("section")
+                    else:
+                        lst_section = []
+                        third_section["section"] = lst_section
+
+                    status = self._extract_section(3, row, line_number, doc_sheet_name, lst_section)
+
+                elif is_fifth_section:
+                    if not first_section:
+                        msg = "Missing section H1 to insert section H5."
+                        self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                        print(self._error, file=sys.stderr)
+                        return
+
+                    if not second_section:
+                        msg = "Missing section H2 to insert section H5."
+                        self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                        print(self._error, file=sys.stderr)
+                        return
+
+                    if not third_section:
+                        msg = "Missing section H3 to insert section H5."
+                        self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                        print(self._error, file=sys.stderr)
+                        return
+
+                    # Create third_section
+                    lst_section = third_section.get("section")
+                    if not lst_section:
+                        msg = "Missing section H4 to insert section H5."
+                        self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                        print(self._error, file=sys.stderr)
+                        return
+
+                    fourth_section = lst_section[-1]
+
+                    # Get section from last section
+                    if "section" in fourth_section:
+                        lst_section = fourth_section.get("section")
+                    else:
+                        lst_section = []
+                        fourth_section["section"] = lst_section
+
+                    status = self._extract_section(4, row, line_number, doc_sheet_name, lst_section)
+
+                if not status:
+                    return
+
+            except Exception as e:
+                msg = "Unknown case of error: %s" % e
+                self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
                 print(self._error, file=sys.stderr)
                 return
 
-            if is_first_section:
-                status = self._extract_section(0, row, line_number, doc_sheet_name, lst_doc_section)
-
-            elif is_second_section:
-                second_section = None
-                third_section = None
-                first_section = lst_doc_section[-1]
-
-                # Get section from last section
-                if "section" in first_section:
-                    lst_section = first_section.get("section")
-                else:
-                    lst_section = []
-                    first_section["section"] = lst_section
-
-                status = self._extract_section(1, row, line_number, doc_sheet_name, lst_section)
-
-            elif is_third_section:
-                third_section = None
-                if not first_section:
-                    self._error = "L.%s S.%s: Missing section H1 to insert section H3." % (line_number, doc_sheet_name)
-                    print(self._error, file=sys.stderr)
-                    return
-
-                lst_section = first_section.get("section")
-                if not lst_section:
-                    self._error = "L.%s S.%s: Missing section H2 to insert section H3." % (line_number, doc_sheet_name)
-                    print(self._error, file=sys.stderr)
-                    return
-
-                second_section = lst_section[-1]
-
-                # Get section from last section
-                if "section" in second_section:
-                    lst_section = second_section.get("section")
-                else:
-                    lst_section = []
-                    second_section["section"] = lst_section
-
-                status = self._extract_section(2, row, line_number, doc_sheet_name, lst_section)
-
-            elif is_fourth_section:
-                if not first_section:
-                    self._error = "L.%s S.%s: Missing section H1 to insert section H4." % (line_number, doc_sheet_name)
-                    print(self._error, file=sys.stderr)
-                    return
-
-                if not second_section:
-                    self._error = "L.%s S.%s: Missing section H2 to insert section H4." % (line_number, doc_sheet_name)
-                    print(self._error, file=sys.stderr)
-                    return
-
-                # Create third_section
-                lst_section = second_section.get("section")
-                if not lst_section:
-                    self._error = "L.%s S.%s: Missing section H3 to insert section H4." % (line_number, doc_sheet_name)
-                    print(self._error, file=sys.stderr)
-                    return
-
-                third_section = lst_section[-1]
-
-                # Get section from last section
-                if "section" in third_section:
-                    lst_section = third_section.get("section")
-                else:
-                    lst_section = []
-                    third_section["section"] = lst_section
-
-                status = self._extract_section(3, row, line_number, doc_sheet_name, lst_section)
-
-            elif is_fifth_section:
-                if not first_section:
-                    self._error = "L.%s S.%s: Missing section H1 to insert section H5." % (line_number, doc_sheet_name)
-                    print(self._error, file=sys.stderr)
-                    return
-
-                if not second_section:
-                    self._error = "L.%s S.%s: Missing section H2 to insert section H5." % (line_number, doc_sheet_name)
-                    print(self._error, file=sys.stderr)
-                    return
-
-                if not third_section:
-                    self._error = "L.%s S.%s: Missing section H3 to insert section H5." % (line_number, doc_sheet_name)
-                    print(self._error, file=sys.stderr)
-                    return
-
-                # Create third_section
-                lst_section = third_section.get("section")
-                if not lst_section:
-                    self._error = "L.%s S.%s: Missing section H4 to insert section H5." % (line_number, doc_sheet_name)
-                    print(self._error, file=sys.stderr)
-                    return
-
-                fourth_section = lst_section[-1]
-
-                # Get section from last section
-                if "section" in fourth_section:
-                    lst_section = fourth_section.get("section")
-                else:
-                    lst_section = []
-                    fourth_section["section"] = lst_section
-
-                status = self._extract_section(4, row, line_number, doc_sheet_name, lst_section)
-
-        if not status:
-            return
+            if not status:
+                return
 
         return lst_doc_section
 
@@ -354,13 +372,14 @@ class DocConnectorGSpread:
         :return: True if success, else False
         """
         if not (0 <= level <= 4):
-            self._error = "L.%s S.%s: Internal error, support only level 1 to 5 and got: %s" % (
-                line_number, doc_sheet_name, level + 1)
+            msg = "Internal error, support only level 1 to 5 and got: %s" % level + 1
+            self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
             print(self._error, file=sys.stderr)
             return False
 
         nb_column = 6
         i_column = level * nb_column
+        header_lvl = level + 1
 
         title = row[i_column]
         title_html = row[i_column + 1]
@@ -371,26 +390,26 @@ class DocConnectorGSpread:
 
         # Check error
         if title_html and not title:
-            self._error = "L.%s S.%s: Need title when fill title html for H%s." % (
-                line_number, doc_sheet_name, i_column)
+            msg = "Need title when fill title html for H%s." % header_lvl
+            self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
             print(self._error, file=sys.stderr)
             return False
 
         if description and bullet_description:
-            self._error = "L.%s S.%s: Cannot have a description and a bullet description " \
-                          "on same line for H%s." % (line_number, doc_sheet_name, i_column)
+            msg = "Cannot have a description and a bullet description on same line for H%s." % header_lvl
+            self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
             print(self._error, file=sys.stderr)
             return False
 
         if description and second_bullet_description:
-            self._error = "L.%s S.%s: Cannot have a description and a second bullet description " \
-                          "on same line for H%s." % (line_number, doc_sheet_name, i_column)
+            msg = "Cannot have a description and a second bullet description on same line for H%s." % header_lvl
+            self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
             print(self._error, file=sys.stderr)
             return False
 
         if bullet_description and second_bullet_description:
-            self._error = "L.%s S.%s: Cannot have a bullet description and a second bullet description " \
-                          "on same line for H%s." % (line_number, doc_sheet_name, i_column)
+            msg = "Cannot have a bullet description and a second bullet description on same line for H%s." % header_lvl
+            self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
             print(self._error, file=sys.stderr)
             return False
 
@@ -405,16 +424,17 @@ class DocConnectorGSpread:
             # Cannot continue if contain child section, because the data will be append to parent
             # this will cause a view error
             if "section" in section:
-                self._error = "L.%s S.%s: Cannot add information on this section when contain sub header " \
-                              "on same line for H%s." % (line_number, doc_sheet_name, i_column)
+                msg = "Cannot add information on this section when contain sub header on same line for " \
+                      "H%s." % header_lvl
+                self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
                 print(self._error, file=sys.stderr)
                 return False
 
         # Special title, contain html to improve view
         if title_html:
             if "title_html" in section:
-                self._error = "L.%s S.%s: Cannot manage many title_html for H%s." % (
-                    line_number, doc_sheet_name, i_column)
+                msg = "Cannot manage many title_html for H%s." % header_lvl
+                self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
                 print(self._error, file=sys.stderr)
                 return False
             section["title_html"] = title_html
@@ -451,8 +471,8 @@ class DocConnectorGSpread:
 
         if second_bullet_description:
             if "description" not in section:
-                self._error = "L.%s S.%s: Cannot create second-bullet description missing description " \
-                              "for H%s." % (line_number, doc_sheet_name, i_column)
+                msg = "Cannot create second-bullet description missing description for H%s." % header_lvl
+                self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
                 print(self._error, file=sys.stderr)
                 return False
             lst_description = section.get("description")
@@ -461,8 +481,9 @@ class DocConnectorGSpread:
             if lst_description:
                 lst_bullet_description = lst_description[-1]
             else:
-                self._error = "L.%s S.%s: Cannot create second-bullet description when not precede to bullet " \
-                              "description for H%s." % (line_number, doc_sheet_name, i_column)
+                msg = "Cannot create second-bullet description when not precede to bullet description for " \
+                      "H%s." % header_lvl
+                self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
                 print(self._error, file=sys.stderr)
                 return False
 
@@ -483,8 +504,8 @@ class DocConnectorGSpread:
         if under_level_color:
             # Add color for header
             if "under_level_color" in section:
-                self._error = "L.%s S.%s: Already contain value of 'Under Level Color'for H%s." % (
-                    line_number, doc_sheet_name, i_column)
+                msg = "Already contain value of 'Under Level Color'for H%s." % header_lvl
+                self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
                 print(self._error, file=sys.stderr)
                 return False
             section["under_level_color"] = under_level_color

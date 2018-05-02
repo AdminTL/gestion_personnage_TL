@@ -91,35 +91,33 @@
           </div>
 
           <!-- LEVEL 4 -->
-          <div class="panel" ng-show="in_filter_edition || lore_sect_4.visible" ng-class="[class_color_level(lore_sect_2), {'print-hide': !lore_sect_1.visible}]" ng-repeat="lore_sect_4 in lore_sect_3.section">
+          <div ng-repeat="lore_sect_4 in lore_sect_3.section">
             <span class="anchor" id="{{! formatAnchor(lore_sect_4, [lore_sect_1, lore_sect_2, lore_sect_3]) }}"></span>
 
-            <div class="panel-heading">
-              <input ng-show="in_filter_edition" type="checkbox" ng-model="lore_sect_4.visible">
-              <h4 style="display:inline" class="panel-title" ng-bind-html="getTitleHtml(lore_sect_4)"></h4>
-              <a target="_self" style="color: #C7C7C7" ng-href="#{{! formatAnchor(lore_sect_4, [lore_sect_1, lore_sect_2, lore_sect_3]) }}"><span
-                  class="glyphicon glyphicon-link print-hide"></span></a>
+            <div ng-show="in_filter_edition || lore_sect_4.visible" ng-class="{'print-hide': !lore_sect_1.visible}">
+              <div>
+                <input ng-show="in_filter_edition" type="checkbox" ng-model="lore_sect_4.visible">
+                <h4 style="display:inline" ng-bind-html="getTitleHtml(lore_sect_4)"></h4>
+                <a target="_self" style="color: #C7C7C7" ng-href="#{{! formatAnchor(lore_sect_4, [lore_sect_1, lore_sect_2, lore_sect_3]) }}"><span
+                    class="glyphicon glyphicon-link print-hide"></span></a>
+              </div>
+
+              <p ng-bind-html="formatHtmlDescription(lore_sect_4.description)"></p>
             </div>
 
-            <div class="panel-body">
-              <p ng-bind-html="formatHtmlDescription(lore_sect_4.description)"></p>
+            <!-- LEVEL 5 -->
+            <div ng-repeat="lore_sect_5 in lore_sect_4.section">
+              <span class="anchor" id="{{! formatAnchor(lore_sect_5, [lore_sect_1, lore_sect_2, lore_sect_3, lore_sect_4]) }}"></span>
 
-              <!-- LEVEL 5 -->
-              <div class="panel panel-primary" ng-show="in_filter_edition || lore_sect_5.visible" ng-class="{'print-hide': !lore_sect_1.visible}"
-                   ng-repeat="lore_sect_5 in lore_sect_4.section">
-                <span class="anchor" id="{{! formatAnchor(lore_sect_5, [lore_sect_1, lore_sect_2, lore_sect_3, lore_sect_4]) }}"></span>
-
-                <div class="panel-heading">
+              <div ng-show="in_filter_edition || lore_sect_5.visible" ng-class="{'print-hide': !lore_sect_1.visible}">
+                <div>
                   <input ng-show="in_filter_edition" type="checkbox" ng-model="lore_sect_5.visible">
-                  <h5 style="display:inline" class="panel-title" ng-bind-html="getTitleHtml(lore_sect_5)"></h5>
+                  <h5 style="display:inline" ng-bind-html="getTitleHtml(lore_sect_5)"></h5>
                   <a target="_self" style="color: #C7C7C7" ng-href="#{{! formatAnchor(lore_sect_5, [lore_sect_1, lore_sect_2, lore_sect_3, lore_sect_4]) }}"><span
                       class="glyphicon glyphicon-link print-hide"></span></a>
                 </div>
 
-                <div class="panel-body">
-                  <p ng-bind-html="formatHtmlDescription(lore_sect_5.description)"></p>
-
-                </div>
+                <p ng-bind-html="formatHtmlDescription(lore_sect_5.description)"></p>
               </div>
             </div>
           </div>

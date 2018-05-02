@@ -31,6 +31,7 @@ characterApp.controller("profile_ctrl", ["$scope", "$q", "$http", "$window", /*"
       timeout: 5000
     }).then(function (response/*, status, headers, config*/) {
       $scope.model_profile.info = response.data;
+      console.info(response.data);
     });
 
   };
@@ -65,7 +66,7 @@ characterApp.controller("profile_ctrl", ["$scope", "$q", "$http", "$window", /*"
         data: data,
         timeout: 5000
       }).then(function (response/*, status, headers, config*/) {
-        console.debug(response.data);
+        console.info(response.data);
 
         // Reset the loading
         $scope.model_profile.add_password.loading = false;
@@ -134,7 +135,7 @@ characterApp.controller("profile_ctrl", ["$scope", "$q", "$http", "$window", /*"
         data: data,
         timeout: 5000
       }).then(function (response/*, status, headers, config*/) {
-        console.debug(response.data);
+        console.info(response.data);
 
         // Reset the loading
         $scope.model_profile.update_password.loading = false;
