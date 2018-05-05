@@ -44,6 +44,12 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   $scope.cs_setting = "filled";
   $scope.cs_checks = [];
 
+  $scope.status_send = {
+    enabled: false,
+    is_error: false,
+    text: ""
+  };
+
   // fill user and character schema and form
   $scope.update_character = function (e) {
     var char_rule_url = $scope.is_admin ? "/cmd/char_rule_admin" : "/cmd/char_rule";
@@ -75,15 +81,35 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       var data = {};
       data.player = $scope.model_user;
       data.character = $scope.model_char;
+
       $http({
         method: "post",
         url: "/cmd/character_view",
         headers: {"Content-Type": "application/json; charset=UTF-8"},
         data: data,
         timeout: 5000
+      }).then(function (response/*, status, headers, config*/) {
+        $scope.status_send.enabled = true;
+        $scope.status_send.is_error = false;
+        $scope.status_send.text = "Succès.";
+
+        // TODO not suppose to need to reload the page, block by socket update
+        $window.location.reload();
+      }, function errorCallback(response) {
+        console.error(response);
+
+        $scope.status_send.enabled = true;
+        $scope.status_send.is_error = true;
+
+        if (response.status == -1) {
+          // Timeout
+          $scope.status_send.text = "Timeout request.";
+        } else {
+          // Error from server
+          $scope.status_send.text = "Error from server : " + response.status;
+        }
       });
-      // TODO not suppose to need to reload the page, block by socket update
-      $window.location.reload();
+
     }
   };
 

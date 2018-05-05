@@ -581,6 +581,9 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
         self._db.update_user(user, character, delete_user_by_id=delete_user_by_id,
                              delete_character_by_id=delete_character_by_id)
 
+        self.write({"status": "success"})
+        self.finish()
+
 
 class ManualHandler(jsonhandler.JsonHandler):
     @tornado.web.asynchronous

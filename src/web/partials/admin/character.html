@@ -107,6 +107,11 @@
         <!--<hr/>-->
         <!--</div>-->
       </form>
+
+      <a ng-show="status_send.enabled" ng-style="status_send.is_error ? {'color': 'red'} : {'color': 'green'}">
+        {{! status_send.text }}
+      </a>
+
       <div ng-show="isMobile()">
         Xp : {{! countTotalCostXp() }} <a class="text-decoration: none;" ng-hide="diffTotalXp() == 0" ng-style="diffTotalXp() > 0 ? {'color': 'green'} : {'color': 'red'}">{{!
         showDiffTotalXp() }}</a>
