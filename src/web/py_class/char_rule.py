@@ -42,3 +42,7 @@ class CharRule(object):
             tmp_rule["form_user"] = self._str_char_rule["char_rule"]["form_user"]
             tmp_rule["form_char"] = self._str_char_rule["char_rule"]["form_char"]
         return tmp_rule
+
+    def get_last_date_updated(self):
+        f = os.path.getmtime(self._char_rule_path)
+        return f

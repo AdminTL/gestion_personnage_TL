@@ -782,13 +782,18 @@ class EditorCmdInfoHandler(jsonhandler.JsonHandler):
         is_auth = self._doc_generator_gspread.is_auth()
         can_generate = bool(doc_generator and has_access_perm and is_auth)
 
+        last_updated_date = max(self._manual.get_last_date_updated(), self._lore.get_last_date_updated(),
+                                self._char_rule.get_last_date_updated())
+        last_updated_date_for_js = last_updated_date * 1000
+
         info = {
             "file_url": file_url,
             "is_auth": is_auth,
             "user_has_writer_perm": has_user_writer_perm,
             "has_access_perm": has_access_perm,
             "email_google_service": email_google_service,
-            "can_generate": can_generate
+            "can_generate": can_generate,
+            "last_local_doc_update": last_updated_date_for_js
         }
 
         if self._doc_generator_gspread.has_error():

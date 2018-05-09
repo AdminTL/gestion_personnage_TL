@@ -17,7 +17,9 @@ characterApp.controller("editor_ctrl", ["$scope", "$q", "$http", "$window", /*"$
         user_has_writer_perm: false,
         has_access_perm: false,
         email_google_service: "",
-        can_generate: false
+        can_generate: false,
+        last_local_doc_update: 0,
+        string_last_local_doc_update: ""
       },
 
       is_updating_file_url: false,
@@ -51,6 +53,14 @@ characterApp.controller("editor_ctrl", ["$scope", "$q", "$http", "$window", /*"$
     };
   };
   $scope.init_model();
+
+  $scope.$watch("model_editor.info.last_local_doc_update", function (value) {
+    var date_updated = new Date();
+    date_updated.setTime(value);
+    // console.debug(value);
+    // console.debug(date_updated.toString());
+    $scope.model_editor.info.string_last_local_doc_update = date_updated.toString();
+  }, true);
 
   // Get editor info
   $scope.update_editor = function (e) {

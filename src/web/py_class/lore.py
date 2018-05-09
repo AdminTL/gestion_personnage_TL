@@ -28,3 +28,7 @@ class Lore(object):
 
     def get_str_all(self):
         return self._str_lore
+
+    def get_last_date_updated(self):
+        f = os.path.getmtime(self._lore_path)
+        return f
