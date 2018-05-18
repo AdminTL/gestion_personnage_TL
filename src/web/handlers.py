@@ -581,6 +581,9 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
         self._db.update_user(user, character, delete_user_by_id=delete_user_by_id,
                              delete_character_by_id=delete_character_by_id)
 
+        self.write({"status": "success"})
+        self.finish()
+
 
 class ManualHandler(jsonhandler.JsonHandler):
     @tornado.web.asynchronous
@@ -593,6 +596,29 @@ class LoreHandler(jsonhandler.JsonHandler):
     @tornado.web.asynchronous
     def get(self):
         self.write(self._lore.get_str_all())
+        self.finish()
+
+
+class CharRuleHandler(jsonhandler.JsonHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        str_value = self._char_rule.get_str_all(is_admin=False)
+        self.write(str_value)
+        self.finish()
+
+
+class CharRuleAdminHandler(jsonhandler.JsonHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        if self.is_permission_admin():
+            str_value = self._char_rule.get_str_all(is_admin=True)
+        else:
+            print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
+            # Forbidden
+            self.set_status(403)
+            self.send_error(403)
+            raise tornado.web.Finish()
+        self.write(str_value)
         self.finish()
 
 
@@ -756,13 +782,18 @@ class EditorCmdInfoHandler(jsonhandler.JsonHandler):
         is_auth = self._doc_generator_gspread.is_auth()
         can_generate = bool(doc_generator and has_access_perm and is_auth)
 
+        last_updated_date = max(self._manual.get_last_date_updated(), self._lore.get_last_date_updated(),
+                                self._char_rule.get_last_date_updated())
+        last_updated_date_for_js = last_updated_date * 1000
+
         info = {
             "file_url": file_url,
             "is_auth": is_auth,
             "user_has_writer_perm": has_user_writer_perm,
             "has_access_perm": has_access_perm,
             "email_google_service": email_google_service,
-            "can_generate": can_generate
+            "can_generate": can_generate,
+            "last_local_doc_update": last_updated_date_for_js
         }
 
         if self._doc_generator_gspread.has_error():
@@ -878,6 +909,29 @@ class EditorCmdGenerateAndSaveHandler(jsonhandler.JsonHandler):
             if "lore" in document:
                 doc_part = document.get("lore")
                 self._lore.update({"lore": doc_part}, save=True)
+            if "schema_user" in document or "schema_char" in document or "form_user" in document \
+                    or "form_char" in document or "admin_form_user" in document or "admin_form_char" in document:
+                dct_char_rule = {}
+                if "schema_user" in document:
+                    doc_part = document.get("schema_user")
+                    dct_char_rule["schema_user"] = doc_part
+                if "schema_char" in document:
+                    doc_part = document.get("schema_char")
+                    dct_char_rule["schema_char"] = doc_part
+                if "form_user" in document:
+                    doc_part = document.get("form_user")
+                    dct_char_rule["form_user"] = doc_part
+                if "form_char" in document:
+                    doc_part = document.get("form_char")
+                    dct_char_rule["form_char"] = doc_part
+                if "admin_form_user" in document:
+                    doc_part = document.get("admin_form_user")
+                    dct_char_rule["admin_form_user"] = doc_part
+                if "admin_form_char" in document:
+                    doc_part = document.get("admin_form_char")
+                    dct_char_rule["admin_form_char"] = doc_part
+
+                self._char_rule.update({"char_rule": dct_char_rule}, save=True)
             status = {"status": "Generated with success. Database updated."}
         else:
             status = doc_generator.get_error(force_error=True)

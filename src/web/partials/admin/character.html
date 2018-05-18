@@ -23,15 +23,15 @@
         <select class="form-control" ng-model="player" ng-options="user.name for user in ddb_user | orderBy:'name'" ng-change="setCharacterData(null)">
           <option value="">--Sélectionner un joueur--</option>
         </select>
-        <br/>
-        Vue de fiche:<br/>
-        <label>
-          <input type="radio" ng-model="sheet_view.mode" value="fiche_read"> Fiche en lecture
-        </label><br/>
-        <label>
-          <input type="radio" ng-model="sheet_view.mode" value="form_write"> Formulaire
-        </label><br/>
-        <button class="btn btn-primary" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i>Imprimer</button>
+        <!--<br/>-->
+        <!--Vue de fiche:<br/>-->
+        <!--<label>-->
+        <!--<input type="radio" ng-model="sheet_view.mode" value="fiche_read"> Fiche en lecture-->
+        <!--</label><br/>-->
+        <!--<label>-->
+        <!--<input type="radio" ng-model="sheet_view.mode" value="form_write"> Formulaire-->
+        <!--</label><br/>-->
+        <!--<button class="btn btn-primary" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i>Imprimer</button>-->
       </div>
 
       <div ng-show="player && !new_player">
@@ -58,34 +58,60 @@
           Xp consommé : {{! countTotalCostXp() }} <a class="text-decoration: none;" ng-hide="diffTotalXp() == 0" ng-style="diffTotalXp() > 0 ? {'color': 'green'} : {'color': 'red'}">{{!
           showDiffTotalXp() }}</a>
         </div>
-        <hr>
-        <div>
-          debug Xp naissance : <input type="number" ng-model="model_char.xp_naissance"/>
-        </div>
+        <!--<hr>-->
+        <!--<div>-->
+        <!--debug Xp naissance : <input type="number" ng-model="model_char.xp_naissance"/>-->
+        <!--</div>-->
       </div>
-      <div ng-hide="isMobile() || !html_qr_code" style="height:200px;width:200px;background:white" ng-bind-html="html_qr_code"></div>
+      <!--<div ng-hide="isMobile() || !html_qr_code" style="height:200px;width:200px;background:white" ng-bind-html="html_qr_code"></div>-->
     </div>
   </div>
 
   <div ng-show="player" role="main" class="col-sm-offset-4">
     <div ng-show="sheet_view.mode == 'form_write'">
+      <div ng-show="isMobile()">
+        <div ng-show="!new_player">
+          Liste des joueurs.
+          <button class="btn btn-success" ng-click="newPlayer()"><span class="glyphicon glyphicon-plus"></span> <span class="glyphicon glyphicon-user"></span> Nouveau joueur</button>
+          <br/>
+          Nb joueur : {{!ddb_user.length}}
+          <select class="form-control" ng-model="player" ng-options="user.name for user in ddb_user | orderBy:'name'" ng-change="setCharacterData(null)">
+            <option value="">--Sélectionner un joueur--</option>
+          </select>
+          <hr/>
+          <!--<br/>-->
+          <!--Vue de fiche:<br/>-->
+          <!--<label>-->
+          <!--<input type="radio" ng-model="sheet_view.mode" value="fiche_read"> Fiche en lecture-->
+          <!--</label><br/>-->
+          <!--<label>-->
+          <!--<input type="radio" ng-model="sheet_view.mode" value="form_write"> Formulaire-->
+          <!--</label><br/>-->
+          <!--<button class="btn btn-primary" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i>Imprimer</button>-->
+        </div>
+      </div>
       <form name="my_form_char" ng-submit="onSubmit(my_form_char)">
         <div sf-schema="schema_user" sf-form="form_user" sf-model="model_user"></div>
         <hr/>
         <div sf-schema="schema_char" sf-form="form_char" sf-model="model_char"></div>
-        <div ng-hide="isMobile()">
-          <hr/>
-          <div>{{!prettyModelUser}}</div>
-          <hr/>
-          <div>{{!prettyModelChar}}</div>
-          <hr/>
-          <div>{{!prettyPlayer}}</div>
-          <hr/>
-          <div>http://www.traitrelame.ca/character#/?id_player={{! player.id }}</div>
-          <div>{{! url_qr_code }}</div>
-          <hr/>
-        </div>
+        <!--<div ng-hide="isMobile()">-->
+        <!--<hr/>-->
+        <!--<div>{{!prettyModelUser}}</div>-->
+        <!--<hr/>-->
+        <!--<div>{{!prettyModelChar}}</div>-->
+        <!--<hr/>-->
+        <!--<div>{{!prettyPlayer}}</div>-->
+        <!--<hr/>-->
+        <!--<div>http://www.traitrelame.ca/character#/?id_player={{! player.id }}</div>-->
+        <!--<div>{{! url_qr_code }}</div>-->
+        <!--<hr/>-->
+        <!--</div>-->
       </form>
+
+      <a ng-show="status_send.enabled" ng-style="status_send.is_error ? {'color': 'red'} : {'color': 'green'}">
+        {{! status_send.text }}
+      </a>
+
       <div ng-show="isMobile()">
         Xp : {{! countTotalCostXp() }} <a class="text-decoration: none;" ng-hide="diffTotalXp() == 0" ng-style="diffTotalXp() > 0 ? {'color': 'green'} : {'color': 'red'}">{{!
         showDiffTotalXp() }}</a>

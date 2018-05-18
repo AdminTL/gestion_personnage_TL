@@ -30,18 +30,18 @@
     <br/>
     <div ng-hide="!ddb_user" class="bs-sidebar hidden-print affix" role="complementary">
 
-      <div class="list-group" ng-show="!new_player">
-        <br/>
-        Vue de fiche:<br/>
-        <label>
-          <input type="radio" ng-model="sheet_view.mode" value="fiche_read"> Fiche en lecture
-        </label><br/>
-        <label>
-          <input type="radio" ng-model="sheet_view.mode" value="form_write"> Formulaire
-        </label><br/>
-        <button class="btn btn-primary" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i>Imprimer
-        </button>
-      </div>
+      <!--<div class="list-group" ng-show="!new_player">-->
+      <!--<br/>-->
+      <!--Vue de fiche:<br/>-->
+      <!--<label>-->
+      <!--<input type="radio" ng-model="sheet_view.mode" value="fiche_read"> Fiche en lecture-->
+      <!--</label><br/>-->
+      <!--<label>-->
+      <!--<input type="radio" ng-model="sheet_view.mode" value="form_write"> Formulaire-->
+      <!--</label><br/>-->
+      <!--<button class="btn btn-primary" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i>Imprimer-->
+      <!--</button>-->
+      <!--</div>-->
 
       <div ng-show="player && !new_player">
         Fiche personnage<br/>
@@ -70,8 +70,8 @@
           showDiffTotalXp() }}</a>
         </div>
       </div>
-      <div ng-hide="isMobile() || !html_qr_code" style="height:200px;width:200px;background:white"
-           ng-bind-html="html_qr_code"></div>
+      <!--<div ng-hide="isMobile() || !html_qr_code" style="height:200px;width:200px;background:white"-->
+      <!--ng-bind-html="html_qr_code"></div>-->
     </div>
   </div>
 
@@ -82,6 +82,11 @@
         <hr/>
         <div sf-schema="schema_char" sf-form="form_char" sf-model="model_char"></div>
       </form>
+
+      <a ng-show="status_send.enabled" ng-style="status_send.is_error ? {'color': 'red'} : {'color': 'green'}">
+        {{! status_send.text }}
+      </a>
+
       <div ng-show="isMobile()">
         Xp : {{! countTotalCostXp() }} <a class="text-decoration: none;" ng-hide="diffTotalXp() == 0"
                                           ng-style="diffTotalXp() > 0 ? {'color': 'green'} : {'color': 'red'}">{{!

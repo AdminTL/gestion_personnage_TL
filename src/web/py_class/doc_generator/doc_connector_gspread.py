@@ -2,6 +2,73 @@
 # -*- coding: utf-8 -*-
 import sys
 import gspread
+from enum import Enum
+
+
+class DocType(Enum):
+    """
+    Enumerator to support external documentation from Google Spread Sheet.
+    Contain static information about different type of documentation.
+    """
+    # To generate documentation
+    DOC = 0
+    # To create form on client
+    FORM = 1
+    # To generate database model
+    SCHEMA = 2
+
+    # To manage event
+    # EVENT = 3
+
+    def get_header(self):
+        """
+        List of header per type of document.
+        :return: list of string with header of sheet.
+        """
+        if self.value == self.DOC.value:
+            header = [
+                "Title H1", "Title H1 HTML", "Description H1", "Bullet Description H1", "Second Bullet Description H1",
+                "Under Level Color H1",
+                "Title H2", "Title H2 HTML", "Description H2", "Bullet Description H2", "Second Bullet Description H2",
+                "Under Level Color H2",
+                "Title H3", "Title H3 HTML", "Description H3", "Bullet Description H3", "Second Bullet Description H3",
+                "Under Level Color H3",
+                "Title H4", "Title H4 HTML", "Description H4", "Bullet Description H4", "Second Bullet Description H4",
+                "Under Level Color H4",
+                "Title H5", "Title H5 HTML", "Description H5", "Bullet Description H5", "Second Bullet Description H5",
+                "Under Level Color H5"
+            ]
+        elif self.value == self.FORM.value:
+            header = [
+                "Level", "Key", "Placeholder", "Type", "Options", "Value", "Name", "Category", "Add", "Style"
+            ]
+        elif self.value == self.SCHEMA.value:
+            header = [
+                "Level", "Name", "Type", "Title", "minLength", "pattern", "required", "minItems", "maxItems",
+                "uniqueItems"
+            ]
+        else:
+            header = []
+        return header
+
+    def get_cb_parser(self, doc_connector_gspread):
+        """
+        Search good callback to parse the sheet.
+        :param doc_connector_gspread: object of DocConnectorGSpread
+        :return: cb of method to parse the sheet.
+        """
+        if not isinstance(doc_connector_gspread, DocConnectorGSpread):
+            return None
+
+        if self.value == self.DOC.value:
+            cb = doc_connector_gspread._parse_sheet_type_doc
+        elif self.value == self.FORM.value:
+            cb = doc_connector_gspread._parse_sheet_type_form
+        elif self.value == self.SCHEMA.value:
+            cb = doc_connector_gspread._parse_sheet_type_schema
+        else:
+            cb = None
+        return cb
 
 
 class DocConnectorGSpread:
@@ -9,7 +76,7 @@ class DocConnectorGSpread:
     DocConnectorGSpread manage doc generation parsing and Google spreadsheet functionality.
 
     Use DocGeneratorGSpread to get instance of DocGeneratorGSpread.
-    This is more secure for multi-thread execution
+    This is more secure for multi-thread execution.
     """
 
     def __init__(self, gc, gc_doc, msg_share_invite):
@@ -21,18 +88,15 @@ class DocConnectorGSpread:
         self._connector_is_valid = True
         self._msg_share_invite = msg_share_invite
 
-        self._info_sheet_name = ["manual", "lore"]
-        self._info_header = [
-            "Title H1", "Title H1 HTML", "Description H1", "Bullet Description H1", "Second Bullet Description H1",
-            "Under Level Color H1",
-            "Title H2", "Title H2 HTML", "Description H2", "Bullet Description H2", "Second Bullet Description H2",
-            "Under Level Color H2",
-            "Title H3", "Title H3 HTML", "Description H3", "Bullet Description H3", "Second Bullet Description H3",
-            "Under Level Color H3",
-            "Title H4", "Title H4 HTML", "Description H4", "Bullet Description H4", "Second Bullet Description H4",
-            "Under Level Color H4",
-            "Title H5", "Title H5 HTML", "Description H5", "Bullet Description H5", "Second Bullet Description H5",
-            "Under Level Color H5"
+        self._info_sheet = [
+            {"type": DocType.DOC, "name": "manual", "permission": ["anyone"]},
+            {"type": DocType.DOC, "name": "lore", "permission": ["anyone"]},
+            {"type": DocType.SCHEMA, "name": "schema_user", "permission": ["user"]},
+            {"type": DocType.SCHEMA, "name": "schema_char", "permission": ["user"]},
+            {"type": DocType.FORM, "name": "form_user", "permission": ["user"]},
+            {"type": DocType.FORM, "name": "form_char", "permission": ["user"]},
+            {"type": DocType.FORM, "name": "admin_form_user", "permission": ["admin"]},
+            {"type": DocType.FORM, "name": "admin_form_char", "permission": ["admin"]},
         ]
 
     def has_error(self):
@@ -79,6 +143,15 @@ class DocConnectorGSpread:
                     "type": perm.get("type")}
             lst_info.append(info)
         return lst_info
+
+    def get_generated_doc(self):
+        """
+        Property of generated_doc
+        :return: return False if the document is not generated, else return the dict
+        """
+        if self._generated_doc:
+            return self._generated_doc
+        return False
 
     def check_has_permission(self):
         """
@@ -150,47 +223,400 @@ class DocConnectorGSpread:
         worksheet_list = sh.worksheets()
         dct_doc = {}
 
-        for doc_sheet_name in self._info_sheet_name:
+        for sheet_info in self._info_sheet:
+            sheet_name = sheet_info.get("name")
+            sheet_type = sheet_info.get("type")
+
+            # Validate sheet_type
+            if sheet_type not in list(DocType):
+                self._error = "Internal error, not supported definition of type %s" % sheet_type
+                print(self._error, file=sys.stderr)
+                return False
+
             # Find working sheet
             for sheet in worksheet_list:
-                if sheet.title == doc_sheet_name:
+                if sheet.title == sheet_name:
                     manual_sheet = sheet
                     break
             else:
                 lst_str_worksheet = [sheet.title for sheet in worksheet_list]
-                self._error = "Sheet '%s' not exist. Existing sheet: %s" % (doc_sheet_name, lst_str_worksheet)
+                self._error = "Sheet '%s' not exist. Existing sheet: %s" % (sheet_name, lst_str_worksheet)
                 print(self._error, file=sys.stderr)
                 return False
 
             # Validate the header
             header_row = manual_sheet.row_values(1)
-            if self._info_header != header_row:
+            if sheet_type.get_header() != header_row:
                 self._error = "Header of sheet %s is %s, and expected is %s" % (
-                    doc_sheet_name, header_row, self._info_header)
+                    sheet_name, header_row, sheet_type.get_header())
                 print(self._error, file=sys.stderr)
                 return False
 
             # Fetch all line
             all_values = manual_sheet.get_all_values()
-            info = self._parse_doc(doc_sheet_name, all_values)
-            if info is None:
+
+            # Parse sheet
+            cb = sheet_type.get_cb_parser(self)
+            if cb:
+                info = cb(sheet_name, all_values)
+            else:
+                self._error = "Internal error, cannot find method to parse the sheet with type %s." % sheet_type
+                print(self._error, file=sys.stderr)
                 return False
 
-            dct_doc[doc_sheet_name] = info
+            if info is None:
+                # Error in parsing
+                return False
+
+            # Compilation of unique result
+            dct_doc[sheet_name] = info
 
         self._generated_doc = dct_doc
         return True
 
-    def get_generated_doc(self):
+    def _parse_sheet_type_schema(self, doc_sheet_name, all_values):
         """
-        Property of generated_doc
-        :return: return False if the document is not generated, else return the dict
+        Read each line of the doc from the spreadsheet and generate the structure.
+        :param doc_sheet_name: Sheet name
+        :param all_values: List of all row from the spreadsheet
+        :return: Dict of schema or None when got error
         """
-        if self._generated_doc:
-            return self._generated_doc
-        return False
+        dct_value = None
+        line_number = 1
+        lst_line = all_values[1:]
+        last_iter_level = 0
+        line_value = {}
 
-    def _parse_doc(self, doc_sheet_name, all_values):
+        # This is use to keep reference on last object dependant on level
+        lst_level_object = []
+        for level, name, s_type, title, min_length, pattern, required, min_items, max_items, unique_items in lst_line:
+            debug_values = (
+                level, name, s_type, title, min_length, pattern, required, min_items, max_items, unique_items)
+            line_number += 1
+
+            # Validation section
+
+            # Check parameter for line
+            # Level is obligated
+            if not level.isdigit():
+                msg = "The case Level need to be an integer, receive %s" % level
+                self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                print(self._error, file=sys.stderr)
+                return None
+            level = int(level)
+
+            # The next parameter is optional
+            # Check if integer
+            if min_length:
+                if not min_length.isdigit():
+                    msg = "The case MinLength need to be an integer, receive %s" % level
+                    self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                    print(self._error, file=sys.stderr)
+                    return None
+                min_length = int(min_length)
+
+            if min_items:
+                if not min_items.isdigit():
+                    msg = "The case MinItems need to be an integer, receive %s" % level
+                    self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                    print(self._error, file=sys.stderr)
+                    return None
+                min_items = int(min_items)
+
+            if max_items:
+                if not max_items.isdigit():
+                    msg = "The case MaxItems need to be an integer, receive %s" % level
+                    self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                    print(self._error, file=sys.stderr)
+                    return None
+                max_items = int(max_items)
+
+            if unique_items == "TRUE" or unique_items == "VRAI":
+                unique_items = True
+            elif unique_items == "FALSE" or unique_items == "FAUX":
+                unique_items = False
+
+            # First iteration
+            if dct_value is None:
+                if level != 1:
+                    msg = "First element is not a Level 1."
+                    self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                    print(self._error, file=sys.stderr)
+                    return None
+                dct_value = line_value
+                lst_level_object.append(line_value)
+            else:
+                # All other level
+
+                # Validation
+                if level == 1:
+                    msg = "Cannot support multiple Level 1 in same sheet."
+                    self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                    print(self._error, file=sys.stderr)
+                    return None
+
+                if required:
+                    msg = "Cannot support required when not Level 1."
+                    self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                    print(self._error, file=sys.stderr)
+                    return None
+
+                # First element in iteration
+                if not last_iter_level:
+                    last_iter_level = 1
+
+                # Validate iteration level progression
+                nb_level = len(lst_level_object)
+                diff_level = level - last_iter_level
+                if diff_level > 1:
+                    msg = "Cannot increase more than 1 level, but can downgrade more than 1."
+                    self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                    print(self._error, file=sys.stderr)
+                    return None
+                elif diff_level < 0:
+                    # Validate last level is completed before pop it
+                    last_object = lst_level_object[-1]
+                    last_object_type = last_object.get("type")
+                    if last_object_type == "object":
+                        if "properties" not in last_object:
+                            msg = "Need to be a child property of last line %i, object type. " \
+                                  "Need to be a level %i." % (line_number - 1, nb_level)
+                            self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                            print(self._error, file=sys.stderr)
+                            return None
+                    elif last_object_type == "array":
+                        if "items" not in last_object:
+                            msg = "Need to be a child item of last line %i, array type. " \
+                                  "Need to be a level %i." % (line_number - 1, nb_level)
+                            self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                            print(self._error, file=sys.stderr)
+                            return None
+
+                    # Need to pop the list for each level, because we downgrade the list
+                    rm_diff_level = nb_level + 1 - level
+                    for i in range(rm_diff_level):
+                        lst_level_object.pop()
+
+                # Use properties of last element if object, else use item if array
+                last_object = lst_level_object[-1]
+                last_object_type = last_object.get("type")
+                line_value = {}
+                if last_object_type == "object":
+                    if "properties" not in last_object:
+                        last_object["properties"] = {name: line_value}
+                    else:
+                        last_object["properties"][name] = line_value
+                elif last_object_type == "array":
+                    if "items" not in last_object:
+                        last_object["items"] = line_value
+                    else:
+                        msg = "Array cannot contain many sub-item."
+                        self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                        print(self._error, file=sys.stderr)
+                        return None
+
+                # Push in stack when add new object or array
+                if s_type in ["object", "array"]:
+                    lst_level_object.append(line_value)
+
+                last_iter_level = level
+
+            # Fill data in line_value
+            if s_type:
+                line_value["type"] = s_type
+            if title:
+                line_value["title"] = title
+            if required:
+                line_value["required"] = required.split()
+            if type(min_length) is int:
+                line_value["minLength"] = min_length
+            if type(min_items) is int:
+                line_value["minItems"] = min_items
+            if type(max_items) is int:
+                line_value["maxItems"] = max_items
+            if type(unique_items) is bool:
+                line_value["uniqueItems"] = unique_items
+
+        return dct_value
+
+    def _parse_sheet_type_form(self, doc_sheet_name, all_values):
+        """
+        Read each line of the doc from the spreadsheet and generate the structure.
+        :param doc_sheet_name: Sheet name
+        :param all_values: List of all row from the spreadsheet
+        :return: List of section to the doc or None when got error
+        """
+        lst_value = []
+        line_number = 1
+        lst_line = all_values[1:]
+        line_value = {}
+
+        # This is use to keep reference on last object dependant on level
+        lst_level_object = [lst_value]
+        for level, s_key, placeholder, s_type, options, value, name, category, add, style in lst_line:
+            # debug_values = (level, s_key, placeholder, s_type, options, value, name, category, add, style)
+            line_number += 1
+
+            # Validation section
+            # Level is obligated
+            if not level.isdigit():
+                msg = "The case Level need to be an integer, receive %s" % level
+                self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                print(self._error, file=sys.stderr)
+                return None
+            level = int(level)
+
+            # Insert level 1 element
+            if level == 1:
+                line_value = {}
+                lst_value.append(line_value)
+            else:
+                # level 2 and more
+                if not lst_value:
+                    msg = "First element is not a Level 1."
+                    self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                    print(self._error, file=sys.stderr)
+                    return None
+
+                # Validate level with stack
+                diff_level = level - len(lst_level_object)
+                if diff_level == 1:
+                    # All good, fill children
+                    pass
+                elif diff_level > 1:
+                    msg = "Problem with level, maybe you jump a number?"
+                    self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                    print(self._error, file=sys.stderr)
+                    return None
+                else:
+                    # Downgrade the stack
+                    pos_diff_level = abs(diff_level) + 1
+                    for i in range(pos_diff_level):
+                        lst_level_object.pop()
+
+                # Get last element from last element in stack
+                last_element = lst_level_object[-1][-1]
+                last_element_type = last_element.get("type")
+                # Section for select
+                if last_element_type in ["select", "strapselect"]:
+                    title_map = last_element.get("titleMap")
+                    line_value = {}
+                    if title_map:
+                        title_map.append(line_value)
+                    else:
+                        title_map = [line_value]
+                        last_element["titleMap"] = title_map
+
+                    if value:
+                        line_value["value"] = value
+                    if name:
+                        name = name.strip()
+                        if name[0] == '"':
+                            # Suppose start and end with "
+                            name = name[1:-1]
+                        line_value["name"] = name
+                    if category:
+                        line_value["category"] = category
+
+                elif last_element_type == "array":
+                    items = last_element.get("items")
+                    line_value = {}
+                    if items:
+                        items.append(line_value)
+                    else:
+                        items = [line_value]
+                        last_element["items"] = items
+                    # Add items in stack
+                    lst_level_object.append(items)
+
+            if s_key:
+                line_value["key"] = s_key
+            if s_type:
+                line_value["type"] = s_type
+            if placeholder:
+                # Exception for type submit
+                if s_type == "submit":
+                    line_value["title"] = placeholder
+                else:
+                    line_value["placeholder"] = placeholder
+            if add:
+                line_value["add"] = add
+            if options:
+                lst_option = options.split(",")
+                dct_option = {}
+                str_option = ""
+                for option in lst_option:
+                    count_separator = option.count(":")
+                    if count_separator > 1:
+                        msg = "Need 1 ':' in options to separate key and value."
+                        self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                        print(self._error, file=sys.stderr)
+                        return None
+                    elif count_separator == 1:
+                        k, v = option.split(":")
+                        v = v.strip()
+                        if v[0] == '"':
+                            # Suppose start and end with "
+                            v = v[1:-1]
+                        elif v[0] == "[":
+                            # TODO need to create list for many element with split(",")
+                            lst_v = []
+                            under_v = v[1:-1]
+                            if under_v[0] == '"':
+                                under_v = under_v[1:-1]
+                            lst_v.append(under_v)
+                            v = lst_v
+                        elif v.isdigit():
+                            v = int(v)
+                        dct_option[k] = v
+                    else:
+                        str_option = option
+
+                if dct_option:
+                    line_value["options"] = dct_option
+                else:
+                    line_value["options"] = str_option
+
+            if style:
+                lst_style = style.split(",")
+                dct_style = {}
+                str_style = ""
+                for obj_style in lst_style:
+                    count_separator = obj_style.count(":")
+                    if count_separator > 1:
+                        msg = "Need 1 ':' in style to separate key and value."
+                        self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                        print(self._error, file=sys.stderr)
+                        return None
+                    elif count_separator == 1:
+                        k, v = obj_style.split(":")
+                        v = v.strip()
+                        if v[0] == '"':
+                            # Suppose start and end with "
+                            v = v[1:-1]
+                        elif v[0] == "[":
+                            # TODO need to create list for many element with split(",")
+                            lst_v = []
+                            under_v = v[1:-1]
+                            if under_v[0] == '"':
+                                under_v = under_v[1:-1]
+                            lst_v.append(under_v)
+                            v = lst_v
+                        elif v.isdigit():
+                            v = int(v)
+
+                        dct_style[k] = v
+                    else:
+                        str_style = style
+
+                if dct_style:
+                    line_value["style"] = dct_style
+                else:
+                    line_value["style"] = str_style
+
+        return lst_value
+
+    def _parse_sheet_type_doc(self, doc_sheet_name, all_values):
         """
         Read each line of the doc from the spreadsheet and generate the structure.
         :param doc_sheet_name: Sheet name
