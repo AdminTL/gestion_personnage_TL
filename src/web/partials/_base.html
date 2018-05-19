@@ -78,7 +78,7 @@
         {% end %}
 
         {% if not disable_login and not disable_admin and current_user and current_user.get("permission") == "Admin" %}
-        <li ng-class="{ active: isActive('/admin') }"><a href="admin" style="color:red;"><span class="glyphicon glyphicon-king"></span> Admin</a></li>
+        <li ng-class="{ active: isActive('/admin') }"><a href="/admin" style="color:red;"><span class="glyphicon glyphicon-king"></span> Admin</a></li>
         {% end %}
 
         {% if not disable_login and (not hide_menu_login or current_user) %}

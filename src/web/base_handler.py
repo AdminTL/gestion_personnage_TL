@@ -9,8 +9,6 @@ import json
 class BaseHandler(tornado.web.RequestHandler):
     _debug = None
     _manual = None
-    _char_rule = None
-    _lore = None
     _db = None
     _invalid_login = None
     _redirect_http_to_https = None
@@ -23,8 +21,6 @@ class BaseHandler(tornado.web.RequestHandler):
         self._debug = kwargs.get("debug")
         self._db = kwargs.get("db")
         self._manual = kwargs.get("manual")
-        self._char_rule = kwargs.get("char_rule")
-        self._lore = kwargs.get("lore")
         self._invalid_login = self.get_argument("invalid",
                                                 default="disable_login" if kwargs.get("disable_login") else None)
         self._redirect_http_to_https = kwargs.get("redirect_http_to_https")

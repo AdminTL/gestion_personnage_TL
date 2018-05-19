@@ -220,7 +220,7 @@ characterApp.controller("lore_ctrl", ["$scope", "$q", "$http", "$window", "$loca
 
   $http({
     method: "get",
-    url: "/cmd/lore",
+    url: "/cmd/manual",
     headers: {"Content-Type": "application/json; charset=UTF-8"},
     // data: $httpParamSerializerJQLike(data),
     timeout: 5000
