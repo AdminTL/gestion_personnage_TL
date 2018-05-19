@@ -50,6 +50,12 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     text: ""
   };
 
+  $scope.approbation_status = {
+    enabled: false,
+    is_error: false,
+    text: ""
+  };
+
   // fill user and character schema and form
   $scope.update_character = function (e) {
     var char_rule_url = $scope.is_admin ? "/cmd/char_rule_admin" : "/cmd/char_rule";
@@ -71,6 +77,94 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
 
   };
   $scope.update_character();
+
+  $scope.is_approbation_new = function (user) {
+    return user && (isUndefined(user.character[0].approbation) || user.character[0].approbation.status == 0);
+  };
+
+  $scope.is_approbation_approved = function (user) {
+    return user && isDefined(user.character[0].approbation) && user.character[0].approbation.status == 1;
+  };
+
+  $scope.is_approbation_unapproved = function (user) {
+    return user && isDefined(user.character[0].approbation) && user.character[0].approbation.status == 2;
+  };
+
+  $scope.is_approbation_inactive = function (user) {
+    return user && isDefined(user.character[0].approbation) && user.character[0].approbation.status == 3;
+  };
+
+  $scope.is_approbation_to_correct = function (user) {
+    return user && isDefined(user.character[0].approbation) && user.character[0].approbation.status == 4;
+  };
+
+  $scope.get_timestamp_approbation_date = function (user) {
+    if (user) {
+      return user.character[0].approbation.date;
+    }
+    return -1;
+  };
+
+  $scope.get_text_select_character = function (user) {
+    var txt_append = "";
+    if ($scope.is_approbation_new(user)) {
+      txt_append = '✪';
+    } else if ($scope.is_approbation_approved(user)) {
+      txt_append = '✓';
+    } else if ($scope.is_approbation_unapproved(user)) {
+      txt_append = '✗';
+    } else if ($scope.is_approbation_inactive(user)) {
+      txt_append = '✞';
+    } else if ($scope.is_approbation_to_correct(user)) {
+      txt_append = '✐';
+    } else {
+      txt_append = '?';
+    }
+    return txt_append + " " + user.name;
+  };
+
+  $scope.send_approbation = function (status) {
+    var data = {};
+    data.user_id = $scope.model_user.user_id;
+    data.character_name = $scope.model_char.name;
+    data.approbation_status = status;
+
+    $http({
+      method: "post",
+      url: "/cmd/character_approbation",
+      headers: {"Content-Type": "application/json; charset=UTF-8"},
+      data: data,
+      timeout: 5000
+    }).then(function (response/*, status, headers, config*/) {
+      var data = response.data;
+      if (isDefined(response.error)) {
+        $scope.approbation_status.enabled = true;
+        $scope.approbation_status.is_error = true;
+        $scope.approbation_status.text = data.error;
+      } else {
+        $scope.approbation_status.enabled = true;
+        $scope.approbation_status.is_error = false;
+        $scope.approbation_status.text = "Succès.";
+
+        var data_approbation = {"date": data.data.date, "status": data.data.status};
+        $scope.character.approbation = data_approbation;
+      }
+
+    }, function errorCallback(response) {
+      console.error(response);
+
+      $scope.approbation_status.enabled = true;
+      $scope.approbation_status.is_error = true;
+
+      if (response.status == -1) {
+        // Timeout
+        $scope.approbation_status.text = "Timeout request.";
+      } else {
+        // Error from server
+        $scope.approbation_status.text = "Error from server : " + response.status;
+      }
+    });
+  };
 
   $scope.onSubmit = function (form) {
     // First we broadcast an event so all fields validate themselves
@@ -177,130 +271,130 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     $scope.get_html_qr_code();
   }, true);
 
-  $scope.$watch("character", function (value) {
-    $scope.cs_character = $scope.character;
-    $scope.fill_cs_character_habilites();
-  }, true);
+  // $scope.$watch("character", function (value) {
+  //   $scope.cs_character = $scope.character;
+  //   // $scope.fill_cs_character_habilites();
+  // }, true);
 
-  $scope.characterSheetPrintOptionChange = function (value) {
-    if ($scope.cs_setting == "filled") {
-      $scope.cs_player = $scope.player;
-      $scope.cs_character = $scope.character;
-      $scope.fill_cs_character_habilites();
-      console.log($scope.getSheetOutput($scope.cs_character.endurance.total));
-    } else {
-      $scope.cs_player = {};
-      $scope.cs_character = {};
-      $scope.cs_character_habilites = [];
-    }
-  };
+  // $scope.characterSheetPrintOptionChange = function (value) {
+  //   if ($scope.cs_setting == "filled") {
+  //     $scope.cs_player = $scope.player;
+  //     $scope.cs_character = $scope.character;
+  //     // $scope.fill_cs_character_habilites();
+  //     console.log($scope.getSheetOutput($scope.cs_character.endurance.total));
+  //   } else {
+  //     $scope.cs_player = {};
+  //     $scope.cs_character = {};
+  //     $scope.cs_character_habilites = [];
+  //   }
+  // };
 
-  $scope.fill_cs_character_habilites = function () {
-    // lvl 1 : 4 disciplines
-    // lvl 2 : 2 habilités
-    // lvl 3 : 3 options
-    // var max_discipline = 4;
-    // var max_unique_discipline = 2;
-    // var max_hability = 2;
-    // var max_unique_hability = 1;
-    var i_discipline = 0;
-
-    var dct_model = [
-      {
-        "discipline": "",
-        "hab_A": "",
-        "hab_A_1": "",
-        "hab_A_2": "",
-        "hab_A_3": "",
-        "hab_B": "",
-        "hab_B_1": "",
-        "hab_B_2": "",
-        "hab_B_3": ""
-      },
-      {
-        "discipline": "",
-        "hab_A": "",
-        "hab_A_1": "",
-        "hab_A_2": "",
-        "hab_A_3": "",
-        "hab_B": "",
-        "hab_B_1": "",
-        "hab_B_2": "",
-        "hab_B_3": ""
-      },
-      {
-        "discipline": "",
-        "hab_A": "",
-        "hab_A_1": "",
-        "hab_A_2": "",
-        "hab_A_3": "",
-        "hab_B": "",
-        "hab_B_1": "",
-        "hab_B_2": "",
-        "hab_B_3": ""
-      },
-      {
-        "discipline": "",
-        "hab_A": "",
-        "hab_A_1": "",
-        "hab_A_2": "",
-        "hab_A_3": "",
-        "hab_B": "",
-        "hab_B_1": "",
-        "hab_B_2": "",
-        "hab_B_3": ""
-      }
-    ];
-
-    if ($scope.character && $scope.character.habilites) {
-      $scope.character.habilites.forEach(function (value) {
-        var option_0 = $scope.getSheetOutput(value.options[0]);
-        var option_1 = $scope.getSheetOutput(value.options[1]);
-        var option_2 = $scope.getSheetOutput(value.options[2]);
-        var find = false;
-        // validate if exist
-        for (var i = 0; i < i_discipline; i++) {
-
-          if (dct_model[i].discipline == value.discipline) {
-            // check if repeating ability
-            if (!dct_model[i].hab_A) {
-              // fill free space
-              dct_model[i].hab_A = value.habilite;
-              dct_model[i].hab_A_1 = option_0;
-              dct_model[i].hab_A_2 = option_1;
-              dct_model[i].hab_A_3 = option_2;
-
-              find = true;
-              break;
-            } else if (!dct_model[i].hab_B) {
-              // fill free space
-              dct_model[i].hab_B = value.habilite;
-              dct_model[i].hab_B_1 = option_0;
-              dct_model[i].hab_B_2 = option_1;
-              dct_model[i].hab_B_3 = option_2;
-
-              find = true;
-              break;
-            }
-            // no free space, discipline will be recreate in !find section
-          }
-        }
-        if (!find) {
-          // not exist
-          // TODO add validation here
-          dct_model[i_discipline].discipline = value.discipline;
-          dct_model[i_discipline].hab_A = value.habilite;
-          dct_model[i_discipline].hab_A_1 = option_0;
-          dct_model[i_discipline].hab_A_2 = option_1;
-          dct_model[i_discipline].hab_A_3 = option_2;
-
-          i_discipline++;
-        }
-      });
-    }
-
-    $scope.cs_character_habilites = dct_model;
-  };
+  // $scope.fill_cs_character_habilites = function () {
+  //   // lvl 1 : 4 disciplines
+  //   // lvl 2 : 2 habilités
+  //   // lvl 3 : 3 options
+  //   // var max_discipline = 4;
+  //   // var max_unique_discipline = 2;
+  //   // var max_hability = 2;
+  //   // var max_unique_hability = 1;
+  //   var i_discipline = 0;
+  //
+  //   var dct_model = [
+  //     {
+  //       "discipline": "",
+  //       "hab_A": "",
+  //       "hab_A_1": "",
+  //       "hab_A_2": "",
+  //       "hab_A_3": "",
+  //       "hab_B": "",
+  //       "hab_B_1": "",
+  //       "hab_B_2": "",
+  //       "hab_B_3": ""
+  //     },
+  //     {
+  //       "discipline": "",
+  //       "hab_A": "",
+  //       "hab_A_1": "",
+  //       "hab_A_2": "",
+  //       "hab_A_3": "",
+  //       "hab_B": "",
+  //       "hab_B_1": "",
+  //       "hab_B_2": "",
+  //       "hab_B_3": ""
+  //     },
+  //     {
+  //       "discipline": "",
+  //       "hab_A": "",
+  //       "hab_A_1": "",
+  //       "hab_A_2": "",
+  //       "hab_A_3": "",
+  //       "hab_B": "",
+  //       "hab_B_1": "",
+  //       "hab_B_2": "",
+  //       "hab_B_3": ""
+  //     },
+  //     {
+  //       "discipline": "",
+  //       "hab_A": "",
+  //       "hab_A_1": "",
+  //       "hab_A_2": "",
+  //       "hab_A_3": "",
+  //       "hab_B": "",
+  //       "hab_B_1": "",
+  //       "hab_B_2": "",
+  //       "hab_B_3": ""
+  //     }
+  //   ];
+  //
+  //   if ($scope.character && $scope.character.habilites) {
+  //     $scope.character.habilites.forEach(function (value) {
+  //       var option_0 = $scope.getSheetOutput(value.options[0]);
+  //       var option_1 = $scope.getSheetOutput(value.options[1]);
+  //       var option_2 = $scope.getSheetOutput(value.options[2]);
+  //       var find = false;
+  //       // validate if exist
+  //       for (var i = 0; i < i_discipline; i++) {
+  //
+  //         if (dct_model[i].discipline == value.discipline) {
+  //           // check if repeating ability
+  //           if (!dct_model[i].hab_A) {
+  //             // fill free space
+  //             dct_model[i].hab_A = value.habilite;
+  //             dct_model[i].hab_A_1 = option_0;
+  //             dct_model[i].hab_A_2 = option_1;
+  //             dct_model[i].hab_A_3 = option_2;
+  //
+  //             find = true;
+  //             break;
+  //           } else if (!dct_model[i].hab_B) {
+  //             // fill free space
+  //             dct_model[i].hab_B = value.habilite;
+  //             dct_model[i].hab_B_1 = option_0;
+  //             dct_model[i].hab_B_2 = option_1;
+  //             dct_model[i].hab_B_3 = option_2;
+  //
+  //             find = true;
+  //             break;
+  //           }
+  //           // no free space, discipline will be recreate in !find section
+  //         }
+  //       }
+  //       if (!find) {
+  //         // not exist
+  //         // TODO add validation here
+  //         dct_model[i_discipline].discipline = value.discipline;
+  //         dct_model[i_discipline].hab_A = value.habilite;
+  //         dct_model[i_discipline].hab_A_1 = option_0;
+  //         dct_model[i_discipline].hab_A_2 = option_1;
+  //         dct_model[i_discipline].hab_A_3 = option_2;
+  //
+  //         i_discipline++;
+  //       }
+  //     });
+  //   }
+  //
+  //   $scope.cs_character_habilites = dct_model;
+  // };
 
   //get the string to output on the character sheet
   $scope.getSheetOutput = function (value) {

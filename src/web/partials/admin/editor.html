@@ -26,7 +26,7 @@
           {{! model_editor.update_file_url.status.text }}
         </a>
         <span ng-show="model_editor.info.string_last_local_doc_update && model_editor.update_file_url.status.enabled"><br/></span>
-        <span ng-show="model_editor.info.string_last_local_doc_update"><a>Temps de la dernière sauvegarde locale : {{! model_editor.info.string_last_local_doc_update }}</a></span>
+        <span ng-show="model_editor.info.string_last_local_doc_update"><a>Temps de la dernière sauvegarde locale : {{! model_editor.info.last_local_doc_update | UTCToNow: true }}</a></span>
       </div>
       <div ng-hide="model_editor.info.file_url">
         <a style="color:yellow">Le lien du document est manquant.</a>

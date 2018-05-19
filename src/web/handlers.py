@@ -940,6 +940,29 @@ class EditorCmdGenerateAndSaveHandler(jsonhandler.JsonHandler):
         self.finish()
 
 
+class CharacterApprobationHandler(jsonhandler.JsonHandler):
+    @tornado.web.asynchronous
+    @tornado.web.authenticated
+    def post(self):
+        if not self.is_permission_admin():
+            print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
+            # Forbidden
+            self.set_status(403)
+            self.send_error(403)
+            raise tornado.web.Finish()
+
+        self.prepare_json()
+
+        user_id = self.get_argument("user_id")
+        character_name = self.get_argument("character_name")
+        approbation_status = self.get_argument("approbation_status")
+
+        status = self._db.set_approbation(user_id, character_name, approbation_status)
+
+        self.write(status)
+        self.finish()
+
+
 class StatSeasonPass(jsonhandler.JsonHandler):
     @tornado.web.asynchronous
     def get(self):
