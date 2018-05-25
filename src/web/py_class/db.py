@@ -172,11 +172,12 @@ class DB(object):
                 user_id and not self._db_user.get(self._query_user.user_id == user_id)) and not (
                 username and not self._db_user.get(self._query_user.username == username))
 
-    def update_user(self, user_data, character_data=None, delete_user_by_id=None, delete_character_by_id=None):
+    def update_user(self, user_data, character_data=None, delete_user_by_id=None, delete_character_by_id=None,
+                    cancel_update_date=False):
         if not isinstance(user_data, dict):
             print("Cannot update user if user is not dictionary : %s" % user_data)
             return
-        actual_date = datetime.datetime.utcnow().timestamp()
+        actual_date = datetime.datetime.now(datetime.timezone.utc).timestamp()
         # if None, it's new user
         user_id = user_data.get("user_id")
         # if None, it's new character
@@ -209,7 +210,10 @@ class DB(object):
                         elif character_data:
                             lst_character[i] = character_data
                             # update last modify date
-                            character_data["date_modify"] = datetime.datetime.utcnow().timestamp()
+                            if not cancel_update_date:
+                                character_data["date_modify"] = actual_date
+                            if "date_creation" not in character_data and "date_modify" in character_data:
+                                character_data["date_creation"] = character_data["date_modify"]
                         break
                     i += 1
                 else:
@@ -228,15 +232,45 @@ class DB(object):
             # 2. validate user exist, else create it. Ignore if delete action
             # TODO validate user_data field
             user_data["user_id"] = uuid.uuid4().hex
+            if character_data:
+                character_data["date_creation"] = actual_date
+                character_data["date_modify"] = actual_date
             user_data["character"] = [character_data] if character_data else []
             user_data["date_modify"] = user_data["date_creation"] = actual_date
             self._db_user.insert(user_data)
         elif user_data or character_data or delete_character_by_id:
-            # 3. validate character exist for update, else create it, or delete it.
-            user_data["date_modify"] = actual_date
+            if not cancel_update_date:
+                if character_data and "approbation" in character_data:
+                    # When approved and update the character, it's unapproved
+                    approbation = character_data.get("approbation")
+                    if approbation.get("status") in [1, 4]:
+                        character_data["approbation"] = {"status": 2, "date": actual_date}
+
+                # 3. validate character exist for update, else create it, or delete it.
+                user_data["date_modify"] = actual_date
             self._db_user.update(_update_character(), self._query_user.user_id == user_id)
 
     def stat_get_total_season_pass(self):
         # self._db_user.search(tinydb.Query().character.all(tinydb.Query().xp_gn_1_2016 == True))
         # Cannot work if change '== True' for 'is True'
         return {"total_season_pass_2017": len(self._db_user.search(self._query_user.passe_saison_2017 == True))}
+
+    def get_character(self, user_id, character_name):
+        user = self.get_user(user_id=user_id)
+        if not user:
+            return
+        for char in user.get("character"):
+            if char.get("name") == character_name:
+                return char
+
+    def set_approbation(self, user_id, character_name, approbation_status):
+        user = self.get_user(user_id=user_id)
+        actual_date = datetime.datetime.now(datetime.timezone.utc).timestamp()
+        approbation = {"status": approbation_status, "date": actual_date}
+        for char in user.get("character"):
+            if char.get("name") == character_name:
+                char["approbation"] = approbation
+                break
+
+        self.update_user(user, character_data=char, cancel_update_date=True)
+        return {"status": "Success", "data": approbation}

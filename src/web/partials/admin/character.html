@@ -20,7 +20,7 @@
       </div>
       <div class="list-group" ng-show="!new_player">
         Nb joueur : {{!ddb_user.length}}
-        <select class="form-control" ng-model="player" ng-options="user.name for user in ddb_user | orderBy:'name'" ng-change="setCharacterData(null)">
+        <select class="form-control" ng-model="player" ng-options="get_text_select_character(user) for user in ddb_user | orderBy:'name'" ng-change="setCharacterData(null)">
           <option value="">--Sélectionner un joueur--</option>
         </select>
         <!--<br/>-->
@@ -55,8 +55,10 @@
           Total : {{! countTotalXp() }}
         </div>
         <div>
-          Xp consommé : {{! countTotalCostXp() }} <a class="text-decoration: none;" ng-hide="diffTotalXp() == 0" ng-style="diffTotalXp() > 0 ? {'color': 'green'} : {'color': 'red'}">{{!
-          showDiffTotalXp() }}</a>
+          Xp consommé : {{! countTotalCostXp() }}
+          <a class="text-decoration: none;" ng-hide="diffTotalXp() == 0"
+             ng-style="diffTotalXp() > 0 ? {'color': 'green'} : {'color': 'red'}">{{! showDiffTotalXp() }}
+          </a>
         </div>
         <!--<hr>-->
         <!--<div>-->
@@ -75,7 +77,7 @@
           <button class="btn btn-success" ng-click="newPlayer()"><span class="glyphicon glyphicon-plus"></span> <span class="glyphicon glyphicon-user"></span> Nouveau joueur</button>
           <br/>
           Nb joueur : {{!ddb_user.length}}
-          <select class="form-control" ng-model="player" ng-options="user.name for user in ddb_user | orderBy:'name'" ng-change="setCharacterData(null)">
+          <select class="form-control" ng-model="player" ng-options="get_text_select_character(user) for user in ddb_user | orderBy:'name'" ng-change="setCharacterData(null)">
             <option value="">--Sélectionner un joueur--</option>
           </select>
           <hr/>
@@ -90,10 +92,48 @@
           <!--<button class="btn btn-primary" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i>Imprimer</button>-->
         </div>
       </div>
+
+      <div ng-hide="new_player">
+        <h1>Information pour le joueur</h1>
+        <p>
+          Date de création : {{! model_char.date_creation * 1000 | UTCToNow: true }}<br/>
+          Date de mise à jour : {{! model_char.date_modify * 1000 | UTCToNow: true }}
+        </p>
+        <div>
+          La fiche <span ng-show="diffTotalXp() == 0" style="color:cornflowerblue">est à jour</span>
+          <span ng-show="diffTotalXp() > 0" style="color:green">a {{! diffTotalXp() }} points d'expérience à placer</span>
+          <span ng-show="diffTotalXp() < 0" style="color:indianred">est invalide, elle a {{! diffTotalXp() * -1 }} point d'expérience de trop</span>.
+        </div>
+        <div ng-show="isMobile()">
+          Xp consommé : {{! countTotalCostXp() }}
+          <a class="text-decoration: none;" ng-hide="diffTotalXp() == 0"
+             ng-style="diffTotalXp() > 0 ? {'color': 'green'} : {'color': 'red'}">{{! showDiffTotalXp() }}
+          </a>
+        </div>
+        <p>
+          Approbation de la fiche :
+          <span style="color:cornflowerblue" ng-show="is_approbation_new(player)">✪ nouveau</span>
+          <span style="color:green" ng-show="is_approbation_approved(player)">✓ approuvé</span>
+          <span style="color:yellow" ng-show="is_approbation_unapproved(player)">✗ en attente</span>
+          <span style="color:darkgray" ng-show="is_approbation_inactive(player)">✞ inactif</span>
+          <span style="color:indianred" ng-show="is_approbation_to_correct(player)">✐ à corriger</span>
+          <br/>
+          <span ng-show="model_char.approbation.date">Date d'approbation : {{! model_char.approbation.date * 1000 | UTCToNow: true }}</span><br/>
+          <button class="btn btn-success" ng-click="send_approbation(1)" ng-hide="is_approbation_approved(player)">Approuver ✓</button>
+          <button class="btn btn-danger" ng-click="send_approbation(4)" ng-hide="is_approbation_to_correct(player)">À corriger ✐</button>
+          <button class="btn btn-warning" ng-click="send_approbation(2)" ng-hide="is_approbation_unapproved(player)">Désapprouver ✗</button>
+          <button class="btn btn-default" ng-click="send_approbation(3)" ng-hide="is_approbation_inactive(player)">Inactif ✞</button>
+          <button class="btn btn-info" ng-click="send_approbation(0)" ng-hide="is_approbation_new(player)">Nouveau ✪</button>
+        </p>
+        <hr/>
+      </div>
       <form name="my_form_char" ng-submit="onSubmit(my_form_char)">
+        <h1>Section utilisateur</h1>
         <div sf-schema="schema_user" sf-form="form_user" sf-model="model_user"></div>
         <hr/>
+        <h1>Section fiche de personnage</h1>
         <div sf-schema="schema_char" sf-form="form_char" sf-model="model_char"></div>
+
         <!--<div ng-hide="isMobile()">-->
         <!--<hr/>-->
         <!--<div>{{!prettyModelUser}}</div>-->
@@ -106,6 +146,7 @@
         <!--<div>{{! url_qr_code }}</div>-->
         <!--<hr/>-->
         <!--</div>-->
+
       </form>
 
       <a ng-show="status_send.enabled" ng-style="status_send.is_error ? {'color': 'red'} : {'color': 'green'}">
@@ -113,12 +154,12 @@
       </a>
 
       <div ng-show="isMobile()">
-        Xp : {{! countTotalCostXp() }} <a class="text-decoration: none;" ng-hide="diffTotalXp() == 0" ng-style="diffTotalXp() > 0 ? {'color': 'green'} : {'color': 'red'}">{{!
-        showDiffTotalXp() }}</a>
+        Xp consommé : {{! countTotalCostXp() }}
+        <a class="text-decoration: none;" ng-hide="diffTotalXp() == 0"
+           ng-style="diffTotalXp() > 0 ? {'color': 'green'} : {'color': 'red'}">{{! showDiffTotalXp() }}
+        </a>
       </div>
     </div> <!-- end div form write -->
-
-    {% include "../character_sheet_print.html" %}
 
   </div> <!-- end div if player -->
 </div> <!-- end of character_ctrl -->
