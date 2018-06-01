@@ -212,11 +212,17 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
         timeout: 5000
       }).then(function (response/*, status, headers, config*/) {
         $scope.status_send.enabled = true;
-        $scope.status_send.is_error = false;
-        $scope.status_send.text = "Succès.";
 
-        // TODO not suppose to need to reload the page, block by socket update
-        $window.location.reload();
+        if (isDefined(response.data.error)) {
+          $scope.status_send.text = response.data.error;
+          $scope.status_send.is_error = true;
+        } else {
+          $scope.status_send.is_error = false;
+          $scope.status_send.text = "Succès.";
+          // TODO not suppose to need to reload the page, block by socket update
+          $window.location.reload();
+        }
+
       }, function errorCallback(response) {
         console.error(response);
 
