@@ -1,32 +1,20 @@
-import {Component, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Config} from '../../config';
+import { Component, Inject } from '@angular/core';
+import { Http } from '@angular/http';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+    selector: 'home',
+    templateUrl: './home.component.html'
 })
+export class HomeComponent {
+    public totalSeasonPass: number;
 
-export class HomeComponent implements OnInit {
-
-  total_season_pass: number = 0;
-
-  constructor(private http: HttpClient) {
-  }
-
-  ngOnInit(): void {
-    this.http.get<StatSeasonPass>(Config.serverUrl + "/cmd/stat/total_season_pass").subscribe(
-      data => {
-        this.total_season_pass = data.total_season_pass_2017;
-      },
-      err => (
-        console.error("Error occured : " + err)
-      )
-    );
-  }
+    constructor(http: Http, @Inject('BASE_URL') baseUrl: string) {
+        http.get(baseUrl + 'api/SampleData/TotalSeasonPass').subscribe(result => {
+            this.totalSeasonPass = (result.json() as SeasonPassNumber).result;
+        }, error => console.error(error));
+    }
 }
 
-interface StatSeasonPass {
-  total_season_pass_2017: number;
+interface SeasonPassNumber {
+    result: number;
 }

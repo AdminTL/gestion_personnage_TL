@@ -5,41 +5,39 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { TabMenuModule } from 'primeng/primeng';
 
-import { AppComponent } from './app.component';
+import { AppComponent } from './app/app.component';
+import { NavMenuComponent } from './navmenu/navmenu.component';
 import { HomeComponent } from './home/home.component';
-import { CharacterComponent } from './character/character.component';
+import { CharacterFrameComponent } from './character/frame/characterframe.component';
+import { CharacterFormComponent } from './character/form/characterform.component';
 import { LoreComponent } from './lore/lore.component';
 import { ManualComponent } from './manual/manual.component';
-import { NotFoundComponent } from './not-found/not-found.component';
-import { HeaderComponent } from './header/header.component';
-
-const appRoutes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'lore', component: LoreComponent },
-  { path: 'character', component: CharacterComponent },
-  { path: 'manual', component: ManualComponent },
-  { path: '**', component: NotFoundComponent }
-];
+import { DynamicSectionComponent } from './dynamicsection/dynamicsection.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    CharacterComponent,
-    LoreComponent,
-    ManualComponent,
-    NotFoundComponent,
-    HeaderComponent
-  ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    RouterModule.forRoot(appRoutes),
-
-    TabMenuModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        NavMenuComponent,
+        CharacterFrameComponent,
+        CharacterFormComponent,
+        HomeComponent,
+        LoreComponent,
+        DynamicSectionComponent,
+        ManualComponent
+    ],
+    imports: [
+        CommonModule,
+        HttpModule,
+        FormsModule,
+        RouterModule.forRoot([
+            { path: '', redirectTo: 'home', pathMatch: 'full' },
+            { path: 'home', component: HomeComponent },
+            { path: 'character', component: CharacterFrameComponent },
+            { path: 'lore', component: LoreComponent },
+            { path: 'manual', component: ManualComponent },
+            { path: '**', component: NotFoundComponent}
+        ]),
+        SkillTreeModule
+    ]
 })
 export class AppModule { }

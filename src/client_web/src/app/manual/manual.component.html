@@ -1,41 +1,7 @@
-<div>
-  <!--Nav Bar menu interactive follow scroll position -->
-  <div class="col-xs-3 bs-docs-sidebar print-hide" *ngIf="!isMobile()">
-    <!-- LEVEL 1 -->
-    <ul id="sidebar" class="nav nav-stacked">
-      <li *ngFor="let manual_sect_1 of manual">
-        <div *ngIf="in_filter_edition || manual_sect_1.visible">
-          <a target="_self" [href]="formatAnchor(manual_sect_1, null)"></a><!--[bind-html]="formatMenuNavHtml(manual_sect_1.title)">-->
+﻿<h1>L'univers de Traître-Lame</h1>
 
-          <!-- LEVEL 2 -->
-          <ul class="nav nav-stacked">
-            <li *ngFor="let manual_sect_2 of manual_sect_1.section">
-              <div *ngIf="in_filter_edition || manual_sect_2.visible">
-                <a target="_self" [href]="formatAnchor(manual_sect_2, [manual_sect_1])"></a><!--[bind-html]="manual_sect_2.title"-->
-              </div>
-            </li>
-          </ul>
-        </div>
-      </li>
-      <a class="nav nav-stacked" target="_self" href="#top"> Retour en haut </a>
-      <button class="btn btn-primary" print-element-id="manual_main_content"> <!--[print]-->
-        <i class="fa fa-print"></i>Imprimer</button>
-      <br/>
-      <br/>
-      <a (click)="advance_option = !advance_option">Option avancée :
-        <span *ngIf="advance_option" class="glyphicon glyphicon-triangle-bottom"></span>
-        <span *ngIf="!advance_option" class="glyphicon glyphicon-triangle-right"></span>
-      </a>
-      <div *ngIf="advance_option">
-        <button class="btn btn-primary" (click)="in_filter_edition=true;" *ngIf="!in_filter_edition">Créer filtre</button>
-        <button class="btn btn-primary" (click)="in_filter_edition=false;" *ngIf="in_filter_edition">Filtre terminé</button>
-        <br/>
-        <button class="btn btn-primary" (click)="select_all(true)" *ngIf="in_filter_edition">Tous</button>
-        <button class="btn btn-primary" (click)="select_all(false)" *ngIf="in_filter_edition">Aucun</button>
-        <br/>
-        <a [href]="! change_location_filter()">Ouvrir lien filtré</a>
-      </div>
-    </ul>
-  </div>
-  <!-- end nav content -->
+<p *ngIf="!manualRoot"><em>Chargement...</em></p>
+
+<div *ngIf="!!manualRoot">
+    <dynamic-section *ngFor="let element of manualRoot.manual" [section]="element" [depth]="0"></dynamic-section>
 </div>
