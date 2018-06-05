@@ -57,7 +57,7 @@ class AutoSSLHandler(tornado.web.RequestHandler):
 class IndexHandler(base_handler.BaseHandler):
     @tornado.web.asynchronous
     def get(self):
-        self.render('news.html', enable_facebook_feed=ENABLE_FACEBOOK_FEED, **self._global_arg)
+        self.render('index.html', enable_facebook_feed=ENABLE_FACEBOOK_FEED, **self._global_arg)
 
 
 class ManualPageHandler(base_handler.BaseHandler):
