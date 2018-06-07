@@ -9,8 +9,8 @@ import web
 from py_class.config import Config
 
 WEB_ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
-WEB_DEFAULT_STATIC_DIR = os.path.join(WEB_ROOT_DIR, "..", "client_web")
-WEB_DEFAULT_TEMPLATE_DIR = os.path.join(WEB_ROOT_DIR, "..", "client_web", "src")
+WEB_DEFAULT_STATIC_DIR = os.path.join(WEB_ROOT_DIR, "dist")
+WEB_DEFAULT_TEMPLATE_DIR = os.path.join(WEB_ROOT_DIR, "dist")
 DB_DEFAULT_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "tl_user.json")
 DB_DEMO_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "demo_user.json")
 DB_MANUAL_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "tl_manual.json")

@@ -109,16 +109,6 @@ def main(parse_arg):
         # To create parameters: /(?P<param1>[^\/]+)/?(?P<param2>[^\/]+)/?
         # Add ? after ) to make a parameter optional
 
-        # Web page
-        tornado.web.url(r"/?", handlers.IndexHandler, name='index', kwargs=settings),
-        tornado.web.url(r"/login/?", handlers.LoginHandler, name='login', kwargs=settings),
-        tornado.web.url(r"/logout/?", handlers.LogoutHandler, name='logout', kwargs=settings),
-        tornado.web.url(r"/admin/?", handlers.AdminHandler, name='admin', kwargs=settings),
-        tornado.web.url(r"/profile/?(?P<user_id>[^\/]+)?/?", handlers.ProfileHandler, name='profile', kwargs=settings),
-        tornado.web.url(r"/character/?", handlers.CharacterHandler, name='character', kwargs=settings),
-        tornado.web.url(r"/manual/?", handlers.ManualPageHandler, name='manual', kwargs=settings),
-        tornado.web.url(r"/lore/?", handlers.LorePageHandler, name='lore', kwargs=settings),
-
         # Admin web page
         tornado.web.url(r"/admin/character?", handlers.AdminCharacterHandler, name='admin character', kwargs=settings),
         tornado.web.url(r"/admin/editor?", handlers.AdminEditorHandler, name='admin editor', kwargs=settings),
@@ -155,7 +145,10 @@ def main(parse_arg):
                         name='generate_project_archive', kwargs=settings),
 
         # Auto ssl
-        tornado.web.url(r"/.well-known/acme-challenge.*", handlers.AutoSSLHandler, name="auto_ssl")
+        tornado.web.url(r"/.well-known/acme-challenge.*", handlers.AutoSSLHandler, name="auto_ssl"),
+
+        # Scripts and css, and Angular pages
+        tornado.web.url(r'/(.*)/?', handlers.StaticFileHandler, kwargs={'path': parse_arg.static_dir})
     ]
 
     if not parse_arg.disable_login:

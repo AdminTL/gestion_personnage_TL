@@ -54,22 +54,15 @@ class AutoSSLHandler(tornado.web.RequestHandler):
         self.finish()
 
 
-class IndexHandler(base_handler.BaseHandler):
+class StaticFileHandler(base_handler.BaseHandler):
     @tornado.web.asynchronous
-    def get(self):
-        self.render('index.html', enable_facebook_feed=ENABLE_FACEBOOK_FEED, **self._global_arg)
-
-
-class ManualPageHandler(base_handler.BaseHandler):
-    @tornado.web.asynchronous
-    def get(self):
-        self.render('manual.html', **self._global_arg)
-
-
-class LorePageHandler(base_handler.BaseHandler):
-    @tornado.web.asynchronous
-    def get(self):
-        self.render('lore.html', **self._global_arg)
+    def get(self, filename):
+        try:
+            self.render(filename, **self._global_arg)
+        except FileNotFoundError:
+            # TODO change to if clause.
+            # Will go to 404 page in angular if the path is incorrect.
+            self.render('index.html', enable_facebook_feed=ENABLE_FACEBOOK_FEED, **self._global_arg)
 
 
 class LoginHandler(base_handler.BaseHandler):
