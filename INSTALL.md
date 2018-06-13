@@ -59,29 +59,18 @@ Start a cmd prompt with admin privileges by right-clicking->run as administrator
 pip3 install tornado sockjs-tornado tinydb PyOpenSSL oauth2client gspread
 ```
 
-Bower
-=====
-We use bower to update and install javascript code.
-Only need in develop or server without Internet.
-
-**You don't need bower if you execute the server with the --use_internet_static argument**
-Because this option will get dependencies on Internet directly.
-
-You need to [install bower](https://bower.io/#install-bower) and execute the install command :
-```{r, engine='bash', count_lines}
-cd src/web
-bower install
-```
-
-Choose the first option if bower asks to resolve conflict.
-
 Authentication
 ==============
 To disable authentication, use argument --disable_login
 
 Running
 =======
-Run ./script/web_server.sh to launch the server.
+#####Compiling Angular code
+In the `{project_root}/src/client_web/` directory, run `npm run build`
+
+#####Running
+Once compiling is done, run `{project_root}/script/web_server.sh` to launch the server.
+Alternatively, you can run `py {project_root}/src/server_web/__main__.py`
 
 Configure server
 ================

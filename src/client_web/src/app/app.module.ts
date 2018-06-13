@@ -8,19 +8,18 @@ import { FormsModule } from '@angular/forms'
 
 import { TabMenuModule } from 'primeng/primeng';
 
-import { NavMenuComponent } from './navmenu/navmenu.component';
+import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CharacterFrameComponent } from './character/frame/characterframe.component';
-import { CharacterFormComponent } from './character/form/characterform.component';
+import { CharacterFrameComponent } from './character/frame/character-frame.component';
+import { CharacterFormComponent } from './character/form/character-form.component';
 import { LoreComponent } from './lore/lore.component';
 import { ManualComponent } from './manual/manual.component';
-import { DynamicSectionComponent } from './dynamicsection/dynamicsection.component';
+import { DynamicSectionComponent } from './dynamic-section/dynamic-section.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AppComponent } from './app.component';
 
 @NgModule({
     declarations: [
-        NavMenuComponent,
         CharacterFrameComponent,
         CharacterFormComponent,
         HomeComponent,
@@ -28,6 +27,7 @@ import { AppComponent } from './app.component';
         DynamicSectionComponent,
         ManualComponent,
         NotFoundComponent,
+        NavMenuComponent,
         AppComponent
     ],
     imports: [
@@ -46,7 +46,7 @@ import { AppComponent } from './app.component';
         ]),
     ],
     providers: [
-      { provide: 'BASE_URL', useValue: 'localhost:8000' }
+      { provide: 'BASE_URL', useValue: 'http://localhost:8000/' }
     ],
     bootstrap: [ AppComponent ]
 })

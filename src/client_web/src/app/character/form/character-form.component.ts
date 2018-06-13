@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
     selector: 'character-form',
-    templateUrl: './characterform.component.html'
+    templateUrl: './character-form.component.html'
 })
 export class CharacterFormComponent {
     public currentCount = 0;

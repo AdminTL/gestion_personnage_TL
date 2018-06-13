@@ -3,7 +3,7 @@ import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 
 @Component({
-    selector: 'lore',
+    selector: 'manual',
     templateUrl: './manual.component.html'
 })
 export class ManualComponent {
@@ -11,7 +11,7 @@ export class ManualComponent {
     private router: Router;
 
     constructor(http: Http, @Inject('BASE_URL') baseUrl: string, router: Router) {
-        http.get(baseUrl + 'api/SampleData/GenerateManual').subscribe(result => {
+        http.get(baseUrl + 'cmd/manual').subscribe(result => {
             this.manualRoot = result.json() as ManualRoot;
         }, error => console.error(error));
         this.router = router;

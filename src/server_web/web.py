@@ -147,8 +147,11 @@ def main(parse_arg):
         # Auto ssl
         tornado.web.url(r"/.well-known/acme-challenge.*", handlers.AutoSSLHandler, name="auto_ssl"),
 
-        # Scripts and css, and Angular pages
-        tornado.web.url(r'/(.*)/?', handlers.StaticFileHandler, kwargs={'path': parse_arg.static_dir})
+        # Content files in the dist folder (js, css, images)
+        tornado.web.url(r'/((?:.*)\.(?:txt|png|ico|woff2|svg|ttf|eot|woff|gif|js))/?', tornado.web.StaticFileHandler, kwargs={'path': parse_arg.static_dir}),
+
+        # Angular pages
+        tornado.web.url(r'/(?:.*)/?', handlers.IndexHandler, kwargs={'path': parse_arg.static_dir})
     ]
 
     if not parse_arg.disable_login:
