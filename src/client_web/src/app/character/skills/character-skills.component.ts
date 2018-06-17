@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-    selector: 'character-frame',
-    templateUrl: './character-frame.component.html'
+    selector: 'character-skills',
+    templateUrl: './character-skills.component.html'
 })
-export class CharacterFrameComponent {
+export class CharacterSkillsComponent {
     public currentCount = 0;
 
     public incrementCounter() {
