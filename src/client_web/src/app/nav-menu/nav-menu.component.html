@@ -1,44 +1,44 @@
 <div class='main-nav'>
     <div class='navbar navbar-inverse'>
         <div class='navbar-header'>
-            <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse'>
+            <button type='button' class='navbar-toggle' [attr.aria-expanded]='isExpanded' (click)='toggle()' data-target='.navbar-collapse'>
                 <span class='sr-only'>Toggle navigation</span>
                 <span class='icon-bar'></span>
                 <span class='icon-bar'></span>
                 <span class='icon-bar'></span>
             </button>
-            <h1 [routerLink]="['/home']">TraitreLame</h1>
+            <h1 [routerLink]="['/home']">Traître-Lame</h1>
         </div>
         <div class='clearfix'></div>
-        <div class='navbar-collapse collapse'>
+        <div class='navbar-collapse collapse' [ngClass]='{ "in": isExpanded }'>
             <ul class='nav navbar-nav'>
-                <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/home']">
+                <li [routerLinkActive]="['link-active']" [routerLinkActiveOptions]='{ exact: true }'>
+                    <a [routerLink]="['/home']" (click)='collapse()'>
                         <span class='glyphicon glyphicon-home'></span> Home
                     </a>
                 </li>
                 <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/character']">
+                    <a [routerLink]="['/character']" (click)='collapse()'>
                         <span class='glyphicon glyphicon-knight'></span> Personnage
                     </a>
                 </li>
                 <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/lore']">
+                    <a [routerLink]="['/lore']" (click)='collapse()'>
                         <span class='glyphicon glyphicon-globe'></span> Univers
                     </a>
                 </li>
                 <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/manual']">
+                    <a [routerLink]="['/manual']" (click)='collapse()'>
                         <span class='glyphicon glyphicon-book'></span> Livre de règles
                     </a>
                 </li>
                 <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/login']">
+                    <a [routerLink]="['/login']" (click)='collapse()'>
                         <span class='glyphicon glyphicon-log-in'></span> Connection
                     </a>
                 </li>
                 <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/logout']">
+                    <a [routerLink]="['/logout']" (click)='collapse()'>
                         <span class='glyphicon glyphicon-log-out'></span> Déconnection
                     </a>
                 </li>

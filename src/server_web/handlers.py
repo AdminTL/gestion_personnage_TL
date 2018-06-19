@@ -491,19 +491,6 @@ class ProfileHandler(base_handler.BaseHandler):
         self.render('profile.html', user=user, **self._global_arg)
 
 
-class CharacterHandler(base_handler.BaseHandler):
-    @tornado.web.asynchronous
-    def get(self):
-        # don't block the page when disable character, user need to be inform
-        # if self._global_arg["disable_character"]:
-        #     # Not Found
-        #     self.set_status(404)
-        #     self.send_error(404)
-        #     raise tornado.web.Finish()
-
-        self.render('character.html', **self._global_arg)
-
-
 class CharacterViewHandler(jsonhandler.JsonHandler):
     @tornado.web.asynchronous
     @tornado.web.authenticated

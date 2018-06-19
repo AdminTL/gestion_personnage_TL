@@ -9,7 +9,7 @@ export class HomeComponent {
     public totalSeasonPass: number;
 
     constructor(http: Http, @Inject('BASE_URL') baseUrl: string) {
-        http.get(baseUrl + 'api/SampleData/TotalSeasonPass').subscribe(result => {
+        http.get(baseUrl + 'cmd/stat/total_season_pass').subscribe(result => {
             this.totalSeasonPass = (result.json() as SeasonPassNumber).result;
         }, error => console.error(error));
     }

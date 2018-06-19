@@ -1,3 +1,22 @@
-<p-menubar [model]="items"></p-menubar>
+<p-menubar [model]="sectionMenuItems"></p-menubar>
+
+<div *ngIf="player && countCharacters() > 1">
+  <div class="btn-group">
+  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    {{selectedChar.name}}
+  </button>
+  <div class="dropdown-menu">
+    <a class="dropdown-item" *ngFor="let char of player.character" (click)="switchSelectedChar(char)">{{char.name}}</a>
+  </div>
+</div>
+</div>
+<div *ngIf="player && countCharacters() <= 1">
+  <button type="button" class="btn btn-secondary">
+    {{selectedChar.name}}
+  </button>
+</div>
+
+<div>Point d'XP {{countSpentXp()}}/{{countTotalXp()}}</div>
+<div>Points de Mérite {{countSpentMerite()}}/{{player.total_point_merite}}</div>
 
 <router-outlet></router-outlet>

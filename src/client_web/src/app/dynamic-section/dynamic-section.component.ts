@@ -10,7 +10,7 @@ export class DynamicSectionComponent {
     public route: string
 
     constructor(router: Router) {
-        this.route = router.url;
+        this.route = router.url.split('#')[0];
     }
 
     @Input()
