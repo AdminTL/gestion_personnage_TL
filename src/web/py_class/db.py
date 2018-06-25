@@ -253,7 +253,7 @@ class DB(object):
     def stat_get_total_season_pass(self):
         # self._db_user.search(tinydb.Query().character.all(tinydb.Query().xp_gn_1_2016 == True))
         # Cannot work if change '== True' for 'is True'
-        return {"total_season_pass_2017": len(self._db_user.search(self._query_user.passe_saison_2017 == True))}
+        return {"total_season_pass_2018": len(self._db_user.search(self._query_user.passe_saison_2018 == True))}
 
     def get_character(self, user_id, character_name):
         user = self.get_user(user_id=user_id)

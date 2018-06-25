@@ -529,6 +529,9 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     }
     total_xp -= $scope.xp_spend;
     $scope.xp_receive = $scope.xp_default;
+    if (isDefined($scope.model_user["xp_gn_1"]) && $scope.model_user.xp_gn_1) {
+      $scope.xp_receive++;
+    }
     total_xp += $scope.xp_receive;
     $scope.xp_total = total_xp;
 
