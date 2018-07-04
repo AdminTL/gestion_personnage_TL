@@ -1,3 +1,3 @@
-class Merite{
+interface Merite{
   sub_merite: string;
 }

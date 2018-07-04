@@ -23,10 +23,7 @@ export class LoreComponent implements AfterViewChecked {
         if (tree.fragment) {
             const element = document.querySelector("#" + tree.fragment);
             if (element) {
-                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                if(window.innerWidth < 767){ // Make space for the menu on the top when on mobile
-                    window.scrollBy({ top: -70, behavior: 'smooth' });
-                }
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' }); // works wonky on different screens
             }
         }
     }

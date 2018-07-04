@@ -1,4 +1,4 @@
-class Approbation{
+interface Approbation{
   date: number;
   status: number;
 }

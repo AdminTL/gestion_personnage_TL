@@ -5,9 +5,6 @@ import { Component } from '@angular/core';
     templateUrl: './character-form.component.html'
 })
 export class CharacterFormComponent {
-    public currentCount = 0;
+    public character: Character;
 
-    public incrementCounter() {
-        this.currentCount++;
-    }
 }

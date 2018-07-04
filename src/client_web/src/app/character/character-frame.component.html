@@ -2,21 +2,25 @@
 
 <div *ngIf="player && countCharacters() > 1">
   <div class="btn-group">
-  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    {{selectedChar.name}}
-  </button>
-  <div class="dropdown-menu">
-    <a class="dropdown-item" *ngFor="let char of player.character" (click)="switchSelectedChar(char)">{{char.name}}</a>
+    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      {{selectedChar.name}}
+    </button>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" *ngFor="let char of player.character" (click)="switchSelectedChar(char)">{{char.name}}</a>
+    </div>
   </div>
 </div>
-</div>
-<div *ngIf="player && countCharacters() <= 1">
-  <button type="button" class="btn btn-secondary">
-    {{selectedChar.name}}
-  </button>
+
+<div class="character-navigation">
+  <div *ngIf="player && countCharacters() <= 1">
+    <button type="button" class="btn btn-secondary">
+      {{selectedChar.name}}
+    </button>
+  </div>
+
+  <div>Point d'XP {{getSpentXp()}}/{{getTotalXp()}}</div>
+  <div>Points de Mérite {{countSpentMerite()}}/{{countTotalMerite()}}</div>
 </div>
 
-<div>Point d'XP {{countSpentXp()}}/{{countTotalXp()}}</div>
-<div>Points de Mérite {{countSpentMerite()}}/{{player.total_point_merite}}</div>
-
+<character-header [character]="selectedChar" [playerMeriteDiff]="countTotalMerite() - countSpentMerite()"></character-header>
 <router-outlet></router-outlet>

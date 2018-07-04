@@ -1,4 +1,4 @@
-class Character{
+interface Character{
   energie: string[];
   endurance: string[];
   accueil_jeu_1: boolean;

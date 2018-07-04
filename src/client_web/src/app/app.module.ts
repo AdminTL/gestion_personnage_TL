@@ -14,6 +14,7 @@ import { CharacterAttributesComponent } from './character/attributes/character-a
 import { CharacterMessagesComponent } from './character/messages/character-messages.component';
 import { CharacterResourcesComponent } from './character/resources/character-resources.component';
 import { CharacterSkillsComponent } from './character/skills/character-skills.component';
+import { CharacterHeaderComponent } from './character/header/character-header.component';
 
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
@@ -31,6 +32,7 @@ import { AppComponent } from './app.component';
         CharacterMessagesComponent,
         CharacterResourcesComponent,
         CharacterSkillsComponent,
+        CharacterHeaderComponent,
         HomeComponent,
         LoreComponent,
         DynamicSectionComponent,

@@ -1,4 +1,4 @@
-class Player {
+interface Player {
   character: Character[];
   date_modify: number;
   email: string;
