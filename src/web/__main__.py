@@ -77,7 +77,8 @@ def parse_args():
                        help='Active to disable login module.')
     group.add_argument('--disable_admin', default=False, action='store_true',
                        help='Active to disable admin module.')
-    group.add_argument('--disable_custom_css', default=False, action='store_true',
+    # TODO Force to disable this feature until it's improve
+    group.add_argument('--disable_custom_css', default=True, action='store_true',
                        help='Active to disable custom css module.')
     group.add_argument('--hide_menu_login', default=False, action='store_true',
                        help='Active to hide login module from menu.')
