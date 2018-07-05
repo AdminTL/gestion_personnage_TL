@@ -34,6 +34,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   $scope.character_skill = [];
   $scope.character_merite = [];
   $scope.character_esclave = [];
+  $scope.character_marche = [];
 
   $scope.xp_receive = 0;
   $scope.xp_spend = 0;
@@ -637,6 +638,35 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       }
     }
 
+    if (isDefined($scope.model_char.marche)) {
+      for (var i = 0; i < $scope.model_char.marche.length; i++) {
+        if (isUndefined($scope.model_char.marche[i]) || !$scope.model_char.marche[i]) {
+          continue;
+        }
+        // Find the associate point
+        var sub_key = "marche_" + $scope.model_char.marche[i].sub_marche;
+
+        if (sub_key in $scope.model_database.skill_manual) {
+          $scope.character_marche.push($scope.model_database.skill_manual[sub_key]);
+        }
+
+        if (sub_key in $scope.model_database.point) {
+          var dct_key_point = $scope.model_database.point[sub_key];
+
+          for (var key_point in dct_key_point) {
+            if (dct_key_point.hasOwnProperty(key_point)) {
+              var point_value = dct_key_point[key_point];
+              if (key_point in $scope.character_point) {
+                $scope.character_point[key_point] += point_value;
+              } else {
+                $scope.character_point[key_point] = point_value;
+              }
+            }
+          }
+        }
+      }
+    }
+
     // xp
     var total_xp = 0;
     if ($scope.character_point.hasOwnProperty("PtXp")) {
@@ -751,6 +781,9 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       if (!isDefined(firstChar.esclave)) {
         $scope.model_char.esclave = [];
       }
+      if (!isDefined(firstChar.marche)) {
+        $scope.model_char.marche = [];
+      }
       if (!isDefined(firstChar.xp_naissance)) {
         $scope.model_char.xp_naissance = $scope.xp_default;
       }
@@ -768,6 +801,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       $scope.model_char.sous_ecole = [];
       $scope.model_char.merite = [];
       $scope.model_char.esclave = [];
+      $scope.model_char.marche = [];
       $scope.model_char.xp_naissance = $scope.xp_default;
       $scope.model_char.xp_autre = 0;
 
