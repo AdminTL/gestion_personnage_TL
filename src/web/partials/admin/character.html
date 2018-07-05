@@ -23,7 +23,7 @@
         <select class="form-control" ng-model="player" ng-options="get_text_select_character(user) for user in ddb_user | orderBy:'name'" ng-change="setCharacterData(null)">
           <option value="">--Sélectionner un joueur--</option>
         </select>
-        <a ng-click="refresh_page()" class="btn btn-lg btn-warning" role="button">Refresh</a><br/>
+        <a ng-click="refresh_page()" class="btn btn-lg btn-warning" role="button">Rafraîchir</a><br/>
         Appuyez avant de choisir une fiche.
         <!--<br/>-->
         <!--Vue de fiche:<br/>-->
@@ -82,7 +82,7 @@
           <select class="form-control" ng-model="player" ng-options="get_text_select_character(user) for user in ddb_user | orderBy:'name'" ng-change="setCharacterData(null)">
             <option value="">--Sélectionner un joueur--</option>
           </select>
-          <a ng-click="refresh_page()" class="btn btn-lg btn-warning" role="button">Refresh</a><br/>
+          <a ng-click="refresh_page()" class="btn btn-lg btn-warning" role="button">Rafraîchir</a><br/>
           Appuyez avant de choisir une fiche.
           <hr/>
           <!--<br/>-->
@@ -151,12 +151,8 @@
             style="font-weight:bold;text-decoration: underline">{{! diff_sous_ecole }}</span> sous-école à choisir</span>.</span>
         <span ng-show="!model_char.name"><span style="color:red">Nom du personnage est manquant</span>.</span>
         <span ng-show="!model_char.faction"><span style="color:red">Faction manquante</span>.</span>
-        <span ng-show="count_master_tech == 0 && first_game_unlock_master_tech">Il y a <span style="color:yellow"><span
-            style="font-weight:bold;text-decoration: underline">1</span> technique de maître à placer</span>.</span>
-        <span ng-show="count_master_tech > 1 && first_game_unlock_master_tech">Il y a <span style="color:red"><span
-            style="font-weight:bold;text-decoration: underline">{{! count_master_tech - 1 }}</span> technique de maitre à enlever</span>.</span>
-        <span ng-show="count_master_tech > 0 && !first_game_unlock_master_tech"><span
-            style="color:red">Pour avoir accès à une technique de maître, il faut acheter une passe saison 2018</span>.</span>
+        <span ng-show="count_master_tech > (xp_receive - xp_default + 1)">Il y a <span style="color:red"><span
+            style="font-weight:bold;text-decoration: underline">{{! count_master_tech - (xp_receive - xp_default + 1) }}</span> technique de maitre à enlever</span>.</span>
       </div>
 
       <div ng-show="isMobile() && enable_debug">
@@ -203,12 +199,8 @@
                 style="font-weight:bold;text-decoration: underline">{{! diff_sous_ecole }}</span> sous-école à choisir</span>.</span>
             <span ng-show="!model_char.name"><span style="color:red">Nom du personnage est manquant</span>.</span>
             <span ng-show="!model_char.faction"><span style="color:red">Faction manquante</span>.</span>
-            <span ng-show="count_master_tech == 0 && first_game_unlock_master_tech">Il y a <span style="color:yellow"><span
-                style="font-weight:bold;text-decoration: underline">1</span> technique de maître à placer</span>.</span>
-            <span ng-show="count_master_tech > 1 && first_game_unlock_master_tech">Il y a <span style="color:red"><span
-                style="font-weight:bold;text-decoration: underline">{{! count_master_tech - 1 }}</span> technique de maitre à enlever</span>.</span>
-            <span ng-show="count_master_tech > 0 && !first_game_unlock_master_tech"><span
-                style="color:red">Pour avoir accès à une technique de maître, il faut acheter une passe saison 2018</span>.</span>
+            <span ng-show="count_master_tech > (xp_receive - xp_default + 1)">Il y a <span style="color:red"><span
+                style="font-weight:bold;text-decoration: underline">{{! count_master_tech - (xp_receive - xp_default + 1) }}</span> technique de maitre à enlever</span>.</span>
           </div>
         </div>
         <!-- END form -->
@@ -282,6 +274,9 @@
               character_point.hasOwnProperty('PtBlocEnchantement') || 
               character_point.hasOwnProperty('PtBlocProduction') || 
               character_point.hasOwnProperty('PtComposanteOuProduction') || 
+              character_point.hasOwnProperty('PtBlocForgeronOuArtisan') || 
+              character_point.hasOwnProperty('PtBlocHerboristerieOuAlchimie') || 
+              character_point.hasOwnProperty('PtBlocPotionOuEnchantement') || 
               character_point.hasOwnProperty('PtJoyau') || 
               character_point.hasOwnProperty('PtPA') || 
               character_point.hasOwnProperty('PtAppuiCommercial') || 
@@ -292,12 +287,19 @@
               character_point.hasOwnProperty('PtArt') || 
               character_point.hasOwnProperty('PtSphere') || 
               character_point.hasOwnProperty('PtLSanglite') || 
+              character_point.hasOwnProperty('PtPSanglite') || 
               character_point.hasOwnProperty('PtLMalachite') || 
+              character_point.hasOwnProperty('PtPMalachite') || 
               character_point.hasOwnProperty('PtLBluam') || 
+              character_point.hasOwnProperty('PtPBluam') || 
               character_point.hasOwnProperty('PtLOr') || 
               character_point.hasOwnProperty('PtLArgent') || 
               character_point.hasOwnProperty('PtLChoix') || 
               character_point.hasOwnProperty('PtEsclave') || 
+              character_point.hasOwnProperty('PtEsclaveOuvrier') || 
+              character_point.hasOwnProperty('PtEsclaveCompetent') || 
+              character_point.hasOwnProperty('PtEsclaveIntelligent') || 
+              character_point.hasOwnProperty('PtEsclaveEconomique') || 
               character_point.hasOwnProperty('PtRation') || 
               character_point.hasOwnProperty('PtPierreAme') || 
               character_point.hasOwnProperty('PtObjetFamilial')"
@@ -337,6 +339,21 @@
                   ng-show="character_point['PtComposanteOuProduction'] > 1">s</span> magique<span
                   ng-show="character_point['PtComposanteOuProduction'] > 1">s</span> ou bloc<span ng-show="character_point['PtComposanteOuProduction'] > 1">s</span> de production
               </li>
+              <li ng-show="character_point.hasOwnProperty('PtBlocForgeronOuArtisan')">
+                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtBlocForgeronOuArtisan"] }}</span> bloc<span
+                  ng-show="character_point['PtBlocForgeronOuArtisan'] > 1">s</span> de forgeron<span
+                  ng-show="character_point['PtBlocForgeronOuArtisan'] > 1">s</span> ou bloc<span ng-show="character_point['PtBlocForgeronOuArtisan'] > 1">s</span> d'artisan
+              </li>
+              <li ng-show="character_point.hasOwnProperty('PtBlocHerboristerieOuAlchimie')">
+                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtBlocHerboristerieOuAlchimie"] }}</span> bloc<span
+                  ng-show="character_point['PtBlocHerboristerieOuAlchimie'] > 1">s</span> d'herboristerie<span
+                  ng-show="character_point['PtBlocHerboristerieOuAlchimie'] > 1">s</span> ou bloc<span ng-show="character_point['PtBlocHerboristerieOuAlchimie'] > 1">s</span> d'alchimie
+              </li>
+              <li ng-show="character_point.hasOwnProperty('PtBlocPotionOuEnchantement')">
+                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtBlocPotionOuEnchantement"] }}</span> bloc<span
+                  ng-show="character_point['PtBlocPotionOuEnchantement'] > 1">s</span> de potion<span
+                  ng-show="character_point['PtBlocPotionOuEnchantement'] > 1">s</span> ou bloc<span ng-show="character_point['PtBlocPotionOuEnchantement'] > 1">s</span> d'enchantement
+              </li>
               <li ng-show="character_point.hasOwnProperty('PtJoyau')">
                 <span style="font-weight:bold;color:forestgreen">{{! character_point["PtJoyau"] }}</span> joyau<span ng-show="character_point['PtJoyau'] > 1">x</span>
               </li>
@@ -364,11 +381,20 @@
               <li ng-show="character_point.hasOwnProperty('PtSphere')">
                 <span style="font-weight:bold;color:forestgreen">{{! character_point["PtSphere"] }}</span> sphère<span ng-show="character_point['PtSphere'] > 1">s</span> de magie
               </li>
+              <li ng-show="character_point.hasOwnProperty('PtPSanglite')">
+                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtPSanglite"] }}</span> pierre<span ng-show="character_point['PtPSanglite'] > 1">s</span> de Sanglite
+              </li>
               <li ng-show="character_point.hasOwnProperty('PtLSanglite')">
                 <span style="font-weight:bold;color:forestgreen">{{! character_point["PtLSanglite"] }}</span> lingot<span ng-show="character_point['PtLSanglite'] > 1">s</span> de Sanglite
               </li>
+              <li ng-show="character_point.hasOwnProperty('PtPMalachite')">
+                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtPMalachite"] }}</span> pierre<span ng-show="character_point['PtPMalachite'] > 1">s</span> de Malachite
+              </li>
               <li ng-show="character_point.hasOwnProperty('PtLMalachite')">
                 <span style="font-weight:bold;color:forestgreen">{{! character_point["PtLMalachite"] }}</span> lingot<span ng-show="character_point['PtLMalachite'] > 1">s</span> de Malachite
+              </li>
+              <li ng-show="character_point.hasOwnProperty('PtPBluam')">
+                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtPBluam"] }}</span> pierre<span ng-show="character_point['PtPBluam'] > 1">s</span> de Bluam
               </li>
               <li ng-show="character_point.hasOwnProperty('PtLBluam')">
                 <span style="font-weight:bold;color:forestgreen">{{! character_point["PtLBluam"] }}</span> lingot<span ng-show="character_point['PtLBluam'] > 1">s</span> de Bluam

@@ -30,6 +30,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   $scope.new_character = false;
   $scope.no_character = true;
   $scope.character_point = {};
+  $scope.character_reduce_point = {};
   $scope.character_skill = [];
   $scope.character_merite = [];
   $scope.character_esclave = [];
@@ -48,7 +49,6 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
 
   $scope.count_master_tech = 0;
   $scope.validated_count_master_tech = false;
-  $scope.first_game_unlock_master_tech = false;
 
   $scope.model_database = {};
   $scope.model_user = {};
@@ -259,6 +259,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
 
   $scope.update_point = function () {
     $scope.character_point = {};
+    $scope.character_reduce_point = {};
     $scope.character_skill = [];
     $scope.character_merite = [];
     $scope.count_master_tech = 0;
@@ -491,6 +492,122 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       }
     }
 
+    if (isDefined($scope.model_char.merite_jeu_1)) {
+      for (var i = 0; i < $scope.model_char.merite_jeu_1.length; i++) {
+        if (isUndefined($scope.model_char.merite_jeu_1[i]) || !$scope.model_char.merite_jeu_1[i]) {
+          continue;
+        }
+        // Find the associate point
+        var sub_key = "merite_" + $scope.model_char.merite_jeu_1[i].sub_merite;
+
+        if (sub_key in $scope.model_database.skill_manual) {
+          $scope.character_merite.push($scope.model_database.skill_manual[sub_key]);
+        }
+
+        if (sub_key in $scope.model_database.point) {
+          var dct_key_point = $scope.model_database.point[sub_key];
+
+          for (var key_point in dct_key_point) {
+            if (dct_key_point.hasOwnProperty(key_point)) {
+              var point_value = dct_key_point[key_point];
+              if (key_point in $scope.character_reduce_point) {
+                $scope.character_reduce_point[key_point] += point_value;
+              } else {
+                $scope.character_reduce_point[key_point] = point_value;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    if (isDefined($scope.model_char.merite_jeu_2)) {
+      for (var i = 0; i < $scope.model_char.merite_jeu_2.length; i++) {
+        if (isUndefined($scope.model_char.merite_jeu_2[i]) || !$scope.model_char.merite_jeu_2[i]) {
+          continue;
+        }
+        // Find the associate point
+        var sub_key = "merite_" + $scope.model_char.merite_jeu_2[i].sub_merite;
+
+        if (sub_key in $scope.model_database.skill_manual) {
+          $scope.character_merite.push($scope.model_database.skill_manual[sub_key]);
+        }
+
+        if (sub_key in $scope.model_database.point) {
+          var dct_key_point = $scope.model_database.point[sub_key];
+
+          for (var key_point in dct_key_point) {
+            if (dct_key_point.hasOwnProperty(key_point)) {
+              var point_value = dct_key_point[key_point];
+              if (key_point in $scope.character_reduce_point) {
+                $scope.character_reduce_point[key_point] += point_value;
+              } else {
+                $scope.character_reduce_point[key_point] = point_value;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    if (isDefined($scope.model_char.merite_jeu_3)) {
+      for (var i = 0; i < $scope.model_char.merite_jeu_3.length; i++) {
+        if (isUndefined($scope.model_char.merite_jeu_3[i]) || !$scope.model_char.merite_jeu_3[i]) {
+          continue;
+        }
+        // Find the associate point
+        var sub_key = "merite_" + $scope.model_char.merite_jeu_3[i].sub_merite;
+
+        if (sub_key in $scope.model_database.skill_manual) {
+          $scope.character_merite.push($scope.model_database.skill_manual[sub_key]);
+        }
+
+        if (sub_key in $scope.model_database.point) {
+          var dct_key_point = $scope.model_database.point[sub_key];
+
+          for (var key_point in dct_key_point) {
+            if (dct_key_point.hasOwnProperty(key_point)) {
+              var point_value = dct_key_point[key_point];
+              if (key_point in $scope.character_reduce_point) {
+                $scope.character_reduce_point[key_point] += point_value;
+              } else {
+                $scope.character_reduce_point[key_point] = point_value;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    if (isDefined($scope.model_char.merite_jeu_4)) {
+      for (var i = 0; i < $scope.model_char.merite_jeu_4.length; i++) {
+        if (isUndefined($scope.model_char.merite_jeu_4[i]) || !$scope.model_char.merite_jeu_4[i]) {
+          continue;
+        }
+        // Find the associate point
+        var sub_key = "merite_" + $scope.model_char.merite_jeu_4[i].sub_merite;
+
+        if (sub_key in $scope.model_database.skill_manual) {
+          $scope.character_merite.push($scope.model_database.skill_manual[sub_key]);
+        }
+
+        if (sub_key in $scope.model_database.point) {
+          var dct_key_point = $scope.model_database.point[sub_key];
+
+          for (var key_point in dct_key_point) {
+            if (dct_key_point.hasOwnProperty(key_point)) {
+              var point_value = dct_key_point[key_point];
+              if (key_point in $scope.character_reduce_point) {
+                $scope.character_reduce_point[key_point] += point_value;
+              } else {
+                $scope.character_reduce_point[key_point] = point_value;
+              }
+            }
+          }
+        }
+      }
+    }
+
     if (isDefined($scope.model_char.esclave)) {
       for (var i = 0; i < $scope.model_char.esclave.length; i++) {
         if (isUndefined($scope.model_char.esclave[i]) || !$scope.model_char.esclave[i]) {
@@ -532,6 +649,15 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     if (isDefined($scope.model_user["xp_gn_1"]) && $scope.model_user.xp_gn_1) {
       $scope.xp_receive++;
     }
+    if (isDefined($scope.model_user["xp_gn_2"]) && $scope.model_user.xp_gn_2) {
+      $scope.xp_receive++;
+    }
+    if (isDefined($scope.model_user["xp_gn_3"]) && $scope.model_user.xp_gn_3) {
+      $scope.xp_receive++;
+    }
+    if (isDefined($scope.model_user["xp_gn_4"]) && $scope.model_user.xp_gn_4) {
+      $scope.xp_receive++;
+    }
     total_xp += $scope.xp_receive;
     $scope.xp_total = total_xp;
 
@@ -542,11 +668,20 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     } else {
       $scope.merite_spend = 0;
     }
+
+    // Remove merite about old game
+    var reduce_total_merite = 0;
+    if ($scope.character_reduce_point.hasOwnProperty("PtMerite")) {
+      reduce_total_merite = -($scope.character_reduce_point["PtMerite"]);
+    }
+
     if ($scope.model_user.hasOwnProperty("total_point_merite")) {
       $scope.merite_receive = $scope.model_user["total_point_merite"];
     } else {
       $scope.merite_receive = 0;
     }
+    $scope.merite_receive -= reduce_total_merite;
+
     total_merite -= $scope.merite_spend;
     total_merite += $scope.merite_receive;
     $scope.merite_total = total_merite;
@@ -573,9 +708,8 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       $scope.character_skill.push("Nouveau joueur +50 PA.")
     }
 
-    // Special buy pass, can use 1 master tech
-    $scope.first_game_unlock_master_tech = $scope.model_user["passe_saison_2018"];
-    if ($scope.count_master_tech > 1 || ($scope.count_master_tech == 1 && !$scope.first_game_unlock_master_tech)) {
+    // Validate count master tech
+    if ($scope.count_master_tech > ($scope.xp_receive - $scope.xp_default + 1)) {
       $scope.validated_count_master_tech = false;
     } else {
       $scope.validated_count_master_tech = true;
@@ -893,7 +1027,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     // xp is preferred to use all point
     if ($scope.xp_total < 0 || $scope.merite_total < 0 || $scope.diff_sous_ecole < 0 || !$scope.model_char.name || !$scope.model_char.faction || !$scope.validated_count_master_tech) {
       return -1;
-    } else if ($scope.xp_total > 0 || $scope.diff_sous_ecole > 0 || ($scope.count_master_tech == 0 && $scope.first_game_unlock_master_tech)) {
+    } else if ($scope.xp_total > 0 || $scope.diff_sous_ecole > 0) {
       return 1;
     }
     return 0;
