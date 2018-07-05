@@ -173,7 +173,7 @@ class DB(object):
                 username and not self._db_user.get(self._query_user.username == username))
 
     def update_user(self, user_data, character_data=None, delete_user_by_id=None, delete_character_by_id=None,
-                    cancel_update_date=False):
+                    cancel_update_date=False, updated_by_admin=False):
         if not isinstance(user_data, dict):
             print("Cannot update user if user is not dictionary : %s" % user_data)
             return
@@ -243,7 +243,11 @@ class DB(object):
                 if character_data and "approbation" in character_data:
                     # When approved and update the character, it's unapproved
                     approbation = character_data.get("approbation")
-                    if approbation.get("status") in [1, 4]:
+                    # Only approved or "to correct" become unapproved
+                    # When an admin save, it become automatic approved
+                    if updated_by_admin:
+                        character_data["approbation"] = {"status": 1, "date": actual_date}
+                    elif approbation.get("status") in [1, 4]:
                         character_data["approbation"] = {"status": 2, "date": actual_date}
 
                 # 3. validate character exist for update, else create it, or delete it.

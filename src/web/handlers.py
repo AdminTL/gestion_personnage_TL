@@ -578,8 +578,11 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
         if not user and delete_user_by_id:
             user = {"user_id": delete_user_by_id}
 
+        # admin when has admin permission, but not consider admin when updated by himself
+        updated_by_admin = self.is_permission_admin() and user.get("user_id") != self.current_user.get("user_id")
+
         self._db.update_user(user, character, delete_user_by_id=delete_user_by_id,
-                             delete_character_by_id=delete_character_by_id)
+                             delete_character_by_id=delete_character_by_id, updated_by_admin=updated_by_admin)
 
         self.write({"status": "success"})
         self.finish()
