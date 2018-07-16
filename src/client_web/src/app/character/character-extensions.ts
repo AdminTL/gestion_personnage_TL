@@ -16,6 +16,27 @@ export class CharacterExtensions{
       return total_xp;
   }
 
+  public static countMasterTech(char: Character): number{
+    return CharacterExtensions.countSkillsXp(char.technique_maitre);
+  }
+
+  public static countRitualSchools(char: Character): number{
+    let total = 0;
+    if(char.sous_ecole !== undefined && char.sous_ecole !== null){
+      for(let school of char.sous_ecole){
+        if(school.ecole !== undefined && school.sous_ecole !== undefined){
+          total++;
+        }
+      }
+    }
+    return total;
+  }
+
+  public static maxRitualSchools(char: Character): number{
+    // TODO I don't know logic for this
+    return 0;
+  }
+
   private static countSkillsXp(skills: Skill[]): number{
       let total_xp = 0;
       if (skills !== undefined && skills !== null) {

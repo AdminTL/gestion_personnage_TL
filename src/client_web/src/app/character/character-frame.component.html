@@ -22,5 +22,5 @@
   <div>Points de Mérite {{countSpentMerite()}}/{{countTotalMerite()}}</div>
 </div>
 
-<character-header [character]="selectedChar" [playerMeriteDiff]="countTotalMerite() - countSpentMerite()"></character-header>
+<character-header [character]="selectedChar" [playerMeriteDiff]="countTotalMerite() - countSpentMerite()" [passeSaison2018]="player.passe_saison_2018"></character-header>
 <router-outlet></router-outlet>

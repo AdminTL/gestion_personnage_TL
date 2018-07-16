@@ -14,7 +14,7 @@ interface Character{
   question_orientation: string[];
   question_vision_esclavage: string;
   rituel: string[];
-  sous_ecole: string[];
+  sous_ecole: School[];
   sous_faction: string;
   technique_maitre: Skill[];
   xp_autre: number;

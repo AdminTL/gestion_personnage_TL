@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  gestion-personnage-tl:
+    image: alexisbssn/gestion-personnage-tl
+    ports:
+      - "80:8000"
+    volumes:
+      - ./database:/app/database:rw
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      test: "test"

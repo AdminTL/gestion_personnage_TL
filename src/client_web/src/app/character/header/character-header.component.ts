@@ -9,6 +9,7 @@ import { CharacterExtensions } from '../character-extensions';
 export class CharacterHeaderComponent {
     @Input() public character: Character;
     @Input() private playerMeriteDiff: number;
+    @Input() private passeSaison2018: boolean;
 
     isApprobationNew(): boolean{
       return this.character && this.character.approbation.status == 0;
@@ -39,11 +40,15 @@ export class CharacterHeaderComponent {
     }
 
     ritualSchoolsDiff(): number{
-      return 0; // TODO
+      return CharacterExtensions.maxRitualSchools(this.character) - CharacterExtensions.countRitualSchools(this.character);
     }
 
     masterTechDiff(): number{
-      return 0; // TODO
+      let max = 0;
+      if(this.passeSaison2018){
+        max++;
+      }
+      return max - CharacterExtensions.countMasterTech(this.character);
     }
 
     validationGreen(): boolean{
