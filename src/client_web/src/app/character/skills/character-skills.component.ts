@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { CharacterService } from '../character.service';
 
 @Component({
     selector: 'character-skills',
     templateUrl: './character-skills.component.html'
 })
 export class CharacterSkillsComponent {
-    public currentCount = 0;
+    character: Character;
 
-    public incrementCounter() {
-        this.currentCount++;
+    constructor(characterService:CharacterService){
+      characterService.selectedCharacter$.subscribe(char => this.character = char, err => console.log(err));
     }
 }
