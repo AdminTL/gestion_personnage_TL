@@ -1,0 +1,36 @@
+<!-- Load only one title depending on depth -->
+<h1 *ngIf="depth==0">{{formSection.title}}</h1>
+<h2 *ngIf="depth==1">{{formSection.title}}</h2>
+<h3 *ngIf="depth==2">{{formSection.title}}</h3>
+<h4 *ngIf="depth==3">{{formSection.title}}</h4>
+<h5 *ngIf="depth==4">{{formSection.title}}</h5>
+<h6 *ngIf="depth>=5">{{formSection.title}}</h6>
+<div>{{formSection.hint}}</div>
+
+<div *ngFor="let field of formSection.fields">
+  <div *ngIf="field.type !== 'Section'">{{field.title}}</div>
+  <div *ngIf="field.type === 'Input'">
+    <span class="ui-float-label">
+      <input id="float-input" type="text" pInputText>
+      <label for="float-input">{{field.hint}}</label>
+    </span>
+  </div>
+  <div *ngIf="field.type === 'Textbox'">
+    <textarea [rows]="field.lines" pInputTextarea autoResize="autoResize"></textarea>
+  </div>
+  <div *ngIf="field.type === 'Dropdown'">
+    <p-dropdown [options]="field.options" [(ngModel)]="selection"></p-dropdown>
+  </div>
+  <div *ngIf="field.type === 'MultiselectDropdown'">
+    <p-multiSelect [options]="field.options" [(ngModel)]="selection"></p-multiSelect>
+  </div>
+  <div *ngIf="field.type === 'Button'">
+    <button pButton type="button" label="Click" (click)="handleClick($event)"></button>
+  </div>
+  <div *ngIf="field.type === 'Section'">
+    <dynamic-section [section]="section" [depth]="depth + 1"></dynamic-section>
+  </div>
+  <div *ngIf="field.type !== 'input' && field.type !== 'section'">{{field.hint}}</div>
+</div>
+
+<div *ngIf="isDefined(formSection.hint)">{{formSection.hint}}</div>

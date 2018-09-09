@@ -19,6 +19,7 @@ from py_class.lore import Lore
 from py_class.doc_generator.doc_generator_gspread import DocGeneratorGSpread
 from py_class.auth_keys import AuthKeys
 from py_class.project_archive import ProjectArchive
+from py_class.character_form import CharacterForm
 
 WEB_ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
 DEFAULT_SSL_DIRECTORY = os.path.join(WEB_ROOT_DIR, "..", "..", "ssl_cert", "certs")
@@ -80,6 +81,7 @@ def main(parse_arg):
                 "db": DB(parse_arg),
                 "manual": Manual(parse_arg),
                 "lore": Lore(parse_arg),
+                "character_form": CharacterForm(parse_arg),
                 "doc_generator_gspread": DocGeneratorGSpread(parse_arg),
                 "project_archive": ProjectArchive(parse_arg),
                 "disable_character": parse_arg.disable_character,
@@ -115,8 +117,9 @@ def main(parse_arg):
         tornado.web.url(r"/admin/setting?", handlers.AdminSettingHandler, name='admin setting', kwargs=settings),
 
         # Command
-        tornado.web.url(r"/cmd/character_view/?", handlers.CharacterViewHandler, name='character_view',
-                        kwargs=settings),
+        # TODO /cmd/character_form
+        tornado.web.url(r"/cmd/character_form/?", handlers.CharacterFormHandler, name='character_form', kwargs=settings),
+        tornado.web.url(r"/cmd/character_view/?", handlers.CharacterViewHandler, name='character_view', kwargs=settings),
         tornado.web.url(r"/cmd/manual/?", handlers.ManualHandler, name='cmd_manual', kwargs=settings),
         tornado.web.url(r"/cmd/lore/?", handlers.LoreHandler, name='cmd_lore', kwargs=settings),
         tornado.web.url(r"/cmd/stat/total_season_pass/?", handlers.StatSeasonPass, name='cmd_stat_total_season_pass',

@@ -10,6 +10,7 @@ class BaseHandler(tornado.web.RequestHandler):
     _debug = None
     _manual = None
     _lore = None
+    _character_form = None
     _db = None
     _invalid_login = None
     _redirect_http_to_https = None
@@ -23,6 +24,7 @@ class BaseHandler(tornado.web.RequestHandler):
         self._db = kwargs.get("db")
         self._manual = kwargs.get("manual")
         self._lore = kwargs.get("lore")
+        self._character_form = kwargs.get("character_form")
         self._invalid_login = self.get_argument("invalid",
                                                 default="disable_login" if kwargs.get("disable_login") else None)
         self._redirect_http_to_https = kwargs.get("redirect_http_to_https")

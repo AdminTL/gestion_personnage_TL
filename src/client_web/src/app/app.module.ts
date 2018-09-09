@@ -5,11 +5,17 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import {MenubarModule} from 'primeng/menubar';
+import { MenubarModule } from 'primeng/menubar';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { DropdownModule } from 'primeng/dropdown';
+import { ButtonModule } from 'primeng/button';
 
 import { CharacterFrameComponent } from './character/character-frame.component';
 import { CharacterFormComponent } from './character/form/character-form.component';
+import { CharacterFormSectionComponent } from './character/form/character-form-section.component';
 import { CharacterAttributesComponent } from './character/attributes/character-attributes.component';
 import { CharacterMessagesComponent } from './character/messages/character-messages.component';
 import { CharacterResourcesComponent } from './character/resources/character-resources.component';
@@ -28,6 +34,7 @@ import { AppComponent } from './app.component';
     declarations: [
         CharacterFrameComponent,
         CharacterFormComponent,
+        CharacterFormSectionComponent,
         CharacterAttributesComponent,
         CharacterMessagesComponent,
         CharacterResourcesComponent,
@@ -48,6 +55,11 @@ import { AppComponent } from './app.component';
         FormsModule,
         BrowserModule,
         MenubarModule,
+        ButtonModule,
+        MultiSelectModule,
+        InputTextareaModule,
+        DropdownModule,
+        BrowserAnimationsModule,
         RouterModule.forRoot([
             { path: '', redirectTo: '/home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
