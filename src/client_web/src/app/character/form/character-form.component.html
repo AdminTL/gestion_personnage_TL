@@ -1,5 +1,7 @@
 <h1>FORMULAIRE</h1>
 
-<div *ngFor="let section of formSectionsRoot.characterFormSections">
-  <character-form-section [formSection]="section" [depth]="0"></character-form-section>
+<div *ngIf="formSectionsRoot !== undefined">
+  <div *ngFor="let section of formSectionsRoot.characterFormSections">
+    <character-form-section [formSection]="section" [depth]="0"></character-form-section>
+  </div>
 </div>

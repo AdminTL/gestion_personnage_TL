@@ -5,6 +5,7 @@ interface CharacterFormRoot{
 interface Field{
   title: string;
   type: string;
+  description: string;
   hint: string;
 }
 
@@ -12,7 +13,9 @@ interface FormSection extends Field{
   fields: Field[];
 }
 
-interface Input extends Field{}
+interface Input extends Field{
+  hint: string;
+}
 
 interface Textbox extends Field{
   lines: number;

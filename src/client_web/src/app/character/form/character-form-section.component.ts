@@ -11,6 +11,8 @@ export class CharacterFormSectionComponent {
     @Input()
     public formSection: FormSection;
 
+    // If this section is
+
     @Input()
     public depth: number;
 
