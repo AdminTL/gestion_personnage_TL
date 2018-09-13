@@ -1,14 +1,13 @@
 {
   "characterFormSections": [
     {
-      "title": "section1title",
+      "title": "Section utilisateur",
       "type": "Section",
       "fields": [
         {
-          "title": "two-line-textbox",
-          "lines": 2,
-          "hint": "two-line-textbox-hint",
-          "type": "Textbox"
+          "title": "Prénom et Nom du joueur",
+          "hint": "À remplir",
+          "type": "Input"
         },
         {
           "title": "input",
