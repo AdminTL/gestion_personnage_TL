@@ -40,11 +40,13 @@ class Listen:
 def parse_args():
     parser = argparse.ArgumentParser(description="web server")
 
-    group = parser.add_argument_group("Debug")
+    group = parser.add_argument_group("Common")
     group.add_argument('-d', '--debug', default=False, action='store_true',
                        help='Enable debug')
     group.add_argument('--open_browser', default=False, action='store_true',
                        help='Open web browser on tabulation when start server.')
+    group.add_argument('--demo', default=False, action='store_true',
+                       help='Use demo data instead of generated custom data.')
 
     group = parser.add_argument_group("Config")
     group.add_argument('-s', '--static_dir', default=WEB_DEFAULT_STATIC_DIR,
@@ -56,7 +58,8 @@ def parse_args():
     group.add_argument('--db_path', default=DB_DEFAULT_PATH,
                        help='Specify a path for database file.')
     group.add_argument('--db_demo', default=False, action='store_true',
-                       help='Active demo database. Cannot save information in real database, only keep in memory.')
+                       help='Enable mode demo on database. '
+                            'Cannot save information in real database, only keep in memory.')
 
     group = parser.add_argument_group("Web")
     group.add_argument('-l', '--web-listen-address', dest='listen', default=Listen(), type=parse_listen,
