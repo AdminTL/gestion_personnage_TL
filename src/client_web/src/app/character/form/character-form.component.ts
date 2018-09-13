@@ -9,11 +9,11 @@ import { Router } from '@angular/router';
 export class CharacterFormComponent {
     public character: Character;
 
-    public formSections: any[];
+    public formSectionsRoot: any;
 
     constructor(http: Http, @Inject('BASE_URL') baseUrl: string, private _router: Router) {
         http.get(baseUrl + 'cmd/character_form').subscribe(result => {
-            this.formSections = result.json() as Section[];
+            this.formSectionsRoot = result.json() as Section[];
         }, error => console.error(error));
     }
 }

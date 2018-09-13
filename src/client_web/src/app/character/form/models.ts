@@ -1,3 +1,7 @@
+interface CharacterFormRoot{
+  characterFormSections: FormSection[];
+}
+
 interface Field{
   title: string;
   type: string;

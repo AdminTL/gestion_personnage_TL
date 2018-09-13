@@ -5,12 +5,13 @@
 <h4 *ngIf="depth==3">{{formSection.title}}</h4>
 <h5 *ngIf="depth==4">{{formSection.title}}</h5>
 <h6 *ngIf="depth>=5">{{formSection.title}}</h6>
-<div>{{formSection.hint}}</div>
+<div *ngIf="isDefined(formSection.hint)">{{formSection.hint}}</div>
 
 <div *ngFor="let field of formSection.fields">
-  <div *ngIf="field.type !== 'Section'">{{field.title}}</div>
+  <div *ngIf="field.type !== 'Section' && field.type !== 'Input'">{{field.title}}</div>
   <div *ngIf="field.type === 'Input'">
-    <span class="ui-float-label">
+    <span>{{field.title}}</span>
+    <span class="ui-float-label character-form-label">
       <input id="float-input" type="text" pInputText>
       <label for="float-input">{{field.hint}}</label>
     </span>
@@ -33,4 +34,3 @@
   <div *ngIf="field.type !== 'input' && field.type !== 'section'">{{field.hint}}</div>
 </div>
 
-<div *ngIf="isDefined(formSection.hint)">{{formSection.hint}}</div>
