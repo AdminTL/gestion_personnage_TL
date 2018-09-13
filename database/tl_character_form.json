@@ -1,0 +1,73 @@
+{
+  "characterFormSections": [
+    {
+      "title": "section1title",
+      "type": "Section",
+      "fields": [
+        {
+          "title": "two-line-textbox",
+          "lines": 2,
+          "hint": "two-line-textbox-hint",
+          "type": "Textbox"
+        },
+        {
+          "title": "input",
+          "hint": "input-hint",
+          "type": "Input"
+        }
+      ]
+    },
+    {
+      "title": "section2title",
+      "type": "Section",
+      "fields": [
+        {
+          "title": "dropdown",
+          "lines": 2,
+          "hint": "dropdown-hint",
+          "type": "Dropdown",
+          "options": [
+            {
+              "label": "option1",
+              "value": "test"
+            },
+            {
+              "label": "option2",
+              "value": "test"
+            },
+            {
+              "label": "option3",
+              "value": "test"
+            }
+          ]
+        },
+        {
+          "title": "multi-dropdown",
+          "lines": 2,
+          "hint": "multi-dropdown-hint",
+          "type": "MultiselectDropdown",
+          "options": [
+            {
+              "label": "option1",
+              "value": "test"
+            },
+            {
+              "label": "option2",
+              "value": "test"
+            },
+            {
+              "label": "option3",
+              "value": "test"
+            }
+          ]
+        },
+        {
+          "title": "button",
+          "lines": 2,
+          "hint": "button-hint",
+          "type": "Button"
+        }
+      ]
+    }
+  ]
+}
