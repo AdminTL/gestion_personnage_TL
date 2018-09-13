@@ -490,11 +490,13 @@ class ProfileHandler(base_handler.BaseHandler):
             user = self.current_user
         self.render('profile.html', user=user, **self._global_arg)
 
+
 class CharacterFormHandler(jsonhandler.JsonHandler):
     @tornado.web.asynchronous
     def get(self):
         self.write(self._character_form.get_str_all())
         self.finish()
+
 
 class CharacterViewHandler(jsonhandler.JsonHandler):
     @tornado.web.asynchronous

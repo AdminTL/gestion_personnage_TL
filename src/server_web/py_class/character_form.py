@@ -10,13 +10,10 @@ class CharacterForm(object):
     def __init__(self, parser):
         self._str_form = ""
 
-        # TODO remove test string
-        self._str_form = '[{"title":"section1title","type":"Section","fields":[{"title":"two-line-textbox","lines":2,"hint":"two-line-textbox-hint","type":"Textbox"},{"title":"input","hint":"input-hint","type":"Input"}]},{"title":"section2title","type":"Section","fields":[{"title":"dropdown","lines":2,"hint":"dropdown-hint","type":"Dropdown","options":[{"label":"option1","value":"test"},{"label":"option2","value":"test"},{"label":"option3","value":"test"}]},{"title":"multi-dropdown","lines":2,"hint":"multi-dropdown-hint","type":"MultiselectDropdown","options":[{"label":"option1","value":"test"},{"label":"option2","value":"test"},{"label":"option3","value":"test"}]},{"title":"button","lines":2,"hint":"button-hint","type":"Button"}]}]'
+        self._file_path = parser.db_character_form_path
 
-        # TODO access db. Simply uncomment this once the db is setup.
-        # self._form_path = parser.db_form_path
-        # with open(self._form_path, encoding='utf-8') as form_file:
-        #     self._str_form = json.load(form_file)
+        with open(self._file_path, encoding='utf-8') as a_file:
+            self._str_form = json.load(a_file)
 
     def update(self, dct_form, save=False):
         # Transform the object in json string
@@ -24,8 +21,8 @@ class CharacterForm(object):
 
         # Save on file
         if save:
-            with open(self._form_path, mode="w", encoding='utf-8') as form_file:
-                json.dump(dct_form, form_file, indent=2)
+            with open(self._file_path, mode="w", encoding='utf-8') as file_file:
+                json.dump(dct_form, file_file, indent=2)
 
     def get_str_all(self):
         return self._str_form
