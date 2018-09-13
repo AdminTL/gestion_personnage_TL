@@ -1,56 +1,32 @@
 <!-- Load only one title depending on depth -->
-<h1 *ngIf="depth==0" class="cfs-tooltip">
-  <span *ngIf="isDefined(formSection.hint)" class="tooltipText">{{formSection.hint}}</span>
-  {{formSection.title}}
-</h1>
-<h2 *ngIf="depth==1" class="cfs-tooltip">
-  <span *ngIf="isDefined(formSection.hint)" class="tooltipText">{{formSection.hint}}</span>
-  {{formSection.title}}
-</h2>
-<h3 *ngIf="depth==2" class="cfs-tooltip">
-  <span *ngIf="isDefined(formSection.hint)" class="tooltipText">{{formSection.hint}}</span>
-  {{formSection.title}}
-</h3>
-<h4 *ngIf="depth==3" class="cfs-tooltip">
-  <span *ngIf="isDefined(formSection.hint)" class="tooltipText">{{formSection.hint}}</span>
-  {{formSection.title}}
-</h4>
-<h5 *ngIf="depth==4" class="cfs-tooltip">
-  <span *ngIf="isDefined(formSection.hint)" class="tooltipText">{{formSection.hint}}</span>
-  {{formSection.title}}
-</h5>
-<h6 *ngIf="depth==5" class="cfs-tooltip">
-  <span *ngIf="isDefined(formSection.hint)" class="tooltipText">{{formSection.hint}}</span>
-  {{formSection.title}}
-</h6>
-
+<h1 *ngIf="depth==0" [pTooltip]="formSection.hint">{{formSection.title}}</h1>
+<h2 *ngIf="depth==1" [pTooltip]="formSection.hint">{{formSection.title}}</h2>
+<h3 *ngIf="depth==2" [pTooltip]="formSection.hint">{{formSection.title}}</h3>
+<h4 *ngIf="depth==3" [pTooltip]="formSection.hint">{{formSection.title}}</h4>
+<h5 *ngIf="depth==4" [pTooltip]="formSection.hint">{{formSection.title}}</h5>
+<h6 *ngIf="depth==5" [pTooltip]="formSection.hint">{{formSection.title}}</h6>
 <div *ngIf="isDefined(formSection.description)">{{formSection.description}}</div>
 
 <div *ngFor="let field of formSection.fields">
   <div *ngIf="field.type !== 'Section' && field.type !== 'Input'">{{field.title}}</div>
   <div *ngIf="field.type === 'Input'">
     <span>{{field.title}}</span>
-    <span class="ui-float-label character-form-label cfs-tooltip">
-      <span *ngIf="isDefined(field.hint)" class="tooltipText">{{field.hint}}</span>
-      <input id="float-input" type="text" size="30" pInputText>
+    <span class="ui-float-label character-form-label">
+      <input id="float-input" type="text" size="30" pInputText [pTooltip]="field.hint">
       <label for="float-input">{{field.hint}}</label>
     </span>
   </div>
-  <div *ngIf="field.type === 'Textbox'" class="cfs-tooltip">
-    <span *ngIf="isDefined(field.hint)" class="tooltipText">{{field.hint}}</span>
-    <textarea [rows]="field.lines" pInputTextarea autoResize="autoResize"></textarea>
+  <div *ngIf="field.type === 'Textbox'">
+    <textarea [rows]="field.lines" pInputTextarea autoResize="autoResize" [pTooltip]="field.hint"></textarea>
   </div>
-  <div *ngIf="field.type === 'Dropdown'" class="cfs-tooltip">
-    <span *ngIf="isDefined(field.hint)" class="tooltipText">{{field.hint}}</span>
-    <p-dropdown [options]="field.options" [(ngModel)]="selection"></p-dropdown>
+  <div *ngIf="field.type === 'Dropdown'">
+    <p-dropdown [options]="field.options" [(ngModel)]="selection" [pTooltip]="field.hint"></p-dropdown>
   </div>
-  <div *ngIf="field.type === 'MultiselectDropdown'" class="cfs-tooltip">
-    <span *ngIf="isDefined(field.hint)" class="tooltipText">{{field.hint}}</span>
-    <p-multiSelect [options]="field.options" [(ngModel)]="selection"></p-multiSelect>
+  <div *ngIf="field.type === 'MultiselectDropdown'">
+    <p-multiSelect [options]="field.options" [(ngModel)]="selection" [pTooltip]="field.hint"></p-multiSelect>
   </div>
-  <div *ngIf="field.type === 'Button'" class="cfs-tooltip">
-    <span *ngIf="isDefined(field.hint)" class="tooltipText">{{field.hint}}</span>
-    <button pButton type="button" label="Click" (click)="handleClick($event)"></button>
+  <div *ngIf="field.type === 'Button'">
+    <button pButton type="button" label="Click" (click)="handleClick($event)" [pTooltip]="field.hint"></button>
   </div>
   <div *ngIf="field.type === 'Section'">
     <dynamic-section [section]="section" [depth]="depth + 1"></dynamic-section>

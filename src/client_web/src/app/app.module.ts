@@ -12,6 +12,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
+import { TooltipModule } from 'primeng/tooltip';
 
 import { CharacterFrameComponent } from './character/character-frame.component';
 import { CharacterFormComponent } from './character/form/character-form.component';
@@ -59,6 +60,7 @@ import { AppComponent } from './app.component';
         MultiSelectModule,
         InputTextareaModule,
         DropdownModule,
+        TooltipModule,
         BrowserAnimationsModule,
         RouterModule.forRoot([
             { path: '', redirectTo: '/home', pathMatch: 'full' },
