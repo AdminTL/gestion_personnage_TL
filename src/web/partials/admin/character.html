@@ -300,6 +300,8 @@
               character_point.hasOwnProperty('PtEsclaveCompetent') || 
               character_point.hasOwnProperty('PtEsclaveIntelligent') || 
               character_point.hasOwnProperty('PtEsclaveEconomique') || 
+              character_point.hasOwnProperty('PtEsclaveLuxe') || 
+              character_point.hasOwnProperty('PtEsclaveMystique') || 
               character_point.hasOwnProperty('PtRation') || 
               character_point.hasOwnProperty('PtPierreAme') || 
               character_point.hasOwnProperty('PtObjetFamilial')"
@@ -410,6 +412,29 @@
               </li>
               <li ng-show="character_point.hasOwnProperty('PtEsclave')">
                 <span style="font-weight:bold;color:forestgreen">{{! character_point["PtEsclave"] }}</span> esclave<span ng-show="character_point['PtEsclave'] > 1">s</span> au choix
+              </li>
+              <li ng-show="character_point.hasOwnProperty('PtEsclaveOuvrier')">
+                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtEsclaveOuvrier"] }}</span> esclave ouvrier<span ng-show="character_point['PtEsclaveOuvrier'] > 1">s</span> au
+                choix
+              </li>
+              <li ng-show="character_point.hasOwnProperty('PtEsclaveCompetent')">
+                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtEsclaveCompetent"] }}</span> esclave competent<span ng-show="character_point['PtEsclaveCompetent'] > 1">s</span>
+                au choix
+              </li>
+              <li ng-show="character_point.hasOwnProperty('PtEsclaveIntelligent')">
+                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtEsclaveIntelligent"] }}</span> esclave intelligent<span
+                  ng-show="character_point['PtEsclaveIntelligent'] > 1">s</span> au choix
+              </li>
+              <li ng-show="character_point.hasOwnProperty('PtEsclaveEconomique')">
+                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtEsclaveEconomique"] }}</span> esclave economique<span
+                  ng-show="character_point['PtEsclaveEconomique'] > 1">s</span> au choix
+              </li>
+              <li ng-show="character_point.hasOwnProperty('PtEsclaveLuxe')">
+                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtEsclaveLuxe"] }}</span> esclave luxe<span ng-show="character_point['PtEsclaveLuxe'] > 1">s</span> au choix
+              </li>
+              <li ng-show="character_point.hasOwnProperty('PtEsclaveMystique')">
+                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtEsclaveMystique"] }}</span> esclave mystique<span ng-show="character_point['PtEsclaveMystique'] > 1">s</span> au
+                choix
               </li>
               <li ng-show="character_point.hasOwnProperty('PtRation')">
                 <span style="font-weight:bold;color:forestgreen">{{! character_point["PtRation"] }}</span> boite<span ng-show="character_point['PtRation'] > 1">s</span> de ration
