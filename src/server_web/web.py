@@ -118,8 +118,10 @@ def main(parse_arg):
 
         # Command
         # TODO /cmd/character_form
-        tornado.web.url(r"/cmd/character_form/?", handlers.CharacterFormHandler, name='character_form', kwargs=settings),
-        tornado.web.url(r"/cmd/character_view/?", handlers.CharacterViewHandler, name='character_view', kwargs=settings),
+        tornado.web.url(r"/cmd/character_form/?", handlers.CharacterFormHandler, name='character_form',
+                        kwargs=settings),
+        tornado.web.url(r"/cmd/character_view/?", handlers.CharacterViewHandler, name='character_view',
+                        kwargs=settings),
         tornado.web.url(r"/cmd/manual/?", handlers.ManualHandler, name='cmd_manual', kwargs=settings),
         tornado.web.url(r"/cmd/lore/?", handlers.LoreHandler, name='cmd_lore', kwargs=settings),
         tornado.web.url(r"/cmd/stat/total_season_pass/?", handlers.StatSeasonPass, name='cmd_stat_total_season_pass',
@@ -151,7 +153,8 @@ def main(parse_arg):
         tornado.web.url(r"/.well-known/acme-challenge.*", handlers.AutoSSLHandler, name="auto_ssl"),
 
         # Content files in the dist folder (js, css, images)
-        tornado.web.url(r'/((?:.*)\.(?:txt|png|ico|woff2|svg|ttf|eot|woff|gif|js))/?', tornado.web.StaticFileHandler, kwargs={'path': parse_arg.static_dir}),
+        tornado.web.url(r'/((?:.*)\.(?:txt|png|ico|woff2|svg|ttf|eot|woff|gif|js))/?', tornado.web.StaticFileHandler,
+                        kwargs={'path': parse_arg.static_dir}),
 
         # Angular pages
         tornado.web.url(r'/(?:.*)/?', handlers.IndexHandler, kwargs={'path': parse_arg.static_dir})

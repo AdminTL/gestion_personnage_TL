@@ -30,6 +30,7 @@ import { ManualComponent } from './manual/manual.component';
 import { DynamicSectionComponent } from './dynamic-section/dynamic-section.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AppComponent } from './app.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
     declarations: [
@@ -47,7 +48,8 @@ import { AppComponent } from './app.component';
         ManualComponent,
         NotFoundComponent,
         NavMenuComponent,
-        AppComponent
+        AppComponent,
+        LoginComponent
     ],
     imports: [
         CommonModule,
@@ -75,6 +77,7 @@ import { AppComponent } from './app.component';
             ]},
             { path: 'lore', component: LoreComponent },
             { path: 'manual', component: ManualComponent },
+            { path: 'login', component: LoginComponent },
             { path: '**', component: NotFoundComponent}
         ]),
     ],
