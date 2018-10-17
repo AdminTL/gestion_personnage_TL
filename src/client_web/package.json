@@ -27,6 +27,7 @@
     "font-awesome": "^4.7.0",
     "bootstrap": "^3.3.7",
     "primeng": "6.1.0",
+    "primeicons": "^1.0.0",
     "rxjs-compat": "^6.0.0-rc.0"
   },
   "devDependencies": {

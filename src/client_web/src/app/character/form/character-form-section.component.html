@@ -10,10 +10,9 @@
 <div *ngFor="let field of formSection.fields">
   <div *ngIf="field.type !== 'Section' && field.type !== 'Input'">{{field.title}}</div>
   <div *ngIf="field.type === 'Input'">
-    <span>{{field.title}}</span>
     <span class="ui-float-label character-form-label">
-      <input id="float-input" type="text" size="30" pInputText [pTooltip]="field.hint">
-      <label for="float-input">{{field.hint}}</label>
+      <input class="ui-inputtext ui-corner-all ui-state-default ui-widget" id="float-input" type="text" size="30" pInputText [pTooltip]="field.hint">
+      <label for="float-input">{{field.title}}</label>
     </span>
   </div>
   <div *ngIf="field.type === 'Textbox'">
