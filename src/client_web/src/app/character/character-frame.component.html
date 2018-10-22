@@ -1,4 +1,12 @@
-<p-menubar [model]="sectionMenuItems"></p-menubar>
+<mat-menu #appMenu="matMenu" yPosition="above">
+  <button mat-menu-item *ngFor="let item of sectionMenuItems" (click)="item.command">{{item.label}}</button>
+</mat-menu>
+
+<span *ngFor="let item of sectionMenuItems">
+  <mat-menu #{{item.label}}="matMenu" yPosition="above" *ngIf="!!item.items">
+    <button mat-menu-item *ngFor="let subItem of item.items" (click)="subItem.command">{{subItem.label}}</button>
+  </mat-menu>
+</span>
 
 <div *ngIf="player && countCharacters() > 1">
   <div class="btn-group">

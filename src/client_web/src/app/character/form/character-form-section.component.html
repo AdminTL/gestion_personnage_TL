@@ -1,35 +1,27 @@
 <!-- Load only one title depending on depth -->
-<h1 *ngIf="depth==0" [pTooltip]="formSection.hint">{{formSection.title}}</h1>
-<h2 *ngIf="depth==1" [pTooltip]="formSection.hint">{{formSection.title}}</h2>
-<h3 *ngIf="depth==2" [pTooltip]="formSection.hint">{{formSection.title}}</h3>
-<h4 *ngIf="depth==3" [pTooltip]="formSection.hint">{{formSection.title}}</h4>
-<h5 *ngIf="depth==4" [pTooltip]="formSection.hint">{{formSection.title}}</h5>
-<h6 *ngIf="depth==5" [pTooltip]="formSection.hint">{{formSection.title}}</h6>
+<h1 *ngIf="depth==0">{{formSection.title}}</h1>
+<h2 *ngIf="depth==1">{{formSection.title}}</h2>
+<h3 *ngIf="depth==2">{{formSection.title}}</h3>
+<h4 *ngIf="depth==3">{{formSection.title}}</h4>
+<h5 *ngIf="depth==4">{{formSection.title}}</h5>
+<h6 *ngIf="depth==5">{{formSection.title}}</h6>
 <div *ngIf="isDefined(formSection.description)">{{formSection.description}}</div>
 
-<div *ngFor="let field of formSection.fields">
-  <div *ngIf="field.type !== 'Section' && field.type !== 'Input'">{{field.title}}</div>
-  <div *ngIf="field.type === 'Input'">
-    <span class="ui-float-label character-form-label">
-      <input class="ui-inputtext ui-corner-all ui-state-default ui-widget" id="float-input" type="text" size="30" pInputText [pTooltip]="field.hint">
-      <label for="float-input">{{field.title}}</label>
-    </span>
-  </div>
-  <div *ngIf="field.type === 'Textbox'">
-    <textarea [rows]="field.lines" pInputTextarea autoResize="autoResize" [pTooltip]="field.hint"></textarea>
-  </div>
-  <div *ngIf="field.type === 'Dropdown'">
-    <p-dropdown [options]="field.options" [(ngModel)]="selection" [pTooltip]="field.hint"></p-dropdown>
-  </div>
-  <div *ngIf="field.type === 'MultiselectDropdown'">
-    <p-multiSelect [options]="field.options" [(ngModel)]="selection" [pTooltip]="field.hint"></p-multiSelect>
-  </div>
+<div *ngFor="let field of formSection.fields" class="field">
+  <mat-form-field appearance="standard" *ngIf="field.type !== 'Button' && field.type !== 'Section'">
+    <mat-label>{{field.title}}</mat-label>
+    <input *ngIf="field.type === 'Input'" matInput />
+    <textarea *ngIf="field.type === 'Textbox'" [rows]="field.lines" autoResize="autoResize" matInput></textarea>
+    <mat-select *ngIf="field.type === 'Dropdown'">
+      <mat-option *ngFor='let option of field.options' [value]="option.value">{{option.label}}</mat-option>
+    </mat-select>
+    <mat-hint *ngIf="isDefined(field.hint)">{{field.hint}}</mat-hint>
+  </mat-form-field>
   <div *ngIf="field.type === 'Button'">
-    <button pButton type="button" label="Click" (click)="handleClick($event)" [pTooltip]="field.hint"></button>
+    <button mat-button type="button" label="Click" (click)="handleClick($event)" [matTooltip]="field.hint"></button>
   </div>
   <div *ngIf="field.type === 'Section'">
     <dynamic-section [section]="section" [depth]="depth + 1"></dynamic-section>
   </div>
   <div *ngIf="field.type !== 'section'">{{field.description}}</div>
 </div>
-

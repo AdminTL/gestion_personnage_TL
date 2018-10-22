@@ -4,15 +4,15 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
-import { FormsModule } from '@angular/forms'
+import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MenubarModule } from 'primeng/menubar';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { DropdownModule } from 'primeng/dropdown';
-import { ButtonModule } from 'primeng/button';
-import { TooltipModule } from 'primeng/tooltip';
+import {MatButtonModule} from '@angular/material/button';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatSelectModule} from '@angular/material/select';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 import { CharacterFrameComponent } from './character/character-frame.component';
 import { CharacterFormComponent } from './character/form/character-form.component';
@@ -57,12 +57,12 @@ import { LoginComponent } from './login/login.component';
         HttpModule,
         FormsModule,
         BrowserModule,
-        MenubarModule,
-        ButtonModule,
-        MultiSelectModule,
-        InputTextareaModule,
-        DropdownModule,
-        TooltipModule,
+        MatMenuModule,
+        MatButtonModule,
+        MatSelectModule,
+        MatInputModule,
+        MatTooltipModule,
+        MatFormFieldModule,
         BrowserAnimationsModule,
         RouterModule.forRoot([
             { path: '', redirectTo: '/home', pathMatch: 'full' },
