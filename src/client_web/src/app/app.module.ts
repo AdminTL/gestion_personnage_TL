@@ -13,6 +13,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 import { CharacterFrameComponent } from './character/character-frame.component';
 import { CharacterFormComponent } from './character/form/character-form.component';
@@ -63,6 +64,7 @@ import { LoginComponent } from './login/login.component';
         MatInputModule,
         MatTooltipModule,
         MatFormFieldModule,
+        MatSnackBarModule,
         BrowserAnimationsModule,
         RouterModule.forRoot([
             { path: '', redirectTo: '/home', pathMatch: 'full' },

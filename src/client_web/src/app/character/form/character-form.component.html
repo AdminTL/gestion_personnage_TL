@@ -2,6 +2,8 @@
 
 <div *ngIf="formSectionsRoot !== undefined">
   <div *ngFor="let section of formSectionsRoot.characterFormSections">
-    <character-form-section [formSection]="section" [depth]="0"></character-form-section>
+    <character-form-section [formSection]="section" [depth]="0" [character]="character"></character-form-section>
   </div>
+
+  <button mat-raised-button (click)="submit()">Enregistrer</button>
 </div>

@@ -1,3 +1,6 @@
+import { Character } from './character';
+import { Player } from './player';
+
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CharacterExtensions } from './character-extensions';

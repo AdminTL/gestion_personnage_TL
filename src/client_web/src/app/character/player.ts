@@ -1,4 +1,6 @@
-interface Player {
+import { Character } from './character';
+
+export interface Player {
   character: Character[];
   date_modify: number;
   email: string;

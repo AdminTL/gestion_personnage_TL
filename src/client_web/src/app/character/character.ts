@@ -1,4 +1,4 @@
-interface Character{
+export class Character {
   energie: string[];
   endurance: string[];
   accueil_jeu_1: boolean;
@@ -19,4 +19,6 @@ interface Character{
   technique_maitre: Skill[];
   xp_autre: number;
   xp_naissance: number;
+
+  constructor() {}
 }

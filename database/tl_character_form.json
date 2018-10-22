@@ -5,14 +5,18 @@
       "type": "Section",
       "fields": [
         {
-          "title": "Prénom et Nom du joueur",
+          "title": "Nom du personnage",
           "hint": "À remplir",
-          "type": "Input"
+          "type": "Input",
+          "bind": "name"
         },
         {
-          "title": "input",
-          "hint": "input-hint",
-          "type": "Input"
+          "title": "description du background",
+          "hint": "tb-hint",
+          "description": "un peu de détails sur le personnage",
+          "lines": 6,
+          "type": "Textbox",
+          "bind": "question_background_raison"
         }
       ]
     },
@@ -21,48 +25,48 @@
       "type": "Section",
       "fields": [
         {
-          "title": "dropdown",
-          "lines": 2,
-          "hint": "dropdown-hint",
+          "title": "faction",
+          "bind": "faction",
+          "hint": "c'est ton groupe!",
           "type": "Dropdown",
           "options": [
             {
-              "label": "option1",
-              "value": "test"
+              "label": "Sarsar",
+              "value": "sarsar"
             },
             {
-              "label": "option2",
-              "value": "test"
+              "label": "Village de Vallam",
+              "value": "vallam"
             },
             {
-              "label": "option3",
-              "value": "test"
+              "label": "Amunzrat",
+              "value": "fuckers"
             }
           ]
         },
         {
-          "title": "multi-dropdown",
+          "title": "endurances",
           "lines": 2,
           "hint": "multi-dropdown-hint",
-          "type": "MultiselectDropdown",
+          "type": "Dropdown",
+          "multiSelect": true,
           "options": [
             {
-              "label": "option1",
-              "value": "test"
+              "label": "endurance!",
+              "value": "e1"
             },
             {
-              "label": "option2",
-              "value": "test"
+              "label": "plus d'endurance!",
+              "value": "e2"
             },
             {
-              "label": "option3",
-              "value": "test"
+              "label": "vraiment plus d'endurance!",
+              "value": "e3"
             }
           ]
         },
         {
           "title": "button",
-          "lines": 2,
           "hint": "button-hint",
           "type": "Button"
         }

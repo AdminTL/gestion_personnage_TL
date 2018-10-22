@@ -1,67 +1,68 @@
+import { Character } from '../character';
 import { Component, Input } from '@angular/core';
 import { CharacterExtensions } from '../character-extensions';
 
 @Component({
-    selector: 'character-header',
-    templateUrl: './character-header.component.html',
-    styleUrls: ['./character-header.component.css']
+  selector: 'character-header',
+  templateUrl: './character-header.component.html',
+  styleUrls: ['./character-header.component.css']
 })
 export class CharacterHeaderComponent {
-    @Input() public character: Character;
-    @Input() private playerMeriteDiff: number;
-    @Input() private passeSaison2018: boolean;
+  @Input() public character: Character;
+  @Input() private playerMeriteDiff: number;
+  @Input() private passeSaison2018: boolean;
 
-    isApprobationNew(): boolean{
-      return this.character && this.character.approbation.status == 0;
-    }
+  isApprobationNew(): boolean {
+    return this.character && this.character.approbation.status == 0;
+  }
 
-    isApprobationApproved(): boolean{
-      return this.character && this.character.approbation.status == 1;
-    }
+  isApprobationApproved(): boolean {
+    return this.character && this.character.approbation.status == 1;
+  }
 
-    isApprobationUnapproved(): boolean{
-      return this.character && this.character.approbation.status == 2;
-    }
+  isApprobationUnapproved(): boolean {
+    return this.character && this.character.approbation.status == 2;
+  }
 
-    isApprobationInactive(): boolean{
-      return this.character && this.character.approbation.status == 3;
-    }
+  isApprobationInactive(): boolean {
+    return this.character && this.character.approbation.status == 3;
+  }
 
-    isApprobationToCorrect(): boolean{
-      return this.character && this.character.approbation.status == 4;
-    }
+  isApprobationToCorrect(): boolean {
+    return this.character && this.character.approbation.status == 4;
+  }
 
-    xpDiff(): number{
-      return CharacterExtensions.countTotalXp(this.character) - CharacterExtensions.countSpentXp(this.character);
-    }
+  xpDiff(): number {
+    return CharacterExtensions.countTotalXp(this.character) - CharacterExtensions.countSpentXp(this.character);
+  }
 
-    meriteDiff(): number{
-      return this.playerMeriteDiff;
-    }
+  meriteDiff(): number {
+    return this.playerMeriteDiff;
+  }
 
-    ritualSchoolsDiff(): number{
-      return CharacterExtensions.maxRitualSchools(this.character) - CharacterExtensions.countRitualSchools(this.character);
-    }
+  ritualSchoolsDiff(): number {
+    return CharacterExtensions.maxRitualSchools(this.character) - CharacterExtensions.countRitualSchools(this.character);
+  }
 
-    masterTechDiff(): number{
-      let max = 0;
-      if(this.passeSaison2018){
-        max++;
-      }
-      return max - CharacterExtensions.countMasterTech(this.character);
+  masterTechDiff(): number {
+    let max = 0;
+    if (this.passeSaison2018) {
+      max++;
     }
+    return max - CharacterExtensions.countMasterTech(this.character);
+  }
 
-    validationGreen(): boolean{
-      return this.xpDiff() === 0 && this.meriteDiff() === 0
-        && this.ritualSchoolsDiff() === 0 && this.masterTechDiff() === 0;
-    }
+  validationGreen(): boolean {
+    return this.xpDiff() === 0 && this.meriteDiff() === 0
+      && this.ritualSchoolsDiff() === 0 && this.masterTechDiff() === 0;
+  }
 
-    validationYellow(): boolean{
-      return !this.validationGreen() && !this.validationRed();
-    }
+  validationYellow(): boolean {
+    return !this.validationGreen() && !this.validationRed();
+  }
 
-    validationRed(): boolean{
-      return this.xpDiff() < 0 || this.meriteDiff() < 0
-        || this.ritualSchoolsDiff() < 0 || this.masterTechDiff() < 0;
-    }
+  validationRed(): boolean {
+    return this.xpDiff() < 0 || this.meriteDiff() < 0
+      || this.ritualSchoolsDiff() < 0 || this.masterTechDiff() < 0;
+  }
 }

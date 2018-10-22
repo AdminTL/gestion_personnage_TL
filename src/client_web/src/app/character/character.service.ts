@@ -1,3 +1,6 @@
+import { Character } from './character';
+import { Player } from './player';
+
 import { Injectable, Inject } from '@angular/core';
 import { Http } from '@angular/http';
 import { of, Observable } from 'rxjs';

@@ -1,3 +1,4 @@
+import { Character } from '../character';
 import { Component, Input } from '@angular/core';
 import { CharacterService } from '../character.service';
 
@@ -8,7 +9,7 @@ import { CharacterService } from '../character.service';
 export class CharacterSkillsComponent {
     character: Character;
 
-    constructor(characterService:CharacterService){
+    constructor(characterService: CharacterService) {
       characterService.selectedCharacter$.subscribe(char => this.character = char, err => console.log(err));
     }
 }

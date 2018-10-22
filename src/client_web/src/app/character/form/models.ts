@@ -7,6 +7,7 @@ interface Field {
   type: string;
   description: string;
   hint: string;
+  bind: string;
 }
 
 interface FormSection extends Field {

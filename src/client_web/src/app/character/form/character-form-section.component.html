@@ -8,20 +8,41 @@
 <div *ngIf="isDefined(formSection.description)">{{formSection.description}}</div>
 
 <div *ngFor="let field of formSection.fields" class="field">
+  <!-- This does not work for now, bug in angular material. It throws an ExpressionChangedAfterItHasBeenCheckedError
+    https://github.com/angular/material2/issues/7737
+    Thus, we have to repeat some code instead.
   <mat-form-field appearance="standard" *ngIf="field.type !== 'Button' && field.type !== 'Section'">
     <mat-label>{{field.title}}</mat-label>
     <input *ngIf="field.type === 'Input'" matInput />
     <textarea *ngIf="field.type === 'Textbox'" [rows]="field.lines" autoResize="autoResize" matInput></textarea>
-    <mat-select *ngIf="field.type === 'Dropdown'">
+    <mat-select *ngIf="field.type === 'Dropdown'" [multiple]="field.multiSelect">
       <mat-option *ngFor='let option of field.options' [value]="option.value">{{option.label}}</mat-option>
     </mat-select>
     <mat-hint *ngIf="isDefined(field.hint)">{{field.hint}}</mat-hint>
-  </mat-form-field>
+  </mat-form-field> 
+-->
+  <mat-form-field *ngIf="field.type === 'Input'" appearance="standard">
+    <mat-label>{{field.title}}</mat-label>
+    <input matInput [(ngModel)]="character[field.bind]"/>
+    <mat-hint *ngIf="isDefined(field.hint)">{{field.hint}}</mat-hint>
+  </mat-form-field> 
+  <mat-form-field *ngIf="field.type === 'Textbox'" appearance="standard">
+    <mat-label>{{field.title}}</mat-label>
+    <textarea [rows]="field.lines" autoResize="autoResize" matInput [(ngModel)]="character[field.bind]"></textarea>
+    <mat-hint *ngIf="isDefined(field.hint)">{{field.hint}}</mat-hint>
+  </mat-form-field> 
+  <mat-form-field *ngIf="field.type === 'Dropdown'" appearance="standard">
+    <mat-label>{{field.title}}</mat-label>
+    <mat-select [multiple]="field.multiSelect" [(ngModel)]="character[field.bind]">
+      <mat-option *ngFor='let option of field.options' [value]="option.value">{{option.label}}</mat-option>
+    </mat-select>
+    <mat-hint *ngIf="isDefined(field.hint)">{{field.hint}}</mat-hint>
+  </mat-form-field> 
   <div *ngIf="field.type === 'Button'">
     <button mat-button type="button" label="Click" (click)="handleClick($event)" [matTooltip]="field.hint"></button>
   </div>
   <div *ngIf="field.type === 'Section'">
-    <dynamic-section [section]="section" [depth]="depth + 1"></dynamic-section>
+    <character-form-section [formSection]="section" [depth]="depth + 1" [character]="character"></character-form-section>
   </div>
   <div *ngIf="field.type !== 'section'">{{field.description}}</div>
 </div>

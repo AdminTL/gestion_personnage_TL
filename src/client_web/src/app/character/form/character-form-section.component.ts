@@ -1,3 +1,4 @@
+import { Character } from '../character';
 import { Component, Input } from '@angular/core';
 
 @Component({
@@ -6,12 +7,11 @@ import { Component, Input } from '@angular/core';
     styleUrls: ['./character-form-section.component.css']
 })
 export class CharacterFormSectionComponent {
+    @Input()
     public character: Character;
 
     @Input()
     public formSection: FormSection;
-
-    // If this section is
 
     @Input()
     public depth: number;
