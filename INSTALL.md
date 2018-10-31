@@ -111,7 +111,6 @@ Options
 ```
 --debug : Enable debug (default=False)
 --open_browser : Open web browser on tabulation on server start (default=False)
---static_dir : Web: Static files directory (default=WEB_DEFAULT_STATIC_DIR)
 --template_dir : Web: Template files directory (default=WEB_DEFAULT_TEMPLATE_DIR)
 --db_path : Specify a path for database file. (default=DB_DEFAULT_PATH)
 --db_demo : Use demo database. This option keeps all information in memory and does not save to the real database. (default=False)

@@ -7,6 +7,9 @@ import json
 
 
 class BaseHandler(tornado.web.RequestHandler):
+    def data_received(self, chunk):
+        raise NotImplementedError()
+
     _debug = None
     _manual = None
     _lore = None

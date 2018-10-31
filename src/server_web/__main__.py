@@ -6,10 +6,9 @@
 import argparse
 import os
 import web
-from py_class.config import Config
+from component.config import Config
 
 WEB_ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
-WEB_DEFAULT_STATIC_DIR = os.path.join(WEB_ROOT_DIR, "dist")
 WEB_DEFAULT_TEMPLATE_DIR = os.path.join(WEB_ROOT_DIR, "dist")
 DB_DEFAULT_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "tl_user.json")
 DB_DEMO_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "demo_user.json")
@@ -49,8 +48,6 @@ def parse_args():
                        help='Use demo data instead of generated custom data.')
 
     group = parser.add_argument_group("Config")
-    group.add_argument('-s', '--static_dir', default=WEB_DEFAULT_STATIC_DIR,
-                       help='Web: Static files directory')
     group.add_argument('-t', '--template_dir', default=WEB_DEFAULT_TEMPLATE_DIR,
                        help='Web: Template files directory')
 

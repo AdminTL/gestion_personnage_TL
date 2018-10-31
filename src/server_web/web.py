@@ -7,19 +7,19 @@ import tornado.ioloop
 import tornado.web
 import tornado.httpserver
 import handlers
-# from py_class import web_socket
+# from component import web_socket
 # from sockjs.tornado import SockJSRouter
 import ssl
 import os
 import stat
 import sys
-from py_class.db import DB
-from py_class.manual import Manual
-from py_class.lore import Lore
-from py_class.doc_generator.doc_generator_gspread import DocGeneratorGSpread
-from py_class.auth_keys import AuthKeys
-from py_class.project_archive import ProjectArchive
-from py_class.character_form import CharacterForm
+from component.db import DB
+from component.manual import Manual
+from component.lore import Lore
+from component.doc_generator.doc_generator_gspread import DocGeneratorGSpread
+from component.auth_keys import AuthKeys
+from component.project_archive import ProjectArchive
+from component.character_form import CharacterForm
 
 WEB_ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
 DEFAULT_SSL_DIRECTORY = os.path.join(WEB_ROOT_DIR, "..", "..", "ssl_cert", "certs")
@@ -74,8 +74,7 @@ def main(parse_arg):
     auth_keys = AuthKeys(parse_arg)
 
     # TODO store cookie_secret if want to reuse it if restart server
-    settings = {"static_path": parse_arg.static_dir,
-                "template_path": parse_arg.template_dir,
+    settings = {"template_path": parse_arg.template_dir,
                 "debug": parse_arg.debug,
                 "use_internet_static": parse_arg.use_internet_static,
                 "db": DB(parse_arg),
@@ -154,10 +153,10 @@ def main(parse_arg):
 
         # Content files in the dist folder (js, css, images)
         tornado.web.url(r'/((?:.*)\.(?:txt|png|ico|woff2|svg|ttf|eot|woff|gif|js))/?', tornado.web.StaticFileHandler,
-                        kwargs={'path': parse_arg.static_dir}),
+                        kwargs={'path': parse_arg.template_dir}),
 
         # Angular pages
-        tornado.web.url(r'/(?:.*)/?', handlers.IndexHandler, kwargs={'path': parse_arg.static_dir})
+        tornado.web.url(r'/(?:.*)/?', handlers.IndexHandler, kwargs={'path': parse_arg.template_dir})
     ]
 
     if not parse_arg.disable_login:
