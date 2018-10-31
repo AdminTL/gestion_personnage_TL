@@ -1,4 +1,5 @@
-import { Character } from '../character';
+import { Character } from './../character';
+import { CharacterContainer, FormSection, Button, ButtonActions } from './models';
 import { Component, Input } from '@angular/core';
 
 @Component({
@@ -8,7 +9,7 @@ import { Component, Input } from '@angular/core';
 })
 export class CharacterFormSectionComponent {
     @Input()
-    public character: Character;
+    public characterContainer: CharacterContainer;
 
     @Input()
     public formSection: FormSection;
@@ -18,5 +19,13 @@ export class CharacterFormSectionComponent {
 
     public isDefined(elem: any): boolean {
         return elem !== undefined;
+    }
+
+    public handleClick(button: Button) {
+        switch (button.action) {
+            case ButtonActions.Submit:
+                this.characterContainer.submitFct();
+                break;
+        }
     }
 }

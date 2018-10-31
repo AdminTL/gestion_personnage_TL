@@ -1,3 +1,4 @@
+import { CharacterContainer } from './models';
 import { Character } from '../character';
 import { Component, Inject, AfterViewChecked } from '@angular/core';
 import { Http } from '@angular/http';
@@ -10,12 +11,13 @@ import {MatSnackBar} from '@angular/material';
 })
 export class CharacterFormComponent {
     public character: Character;
-
+    public characterContainer: CharacterContainer;
     public formSectionsRoot: any;
 
     constructor(private http: Http, @Inject('BASE_URL') private baseUrl: string, private _router: Router, public snackBar: MatSnackBar) {
         this.http.get(this.baseUrl + 'cmd/character_form').subscribe(result => {
             this.character = new Character();
+            this.characterContainer = new CharacterContainer(this.character, this.submit);
             this.formSectionsRoot = result.json() as Section[];
         }, error => console.error(error));
     }

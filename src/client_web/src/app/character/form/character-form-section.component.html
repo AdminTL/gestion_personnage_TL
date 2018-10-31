@@ -23,26 +23,26 @@
 -->
   <mat-form-field *ngIf="field.type === 'Input'" appearance="standard">
     <mat-label>{{field.title}}</mat-label>
-    <input matInput [(ngModel)]="character[field.bind]"/>
+    <input matInput [(ngModel)]="characterContainer.character[field.bind]"/>
     <mat-hint *ngIf="isDefined(field.hint)">{{field.hint}}</mat-hint>
   </mat-form-field> 
   <mat-form-field *ngIf="field.type === 'Textbox'" appearance="standard">
     <mat-label>{{field.title}}</mat-label>
-    <textarea [rows]="field.lines" autoResize="autoResize" matInput [(ngModel)]="character[field.bind]"></textarea>
+    <textarea [rows]="field.lines" autoResize="autoResize" matInput [(ngModel)]="characterContainer.character[field.bind]"></textarea>
     <mat-hint *ngIf="isDefined(field.hint)">{{field.hint}}</mat-hint>
   </mat-form-field> 
   <mat-form-field *ngIf="field.type === 'Dropdown'" appearance="standard">
     <mat-label>{{field.title}}</mat-label>
-    <mat-select [multiple]="field.multiSelect" [(ngModel)]="character[field.bind]">
+    <mat-select [multiple]="field.multiSelect" [(ngModel)]="characterContainer.character[field.bind]">
       <mat-option *ngFor='let option of field.options' [value]="option.value">{{option.label}}</mat-option>
     </mat-select>
     <mat-hint *ngIf="isDefined(field.hint)">{{field.hint}}</mat-hint>
   </mat-form-field> 
   <div *ngIf="field.type === 'Button'">
-    <button mat-button type="button" label="Click" (click)="handleClick($event)" [matTooltip]="field.hint"></button>
+    <button mat-raised-button color="primary" type="button" label="Click" (click)="handleClick(field)" [matTooltip]="field.hint">{{field.title}}</button>
   </div>
   <div *ngIf="field.type === 'Section'">
-    <character-form-section [formSection]="section" [depth]="depth + 1" [character]="character"></character-form-section>
+    <character-form-section [formSection]="section" [depth]="depth + 1" [characterContainer]="characterContainer"></character-form-section>
   </div>
   <div *ngIf="field.type !== 'section'">{{field.description}}</div>
 </div>

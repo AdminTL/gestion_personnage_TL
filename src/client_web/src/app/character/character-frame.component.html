@@ -20,7 +20,7 @@
 </div>
 
 <div class="character-navigation">
-  <div *ngIf="player && countCharacters() <= 1">
+  <div *ngIf="player && countCharacters() >= 1">
     <button type="button" class="btn btn-secondary">
       {{selectedChar.name}}
     </button>
