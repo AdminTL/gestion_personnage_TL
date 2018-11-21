@@ -9,9 +9,12 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent }  from './app.component';
 import { routing }        from './app.routing';
 
+import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { AlertComponent } from './_components';
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { HomeComponent } from './home';
+import { DynamicSectionComponent } from './dynamic-section/dynamic-section.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 import { LoginComponent } from './login';
 import { RegisterComponent } from './register';
 
@@ -26,6 +29,9 @@ import { RegisterComponent } from './register';
         AppComponent,
         AlertComponent,
         HomeComponent,
+        DynamicSectionComponent,
+        NotFoundComponent,
+        NavMenuComponent,
         LoginComponent,
         RegisterComponent
     ],
