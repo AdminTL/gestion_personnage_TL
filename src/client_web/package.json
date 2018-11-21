@@ -1,6 +1,7 @@
 {
   "name": "larpem_client_angular",
   "version": "0.0.0",
+  "license": "AGPLv3",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
