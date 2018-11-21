@@ -1,7 +1,0 @@
-<h1>FORMULAIRE</h1>
-
-<div *ngIf="formSectionsRoot !== undefined && characterContainer !== undefined">
-  <div *ngFor="let section of formSectionsRoot.characterFormSections">
-    <character-form-section [formSection]="section" [depth]="0" [characterContainer]="characterContainer"></character-form-section>
-  </div>
-</div>

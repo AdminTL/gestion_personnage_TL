@@ -1,8 +1,0 @@
-﻿.anchor {
-    display: none;
-    font-size: 0.8em;
-}
-
-.show-anchor:hover .anchor{
-    display: inline;
-}

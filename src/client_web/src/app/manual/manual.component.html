@@ -1,7 +1,0 @@
-﻿<h1>L'univers de Traître-Lame</h1>
-
-<p *ngIf="!manualRoot"><em>Chargement...</em></p>
-
-<div *ngIf="!!manualRoot">
-    <dynamic-section *ngFor="let element of manualRoot.manual" [section]="element" [depth]="0"></dynamic-section>
-</div>

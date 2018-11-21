@@ -1,20 +1,43 @@
-import { Component, Inject } from '@angular/core';
-import { Http } from '@angular/http';
+﻿import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { first } from 'rxjs/operators';
 
-@Component({
-    selector: 'home',
-    templateUrl: './home.component.html'
-})
-export class HomeComponent {
-    public totalSeasonPass: number;
+import { User } from '@app/_models';
+import { UserService, AuthenticationService } from '@app/_services';
 
-    constructor(http: Http, @Inject('BASE_URL') baseUrl: string) {
-        http.get(baseUrl + 'cmd/stat/total_season_pass').subscribe(result => {
-            this.totalSeasonPass = (result.json() as SeasonPassNumber).result;
-        }, error => console.error(error));
+@Component({ templateUrl: 'home.component.html' })
+export class HomeComponent implements OnInit, OnDestroy {
+    currentUser: User;
+    currentUserSubscription: Subscription;
+    users: User[] = [];
+
+    constructor(
+        private authenticationService: AuthenticationService,
+        private userService: UserService
+    ) {
+        this.currentUserSubscription = this.authenticationService.currentUser.subscribe(user => {
+            this.currentUser = user;
+        });
     }
-}
 
-interface SeasonPassNumber {
-    result: number;
+    ngOnInit() {
+        this.loadAllUsers();
+    }
+
+    ngOnDestroy() {
+        // unsubscribe to ensure no memory leaks
+        this.currentUserSubscription.unsubscribe();
+    }
+
+    deleteUser(id: number) {
+        this.userService.delete(id).pipe(first()).subscribe(() => {
+            this.loadAllUsers()
+        });
+    }
+
+    private loadAllUsers() {
+        this.userService.getAll().pipe(first()).subscribe(users => {
+            this.users = users;
+        });
+    }
 }
