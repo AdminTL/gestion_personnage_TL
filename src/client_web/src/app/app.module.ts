@@ -13,6 +13,8 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { AlertComponent } from './_components';
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { HomeComponent } from './home';
+import { LoreComponent } from './lore/lore.component';
+import { ManualComponent } from './manual/manual.component';
 import { DynamicSectionComponent } from './dynamic-section/dynamic-section.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { LoginComponent } from './login';
@@ -29,6 +31,8 @@ import { RegisterComponent } from './register';
         AppComponent,
         AlertComponent,
         HomeComponent,
+        LoreComponent,
+        ManualComponent,
         DynamicSectionComponent,
         NotFoundComponent,
         NavMenuComponent,
