@@ -1,0 +1,15 @@
+.character-navigation{
+  display: none;
+}
+
+.character-sheet-bad{
+  color:red;
+}
+
+.character-sheet-improve{
+  color:orange;
+}
+
+.character-sheet-good{
+  color:green;
+}
