@@ -32,12 +32,12 @@
                         <span class='glyphicon glyphicon-book'></span> Livre de règles
                     </a>
                 </li>
-                <li [routerLinkActive]="['link-active']">
+                <li [routerLinkActive]="['link-active']" *ngIf="!authenticationService.isUserConnected">
                     <a [routerLink]="['/login']" (click)='collapse()'>
                         <span class='glyphicon glyphicon-log-in'></span> Connection
                     </a>
                 </li>
-                <li [routerLinkActive]="['link-active']">
+                <li [routerLinkActive]="['link-active']" *ngIf="authenticationService.isUserConnected">
                     <a [routerLink]="['/logout']" (click)='collapse()'>
                         <span class='glyphicon glyphicon-log-out'></span> Déconnection
                     </a>
