@@ -7,6 +7,8 @@ import argparse
 import os
 import web
 from component.config import Config
+from pynpm import NPMPackage
+import threading
 
 WEB_ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
 WEB_DEFAULT_TEMPLATE_DIR = os.path.join(WEB_ROOT_DIR, "dist")
@@ -19,12 +21,49 @@ DB_AUTH_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "auth.json")
 GOOGLE_API_SECRET_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "client_secret.json")
 CONFIG_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "config.json")
 
+PACKAGE_NPM = os.path.join(WEB_ROOT_DIR, os.pardir, "client_web", "package.json")
+
 
 def main():
     args = parse_args()
     if args.debug:
         print("Arguments:%s" % args)
+
+    lst_thread = []
+    # Compile web client
+    # run_npm_build()
+    run_npm_build_watch(lst_thread)
+    # run_npm_build_fast()
+
+    # Run web client
     web.main(args)
+
+    lst_thread = []
+
+
+def run_npm_build_fast():
+    pkg = NPMPackage(PACKAGE_NPM)
+    pkg.run_script("build_fast")
+
+
+def run_npm_build():
+    pkg = NPMPackage(PACKAGE_NPM)
+    pkg.run_script("build")
+
+
+def run_npm_build_watch(lst_thread):
+    def coroutine():
+        pkg = NPMPackage(PACKAGE_NPM)
+        pkg.run_script("build_watch")
+
+    t = threading.Thread(target=coroutine)
+    lst_thread.append(t)
+    t.start()
+
+
+def run_npm_install():
+    pkg = NPMPackage(PACKAGE_NPM)
+    pkg.install()
 
 
 class Listen:

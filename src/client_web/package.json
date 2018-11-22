@@ -6,6 +6,9 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --output-path=../server_web/dist",
+    "build_fast": "ng build --aot=false --optimization=false --buildOptimizer=false --output-path=../server_web/dist",
+    "build_prod": "ng build --prod --aot --build-optimizer --output-path=../server_web/dist",
+    "build_watch": "ng build --watch --output-path=../server_web/dist",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
