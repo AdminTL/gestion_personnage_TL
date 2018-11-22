@@ -28,12 +28,16 @@ from component.doc_generator.doc_generator_gspread import DocGeneratorGSpread
 from component.auth_keys import AuthKeys
 from component.project_archive import ProjectArchive
 from component.character_form import CharacterForm
+from tornado.log import enable_pretty_logging
 
 WEB_ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
 DEFAULT_SSL_DIRECTORY = os.path.join(WEB_ROOT_DIR, "..", "..", "ssl_cert", "certs")
 
 
 def main(parse_arg):
+    if parse_arg.debug:
+        enable_pretty_logging()
+
     # socket_connection = SockJSRouter(web_socket.TestStatusConnection, prefix='/update_user')
 
     ssl_options = None
@@ -154,20 +158,13 @@ def main(parse_arg):
 
         # Auto ssl
         tornado.web.url(r"/.well-known/acme-challenge.*", auto_ssl_handler.AutoSSLHandler, name="auto_ssl"),
-
-        # Content files in the dist folder (js, css, images)
-        tornado.web.url(r'/((?:.*)\.(?:txt|png|ico|woff2|svg|ttf|eot|woff|gif|js))/?', tornado.web.StaticFileHandler,
-                        kwargs={'path': parse_arg.template_dir}),
-
-        # Angular pages
-        tornado.web.url(r'/(?:.*)/?', index_handler.IndexHandler, kwargs={'path': parse_arg.template_dir})
     ]
 
     if not parse_arg.disable_login:
-        routes.append(tornado.web.url(r"/users/authenticate", login_handler.UsersAuthenticate, name='users_authenticate',
-                                      kwargs=settings))
-        routes.append(tornado.web.url(r"/users", login_handler.Users, name='users',
-                                      kwargs=settings))
+        routes.append(
+            tornado.web.url(r"/users/authenticate", login_handler.UsersAuthenticate, name='users_authenticate',
+                            kwargs=settings))
+        routes.append(tornado.web.url(r"/users", login_handler.Users, name='users', kwargs=settings))
         routes.append(tornado.web.url(r"/cmd/auth/validate/?", login_handler.ValidateAuthHandler, name='validate_auth',
                                       kwargs=settings))
         routes.append(tornado.web.url(r"/cmd/auth/google/?", login_handler.GoogleOAuth2LoginHandler,
@@ -176,6 +173,14 @@ def main(parse_arg):
                                       name='facebook_login', kwargs=settings))
         routes.append(tornado.web.url(r"/cmd/auth/twitter/?", login_handler.TwitterLoginHandler, name='twitter_login',
                                       kwargs=settings))
+
+    # Content files in the dist folder (js, css, images)
+    routes.append(
+        tornado.web.url(r'/((?:.*)\.(?:txt|png|ico|woff2|svg|ttf|eot|woff|gif|js))/?', tornado.web.StaticFileHandler,
+                        kwargs={'path': parse_arg.template_dir}))
+
+    # Angular pages
+    routes.append(tornado.web.url(r'/(?:.*)/?', index_handler.IndexHandler, kwargs={'path': parse_arg.template_dir}))
 
     # application = tornado.web.Application(routes + socket_connection.urls, **settings)
     application = tornado.web.Application(routes, **settings)
