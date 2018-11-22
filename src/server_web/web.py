@@ -176,7 +176,7 @@ def main(parse_arg):
 
     # Content files in the dist folder (js, css, images)
     routes.append(
-        tornado.web.url(r'/((?:.*)\.(?:txt|png|ico|woff2|svg|ttf|eot|woff|gif|js))/?', tornado.web.StaticFileHandler,
+        tornado.web.url(r'/((?:.*)\.(?:txt|jpg|png|ico|woff2|svg|ttf|eot|woff|gif|js))/?', tornado.web.StaticFileHandler,
                         kwargs={'path': parse_arg.template_dir}))
 
     # Angular pages

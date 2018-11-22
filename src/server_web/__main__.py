@@ -31,14 +31,17 @@ def main():
 
     lst_thread = []
     # Compile web client
-    # run_npm_build()
-    run_npm_build_watch(lst_thread)
+    if args.npm_install:
+        run_npm_install()
+    if args.npm_build:
+        run_npm_build()
+    if args.npm_build_watch:
+        run_npm_build_watch(lst_thread)
+
     # run_npm_build_fast()
 
     # Run web client
     web.main(args)
-
-    lst_thread = []
 
 
 def run_npm_build_fast():
@@ -122,6 +125,15 @@ def parse_args():
                        help='Active to disable custom css module.')
     group.add_argument('--hide_menu_login', default=False, action='store_true',
                        help='Active to hide login module from menu.')
+
+    group = parser.add_argument_group("NPM")
+    group.add_argument('--npm_install', default=False, action='store_true',
+                       help='Run NPM install at startup.')
+    group.add_argument('--npm_build', default=False, action='store_true',
+                       help='Run NPM build at startup.')
+    group.add_argument('--npm_build_watch', default=False, action='store_true',
+                       help='Run NPM build watch in threading. '
+                            'Can be append with npm_build and it runs after the first build is completed.')
 
     _parser = parser.parse_args()
     _parser.db_demo_path = DB_DEMO_PATH

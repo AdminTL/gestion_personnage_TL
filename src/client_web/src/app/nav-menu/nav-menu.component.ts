@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
+import {ObservableMedia, MediaChange} from '@angular/flex-layout';
 import {Subscription} from 'rxjs';
 
 import {User} from "@app/_models";
-import {UserService, AuthenticationService} from '@app/_services';
+import {AuthenticationService} from '@app/_services';
 
 @Component({
   selector: 'nav-menu',
@@ -15,12 +16,31 @@ export class NavMenuComponent {
 
   isExpanded = false;
 
+  opened = true;
+  over = 'side';
+  expandHeight = '42px';
+  collapseHeight = '42px';
+  displayMode = 'flat';
+  // overlap = false;
+
+  watcher: Subscription;
+
   constructor(
     private authenticationService: AuthenticationService,
-    private userService: UserService,
+    private media: ObservableMedia,
   ) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(user => {
       this.currentUser = user;
+    });
+
+    this.watcher = media.subscribe((change: MediaChange) => {
+      if (change.mqAlias === 'sm' || change.mqAlias === 'xs') {
+        this.opened = false;
+        this.over = 'over';
+      } else {
+        this.opened = true;
+        this.over = 'side';
+      }
     });
   }
 
