@@ -19,8 +19,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         private userService: UserService,
         private http: HttpClient
     ) {
-      this.http.get(`${environment.apiUrl}/cmd/stat/total_season_pass`).subscribe((result: SeasonPassNumber) => {
-            this.totalSeasonPass = result.result;
+      this.http.get(`${environment.apiUrl}/cmd/stat/total_season_pass`).subscribe((data: StatPassData) => {
+            this.totalSeasonPass = data.total_season_pass_2017;
         }, error => console.error(error));
 
         this.currentUserSubscription = this.authenticationService.currentUser.subscribe(user => {
@@ -52,4 +52,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 interface SeasonPassNumber {
     result: number;
+}
+
+interface StatPassData {
+  total_season_pass_2017 : number;
 }

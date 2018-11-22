@@ -373,3 +373,14 @@ class UsersAuthenticate(base_handler.BaseHandler):
         obj = {"id": 123, "username": "123", "firstName": "123", "lastName": "123", "token": "fake"}
         self.write(obj)
         self.finish()
+
+
+class Users(base_handler.BaseHandler):
+    """This class is designed purely for client-side validation"""
+
+    def get(self):
+        obj = {"message": 'Unauthorised'}
+        self.set_status(401)
+        self.write(obj)
+
+        self.finish()
