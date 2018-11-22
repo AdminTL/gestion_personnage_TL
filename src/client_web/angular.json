@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-registration-login-example": {
+    "larpem": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/angular-registration-login-example",
+            "outputPath": "dist/larpem",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -24,7 +24,8 @@
             ],
             "styles": [
               "src/styles.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "src/theme.scss",
+              "node_modules/material-design-icons/iconfont/material-icons.css"
             ],
             "scripts": []
           },
@@ -58,18 +59,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular-registration-login-example:build"
+            "browserTarget": "larpem:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "angular-registration-login-example:build:production"
+              "browserTarget": "larpem:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-registration-login-example:build"
+            "browserTarget": "larpem:build"
           }
         },
         "test": {
@@ -80,7 +81,9 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/theme.scss",
+              "node_modules/material-design-icons/iconfont/material-icons.css"
             ],
             "scripts": [],
             "assets": [
@@ -103,7 +106,7 @@
         }
       }
     },
-    "angular-registration-login-example-e2e": {
+    "larpem-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -112,11 +115,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "angular-registration-login-example:serve"
+            "devServerTarget": "larpem:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "angular-registration-login-example:serve:production"
+              "devServerTarget": "larpem:serve:production"
             }
           }
         },

@@ -1,19 +1,11 @@
-﻿import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+﻿import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {NgModule} from '@angular/core';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 
 // used to create fake backend
 // import { fakeBackendProvider } from './_helpers';
-
-import {MatButtonModule} from '@angular/material/button';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatSelectModule} from '@angular/material/select';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 import {CharacterFrameComponent} from './character/character-frame.component';
 import {CharacterFormComponent} from './character/form/character-form.component';
@@ -43,16 +35,9 @@ import {RegisterComponent} from './register';
   imports: [
     FormsModule,
     BrowserModule,
-    MatMenuModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatInputModule,
-    MatTooltipModule,
-    MatFormFieldModule,
-    MatSnackBarModule,
+    SharedModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    SharedModule,
     HttpClientModule,
     AppRoutingModule
   ],
