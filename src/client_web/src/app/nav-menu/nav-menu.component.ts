@@ -48,8 +48,14 @@ export class NavMenuComponent {
     this.isExpanded = false;
   }
 
+  toggle_nav_menu() {
+   this.opened != this.opened;
+  }
+
   toggle() {
     this.isExpanded = !this.isExpanded;
   }
+
+
 
 }

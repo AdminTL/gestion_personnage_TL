@@ -1,50 +1,50 @@
 <!--<div class='main-nav'>-->
-    <!--<div class='navbar navbar-inverse'>-->
-        <!--<div class='navbar-header'>-->
-            <!--<button type='button' class='navbar-toggle' [attr.aria-expanded]='isExpanded' (click)='toggle()' data-target='.navbar-collapse'>-->
-                <!--<span class='sr-only'>Toggle navigation</span>-->
-                <!--<span class='icon-bar'></span>-->
-                <!--<span class='icon-bar'></span>-->
-                <!--<span class='icon-bar'></span>-->
-            <!--</button>-->
-            <!--<h1 [routerLink]="['/home']">Traître-Lame</h1>-->
-        <!--</div>-->
-        <!--<div class='clearfix'></div>-->
-        <!--<div class='navbar-collapse collapse' [ngClass]='{ "in": isExpanded }'>-->
-            <!--<ul class='nav navbar-nav'>-->
-                <!--<li [routerLinkActive]="['link-active']" [routerLinkActiveOptions]='{ exact: true }'>-->
-                    <!--<a [routerLink]="['/home']" (click)='collapse()'>-->
-                        <!--<span class='glyphicon glyphicon-home'></span> Home-->
-                    <!--</a>-->
-                <!--</li>-->
-                <!--<li [routerLinkActive]="['link-active']">-->
-                    <!--<a [routerLink]="['/character']" (click)='collapse()'>-->
-                        <!--<span class='glyphicon glyphicon-knight'></span> Personnage-->
-                    <!--</a>-->
-                <!--</li>-->
-                <!--<li [routerLinkActive]="['link-active']">-->
-                    <!--<a [routerLink]="['/lore']" (click)='collapse()'>-->
-                        <!--<span class='glyphicon glyphicon-globe'></span> Univers-->
-                    <!--</a>-->
-                <!--</li>-->
-                <!--<li [routerLinkActive]="['link-active']">-->
-                    <!--<a [routerLink]="['/manual']" (click)='collapse()'>-->
-                        <!--<span class='glyphicon glyphicon-book'></span> Livre de règles-->
-                    <!--</a>-->
-                <!--</li>-->
-                <!--<li [routerLinkActive]="['link-active']" *ngIf="!authenticationService.isUserConnected">-->
-                    <!--<a [routerLink]="['/login']" (click)='collapse()'>-->
-                        <!--<span class='glyphicon glyphicon-log-in'></span> Connection-->
-                    <!--</a>-->
-                <!--</li>-->
-                <!--<li [routerLinkActive]="['link-active']" *ngIf="authenticationService.isUserConnected">-->
-                    <!--<a [routerLink]="['/logout']" (click)='collapse()'>-->
-                        <!--<span class='glyphicon glyphicon-log-out'></span> Déconnection-->
-                    <!--</a>-->
-                <!--</li>-->
-            <!--</ul>-->
-        <!--</div>-->
-    <!--</div>-->
+<!--<div class='navbar navbar-inverse'>-->
+<!--<div class='navbar-header'>-->
+<!--<button type='button' class='navbar-toggle' [attr.aria-expanded]='isExpanded' (click)='toggle()' data-target='.navbar-collapse'>-->
+<!--<span class='sr-only'>Toggle navigation</span>-->
+<!--<span class='icon-bar'></span>-->
+<!--<span class='icon-bar'></span>-->
+<!--<span class='icon-bar'></span>-->
+<!--</button>-->
+<!--<h1 [routerLink]="['/home']">Traître-Lame</h1>-->
+<!--</div>-->
+<!--<div class='clearfix'></div>-->
+<!--<div class='navbar-collapse collapse' [ngClass]='{ "in": isExpanded }'>-->
+<!--<ul class='nav navbar-nav'>-->
+<!--<li [routerLinkActive]="['link-active']" [routerLinkActiveOptions]='{ exact: true }'>-->
+<!--<a [routerLink]="['/home']" (click)='collapse()'>-->
+<!--<span class='glyphicon glyphicon-home'></span> Home-->
+<!--</a>-->
+<!--</li>-->
+<!--<li [routerLinkActive]="['link-active']">-->
+<!--<a [routerLink]="['/character']" (click)='collapse()'>-->
+<!--<span class='glyphicon glyphicon-knight'></span> Personnage-->
+<!--</a>-->
+<!--</li>-->
+<!--<li [routerLinkActive]="['link-active']">-->
+<!--<a [routerLink]="['/lore']" (click)='collapse()'>-->
+<!--<span class='glyphicon glyphicon-globe'></span> Univers-->
+<!--</a>-->
+<!--</li>-->
+<!--<li [routerLinkActive]="['link-active']">-->
+<!--<a [routerLink]="['/manual']" (click)='collapse()'>-->
+<!--<span class='glyphicon glyphicon-book'></span> Livre de règles-->
+<!--</a>-->
+<!--</li>-->
+<!--<li [routerLinkActive]="['link-active']" *ngIf="!authenticationService.isUserConnected">-->
+<!--<a [routerLink]="['/login']" (click)='collapse()'>-->
+<!--<span class='glyphicon glyphicon-log-in'></span> Connection-->
+<!--</a>-->
+<!--</li>-->
+<!--<li [routerLinkActive]="['link-active']" *ngIf="authenticationService.isUserConnected">-->
+<!--<a [routerLink]="['/logout']" (click)='collapse()'>-->
+<!--<span class='glyphicon glyphicon-log-out'></span> Déconnection-->
+<!--</a>-->
+<!--</li>-->
+<!--</ul>-->
+<!--</div>-->
+<!--</div>-->
 <!--</div>-->
 
 <mat-sidenav-container class="container">
@@ -53,85 +53,112 @@
       <div class="with-bg"></div>
       <div>
         <a>
-          <img class="circle" src="./assets/images/profile.jpg" width="100">
+          <img class="circle" src="./assets/images/logo_fullsize.png" width="100">
         </a>
       </div>
     </div>
     <div style="background-color: #3e50b5 !important;" class="mt-2 py-3 text-white" fxLayout="column" fxLayoutAlign="center center"
-      fxLayoutGap="7px">
+         fxLayoutGap="7px">
       <div>
         <a>
-          <span class="lead">Rexford</span>
+          <span class="lead">Traître-Lame</span>
         </a>
       </div>
       <div>
         <a>
-          <span class="">hello@khophi.co</span>
+          <span class="">Grandeur-Nature 18+ ans Médiévale Fantasmique</span>
         </a>
       </div>
     </div>
     <div class="mt-3">
+
       <mat-nav-list>
         <a mat-list-item class="ml-2" style="font-size:15px;">
-          Homepage
+          Acceuil
         </a>
       </mat-nav-list>
+
       <mat-accordion multi="true" [displayMode]="displayMode">
         <mat-expansion-panel class="no-shadow">
           <mat-expansion-panel-header fxLayout="row" [expandedHeight]="expandHeight" [collapsedHeight]="collapseHeight">
             <mat-panel-title>
-              Buy Airtime
+              Guide / Manuel
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-nav-list class="ml-0" dense>
             <mat-list-item>
-              <a href="#">AirtelTigo Airtime</a>
+              <a href="#">Manuel du joueur</a>
               <!-- <button mat-icon-button class="mr-3">
               <mat-icon>info</mat-icon>
             </button> -->
             </mat-list-item>
             <mat-list-item>
-              <a href="#">Vodafone Airtime</a>
+              <a href="#">Manuel admin</a>
             </mat-list-item>
             <mat-list-item>
-              <a href="#">MTN Airtime</a>
-            </mat-list-item>
-            <mat-list-item>
-              <a href="#">GLO Airtime</a>
+              <a href="#">Lore</a>
             </mat-list-item>
           </mat-nav-list>
         </mat-expansion-panel>
+
         <mat-expansion-panel class="no-shadow my-0">
           <mat-expansion-panel-header fxLayout="row" [expandedHeight]="expandHeight" [collapsedHeight]="collapseHeight">
             <mat-panel-title>
-              Buy Airtime
+              Personnage <span class='glyphicon glyphicon-knight'></span>
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-nav-list class="ml-0" dense>
             <mat-list-item>
-              <a href="#">AirtelTigo Airtime</a>
+              <a href="#"><span class='glyphicon glyphicon-knight'></span> Personnage</a>
               <!-- <button mat-icon-button class="mr-3">
                 <mat-icon>info</mat-icon>
               </button> -->
             </mat-list-item>
             <mat-list-item>
-              <a href="#">Vodafone Airtime</a>
+              <a href="#">Éditeur</a>
             </mat-list-item>
             <mat-list-item>
-              <a href="#">MTN Airtime</a>
+              <a href="#">Paramètre</a>
+            </mat-list-item>
+          </mat-nav-list>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel class="no-shadow my-0">
+          <mat-expansion-panel-header fxLayout="row" [expandedHeight]="expandHeight" [collapsedHeight]="collapseHeight">
+            <mat-panel-title>
+              Admin
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-nav-list class="ml-0" dense>
+            <mat-list-item>
+              <a href="#"><span class='glyphicon glyphicon-knight'></span> Personnage</a>
+              <!-- <button mat-icon-button class="mr-3">
+                <mat-icon>info</mat-icon>
+              </button> -->
             </mat-list-item>
             <mat-list-item>
-              <a href="#">GLO Airtime</a>
+              <a href="#">Éditeur</a>
+            </mat-list-item>
+            <mat-list-item>
+              <a href="#">Paramètre</a>
             </mat-list-item>
           </mat-nav-list>
         </mat-expansion-panel>
       </mat-accordion>
+
+      <!--<mat-nav-list>-->
+      <!--<a mat-list-item class="ml-2" style="font-size:15px;" (click)="sidenav.toggle()">-->
+      <!--Cacher le menu <mat-icon>close</mat-icon>-->
+      <!--</a>-->
+      <!--</mat-nav-list>-->
+
     </div>
   </mat-sidenav>
 
   <mat-sidenav-content>
     <mat-toolbar color="primary" class="header-box-shadow">
-      <button mat-icon-button (click)="sidenav.toggle()" fxShow.sm="true" fxShow.gt-sm="false">
+      <!--fxShow.gt-sm="{{!sidenav.opened}}"-->
+      <button mat-icon-button (click)="sidenav.toggle()" fxShow.sm="true" fxShow.gt-sm="true">
         <mat-icon>menu</mat-icon>
       </button>
       <button mat-button>
