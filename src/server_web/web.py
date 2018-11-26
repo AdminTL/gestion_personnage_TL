@@ -161,6 +161,10 @@ def main(parse_arg):
     ]
 
     if not parse_arg.disable_login:
+        routes.append(
+            tornado.web.url(r"/users/authenticate", login_handler.UsersAuthenticate, name='users_authenticate',
+                            kwargs=settings))
+        routes.append(tornado.web.url(r"/users", login_handler.Users, name='users', kwargs=settings))
         routes.append(tornado.web.url(r"/cmd/auth/validate/?", login_handler.ValidateAuthHandler, name='validate_auth',
                                       kwargs=settings))
         routes.append(tornado.web.url(r"/cmd/auth/google/?", login_handler.GoogleOAuth2LoginHandler,

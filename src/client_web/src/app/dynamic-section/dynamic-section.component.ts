@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
     styleUrls: ['./dynamic-section.component.css']
 })
 export class DynamicSectionComponent {
-    public route: string
+    public route: string;
 
     constructor(router: Router) {
         this.route = router.url.split('#')[0];
