@@ -7,6 +7,8 @@ import argparse
 import os
 import web
 from component.config import Config
+from pynpm import NPMPackage
+import threading
 
 WEB_ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
 WEB_DEFAULT_TEMPLATE_DIR = os.path.join(WEB_ROOT_DIR, "dist")
@@ -19,12 +21,59 @@ DB_AUTH_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "auth.json")
 GOOGLE_API_SECRET_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "client_secret.json")
 CONFIG_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "config.json")
 
+PACKAGE_NPM = os.path.join(WEB_ROOT_DIR, os.pardir, "client_web", "package.json")
+
 
 def main():
     args = parse_args()
     if args.debug:
         print("Arguments:%s" % args)
+
+    lst_thread = []
+    # Compile web client
+    if args.npm_install:
+        run_npm_install()
+    if args.npm_build:
+        run_npm_build()
+    if args.npm_build_prod:
+        run_npm_build_prod()
+    if args.npm_build_watch:
+        run_npm_build_watch(lst_thread)
+
+    # run_npm_build_fast()
+
+    # Run web client
     web.main(args)
+
+
+def run_npm_build_fast():
+    pkg = NPMPackage(PACKAGE_NPM)
+    pkg.run_script("build_fast")
+
+
+def run_npm_build_prod():
+    pkg = NPMPackage(PACKAGE_NPM)
+    pkg.run_script("build_prod")
+
+
+def run_npm_build():
+    pkg = NPMPackage(PACKAGE_NPM)
+    pkg.run_script("build")
+
+
+def run_npm_build_watch(lst_thread):
+    def coroutine():
+        pkg = NPMPackage(PACKAGE_NPM)
+        pkg.run_script("build_watch")
+
+    t = threading.Thread(target=coroutine)
+    lst_thread.append(t)
+    t.start()
+
+
+def run_npm_install():
+    pkg = NPMPackage(PACKAGE_NPM)
+    pkg.install()
 
 
 class Listen:
@@ -83,6 +132,17 @@ def parse_args():
                        help='Active to disable custom css module.')
     group.add_argument('--hide_menu_login', default=False, action='store_true',
                        help='Active to hide login module from menu.')
+
+    group = parser.add_argument_group("NPM")
+    group.add_argument('--npm_install', default=False, action='store_true',
+                       help='Run NPM install at startup.')
+    group.add_argument('--npm_build', default=False, action='store_true',
+                       help='Run NPM build at startup.')
+    group.add_argument('--npm_build_prod', default=False, action='store_true',
+                       help='Run NPM build with prod client web.')
+    group.add_argument('--npm_build_watch', default=False, action='store_true',
+                       help='Run NPM build watch in threading. '
+                            'Can be append with npm_build and it runs after the first build is completed.')
 
     _parser = parser.parse_args()
     _parser.db_demo_path = DB_DEMO_PATH
