@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "client": {
+    "larpem": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -14,11 +14,11 @@
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "tsConfig": "src/tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
+            "tsConfig": "src/tsconfig.app.json",
             "assets": [
-              "src/assets",
-              "src/favicon.ico"
+              "src/favicon.ico",
+              "src/assets"
             ],
             "styles": [
               "src/styles.css",
@@ -49,18 +49,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "client:build"
+            "browserTarget": "larpem:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "client:build:production"
+              "browserTarget": "larpem:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "client:build"
+            "browserTarget": "larpem:build"
           }
         },
         "test": {
@@ -70,13 +70,13 @@
             "karmaConfig": "./karma.conf.js",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
-            "scripts": [],
             "styles": [
               "src/styles.css"
             ],
+            "scripts": [],
             "assets": [
-              "src/assets",
-              "src/favicon.ico"
+              "src/favicon.ico",
+              "src/assets"
             ]
           }
         },
@@ -94,7 +94,7 @@
         }
       }
     },
-    "client-e2e": {
+    "larpem-e2e": {
       "root": "",
       "sourceRoot": "",
       "projectType": "application",
@@ -103,7 +103,12 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "client:serve"
+            "devServerTarget": "larpem:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "larpem:serve:production"
+            }
           }
         },
         "lint": {
@@ -120,7 +125,7 @@
       }
     }
   },
-  "defaultProject": "client",
+  "defaultProject": "larpem",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
