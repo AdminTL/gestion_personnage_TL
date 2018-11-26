@@ -60,7 +60,7 @@
     <div style="background-color: #3e50b5 !important;" class="mt-2 py-3 text-white" fxLayout="column" fxLayoutAlign="center center"
          fxLayoutGap="7px">
       <div>
-        <a>
+        <a [routerLink]="['/home']">
           <span class="lead">Traître-Lame</span>
         </a>
       </div>
@@ -73,7 +73,7 @@
     <div class="mt-3">
 
       <mat-nav-list>
-        <a mat-list-item class="ml-2" style="font-size:15px;">
+        <a mat-list-item class="ml-2" style="font-size:15px;" [routerLink]="['/home']">
           <mat-icon class="mr-1">home</mat-icon> Acceuil
         </a>
       </mat-nav-list>
@@ -87,13 +87,13 @@
           </mat-expansion-panel-header>
           <mat-nav-list class="ml-0" dense>
             <mat-list-item>
-              <a href="#"><mat-icon class="mr-1">description</mat-icon> Manuel du joueur</a>
+              <a [routerLink]="['/manual']"><mat-icon class="mr-1">description</mat-icon> Manuel du joueur</a>
               <!-- <button mat-icon-button class="mr-3">
               <mat-icon>info</mat-icon>
             </button> -->
             </mat-list-item>
             <mat-list-item>
-              <a href="#"><mat-icon class="mr-1">description</mat-icon> Univers</a>
+              <a [routerLink]="['/lore']"><mat-icon class="mr-1">description</mat-icon> Univers</a>
             </mat-list-item>
           </mat-nav-list>
         </mat-expansion-panel>
@@ -106,7 +106,7 @@
           </mat-expansion-panel-header>
           <mat-nav-list class="ml-0" dense>
             <mat-list-item>
-              <a href="#"><mat-icon class="mr-1">face</mat-icon> Personnage</a>
+              <a [routerLink]="['/character']"><mat-icon class="mr-1">face</mat-icon> Personnage</a>
               <!-- <button mat-icon-button class="mr-3">
                 <mat-icon>info</mat-icon>
               </button> -->
@@ -122,13 +122,13 @@
           </mat-expansion-panel-header>
           <mat-nav-list class="ml-0" dense>
             <mat-list-item>
-              <a href="#"><mat-icon class="mr-1">face</mat-icon> Personnage</a>
+              <a [routerLink]="['/character']"><mat-icon class="mr-1">face</mat-icon> Personnage</a>
               <!-- <button mat-icon-button class="mr-3">
                 <mat-icon>info</mat-icon>
               </button> -->
             </mat-list-item>
             <mat-list-item>
-              <a href="#"><mat-icon class="mr-1">description</mat-icon> Manuel admin</a>
+              <a [routerLink]="['/manual']"><mat-icon class="mr-1">description</mat-icon> Manuel admin</a>
             </mat-list-item>
             <mat-list-item>
               <a href="#"><mat-icon class="mr-1">work</mat-icon> Éditeur</a>
@@ -206,6 +206,7 @@
       <mat-icon class="ml-3" title="Logout">exit_to_app</mat-icon>
     </mat-toolbar>
   </mat-sidenav-content>
+  <alert></alert>
   <router-outlet></router-outlet>
 </mat-sidenav-container>
 

@@ -1,20 +1,54 @@
-﻿import {Routes, RouterModule} from '@angular/router';
+﻿// import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
 
 import {HomeComponent} from './home';
 import {LoginComponent} from './login';
 import {RegisterComponent} from './register';
 import {NotFoundComponent} from './not-found';
-import {AuthGuard} from './_guards';
+import {LoreComponent} from './lore';
+import {ManualComponent} from './manual';
+
+import {CharacterFrameComponent} from './character/character-frame.component';
+import {CharacterFormComponent} from './character/form/character-form.component';
+import {CharacterFormSectionComponent} from './character/form/character-form-section.component';
+import {CharacterAttributesComponent} from './character/attributes/character-attributes.component';
+import {CharacterMessagesComponent} from './character/messages/character-messages.component';
+import {CharacterResourcesComponent} from './character/resources/character-resources.component';
+import {CharacterSkillsComponent} from './character/skills/character-skills.component';
+import {CharacterHeaderComponent} from './character/header/character-header.component';
+
+// import {AuthGuard} from './_guards';
+
 
 const appRoutes: Routes = [
   // { path: '', component: HomeComponent, canActivate: [AuthGuard] },
-  {path: '', component: HomeComponent},
+  {path: '', redirectTo: '/home', pathMatch: 'full'},
+  {path: 'home', component: HomeComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
-
+  {path: 'character', redirectTo: '/character/form', pathMatch: 'full'},
+  {
+    path: 'character', component: CharacterFrameComponent, children: [
+      {path: 'form', component: CharacterFormComponent},
+      {path: 'attributes', component: CharacterAttributesComponent},
+      {path: 'skills', component: CharacterSkillsComponent},
+      {path: 'resources', component: CharacterResourcesComponent},
+      {path: 'messages', component: CharacterMessagesComponent}
+    ]
+  },
+  {path: 'lore', component: LoreComponent},
+  {path: 'manual', component: ManualComponent},
   // otherwise redirect to home
   // { path: '**', redirectTo: '' }
   {path: '**', component: NotFoundComponent}
 ];
 
-export const AppRoutingModule = RouterModule.forRoot(appRoutes);
+// @NgModule({
+//   exports: [RouterModule],
+//   imports: [RouterModule.forRoot(appRoutes)]
+// })
+
+export const Routing = RouterModule.forRoot(appRoutes, { enableTracing: true });
+
+// export class AppRoutingModule {
+// }
