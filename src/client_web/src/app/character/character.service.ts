@@ -1,14 +1,16 @@
-import { Character } from './character';
-import { Player } from './player';
+import {Character} from './character';
+import {Player} from './player';
 
-import { Injectable, Inject } from '@angular/core';
-import { Http } from '@angular/http';
-import { of, Observable } from 'rxjs';
-import { Subject } from 'rxjs/Subject';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import {Injectable} from '@angular/core';
+import {of, Observable} from 'rxjs';
+import {Subject} from 'rxjs/Subject';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 
+import {Http} from '@angular/http';
+
+import {environment} from "@environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -19,14 +21,12 @@ export class CharacterService {
   public selectedCharacter$: Observable<Character>;
   public player$: Observable<Player>;
 
-  constructor(private http: Http, @Inject('BASE_URL') baseUrl: string) {
-
+  constructor(private http: Http) {
     this.character = new BehaviorSubject<Character>(null);
     this.selectedCharacter$ = this.character.asObservable();
     this.player = new BehaviorSubject<Player>(null);
     this.player$ = this.player.asObservable();
   }
-
 
   setSelectedCharacter(data: Character) {
     this.character.next(data);
@@ -60,19 +60,19 @@ export class CharacterService {
       + 'Alexis Buisson\", \"facebook_id\": \"10213490781556886\", \"date_modify\": 1527904919.51892, \"family'
       + '_name\": \"Buisson\", \"verified_email\": false, \"locale\": \"fr_CA\", \"google_id\": null, \"user'
       + '_id\": \"9699f564a08743cb8eb52887143457ca\", \"permission\": \"Joueur\", \"username\": \"Alexis Buisson\"}'
-      )as Player);
+    ) as Player);
     // end test
 
     // TODO uncomment for prod
-    // let obs = this.http.get(baseUrl + 'cmd/character_view').map(result => result.json() as Player);
+    // let obs = this.http.get(`${environment.apiUrl}/cmd/character_view`).map(result => result.json() as Player);
 
     obs.subscribe(
-          player => {
-            this.setPlayer(player);
-          },
-          err => {
-              console.log(err);
-          }
-        );
+      player => {
+        this.setPlayer(player);
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 }

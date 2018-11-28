@@ -1,20 +1,22 @@
-import { Component, Inject } from '@angular/core';
-import { Http } from '@angular/http';
+import {Component} from '@angular/core';
+import {Http} from '@angular/http';
+
+import {environment} from "@environments/environment";
 
 @Component({
-    selector: 'home',
-    templateUrl: 'home.component.html'
+  selector: 'home',
+  templateUrl: 'home.component.html'
 })
 export class HomeComponent {
-    public totalSeasonPass: number;
+  public totalSeasonPass: number;
 
-    constructor(http: Http, @Inject('BASE_URL') baseUrl: string) {
-        http.get(baseUrl + 'cmd/stat/total_season_pass').subscribe(result => {
-            this.totalSeasonPass = (result.json() as SeasonPassNumber).result;
-        }, error => console.error(error));
-    }
+  constructor(http: Http) {
+    http.get(`${environment.apiUrl}/cmd/stat/total_season_pass`).subscribe(result => {
+      this.totalSeasonPass = (result.json() as SeasonPassNumber).result;
+    }, error => console.error(error));
+  }
 }
 
 interface SeasonPassNumber {
-    result: number;
+  result: number;
 }

@@ -64,8 +64,6 @@ import {SharedModule} from './shared';
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
-
-    {provide: 'BASE_URL', useValue: 'http://localhost:8000/'}
   ],
   bootstrap: [AppComponent]
 })

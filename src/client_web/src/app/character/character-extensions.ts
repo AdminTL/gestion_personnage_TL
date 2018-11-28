@@ -1,4 +1,4 @@
-import { Character } from './character';
+import {Character} from './character';
 
 // When casting from json, we get a javascript object that can't have any methods.
 // Thus, we use these static methods to overcome that problem.

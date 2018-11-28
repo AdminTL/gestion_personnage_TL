@@ -1,5 +1,4 @@
-﻿// import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+﻿import {Routes, RouterModule} from '@angular/router';
 
 import {HomeComponent} from './home';
 import {LoginComponent} from './login';
@@ -43,12 +42,5 @@ const appRoutes: Routes = [
   // { path: '**', redirectTo: '' }
   {path: '**', component: NotFoundComponent}
 ];
-
-// @NgModule({
-//   exports: [RouterModule],
-//   imports: [RouterModule.forRoot(appRoutes)]
-// })
-
-// export const Routing = RouterModule.forRoot(appRoutes, { enableTracing: true });
 
 export const AppRouting = RouterModule.forRoot(appRoutes, { enableTracing: true });
