@@ -47,7 +47,7 @@ sudo apt-get --reinstall install python-pyasn1 python-pyasn1-modules
 ```
 or
 ```{r, engine='bash', count_lines}
-sudo pip4 install --upgrade google-auth-oauthlib
+sudo pip3 install --upgrade google-auth-oauthlib
 ```
 
 Windows

@@ -22,7 +22,7 @@
             ],
             "styles": [
               "src/styles.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "node_modules/material-design-icons/iconfont/material-icons.css"
             ],
             "scripts": []
           },
@@ -71,7 +71,8 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/material-design-icons/iconfont/material-icons.css"
             ],
             "scripts": [],
             "assets": [
