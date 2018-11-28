@@ -1,6 +1,7 @@
-﻿import { Component, Inject, AfterViewChecked } from '@angular/core';
+﻿import { Component, AfterViewChecked } from '@angular/core';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
+import {environment} from "@environments/environment";
 
 @Component({
     selector: 'lore',
@@ -9,8 +10,8 @@ import { Router } from '@angular/router';
 export class LoreComponent implements AfterViewChecked {
     public loreRoot: LoreRoot;
 
-    constructor(http: Http, @Inject('BASE_URL') baseUrl: string, private _router: Router) {
-        http.get(baseUrl + 'cmd/lore').subscribe(result => {
+    constructor(http: Http, private _router: Router) {
+        http.get(`${environment.apiUrl}/cmd/lore`).subscribe(result => {
             this.loreRoot = result.json() as LoreRoot;
         }, error => console.error(error));
     }

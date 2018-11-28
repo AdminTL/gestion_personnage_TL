@@ -1,7 +1,7 @@
 import { Character } from './character';
 import { Player } from './player';
 
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { of, Observable } from 'rxjs';
 import { Subject } from 'rxjs/Subject';
@@ -19,7 +19,7 @@ export class CharacterService {
   public selectedCharacter$: Observable<Character>;
   public player$: Observable<Player>;
 
-  constructor(private http: Http, @Inject('BASE_URL') baseUrl: string) {
+  constructor(private http: Http) {
 
     this.character = new BehaviorSubject<Character>(null);
     this.selectedCharacter$ = this.character.asObservable();

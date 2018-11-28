@@ -65,8 +65,6 @@ import {RegisterComponent} from './register';
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
 
-    {provide: 'BASE_URL', useValue: 'http://localhost:8000/'}
-
     // provider used to create fake backend
     // fakeBackendProvider
   ],

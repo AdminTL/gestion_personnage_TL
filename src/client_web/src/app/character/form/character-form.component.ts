@@ -1,9 +1,10 @@
 import { CharacterContainer } from './models';
 import { Character } from '../character';
-import { Component, Inject, AfterViewChecked } from '@angular/core';
+import { Component } from '@angular/core';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import {MatSnackBar} from '@angular/material';
+import {environment} from "@environments/environment";
 
 @Component({
     selector: 'character-form',
@@ -14,8 +15,8 @@ export class CharacterFormComponent {
     public characterContainer: CharacterContainer;
     public formSectionsRoot: any;
 
-    constructor(private http: Http, @Inject('BASE_URL') private baseUrl: string, private _router: Router, public snackBar: MatSnackBar) {
-        this.http.get(this.baseUrl + 'cmd/character_form').subscribe(result => {
+    constructor(private http: Http, private _router: Router, public snackBar: MatSnackBar) {
+        this.http.get(`${environment.apiUrl}/cmd/character_form`).subscribe(result => {
             this.character = new Character();
             this.characterContainer = new CharacterContainer(this.character, this.submit);
             this.formSectionsRoot = result.json() as Section[];
@@ -23,7 +24,7 @@ export class CharacterFormComponent {
     }
 
     submit(): void {
-        this.http.post(this.baseUrl + 'cmd/character', JSON.stringify(this.character)).subscribe(result => {
+        this.http.post(`${environment.apiUrl}/cmd/character`, JSON.stringify(this.character)).subscribe(result => {
             this.snackBar.open('Enregistré avec succès', 'Femer', {
               duration: 2000,
             });
