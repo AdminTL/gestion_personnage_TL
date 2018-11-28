@@ -19,6 +19,7 @@ import {CharacterHeaderComponent} from './character/header/character-header.comp
 import {AppComponent} from './app.component';
 import {AppRouting} from './app.routing';
 
+import {AlertComponent} from './_components';
 import {HomeComponent} from './home/home.component';
 import {LoreComponent} from './lore/lore.component';
 import {JwtInterceptor, ErrorInterceptor} from './_helpers';
@@ -45,6 +46,7 @@ import {SharedModule} from './shared';
     ManualComponent,
     NotFoundComponent,
     AppComponent,
+    AlertComponent,
     LoginComponent,
     RegisterComponent,
   ],

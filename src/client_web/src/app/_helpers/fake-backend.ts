@@ -24,7 +24,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     return of(null).pipe(mergeMap(() => {
 
       // authenticate
-      if (request.url.endsWith('/users/authenticate') && request.method === 'POST') {
+      if (request.url.endsWith('/user/authenticate') && request.method === 'POST') {
         // find if any user matches login credentials
         let filteredUsers = users.filter(user => {
           return user.username === request.body.username && user.password === request.body.password;
@@ -48,8 +48,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }
       }
 
-      // get users
-      if (request.url.endsWith('/users') && request.method === 'GET') {
+      // get user
+      if (request.url.endsWith('/user') && request.method === 'GET') {
         // check for fake auth token in header and return users if valid, this security is implemented server side in a real application
         if (request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
           return of(new HttpResponse({status: 200, body: users}));
@@ -60,10 +60,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       }
 
       // get user by id
-      if (request.url.match(/\/users\/\d+$/) && request.method === 'GET') {
+      if (request.url.match(/\/user\/\d+$/) && request.method === 'GET') {
         // check for fake auth token in header and return user if valid, this security is implemented server side in a real application
         if (request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
-          // find user by id in users array
+          // find user by id in user array
           let urlParts = request.url.split('/');
           let id = parseInt(urlParts[urlParts.length - 1]);
           let matchedUsers = users.filter(user => {
@@ -79,7 +79,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       }
 
       // register user
-      if (request.url.endsWith('/users/register') && request.method === 'POST') {
+      if (request.url.endsWith('/user/register') && request.method === 'POST') {
         // get new user object from post body
         let newUser = request.body;
 
@@ -101,10 +101,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       }
 
       // delete user
-      if (request.url.match(/\/users\/\d+$/) && request.method === 'DELETE') {
+      if (request.url.match(/\/user\/\d+$/) && request.method === 'DELETE') {
         // check for fake auth token in header and return user if valid, this security is implemented server side in a real application
         if (request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
-          // find user by id in users array
+          // find user by id in user array
           let urlParts = request.url.split('/');
           let id = parseInt(urlParts[urlParts.length - 1]);
           for (let i = 0; i < users.length; i++) {

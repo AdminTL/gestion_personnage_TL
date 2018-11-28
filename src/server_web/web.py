@@ -169,10 +169,16 @@ def main(parse_arg):
                                       name='facebook_login', kwargs=settings))
         routes.append(tornado.web.url(r"/cmd/auth/twitter/?", login_handler.TwitterLoginHandler, name='twitter_login',
                                       kwargs=settings))
+        routes.append(tornado.web.url(r"/user/authenticate", login_handler.UserAuthenticate, name='user_authenticate',
+                                      kwargs=settings))
+        routes.append(tornado.web.url(r"/user/register", login_handler.UserRegister, name='user_register',
+                                      kwargs=settings))
+        routes.append(tornado.web.url(r"/user", login_handler.User, name='user', kwargs=settings))
 
     # Content files in the dist folder (js, css, images)
     routes.append(
-        tornado.web.url(r'/((?:.*)\.(?:txt|jpg|png|ico|woff2|svg|ttf|eot|woff|gif|js))/?', tornado.web.StaticFileHandler,
+        tornado.web.url(r'/((?:.*)\.(?:txt|jpg|png|ico|woff2|svg|ttf|eot|woff|gif|js))/?',
+                        tornado.web.StaticFileHandler,
                         kwargs={'path': parse_arg.template_dir}))
 
     # Angular pages
