@@ -1,7 +1,10 @@
 import {Component} from '@angular/core';
 import {ObservableMedia, MediaChange} from '@angular/flex-layout';
 import {Subscription} from 'rxjs';
+import { Router } from '@angular/router';
 
+import {AuthenticationService} from './_services';
+import {User} from './_models';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +12,8 @@ import {Subscription} from 'rxjs';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  currentUser: User;
+
   isExpanded = false;
 
   opened = true;
@@ -22,7 +27,10 @@ export class AppComponent {
 
   constructor(
     private media: ObservableMedia,
+    private router: Router,
+    private authenticationService: AuthenticationService
   ) {
+    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
 
     this.watcher = media.subscribe((change: MediaChange) => {
       if (change.mqAlias === 'sm' || change.mqAlias === 'xs') {
@@ -45,5 +53,10 @@ export class AppComponent {
 
   toggle() {
     this.isExpanded = !this.isExpanded;
+  }
+
+  logout() {
+    this.authenticationService.logout();
+    this.router.navigate(['/login']);
   }
 }

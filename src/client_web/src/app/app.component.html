@@ -4,7 +4,7 @@
       <div class="with-bg"></div>
       <div>
         <a>
-          <img class="circle" src="./assets/images/logo_fullsize.png" width="100">
+          <!--<img class="circle" src="./assets/images/logo_fullsize.png" width="100">-->
         </a>
       </div>
     </div>
@@ -22,14 +22,12 @@
       </div>
     </div>
     <div class="mt-3">
-
       <mat-nav-list>
         <a mat-list-item class="ml-2" style="font-size:15px;" [routerLink]="['/home']">
           <mat-icon class="mr-1">home</mat-icon>
           Acceuil
         </a>
       </mat-nav-list>
-
       <mat-accordion multi="true" [displayMode]="displayMode">
         <mat-expansion-panel class="no-shadow">
           <mat-expansion-panel-header fxLayout="row" [expandedHeight]="expandHeight" [collapsedHeight]="collapseHeight">
@@ -42,19 +40,20 @@
             <mat-list-item>
               <a [routerLink]="['/manual']">
                 <mat-icon class="mr-1">description</mat-icon>
-                Manuel du joueur</a>
+                Manuel du joueur
+              </a>
               <!-- <button mat-icon-button class="mr-3">
-              <mat-icon>info</mat-icon>
-            </button> -->
+                <mat-icon>info</mat-icon>
+                </button> -->
             </mat-list-item>
             <mat-list-item>
               <a [routerLink]="['/lore']">
                 <mat-icon class="mr-1">description</mat-icon>
-                Univers</a>
+                Univers
+              </a>
             </mat-list-item>
           </mat-nav-list>
         </mat-expansion-panel>
-
         <mat-expansion-panel class="no-shadow my-0">
           <mat-expansion-panel-header fxLayout="row" [expandedHeight]="expandHeight" [collapsedHeight]="collapseHeight">
             <mat-panel-title>
@@ -66,14 +65,14 @@
             <mat-list-item>
               <a [routerLink]="['/character']">
                 <mat-icon class="mr-1">face</mat-icon>
-                Personnage</a>
+                Personnage
+              </a>
               <!-- <button mat-icon-button class="mr-3">
                 <mat-icon>info</mat-icon>
-              </button> -->
+                </button> -->
             </mat-list-item>
           </mat-nav-list>
         </mat-expansion-panel>
-
         <mat-expansion-panel class="no-shadow my-0">
           <mat-expansion-panel-header fxLayout="row" [expandedHeight]="expandHeight" [collapsedHeight]="collapseHeight">
             <mat-panel-title>
@@ -85,97 +84,122 @@
             <mat-list-item>
               <a [routerLink]="['/character']">
                 <mat-icon class="mr-1">face</mat-icon>
-                Personnage</a>
+                Personnage
+              </a>
               <!-- <button mat-icon-button class="mr-3">
                 <mat-icon>info</mat-icon>
-              </button> -->
+                </button> -->
             </mat-list-item>
             <mat-list-item>
               <a [routerLink]="['/manual']">
                 <mat-icon class="mr-1">description</mat-icon>
-                Manuel admin</a>
+                Manuel admin
+              </a>
             </mat-list-item>
             <mat-list-item>
               <a href="#">
                 <mat-icon class="mr-1">work</mat-icon>
-                Éditeur</a>
+                Éditeur
+              </a>
             </mat-list-item>
             <mat-list-item>
               <a href="#">
                 <mat-icon class="mr-1">settings</mat-icon>
-                Paramètre</a>
+                Paramètre
+              </a>
             </mat-list-item>
           </mat-nav-list>
         </mat-expansion-panel>
       </mat-accordion>
-
       <!--<mat-nav-list>-->
       <!--<a mat-list-item class="ml-2" style="font-size:15px;" (click)="sidenav.toggle()">-->
       <!--Cacher le menu <mat-icon>close</mat-icon>-->
       <!--</a>-->
       <!--</mat-nav-list>-->
-
     </div>
   </mat-sidenav>
-
   <mat-sidenav-content>
     <mat-toolbar color="primary" class="header-box-shadow">
       <button mat-icon-button (click)="sidenav.toggle()" fxShow.sm="true" fxShow.gt-sm="true">
         <mat-icon>menu</mat-icon>
       </button>
-      <button mat-button>
+      <button mat-button [routerLink]="['/home']">
         <mat-icon class="mr-1">home</mat-icon>
-        Acceuil
+        <span fxShow.lt-md="false" fxShow.gt-sm="true">Acceuil</span>
       </button>
-      <span fxShow.lt-md="false" fxShow.gt-sm="true">
-        <button mat-button>
-          <mat-icon class="mr-1">link</mat-icon>
-          Link</button>
-        <button mat-button>
-          <mat-icon class="mr-1">link</mat-icon>
-          Link</button>
-        <button mat-button [matMenuTriggerFor]="dropDown">
-          DropDown
-          <mat-icon class="ml-1">arrow_drop_down</mat-icon>
-        </button>
-        <mat-menu #dropDown="matMenu" overlapTrigger="false">
-          <button mat-menu-item>
-            <mat-icon>dialpad</mat-icon>
-            <span>Dropdown Link 1</span>
-          </button>
-          <button mat-menu-item disabled>
-            <mat-icon>voicemail</mat-icon>
-            <span>Dropdown Link 2</span>
-          </button>
-        </mat-menu>
-      </span>
-      <span class="spacer"></span>
-      <button mat-button [matMenuTriggerFor]="menu" fxShow.lt-md="false" fxShow.gt-sm="true">
-        <mat-icon>account_circle</mat-icon>
-        <span class="ml-2">Account</span>
-      </button>
-      <button mat-icon-button [matMenuTriggerFor]="menu" fxShow.lt-md="true" fxShow.gt-sm="false">
-        <mat-icon>account_circle</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu" overlapTrigger="false">
-        <button mat-menu-item>
-          <mat-icon>account_circle</mat-icon>
-          <span>My Account</span>
-        </button>
-        <button mat-menu-item>
-          <mat-icon>settings</mat-icon>
-          <span>Settings</span>
-        </button>
-        <button mat-menu-item>
-          <mat-icon>money</mat-icon>
-          <span>Billing</span>
-        </button>
-      </mat-menu>
-      <mat-icon class="ml-3" title="Logout">exit_to_app</mat-icon>
-    </mat-toolbar>
 
+      <!--<span fxShow.lt-md="false" fxShow.gt-sm="true">-->
+        <!--<button mat-button>-->
+          <!--<mat-icon class="mr-1">link</mat-icon>-->
+          <!--Link-->
+        <!--</button>-->
+        <!--<button mat-button>-->
+          <!--<mat-icon class="mr-1">link</mat-icon>-->
+          <!--Link-->
+        <!--</button>-->
+        <!--<button mat-button [matMenuTriggerFor]="dropDown">-->
+          <!--DropDown-->
+          <!--<mat-icon class="ml-1">arrow_drop_down</mat-icon>-->
+        <!--</button>-->
+        <!--<mat-menu #dropDown="matMenu" overlapTrigger="false">-->
+          <!--<button mat-menu-item>-->
+            <!--<mat-icon>dialpad</mat-icon>-->
+            <!--<span>Dropdown Link 1</span>-->
+          <!--</button>-->
+          <!--<button mat-menu-item disabled>-->
+            <!--<mat-icon>voicemail</mat-icon>-->
+            <!--<span>Dropdown Link 2</span>-->
+          <!--</button>-->
+        <!--</mat-menu>-->
+      <!--</span>-->
+
+      <span class="spacer"></span>
+      <span *ngIf="currentUser">
+        <button mat-button [matMenuTriggerFor]="menu" fxShow.lt-md="false" fxShow.gt-sm="true">
+          <mat-icon>account_circle</mat-icon>
+          <span class="ml-2">{{currentUser.username}}</span>
+        </button>
+        <button mat-icon-button [matMenuTriggerFor]="menu" fxShow.lt-md="true" fxShow.gt-sm="false">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" overlapTrigger="false">
+          <span class="ml-2" fxShow.lt-md="true" fxShow.gt-sm="false">
+            {{currentUser.username}}
+          </span>
+          <button mat-menu-item>
+            <mat-icon>account_circle</mat-icon>
+            <span>Mon profil</span>
+          </button>
+          <button mat-menu-item>
+            <mat-icon>settings</mat-icon>
+            <span>Paramètre</span>
+          </button>
+          <!--<button mat-menu-item>-->
+          <!--<mat-icon>money</mat-icon>-->
+          <!--<span>Billing</span>-->
+          <!--</button>-->
+        </mat-menu>
+
+        <button mat-button (click)="logout()" fxShow.lt-md="false" fxShow.gt-sm="true">
+          <fa-icon class="ml-1" icon="sign-out-alt"></fa-icon>
+          <span class="ml-1">Déconnexion</span>
+        </button>
+        <button mat-icon-button (click)="logout()" fxShow.lt-md="true" fxShow.gt-sm="false">
+          <fa-icon class="ml-1" icon="sign-out-alt"></fa-icon>
+        </button>
+
+      </span>
+      <span *ngIf="!currentUser">
+        <button mat-button fxShow.lt-md="false" fxShow.gt-sm="true" [routerLink]="['/login']">
+          <fa-icon class="ml-1" icon="sign-in-alt"></fa-icon>
+          <span class="ml-1">Connexion</span>
+        </button>
+        <button mat-icon-button fxShow.lt-md="true" fxShow.gt-sm="false" [routerLink]="['/login']">
+          <fa-icon class="ml-1" icon="sign-in-alt"></fa-icon>
+        </button>
+      </span>
+    </mat-toolbar>
     <alert></alert>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
-
 </mat-sidenav-container>
