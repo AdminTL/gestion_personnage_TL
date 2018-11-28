@@ -1,4 +1,5 @@
 import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {
   MatButtonModule,
   MatCheckboxModule,
@@ -18,6 +19,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 
 @NgModule({
   imports: [
+    CommonModule,
     MatButtonModule,
     MatCheckboxModule,
     MatToolbarModule,

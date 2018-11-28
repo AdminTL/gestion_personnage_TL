@@ -2,8 +2,8 @@
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import {HttpModule} from '@angular/http';
 
 // used to create fake backend
 // import { fakeBackendProvider } from './_helpers';
@@ -18,9 +18,8 @@ import {CharacterSkillsComponent} from './character/skills/character-skills.comp
 import {CharacterHeaderComponent} from './character/header/character-header.component';
 
 import {AppComponent} from './app.component';
-// import {Routing} from './app.routing';
+import {AppRouting} from './app.routing';
 
-import {NavMenuComponent} from './nav-menu';
 import {AlertComponent} from './_components';
 import {JwtInterceptor, ErrorInterceptor} from './_helpers';
 import {HomeComponent} from './home';
@@ -32,39 +31,16 @@ import {SharedModule} from './shared';
 import {LoginComponent} from './login';
 import {RegisterComponent} from './register';
 
-const appRoutes: Routes = [
-  // { path: '', component: HomeComponent, canActivate: [AuthGuard] },
-  {path: '', redirectTo: '/home', pathMatch: 'full'},
-  {path: 'home', component: HomeComponent},
-  {path: 'login', component: LoginComponent},
-  {path: 'register', component: RegisterComponent},
-  {path: 'character', redirectTo: '/character/form', pathMatch: 'full'},
-  {
-    path: 'character', component: CharacterFrameComponent, children: [
-      {path: 'form', component: CharacterFormComponent},
-      {path: 'attributes', component: CharacterAttributesComponent},
-      {path: 'skills', component: CharacterSkillsComponent},
-      {path: 'resources', component: CharacterResourcesComponent},
-      {path: 'messages', component: CharacterMessagesComponent}
-    ]
-  },
-  {path: 'lore', component: LoreComponent},
-  {path: 'manual', component: ManualComponent},
-  // otherwise redirect to home
-  // { path: '**', redirectTo: '' }
-  {path: '**', component: NotFoundComponent}
-];
-
 @NgModule({
   imports: [
     FormsModule,
     BrowserModule,
+    HttpClientModule,
+    HttpModule,
     SharedModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    HttpClientModule,
-    RouterModule.forRoot(appRoutes, { enableTracing: true })
-    // Routing
+    AppRouting
   ],
   declarations: [
     AppComponent,
@@ -82,7 +58,6 @@ const appRoutes: Routes = [
     ManualComponent,
     DynamicSectionComponent,
     NotFoundComponent,
-    NavMenuComponent,
     LoginComponent,
     RegisterComponent
   ],
@@ -90,7 +65,7 @@ const appRoutes: Routes = [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
 
-    { provide: 'BASE_URL', useValue: 'http://localhost:8000/' }
+    {provide: 'BASE_URL', useValue: 'http://localhost:8000/'}
 
     // provider used to create fake backend
     // fakeBackendProvider

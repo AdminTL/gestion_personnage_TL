@@ -23,6 +23,7 @@ import {CharacterHeaderComponent} from './character/header/character-header.comp
 const appRoutes: Routes = [
   // { path: '', component: HomeComponent, canActivate: [AuthGuard] },
   {path: '', redirectTo: '/home', pathMatch: 'full'},
+  // {path: '', component: HomeComponent},
   {path: 'home', component: HomeComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
@@ -48,7 +49,6 @@ const appRoutes: Routes = [
 //   imports: [RouterModule.forRoot(appRoutes)]
 // })
 
-export const Routing = RouterModule.forRoot(appRoutes, { enableTracing: true });
+// export const Routing = RouterModule.forRoot(appRoutes, { enableTracing: true });
 
-// export class AppRoutingModule {
-// }
+export const AppRouting = RouterModule.forRoot(appRoutes, { enableTracing: true });
