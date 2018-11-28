@@ -8,8 +8,8 @@ import { CharacterService } from './character.service';
 
 @Component({
   selector: 'character-frame',
-  templateUrl: './character-frame.component.html',
-  styleUrls: ['./character-frame.component.css']
+  templateUrl: 'character-frame.component.html',
+  styleUrls: ['character-frame.component.css']
 })
 export class CharacterFrameComponent implements OnInit {
 

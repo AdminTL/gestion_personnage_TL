@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 @Component({
     selector: 'manual',
-    templateUrl: './manual.component.html'
+    templateUrl: 'manual.component.html'
 })
 export class ManualComponent {
     public manualRoot: ManualRoot;

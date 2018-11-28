@@ -3,7 +3,7 @@ import { Http } from '@angular/http';
 
 @Component({
     selector: 'home',
-    templateUrl: './home.component.html'
+    templateUrl: 'home.component.html'
 })
 export class HomeComponent {
     public totalSeasonPass: number;

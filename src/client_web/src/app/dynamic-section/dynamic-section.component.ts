@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 
 @Component({
     selector: 'dynamic-section',
-    templateUrl: './dynamic-section.component.html',
-    styleUrls: ['./dynamic-section.component.css']
+    templateUrl: 'dynamic-section.component.html',
+    styleUrls: ['dynamic-section.component.css']
 })
 export class DynamicSectionComponent {
     public route: string;

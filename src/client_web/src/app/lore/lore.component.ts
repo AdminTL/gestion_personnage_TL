@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 @Component({
     selector: 'lore',
-    templateUrl: './lore.component.html'
+    templateUrl: 'lore.component.html'
 })
 export class LoreComponent implements AfterViewChecked {
     public loreRoot: LoreRoot;
