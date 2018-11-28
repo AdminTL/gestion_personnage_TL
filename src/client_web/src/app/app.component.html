@@ -1,23 +1,22 @@
 <mat-sidenav-container class="container">
   <mat-sidenav #sidenav [(mode)]="over" [(opened)]="opened" class="bottom-to-top">
-    <div class="my-2" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
-      <div class="with-bg"></div>
-      <div>
-        <a>
-          <!--<img class="circle" src="./assets/images/logo_fullsize.png" width="100">-->
-        </a>
-      </div>
-    </div>
-    <div style="background-color: #3e50b5 !important;" class="mt-2 py-3 text-white" fxLayout="column" fxLayoutAlign="center center"
+    <!--<div class="my-2" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">-->
+    <!--<div class="with-bg"></div>-->
+    <!--<div>-->
+    <!--<a>-->
+    <!--&lt;!&ndash;<img class="circle" src="./assets/images/logo_fullsize.png" width="100">&ndash;&gt;-->
+    <!--</a>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div style="background-color: #3e50b5 !important;" class="mt-2 py-3 text-white" fxLayout="column" fxLayoutAlign="center center"-->
+    <div style="background-color: #3e50b5 !important;" class="py-3 text-white" fxLayout="column" fxLayoutAlign="center center"
          fxLayoutGap="7px">
       <div>
-        <a [routerLink]="['/home']">
-          <span class="lead">Traître-Lame</span>
-        </a>
+        <span class="lead">{{organization_info.name}}</span>
       </div>
       <div>
         <a>
-          <span class="">Grandeur-Nature 18+ ans Médiévale Fantasmique</span>
+          <span class="">{{organization_info.summary}}</span>
         </a>
       </div>
     </div>
@@ -57,13 +56,15 @@
         <mat-expansion-panel class="no-shadow my-0">
           <mat-expansion-panel-header fxLayout="row" [expandedHeight]="expandHeight" [collapsedHeight]="collapseHeight">
             <mat-panel-title>
-              <fa-icon icon="theater-masks" class="mr-1"></fa-icon> Personnage
+              <fa-icon icon="theater-masks" class="mr-1"></fa-icon>
+              Personnage
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-nav-list class="ml-0" dense>
             <mat-list-item>
               <a [routerLink]="['/character']">
-                <fa-icon icon="theater-masks" class="mr-1"></fa-icon> Personnage
+                <fa-icon icon="theater-masks" class="mr-1"></fa-icon>
+                Personnage
               </a>
               <!-- <button mat-icon-button class="mr-3">
                 <mat-icon>info</mat-icon>
@@ -74,13 +75,15 @@
         <mat-expansion-panel class="no-shadow my-0">
           <mat-expansion-panel-header fxLayout="row" [expandedHeight]="expandHeight" [collapsedHeight]="collapseHeight">
             <mat-panel-title>
-              <fa-icon icon="mask" class="mr-1"></fa-icon> Admin
+              <fa-icon icon="mask" class="mr-1"></fa-icon>
+              Admin
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-nav-list class="ml-0" dense>
             <mat-list-item>
               <a [routerLink]="['/character']">
-                <fa-icon icon="theater-masks" class="mr-1"></fa-icon> Personnage
+                <fa-icon icon="theater-masks" class="mr-1"></fa-icon>
+                Personnage
               </a>
               <!-- <button mat-icon-button class="mr-3">
                 <mat-icon>info</mat-icon>
@@ -125,28 +128,28 @@
       </button>
 
       <!--<span fxShow.lt-md="false" fxShow.gt-sm="true">-->
-        <!--<button mat-button>-->
-          <!--<mat-icon class="mr-1">link</mat-icon>-->
-          <!--Link-->
-        <!--</button>-->
-        <!--<button mat-button>-->
-          <!--<mat-icon class="mr-1">link</mat-icon>-->
-          <!--Link-->
-        <!--</button>-->
-        <!--<button mat-button [matMenuTriggerFor]="dropDown">-->
-          <!--DropDown-->
-          <!--<mat-icon class="ml-1">arrow_drop_down</mat-icon>-->
-        <!--</button>-->
-        <!--<mat-menu #dropDown="matMenu" overlapTrigger="false">-->
-          <!--<button mat-menu-item>-->
-            <!--<mat-icon>dialpad</mat-icon>-->
-            <!--<span>Dropdown Link 1</span>-->
-          <!--</button>-->
-          <!--<button mat-menu-item disabled>-->
-            <!--<mat-icon>voicemail</mat-icon>-->
-            <!--<span>Dropdown Link 2</span>-->
-          <!--</button>-->
-        <!--</mat-menu>-->
+      <!--<button mat-button>-->
+      <!--<mat-icon class="mr-1">link</mat-icon>-->
+      <!--Link-->
+      <!--</button>-->
+      <!--<button mat-button>-->
+      <!--<mat-icon class="mr-1">link</mat-icon>-->
+      <!--Link-->
+      <!--</button>-->
+      <!--<button mat-button [matMenuTriggerFor]="dropDown">-->
+      <!--DropDown-->
+      <!--<mat-icon class="ml-1">arrow_drop_down</mat-icon>-->
+      <!--</button>-->
+      <!--<mat-menu #dropDown="matMenu" overlapTrigger="false">-->
+      <!--<button mat-menu-item>-->
+      <!--<mat-icon>dialpad</mat-icon>-->
+      <!--<span>Dropdown Link 1</span>-->
+      <!--</button>-->
+      <!--<button mat-menu-item disabled>-->
+      <!--<mat-icon>voicemail</mat-icon>-->
+      <!--<span>Dropdown Link 2</span>-->
+      <!--</button>-->
+      <!--</mat-menu>-->
       <!--</span>-->
 
       <span class="spacer"></span>

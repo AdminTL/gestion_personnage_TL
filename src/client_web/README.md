@@ -30,3 +30,5 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 Thanks for help with user registration and login : http://jasonwatmore.com/post/2018/10/29/angular-7-user-registration-and-login-example-tutorial#home-component-ts
 
 Thanks for help about nav menu : https://github.com/seanmavley/Upcoming
+
+Thanks for fontawesome : https://www.npmjs.com/package/@fortawesome/angular-fontawesome

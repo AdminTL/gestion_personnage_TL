@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ObservableMedia, MediaChange} from '@angular/flex-layout';
 import {Subscription} from 'rxjs';
-import { Router } from '@angular/router';
+import {Router} from '@angular/router';
 
 import {AuthenticationService} from './_services';
 import {User} from './_models';
@@ -22,6 +22,11 @@ export class AppComponent {
   collapseHeight = '42px';
   displayMode = 'flat';
   // overlap = false;
+
+  organization_info = {
+    "name": "Traître-Lame",
+    "summary": "Grandeur-Nature 18+ ans Médiévale Fantastique"
+  };
 
   watcher: Subscription;
 
