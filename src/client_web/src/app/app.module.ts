@@ -7,14 +7,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import {MatButtonModule} from '@angular/material/button';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatSelectModule} from '@angular/material/select';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-
 import { CharacterFrameComponent } from './character/character-frame.component';
 import { CharacterFormComponent } from './character/form/character-form.component';
 import { CharacterFormSectionComponent } from './character/form/character-form-section.component';
@@ -32,6 +24,7 @@ import { DynamicSectionComponent } from './dynamic-section/dynamic-section.compo
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
+import {SharedModule} from './shared';
 
 @NgModule({
     declarations: [
@@ -58,13 +51,7 @@ import { LoginComponent } from './login/login.component';
         HttpModule,
         FormsModule,
         BrowserModule,
-        MatMenuModule,
-        MatButtonModule,
-        MatSelectModule,
-        MatInputModule,
-        MatTooltipModule,
-        MatFormFieldModule,
-        MatSnackBarModule,
+        SharedModule,
         BrowserAnimationsModule,
         RouterModule.forRoot([
             { path: '', redirectTo: '/home', pathMatch: 'full' },
