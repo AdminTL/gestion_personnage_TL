@@ -57,15 +57,13 @@
         <mat-expansion-panel class="no-shadow my-0">
           <mat-expansion-panel-header fxLayout="row" [expandedHeight]="expandHeight" [collapsedHeight]="collapseHeight">
             <mat-panel-title>
-              <mat-icon class="mr-1">face</mat-icon>
-              Personnage
+              <fa-icon icon="theater-masks" class="mr-1"></fa-icon> Personnage
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-nav-list class="ml-0" dense>
             <mat-list-item>
               <a [routerLink]="['/character']">
-                <mat-icon class="mr-1">face</mat-icon>
-                Personnage
+                <fa-icon icon="theater-masks" class="mr-1"></fa-icon> Personnage
               </a>
               <!-- <button mat-icon-button class="mr-3">
                 <mat-icon>info</mat-icon>
@@ -76,15 +74,13 @@
         <mat-expansion-panel class="no-shadow my-0">
           <mat-expansion-panel-header fxLayout="row" [expandedHeight]="expandHeight" [collapsedHeight]="collapseHeight">
             <mat-panel-title>
-              <mat-icon class="mr-1">spa</mat-icon>
-              Admin
+              <fa-icon icon="mask" class="mr-1"></fa-icon> Admin
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-nav-list class="ml-0" dense>
             <mat-list-item>
               <a [routerLink]="['/character']">
-                <mat-icon class="mr-1">face</mat-icon>
-                Personnage
+                <fa-icon icon="theater-masks" class="mr-1"></fa-icon> Personnage
               </a>
               <!-- <button mat-icon-button class="mr-3">
                 <mat-icon>info</mat-icon>
@@ -98,7 +94,7 @@
             </mat-list-item>
             <mat-list-item>
               <a href="#">
-                <mat-icon class="mr-1">work</mat-icon>
+                <fa-icon icon="edit" class="ml-1"></fa-icon>
                 Éditeur
               </a>
             </mat-list-item>
@@ -157,13 +153,13 @@
       <span *ngIf="currentUser">
         <button mat-button [matMenuTriggerFor]="menu" fxShow.lt-md="false" fxShow.gt-sm="true">
           <mat-icon>account_circle</mat-icon>
-          <span class="ml-2">{{currentUser.username}}</span>
+          <span class="mr-1">{{currentUser.username}}</span>
         </button>
         <button mat-icon-button [matMenuTriggerFor]="menu" fxShow.lt-md="true" fxShow.gt-sm="false">
           <mat-icon>account_circle</mat-icon>
         </button>
         <mat-menu #menu="matMenu" overlapTrigger="false">
-          <span class="ml-2" fxShow.lt-md="true" fxShow.gt-sm="false">
+          <span class="mr-1" fxShow.lt-md="true" fxShow.gt-sm="false">
             {{currentUser.username}}
           </span>
           <button mat-menu-item>
@@ -181,21 +177,21 @@
         </mat-menu>
 
         <button mat-button (click)="logout()" fxShow.lt-md="false" fxShow.gt-sm="true">
-          <fa-icon class="ml-1" icon="sign-out-alt"></fa-icon>
-          <span class="ml-1">Déconnexion</span>
+          <fa-icon class="mr-1" icon="sign-out-alt"></fa-icon>
+          <span class="mr-1">Déconnexion</span>
         </button>
         <button mat-icon-button (click)="logout()" fxShow.lt-md="true" fxShow.gt-sm="false">
-          <fa-icon class="ml-1" icon="sign-out-alt"></fa-icon>
+          <fa-icon class="mr-1" icon="sign-out-alt"></fa-icon>
         </button>
 
       </span>
       <span *ngIf="!currentUser">
         <button mat-button fxShow.lt-md="false" fxShow.gt-sm="true" [routerLink]="['/login']">
-          <fa-icon class="ml-1" icon="sign-in-alt"></fa-icon>
-          <span class="ml-1">Connexion</span>
+          <fa-icon class="mr-1" icon="sign-in-alt"></fa-icon>
+          <span class="mr-1">Connexion</span>
         </button>
         <button mat-icon-button fxShow.lt-md="true" fxShow.gt-sm="false" [routerLink]="['/login']">
-          <fa-icon class="ml-1" icon="sign-in-alt"></fa-icon>
+          <fa-icon class="mr-1" icon="sign-in-alt"></fa-icon>
         </button>
       </span>
     </mat-toolbar>
