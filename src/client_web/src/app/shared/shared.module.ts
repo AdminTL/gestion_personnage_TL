@@ -1,3 +1,4 @@
+import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {
   MatButtonModule,
@@ -18,6 +19,8 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 
 @NgModule({
   imports: [
+    CommonModule,
+
     MatButtonModule,
     MatCheckboxModule,
     MatToolbarModule,
@@ -34,6 +37,8 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     MatSnackBarModule,
   ],
   exports: [
+    CommonModule,
+
     MatButtonModule,
     MatCheckboxModule,
     MatToolbarModule,

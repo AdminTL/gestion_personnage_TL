@@ -364,3 +364,26 @@ class ValidateAuthHandler(base_handler.BaseHandler):
             self.send_error(400)
             raise tornado.web.Finish()
         self.finish()
+
+
+class UsersAuthenticate(base_handler.BaseHandler):
+    """This class is designed purely for client-side validation"""
+
+    def post(self):
+        user = {"id": 123, "username": "123", "firstName": "123", "lastName": "123", "token": "fake"}
+        self.write(user)
+        self.finish()
+
+
+class Users(base_handler.BaseHandler):
+    """This class is designed purely for client-side validation"""
+
+    def get(self):
+        # obj = {"message": 'Unauthorised'}
+        # self.set_status(401)
+        user = {"id": 123, "username": "123", "firstName": "123", "lastName": "123", "token": "fake"}
+        obj = {"body": user}
+        self.set_status(200)
+        self.write(obj)
+
+        self.finish()

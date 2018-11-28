@@ -72,5 +72,4 @@ target/
 *.cmd
 
 # git
-*.orig
 third-party/
