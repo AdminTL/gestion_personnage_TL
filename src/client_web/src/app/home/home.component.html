@@ -1,87 +1,109 @@
-﻿<h1 [innerHTML]="home_info.title"></h1>
-<p [innerHTML]="home_info.summary"></p>
-<div *ngIf="home_info.show_next_event">
-  <h3>Prochain événement
-    <fa-icon [icon]="['far', 'calendar-check']"></fa-icon>
-  </h3>
-  <p-accordion [multiple]="true">
+﻿<div *ngIf="!is_loaded">
+  <mat-progress-spinner color="primary" mode="indeterminate"></mat-progress-spinner>
+</div>
+
+<div *ngIf="is_loaded">
+  <h1 [innerHTML]="home_info.title"></h1>
+  <p [innerHTML]="home_info.summary"></p>
+  <div *ngIf="home_info.show_next_event">
+    <h3>Prochain événement
+      <fa-icon [icon]="['far', 'calendar-check']"></fa-icon>
+    </h3>
+    <p-accordion [multiple]="true">
+      <p-accordionTab [selected]="next_event.selected">
+        <p-header [innerHTML]="next_event.title"></p-header>
+        <p>Type d'événement: <b [innerHTML]="next_event.type"></b></p>
+        <p>Date: <b [innerHTML]="next_event.date"></b></p>
+        <p *ngIf="next_event.location.showed">
+          Lieu: <b>
+          <a href="{{next_event.location.href}}">
+            <u>
+              {{next_event.location.name}}
+              <fa-icon icon="map-marker"></fa-icon>
+              {{next_event.location.address}}
+            </u>
+          </a>
+        </b>
+        </p>
+        <p>Prix: <b>{{next_event.price.single}}{{next_event.price.currency}}</b></p>
+        <p *ngIf="next_event.season_pass.showed">Passe de saison: <b [innerHTML]="next_event.season_pass.text"></b></p>
+        <p *ngIf="next_event.facebook_event.showed">
+          <a href="{{next_event.facebook_event.href}}">
+            <fa-icon [icon]="['fab', 'facebook-square']"></fa-icon>
+            <u>
+              Événement
+              Facebook
+              <fa-icon icon="link"></fa-icon>
+            </u>
+          </a>
+        </p>
+        <br/>
+        <!--<p-panel [toggleable]="true" *ngIf="next_event.description.showed">-->
+        <!--<p-header [innerHTML]="next_event.description.title"></p-header>-->
+        <!--<div [innerHTML]="next_event.description.text"></div>-->
+        <!--</p-panel>-->
+        <p-accordion *ngIf="next_event.description.showed">
+          <p-accordionTab [selected]="next_event.description.selected">
+            <p-header [innerHTML]="next_event.description.title"></p-header>
+            <div [innerHTML]="next_event.description.text"></div>
+          </p-accordionTab>
+        </p-accordion>
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+  <div *ngIf="home_info.activity.showed">
+    <h1 [innerHTML]="home_info.activity.description.title"></h1>
+    <div [innerHTML]="home_info.activity.description.text"></div>
+  </div>
+  <!-- Panel right -->
+  <h1>Dates 2017</h1>
+  <ul>
+    <li style="color:#00FF00">7 octobre: TL (Zone 1+2)</li>
+  </ul>
+  <h1>Tarification</h1>
+  <ul>
+    <li style="list-style-type:disc">Billet: 30$</li>
+    <li><span class="label label-success" style="white-space:normal">Passe saison (4 événements): 150$ <span class="badge">{{ totalSeasonPass }}</span></span>
+    <li style="list-style-type:disc">Accès aux dortoirs: <b>Dortoir non accessible pour la saison 2017</b></li>
+  </ul>
+
+
+  <h1>Localisation</h1>
+  <p-accordion>
     <p-accordionTab [selected]="next_event.selected">
       <p-header [innerHTML]="next_event.title"></p-header>
       <p>Type d'événement: <b [innerHTML]="next_event.type"></b></p>
       <p>Date: <b [innerHTML]="next_event.date"></b></p>
-      <p *ngIf="next_event.location.showed">
+      <div *ngIf="next_event.location.showed">
         Lieu: <b>
-        <a href="{{next_event.location.href}}">
-          <u>
-            {{next_event.location.name}}
-            <fa-icon icon="map-marker"></fa-icon>
-            {{next_event.location.address}}
-          </u>
-        </a>
       </b>
-      </p>
-      <p>Prix: <b>{{next_event.price.single}}{{next_event.price.currency}}</b></p>
-      <p *ngIf="next_event.season_pass.showed">Passe de saison: <b [innerHTML]="next_event.season_pass.html_text"></b></p>
-      <p *ngIf="next_event.facebook_event.showed">
-        <a href="{{next_event.facebook_event.href}}">
-          <fa-icon [icon]="['fab', 'facebook-square']"></fa-icon>
-          <u>
-            Événement
-            Facebook
-            <fa-icon icon="link"></fa-icon>
-          </u>
-        </a>
-      </p>
-      <br />
-      <!--<p-panel [toggleable]="true" *ngIf="next_event.description.showed">-->
-      <!--<p-header [innerHTML]="next_event.description.title"></p-header>-->
-      <!--<div [innerHTML]="next_event.description.text"></div>-->
-      <!--</p-panel>-->
-      <p-accordion *ngIf="next_event.description.showed">
-        <p-accordionTab [selected]="next_event.description.selected">
-          <p-header [innerHTML]="next_event.description.title"></p-header>
-          <div [innerHTML]="home_info.events[home_info.event.index].description.text"></div>
-        </p-accordionTab>
-      </p-accordion>
+      </div>
     </p-accordionTab>
   </p-accordion>
-</div>
-<div *ngIf="home_info.activity.showed">
-  <h1 [innerHTML]="home_info.activity.description.title"></h1>
-  <div [innerHTML]="home_info.activity.description.text"></div>
-</div>
-<!-- Panel right -->
-<h1>Dates 2017</h1>
-<ul>
-  <li style="color:#00FF00">7 octobre: TL (Zone 1+2)</li>
-</ul>
-<h1>Tarifs 2017</h1>
-<ul>
-  <li style="list-style-type:disc">Billet: 30$</li>
-  <li><span class="label label-success" style="white-space:normal">Passe saison (4 événements): 150$ <span class="badge">{{ totalSeasonPass }}</span></span>
-  <li style="list-style-type:disc">Accès aux dortoirs: <b>Dortoir non accessible pour la saison 2017</b></li>
-</ul>
-<h1>Localisation</h1>
-<ul>
-  <li style="list-style-type:disc">
-    <a href="https://goo.gl/maps/YpaQu3zk9Xy">
-      <u>
-        Au terrain <i class="fa fa-map"></i>
-        1801 Chemin Béthanie, Béthanie (Québec), J0H 1E1, (450) 548-2720
-      </u>
-    </a>
-  </li>
-  <li style="list-style-type:disc">
-    <a href="http://gn.qc.ca/atelier/directions/">
-      <u>
-        Pour plus d'information sur
-        l'indication de la route.
-      </u> <i class="fa fa-link"></i>
-    </a>
-  </li>
-</ul>
-<div *ngIf="home_info.thanks.showed">
-  <h1 [innerHTML]="home_info.thanks.description.title"></h1>
-  <div [innerHTML]="home_info.thanks.description.text"></div>
-  <div><a href="https://github.com/AdminTL/gestion_personnage_TL/blob/master/README.fr.md">Plus d'information sur le développement du logiciel Larp'em. <fa-icon icon="link"></fa-icon></a></div>
+
+  <ul>
+    <li style="list-style-type:disc">
+      <a href="https://goo.gl/maps/YpaQu3zk9Xy">
+        <u>
+          Au terrain <i class="fa fa-map"></i>
+          1801 Chemin Béthanie, Béthanie (Québec), J0H 1E1, (450) 548-2720
+        </u>
+      </a>
+    </li>
+    <li style="list-style-type:disc">
+      <a href="http://gn.qc.ca/atelier/directions/">
+        <u>
+          Pour plus d'information sur
+          l'indication de la route.
+        </u> <i class="fa fa-link"></i>
+      </a>
+    </li>
+  </ul>
+  <div *ngIf="home_info.thanks.showed">
+    <h1 [innerHTML]="home_info.thanks.description.title"></h1>
+    <div [innerHTML]="home_info.thanks.description.text"></div>
+    <div><a href="https://github.com/AdminTL/gestion_personnage_TL/blob/master/README.fr.md">Plus d'information sur le développement du logiciel Larp'em.
+      <fa-icon icon="link"></fa-icon>
+    </a></div>
+  </div>
 </div>

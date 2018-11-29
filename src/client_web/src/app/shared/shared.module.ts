@@ -12,7 +12,8 @@ import {
   MatInputModule,
   MatFormFieldModule,
   MatTooltipModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatProgressSpinnerModule,
 } from '@angular/material';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {FlexLayoutModule} from '@angular/flex-layout';
@@ -45,6 +46,7 @@ library.add(fas, fab, far);
     MatFormFieldModule,
     MatTooltipModule,
     MatSnackBarModule,
+    MatProgressSpinnerModule,
 
     FlexLayoutModule,
 
@@ -69,6 +71,7 @@ library.add(fas, fab, far);
     MatFormFieldModule,
     MatTooltipModule,
     MatSnackBarModule,
+    MatProgressSpinnerModule,
 
     FlexLayoutModule,
 

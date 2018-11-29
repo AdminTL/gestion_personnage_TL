@@ -1,0 +1,55 @@
+{
+  "home": {
+    "title": "Larp'em - Logiciel de GN",
+    "summary": "Gestion d'événement de grandeur nature",
+    "index_next_event": 0,
+    "show_next_event": true,
+    "events": [
+      {
+        "title": "Jeu 1: Le commencement",
+        "type": "GN - Tout le terrain",
+        "date": "8 octobre 2017",
+        "selected": true,
+        "location": {
+          "showed": true,
+          "name": "Terra Icognita",
+          "href": "https://goo.gl/maps/YpaQu3zk9Xy",
+          "address": "1801 Chemin Béthanie, Béthanie (Québec), J0H 1E1, (450) 548-2720"
+        },
+        "price": {
+          "showed": true,
+          "single": 123,
+          "currency": "$"
+        },
+        "season_pass": {
+          "showed": false,
+          "text": "150$ pour les 4 prochains jeux. <u>Économie de 30$</u>!"
+        },
+        "facebook_event": {
+          "showed": true,
+          "href": "https://www.facebook.com/events/1623866417646126"
+        },
+        "description": {
+          "selected": true,
+          "showed": true,
+          "title": "Synopsis",
+          "text": "Description du contexte de l'activité, la politique de la région, les rumeurs et autre information pertinente."
+        }
+      }
+    ],
+    "activity": {
+      "showed": true,
+      "description": {
+        "title": "Description de l'activité",
+        "text": "<p>Ceci est un démo</p>"
+      }
+    },
+    "thanks": {
+      "showed:": true,
+      "description": {
+        "title": "Remerciement",
+        "text": "Merci aux organisateur.trice.s et aux bévénoles.<br/>Merci aux contributeur.trice.s du logiciel web.<br/>Merci à <a href=\"http://www.calendriergn.ca\"><u>www.calendriergn.ca</u> <i class=\"fa fa-link\"></i></a> pour leur projet de calendrier du GN au Québec."
+      }
+    }
+  }
+}
