@@ -5,25 +5,25 @@
     <fa-icon [icon]="['far', 'calendar-check']"></fa-icon>
   </h3>
   <p-accordion [multiple]="true">
-    <p-accordionTab [selected]="home_info.events[home_info.event.index].selected">
-      <p-header [innerHTML]="home_info.events[home_info.event.index].title"></p-header>
-      <p>Type d'événement: <b [innerHTML]="home_info.events[home_info.event.index].type"></b></p>
-      <p>Date: <b [innerHTML]="home_info.events[home_info.event.index].date"></b></p>
-      <p *ngIf="home_info.events[home_info.event.index].location.showed">
+    <p-accordionTab [selected]="next_event.selected">
+      <p-header [innerHTML]="next_event.title"></p-header>
+      <p>Type d'événement: <b [innerHTML]="next_event.type"></b></p>
+      <p>Date: <b [innerHTML]="next_event.date"></b></p>
+      <p *ngIf="next_event.location.showed">
         Lieu: <b>
-        <a href="{{home_info.events[home_info.event.index].location.href}}">
+        <a href="{{next_event.location.href}}">
           <u>
-            {{home_info.events[home_info.event.index].location.name}}
+            {{next_event.location.name}}
             <fa-icon icon="map-marker"></fa-icon>
-            {{home_info.events[home_info.event.index].location.address}}
+            {{next_event.location.address}}
           </u>
         </a>
       </b>
       </p>
-      <p>Prix: <b>{{home_info.events[home_info.event.index].price.single}}{{home_info.events[home_info.event.index].price.currency}}</b></p>
-      <p *ngIf="home_info.events[home_info.event.index].season_pass.showed">Passe de saison: <b [innerHTML]="home_info.events[home_info.event.index].season_pass.html_text"></b></p>
-      <p *ngIf="home_info.events[home_info.event.index].facebook_event.showed">
-        <a href="{{home_info.events[home_info.event.index].facebook_event.href}}">
+      <p>Prix: <b>{{next_event.price.single}}{{next_event.price.currency}}</b></p>
+      <p *ngIf="next_event.season_pass.showed">Passe de saison: <b [innerHTML]="next_event.season_pass.html_text"></b></p>
+      <p *ngIf="next_event.facebook_event.showed">
+        <a href="{{next_event.facebook_event.href}}">
           <fa-icon [icon]="['fab', 'facebook-square']"></fa-icon>
           <u>
             Événement
@@ -32,9 +32,14 @@
           </u>
         </a>
       </p>
-      <p-accordion>
-        <p-accordionTab [selected]="home_info.events[home_info.event.index].description.selected">
-          <p-header [innerHTML]="home_info.events[home_info.event.index].description.title"></p-header>
+      <br />
+      <!--<p-panel [toggleable]="true" *ngIf="next_event.description.showed">-->
+      <!--<p-header [innerHTML]="next_event.description.title"></p-header>-->
+      <!--<div [innerHTML]="next_event.description.text"></div>-->
+      <!--</p-panel>-->
+      <p-accordion *ngIf="next_event.description.showed">
+        <p-accordionTab [selected]="next_event.description.selected">
+          <p-header [innerHTML]="next_event.description.title"></p-header>
           <div [innerHTML]="home_info.events[home_info.event.index].description.text"></div>
         </p-accordionTab>
       </p-accordion>
@@ -75,29 +80,8 @@
     </a>
   </li>
 </ul>
-<h1>Remerciement</h1>
-Merci aux organisateur.trice.s et aux bévénoles.<br/>
-Merci aux contributeur.trice.s du logiciel web.<br/>
-Merci à <a href="http://www.calendriergn.ca"><u>www.calendriergn.ca</u> <i class="fa fa-link"></i></a> pour leur
-projet de calendrier du GN au Québec.<br/>
-<a href="https://github.com/AdminTL/gestion_personnage_TL/blob/master/README.fr.md">
-  <u>
-    Visitez ici pour plus
-    d'information sur le développement du logiciel.
-  </u> <i class="fa fa-link"></i>
-</a><br/>
-<h1>Dates 2017 de constructions sur le terrain</h1>
-<ul>
-  <li style="color:#00AA00">18-19 novembre</li>
-  <li>9-10 décembre</li>
-</ul>
-
-<nav class="navbar navbar-inverse navbar-fixed-bottom linkbdp" style="background-color: black; text-align: center">
-  <div class="container-fluid">
-    <u><a href="https://www.facebook.com/groups/TraitreLame">Groupe Facebook</a></u> | 
-    <u><a href="https://www.facebook.com/traitrelame/">Page Facebook</a></u> |
-    <u><a href="http://gn.qc.ca/traitre-lame/">Atelier du Loisir</a></u> |
-    <u><a href="https://github.com/AdminTL/gestion_personnage_TL">Code source du logiciel</a></u> |
-    <u><a href="mailto:traitrelame@gmail.com">traitrelame@gmail.com</a></u>
-  </div>
-</nav>
+<div *ngIf="home_info.thanks.showed">
+  <h1 [innerHTML]="home_info.thanks.description.title"></h1>
+  <div [innerHTML]="home_info.thanks.description.text"></div>
+  <div><a href="https://github.com/AdminTL/gestion_personnage_TL/blob/master/README.fr.md">Plus d'information sur le développement du logiciel Larp'em. <fa-icon icon="link"></fa-icon></a></div>
+</div>

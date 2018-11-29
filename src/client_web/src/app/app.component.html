@@ -1,5 +1,5 @@
 <mat-sidenav-container class="container">
-  <mat-sidenav #sidenav [(mode)]="over" [(opened)]="opened" class="bottom-to-top">
+  <mat-sidenav #sidenav [(mode)]="over" [(opened)]="opened" class="bottom-to-top" role="navigation">
     <!--<div class="my-2" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">-->
     <!--<div class="with-bg"></div>-->
     <!--<div>-->
@@ -15,16 +15,14 @@
         <span class="lead">{{organization_info.name}}</span>
       </div>
       <div>
-        <a>
-          <span class="">{{organization_info.summary}}</span>
-        </a>
+        <span class="">{{organization_info.summary}}</span>
       </div>
     </div>
     <div class="mt-3">
       <mat-nav-list>
         <a mat-list-item class="ml-2" style="font-size:15px;" [routerLink]="['/home']">
           <mat-icon class="mr-1">home</mat-icon>
-          Acceuil
+          Accueil
         </a>
       </mat-nav-list>
       <mat-accordion multi="true" [displayMode]="displayMode">
@@ -119,12 +117,12 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary" class="header-box-shadow">
-      <button mat-icon-button (click)="sidenav.toggle()" fxShow.sm="true" fxShow.gt-sm="true">
+      <button mat-icon-button (click)="sidenav.toggle()" fxShow.sm="true" fxShow.gt-sm="true" matTooltip="Menu de navigation" matTooltipPosition="right" aria-label="Boutton changer l'apparence du menu de navigation">
         <mat-icon>menu</mat-icon>
       </button>
-      <button mat-button [routerLink]="['/home']">
+      <button mat-button [routerLink]="['/home']" matTooltip="Accueil" matTooltipPosition="right" aria-label="Boutton pour se rendre à l'accueil">
         <mat-icon class="mr-1">home</mat-icon>
-        <span fxShow.lt-md="false" fxShow.gt-sm="true">Acceuil</span>
+        <span fxShow.lt-md="false" fxShow.gt-sm="true">Accueil</span>
       </button>
 
       <!--<span fxShow.lt-md="false" fxShow.gt-sm="true">-->
@@ -154,22 +152,19 @@
 
       <span class="spacer"></span>
       <span *ngIf="currentUser">
-        <button mat-button [matMenuTriggerFor]="menu" fxShow.lt-md="false" fxShow.gt-sm="true">
+        <button mat-button [matMenuTriggerFor]="menu" matTooltip="Profil" matTooltipPosition="right" aria-label="Boutton pour montrer les options de navigation sur profil">
           <mat-icon>account_circle</mat-icon>
-          <span class="mr-1">{{currentUser.username}}</span>
-        </button>
-        <button mat-icon-button [matMenuTriggerFor]="menu" fxShow.lt-md="true" fxShow.gt-sm="false">
-          <mat-icon>account_circle</mat-icon>
+          <span class="mr-1" fxShow.lt-md="false" fxShow.gt-sm="true">{{currentUser.username}}</span>
         </button>
         <mat-menu #menu="matMenu" overlapTrigger="false">
           <span class="mr-1" fxShow.lt-md="true" fxShow.gt-sm="false">
             {{currentUser.username}}
           </span>
-          <button mat-menu-item>
+          <button mat-menu-item matTooltip="Profil" matTooltipPosition="right" aria-label="Boutton pour se rendre son profil">
             <mat-icon>account_circle</mat-icon>
             <span>Mon profil</span>
           </button>
-          <button mat-menu-item>
+          <button mat-menu-item matTooltip="Paramètre" matTooltipPosition="right" aria-label="Boutton pour se rendre à ses paramètres">
             <mat-icon>settings</mat-icon>
             <span>Paramètre</span>
           </button>
@@ -179,26 +174,30 @@
           <!--</button>-->
         </mat-menu>
 
-        <button mat-button (click)="logout()" fxShow.lt-md="false" fxShow.gt-sm="true">
+        <button mat-button (click)="logout()" matTooltip="Déconnexion" matTooltipPosition="right" aria-label="Boutton pour se déconnecter">
           <fa-icon class="mr-1" icon="sign-out-alt"></fa-icon>
-          <span class="mr-1">Déconnexion</span>
-        </button>
-        <button mat-icon-button (click)="logout()" fxShow.lt-md="true" fxShow.gt-sm="false">
-          <fa-icon class="mr-1" icon="sign-out-alt"></fa-icon>
+          <span class="mr-1" fxShow.lt-md="false" fxShow.gt-sm="true">Déconnexion</span>
         </button>
 
       </span>
       <span *ngIf="!currentUser">
-        <button mat-button fxShow.lt-md="false" fxShow.gt-sm="true" [routerLink]="['/login']">
+        <button mat-button [routerLink]="['/login']" matTooltip="Connexion" matTooltipPosition="right" aria-label="Boutton pour se connecter">
           <fa-icon class="mr-1" icon="sign-in-alt"></fa-icon>
-          <span class="mr-1">Connexion</span>
-        </button>
-        <button mat-icon-button fxShow.lt-md="true" fxShow.gt-sm="false" [routerLink]="['/login']">
-          <fa-icon class="mr-1" icon="sign-in-alt"></fa-icon>
+          <span class="mr-1" fxShow.lt-md="false" fxShow.gt-sm="true">Connexion</span>
         </button>
       </span>
     </mat-toolbar>
-    <alert></alert>
-    <router-outlet></router-outlet>
+    <!--<div class="nav-container">-->
+    <div>
+      <alert></alert>
+      <router-outlet></router-outlet>
+    </div>
+    <!--<mat-toolbar color="primary" class="header-box-shadow" [ngClass]="{'nav-footer-full': !opened, 'nav-footer': opened}">-->
+    <!--<u><a href="https://www.facebook.com/groups/TraitreLame">Groupe Facebook</a></u> | -->
+    <!--<u><a href="https://www.facebook.com/traitrelame/">Page Facebook</a></u> |-->
+    <!--<u><a href="http://gn.qc.ca/traitre-lame/">Atelier du Loisir</a></u> |-->
+    <!--<u><a href="https://github.com/AdminTL/gestion_personnage_TL">Code source du logiciel</a></u> |-->
+    <!--<u><a href="mailto:traitrelame@gmail.com">traitrelame@gmail.com</a></u>-->
+    <!--</mat-toolbar>-->
   </mat-sidenav-content>
 </mat-sidenav-container>

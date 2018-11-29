@@ -44,6 +44,7 @@ export class HomeComponent {
         },
         description: {
           selected: true,
+          showed: true,
           title: "Synopsis",
           text: "Pendant que les Sarsares éliminaient tour à tour leurs grands ennemis; Natueur, les Strônes et un début de\n" +
             "plan pour leur plus célèbre traitre , Bahalect. Les Vanican et les Canavim ont pris\n" +
@@ -126,8 +127,20 @@ export class HomeComponent {
           "plus vers l'intrigue et l'ésotérisme.\n" +
           "</p>"
       }
+    },
+    thanks: {
+      showed: true,
+      description: {
+        title: "Remerciement",
+        text: "Merci aux organisateur.trice.s et aux bévénoles.<br/>\n" +
+          "Merci aux contributeur.trice.s du logiciel web.<br/>\n" +
+          "Merci à <a href=\"http://www.calendriergn.ca\"><u>www.calendriergn.ca</u> <i class=\"fa fa-link\"></i></a> pour leur\n" +
+          "projet de calendrier du GN au Québec."
+      }
     }
   };
+
+  next_event = this.home_info.events[this.home_info.event.index];
 
   constructor(private http: HttpClient) {
     this.http.get(`${environment.apiUrl}/cmd/stat/total_season_pass`).subscribe((data: StatPassData) => {

@@ -1,8 +1,8 @@
 /*@media (max-width: 767px) {*/
-    /*!* On small screens, the nav menu spans the full width of the screen. Leave a space for it. *!*/
-    /*.body-content {*/
-        /*padding-top: 70px;*/
-    /*}*/
+/*!* On small screens, the nav menu spans the full width of the screen. Leave a space for it. *!*/
+/*.body-content {*/
+/*padding-top: 70px;*/
+/*}*/
 /*}*/
 
 /*
@@ -51,13 +51,40 @@ mat-sidenav {
 }
 
 .header-box-shadow {
-  box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12);
 }
 
 .bottom-to-top {
   border: 0px;
   border-right: 1px;
   border-style: solid;
-  border-image:
-  linear-gradient(to top, #c1c1c1, rgba(0, 0, 0, 0)) 1 100%
+  border-image: linear-gradient(to top, #c1c1c1, rgba(0, 0, 0, 0)) 1 100%
+}
+
+.nav-container {
+  position: absolute;
+  top: 50px;
+  left: 5px;
+  right: 5px;
+}
+
+.nav-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.nav-footer-full {
+  position: fixed;
+  bottom: 0;
+  left: 0px;
+  right: 0;
+}
+
+.nav-footer {
+  position: fixed;
+  bottom: 0;
+  left: 250px;
+  right: 0;
 }
