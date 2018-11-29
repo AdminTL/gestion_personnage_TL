@@ -30,15 +30,6 @@ import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
 import {SharedModule} from './shared';
 
-// Icon
-import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {library} from '@fortawesome/fontawesome-svg-core';
-import {fas} from '@fortawesome/free-solid-svg-icons';
-import {fab} from '@fortawesome/free-brands-svg-icons';
-import {far} from '@fortawesome/free-regular-svg-icons';
-
-library.add(fas, fab, far);
-
 @NgModule({
   declarations: [
     CharacterFrameComponent,
@@ -69,7 +60,6 @@ library.add(fas, fab, far);
     SharedModule,
     BrowserAnimationsModule,
     AppRouting,
-    FontAwesomeModule,
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

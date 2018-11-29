@@ -16,6 +16,17 @@ import {
 } from '@angular/material';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {AccordionModule} from 'primeng/accordion';
+import {PanelModule} from 'primeng/panel';
+
+// Icon
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {library} from '@fortawesome/fontawesome-svg-core';
+import {fas} from '@fortawesome/free-solid-svg-icons';
+import {fab} from '@fortawesome/free-brands-svg-icons';
+import {far} from '@fortawesome/free-regular-svg-icons';
+
+library.add(fas, fab, far);
 
 @NgModule({
   imports: [
@@ -27,7 +38,6 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     MatIconModule,
     MatMenuModule,
     MatSidenavModule,
-    FlexLayoutModule,
     MatExpansionModule,
     MatListModule,
     MatSelectModule,
@@ -35,6 +45,13 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     MatFormFieldModule,
     MatTooltipModule,
     MatSnackBarModule,
+
+    FlexLayoutModule,
+
+    AccordionModule,
+    PanelModule,
+
+    FontAwesomeModule,
   ],
   exports: [
     CommonModule,
@@ -45,7 +62,6 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     MatIconModule,
     MatMenuModule,
     MatSidenavModule,
-    FlexLayoutModule,
     MatExpansionModule,
     MatListModule,
     MatSelectModule,
@@ -53,6 +69,13 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     MatFormFieldModule,
     MatTooltipModule,
     MatSnackBarModule,
+
+    FlexLayoutModule,
+
+    AccordionModule,
+    PanelModule,
+
+    FontAwesomeModule,
   ],
 })
 export class SharedModule {
