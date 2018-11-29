@@ -50,6 +50,11 @@ or
 sudo pip3 install --upgrade google-auth-oauthlib
 ```
 
+You need to install NPM and Angular CLI
+```{r, engine='bash', count_lines}
+npm install -g @angular/cli
+```
+
 Windows
 -------
 Install python 3 from https://www.python.org/downloads/ using the installer
