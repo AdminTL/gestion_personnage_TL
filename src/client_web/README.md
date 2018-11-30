@@ -32,3 +32,5 @@ Thanks for help with user registration and login : http://jasonwatmore.com/post/
 Thanks for help about nav menu : https://github.com/seanmavley/Upcoming
 
 Thanks for fontawesome : https://www.npmjs.com/package/@fortawesome/angular-fontawesome
+
+Thanks for ngx-webgl : https://github.com/amcdnl/ngx-webgl
