@@ -1,2 +1,3 @@
-﻿export * from './user';
-export * from './activity';
+﻿export * from './activity';
+export * from './home';
+export * from './user';

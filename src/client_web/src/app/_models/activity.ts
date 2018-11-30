@@ -3,7 +3,6 @@
   event_type: String;
   date: String;
   selected: Boolean;
-  location: Location;
   price: Price;
   season_pass: SeasonPass;
   facebook_event: FacebookEvent;
@@ -15,6 +14,7 @@ export interface Location {
   name: String;
   external_href: String;
   address: String;
+  text_more_information: String;
 }
 
 export interface Price {
@@ -43,9 +43,15 @@ export interface Description {
 export interface Activity {
   showed: Boolean;
   description: Description;
+  stat: ActivityStatistic;
+  location: Location;
 }
 
 export interface Thanks {
   showed: Boolean;
   description: Description;
+}
+
+export interface ActivityStatistic {
+  total_season_pass: Number;
 }

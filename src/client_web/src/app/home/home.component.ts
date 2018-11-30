@@ -1,57 +1,36 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {environment} from "@environments/environment";
 
 import {AlertService} from '@app/_services';
-import {Activity, Event, Thanks} from '@app/_models';
+import {Event, Home} from '@app/_models';
 
 @Component({
   selector: 'home',
   templateUrl: 'home.component.html',
   styleUrls: ['home.component.css']
 })
-export class HomeComponent {
-  public totalSeasonPass: number;
-
+export class HomeComponent implements OnInit {
   public is_loaded: Boolean = false;
-  public home_info: ConfigHome;
+  public model_home: Home;
   public next_event: Event;
   configUrl = "assets/demo.json";
 
   constructor(private http: HttpClient, private alertService: AlertService) {
-    // Load data
-    this.http.get(`${environment.apiUrl}/cmd/stat/total_season_pass`).subscribe((data: StatPassData) => {
-      this.totalSeasonPass = data.total_season_pass_2017;
-    }, error => console.error(error));
-
-    this.http.get(this.configUrl).subscribe(
-      (data: JsonData) => {
-        this.home_info = data.home;
-        let i: any = this.home_info.index_next_event;
-        this.next_event = this.home_info.events[i];
-        this.is_loaded = true;
-      }, error => this.alertService.error(error));
   }
 
-  // ngOnInit() {
-  //   // Fill data from local json
-  // }
+  ngOnInit() {
+    // Load data
+    this.http.get(this.configUrl).subscribe(
+      (data: JsonData) => {
+        this.model_home = data.home;
+        let index_next_event: any = this.model_home.index_next_event;
+        this.next_event = this.model_home.events[index_next_event];
+        this.is_loaded = true;
+      }, error => this.alertService.error(error));
+
+  }
 }
 
 interface JsonData {
-  home: ConfigHome;
-}
-
-interface ConfigHome {
-  title: String;
-  summary: String,
-  index_next_event: Number;
-  show_next_event: Boolean;
-  events: Event[];
-  activity: Activity;
-  thanks: Thanks;
-}
-
-interface StatPassData {
-  total_season_pass_2017: number;
+  home: Home;
 }

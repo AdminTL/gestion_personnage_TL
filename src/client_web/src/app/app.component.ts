@@ -5,7 +5,7 @@ import {Router} from '@angular/router';
 
 import {AlertService, AuthenticationService} from '@app/_services';
 import {User} from '@app/_models';
-import * as screenfull from 'screenfull';
+import * as ScreenFull from 'screenfull';
 
 @Component({
   selector: 'app-root',
@@ -56,11 +56,11 @@ export class AppComponent implements OnInit {
       }
     });
 
-    screenfull.on("change", () => {
-      this.is_fullscreen = screenfull.isFullscreen;
+    ScreenFull.on("change", () => {
+      this.is_fullscreen = ScreenFull.isFullscreen;
     });
 
-    screenfull.on("error", event => {
+    ScreenFull.on("error", event => {
       this.alertService.error("Failed to toggle fullscreen", event);
     });
   }
@@ -75,7 +75,7 @@ export class AppComponent implements OnInit {
   }
 
   onScreenToggle(): void {
-    screenfull.toggle();
+    ScreenFull.toggle();
   }
 
 }

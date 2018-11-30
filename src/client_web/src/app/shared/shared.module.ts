@@ -1,23 +1,27 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+
 import {
   MatButtonModule,
+  MatBadgeModule,
   MatCheckboxModule,
-  MatIconModule,
-  MatMenuModule,
-  MatSidenavModule,
   MatExpansionModule,
-  MatListModule,
-  MatSelectModule,
-  MatInputModule,
   MatFormFieldModule,
-  MatTooltipModule,
-  MatSnackBarModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatMenuModule,
   MatProgressSpinnerModule,
+  MatSelectModule,
+  MatSidenavModule,
+  MatSnackBarModule,
+  MatTooltipModule,
 } from '@angular/material';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {FlexLayoutModule} from '@angular/flex-layout';
+
 import {AccordionModule} from 'primeng/accordion';
+
 import {PanelModule} from 'primeng/panel';
 
 // Icon
@@ -34,23 +38,26 @@ library.add(fas, fab, far);
     CommonModule,
 
     MatButtonModule,
+    MatBadgeModule,
     MatCheckboxModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatMenuModule,
-    MatSidenavModule,
     MatExpansionModule,
-    MatListModule,
-    MatSelectModule,
-    MatInputModule,
     MatFormFieldModule,
-    MatTooltipModule,
-    MatSnackBarModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatMenuModule,
     MatProgressSpinnerModule,
+    MatSelectModule,
+    MatSidenavModule,
+    MatSnackBarModule,
+    MatTooltipModule,
+
+    MatToolbarModule,
 
     FlexLayoutModule,
 
     AccordionModule,
+
     PanelModule,
 
     FontAwesomeModule,
@@ -59,23 +66,26 @@ library.add(fas, fab, far);
     CommonModule,
 
     MatButtonModule,
+    MatBadgeModule,
     MatCheckboxModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatMenuModule,
-    MatSidenavModule,
     MatExpansionModule,
-    MatListModule,
-    MatSelectModule,
-    MatInputModule,
     MatFormFieldModule,
-    MatTooltipModule,
-    MatSnackBarModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatMenuModule,
     MatProgressSpinnerModule,
+    MatSelectModule,
+    MatSidenavModule,
+    MatSnackBarModule,
+    MatTooltipModule,
+
+    MatToolbarModule,
 
     FlexLayoutModule,
 
     AccordionModule,
+
     PanelModule,
 
     FontAwesomeModule,

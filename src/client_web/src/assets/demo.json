@@ -2,20 +2,39 @@
   "home": {
     "title": "Larp'em - Logiciel de GN",
     "summary": "Gestion d'événement de grandeur nature",
-    "index_next_event": 0,
+    "index_next_event": 3,
     "show_next_event": true,
     "events": [
       {
         "title": "Jeu 1: Le commencement",
         "type": "GN - Tout le terrain",
-        "date": "8 octobre 2017",
+        "date": "1-2 Juin 2018",
         "selected": true,
-        "location": {
+        "price": {
           "showed": true,
-          "name": "Terra Icognita",
-          "href": "https://goo.gl/maps/YpaQu3zk9Xy",
-          "address": "1801 Chemin Béthanie, Béthanie (Québec), J0H 1E1, (450) 548-2720"
+          "single": 123,
+          "currency": "$"
         },
+        "season_pass": {
+          "showed": true,
+          "text": "150$ pour les 4 prochains jeux. <u>Économie de 30$</u>!"
+        },
+        "facebook_event": {
+          "showed": true,
+          "href": "https://www.facebook.com/events/1623866417646126"
+        },
+        "description": {
+          "selected": true,
+          "showed": true,
+          "title": "Synopsis",
+          "text": "Description du contexte de l'activité, la politique de la région, les rumeurs et autre information pertinente."
+        }
+      },
+      {
+        "title": "Jeu 2: Nouvelle aventure",
+        "type": "GN - Tout le terrain",
+        "date": "6-7 Juillet 2018",
+        "selected": true,
         "price": {
           "showed": true,
           "single": 123,
@@ -23,7 +42,57 @@
         },
         "season_pass": {
           "showed": false,
-          "text": "150$ pour les 4 prochains jeux. <u>Économie de 30$</u>!"
+          "text": ""
+        },
+        "facebook_event": {
+          "showed": true,
+          "href": "https://www.facebook.com/events/1623866417646126"
+        },
+        "description": {
+          "selected": true,
+          "showed": true,
+          "title": "Synopsis",
+          "text": "Description du contexte de l'activité, la politique de la région, les rumeurs et autre information pertinente."
+        }
+      },
+      {
+        "title": "Jeu 3: Gros périple",
+        "type": "GN - Tout le terrain",
+        "date": "24-25 Août 2018",
+        "selected": true,
+        "price": {
+          "showed": true,
+          "single": 123,
+          "currency": "$"
+        },
+        "season_pass": {
+          "showed": false,
+          "text": ""
+        },
+        "facebook_event": {
+          "showed": true,
+          "href": "https://www.facebook.com/events/1623866417646126"
+        },
+        "description": {
+          "selected": true,
+          "showed": true,
+          "title": "Synopsis",
+          "text": "Description du contexte de l'activité, la politique de la région, les rumeurs et autre information pertinente."
+        }
+      },
+      {
+        "title": "Jeu 4: Renouveau",
+        "type": "GN - Tout le terrain",
+        "date": "21-22 Septembre 2018",
+        "selected": true,
+        "price": {
+          "showed": true,
+          "single": 123,
+          "currency": "$"
+        },
+        "season_pass": {
+          "showed": false,
+          "text": ""
         },
         "facebook_event": {
           "showed": true,
@@ -42,14 +111,54 @@
       "description": {
         "title": "Description de l'activité",
         "text": "<p>Ceci est un démo</p>"
+      },
+      "stat": {
+        "total_season_pass": 10
+      },
+      "location": {
+        "showed": true,
+        "name": "Terra Icognita",
+        "href": "https://goo.gl/maps/YpaQu3zk9Xy",
+        "address": "1801 Chemin Béthanie, Béthanie (Québec), J0H 1E1, (450) 548-2720",
+        "text_more_information": "<a href=\"http://gn.qc.ca/atelier/directions/\">Pour plus d'information sur l'indication de la route. <fa-icon icon=\"link\"></fa-icon></a>"
       }
     },
     "thanks": {
-      "showed:": true,
+      "showed": true,
       "description": {
         "title": "Remerciement",
         "text": "Merci aux organisateur.trice.s et aux bévénoles.<br/>Merci aux contributeur.trice.s du logiciel web.<br/>Merci à <a href=\"http://www.calendriergn.ca\"><u>www.calendriergn.ca</u> <i class=\"fa fa-link\"></i></a> pour leur projet de calendrier du GN au Québec."
       }
+    },
+    "date": {
+      "showed": true,
+      "title": "Date de 2018",
+      "dates": [
+        {
+          "showed": true,
+          "highlight": false,
+          "date": "1-2 Juin 2018",
+          "text_more_information": "TL (Zone 1+2)"
+        },
+        {
+          "showed": true,
+          "highlight": false,
+          "date": "6-7 Juillet 2018",
+          "text_more_information": "TL (Zone 1+2)"
+        },
+        {
+          "showed": true,
+          "highlight": false,
+          "date": "24-25 Août 2018",
+          "text_more_information": "TL (Zone 1+2)"
+        },
+        {
+          "showed": true,
+          "highlight": true,
+          "date": "21-22 Septembre 2018",
+          "text_more_information": "TL (Zone 1+2)"
+        }
+      ]
     }
   }
 }

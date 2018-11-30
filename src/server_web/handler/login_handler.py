@@ -370,7 +370,7 @@ class UserAuthenticate(base_handler.BaseHandler):
     """This class is designed purely for client-side validation"""
 
     def post(self):
-        obj = {"id": 123, "username": "123", "firstName": "123", "lastName": "123", "token": "fake"}
+        obj = {"id": 123, "username": "1234567890", "firstName": "123", "lastName": "123", "token": "fake"}
         self.write(obj)
         self.finish()
 
@@ -389,7 +389,7 @@ class User(base_handler.BaseHandler):
     def get(self):
         # obj = {"message": 'Unauthorised'}
         # self.set_status(401)
-        user = {"id": 123, "username": "123", "firstName": "123", "lastName": "123", "token": "fake"}
+        user = {"id": 123, "username": "1234567890", "firstName": "123", "lastName": "123", "token": "fake"}
         obj = {"body": user}
         self.set_status(200)
         self.write(obj)
