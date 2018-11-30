@@ -1,12 +1,12 @@
 ﻿export interface Event {
   title: String;
   event_type: String;
-  date: String;
+  date: EventDate;
   selected: Boolean;
-  price: Price;
-  season_pass: SeasonPass;
+  pricing: Price[];
   facebook_event: FacebookEvent;
   description: Description;
+  age: Age;
 }
 
 export interface Location {
@@ -19,13 +19,12 @@ export interface Location {
 
 export interface Price {
   showed: Boolean;
-  single: Number;
+  title: String;
+  price: Number;
   currency: String;
-}
-
-export interface SeasonPass {
-  showed: Boolean;
-  text: String;
+  text_more_information: String;
+  count_unit: Number;
+  matIcon: String;
 }
 
 export interface FacebookEvent {
@@ -43,7 +42,6 @@ export interface Description {
 export interface Activity {
   showed: Boolean;
   description: Description;
-  stat: ActivityStatistic;
   location: Location;
 }
 
@@ -52,6 +50,14 @@ export interface Thanks {
   description: Description;
 }
 
-export interface ActivityStatistic {
-  total_season_pass: Number;
+export interface EventDate {
+  showed: Boolean;
+  highlight: Boolean;
+  text: String;
+  text_more_information: String;
+}
+
+export interface Age {
+  showed: Boolean;
+  text: String;
 }

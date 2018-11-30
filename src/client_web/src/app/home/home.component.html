@@ -15,7 +15,7 @@
       <p-accordionTab [selected]="next_event.selected">
         <p-header [innerHTML]="next_event.title"></p-header>
         <p>Type d'événement: <b [innerHTML]="next_event.event_type"></b></p>
-        <p>Date: <b [innerHTML]="next_event.date"></b></p>
+        <p>Date: <b [innerHTML]="next_event.date.text"></b></p>
         <p *ngIf="model_home.activity.location.showed">
           Lieu: <b>
           <a href="{{model_home.activity.location.external_href}}">
@@ -27,8 +27,22 @@
           </a>
         </b>
         </p>
-        <p>Prix: <b>{{next_event.price.single}}{{next_event.price.currency}}</b></p>
-        <p *ngIf="next_event.season_pass.showed">Passe de saison: <b [innerHTML]="next_event.season_pass.text"></b></p>
+        <div>
+          Prix:
+          <ul>
+            <ng-container *ngFor="let price of next_event.pricing">
+              <li *ngIf="price.showed">
+                <span *ngIf="price.title" [innerHTML]="price.title"></span>
+                <span *ngIf="price.price">: {{price.price}}<span *ngIf="price.currency">{{price.currency}}</span></span>
+                <span *ngIf="price.text_more_information"> - <span [innerHTML]="price.text_more_information"></span></span>
+                <span *ngIf="price.matIcon"> <mat-icon [matBadge]="price.count_unit" matBadgePosition="above after">{{price.matIcon}}</mat-icon></span>
+              </li>
+            </ng-container>
+          </ul>
+        </div>
+        <p *ngIf="next_event.age.showed">
+          Âge: <span [innerHTML]="next_event.age.text"></span>
+        </p>
         <p *ngIf="next_event.facebook_event.showed">
           <a href="{{next_event.facebook_event.external_href}}">
             <fa-icon [icon]="['fab', 'facebook-square']"></fa-icon>
@@ -56,18 +70,26 @@
 
   <div *ngIf="model_home.date.showed">
     <h1 [innerHTML]="model_home.date.title"></h1>
-    <ul>
-      <li *ngFor="let date of model_home.date.dates" [ngStyle]="date.highlight && {'color':'#00FF00'}">{{date.date}}<span *ngIf="date.text_more_information">: {{date.text_more_information}}</span>
+    <ul *ngIf="model_home.date.use_event_date">
+      <li *ngFor="let event of model_home.events" [ngStyle]="event.date.highlight && {'color':'#00FF00'}">{{event.date.text}}<span
+        *ngIf="event.date.text_more_information">: {{event.date.text_more_information}}</span>
       </li>
     </ul>
   </div>
 
-  <h1>Tarification</h1>
-  <ul>
-    <li style="list-style-type:disc">Billet: 30$</li>
-    <li><span class="label label-success" style="white-space:normal">Passe saison (4 événements): 150$ <mat-icon [matBadge]="model_home.activity.stat.total_season_pass" matBadgePosition="above after">card_membership</mat-icon></span>
-    <li style="list-style-type:disc">Accès aux dortoirs: <b>Dortoir non accessible pour la saison 2017</b></li>
-  </ul>
+  <div *ngIf="model_home.pricing.showed">
+    <h1 [innerHTML]="model_home.pricing.title"></h1>
+    <ul *ngIf="model_home.pricing.use_next_event_pricing">
+      <ng-container *ngFor="let price of next_event.pricing">
+        <li *ngIf="price.showed">
+          <span *ngIf="price.title" [innerHTML]="price.title"></span>
+          <span *ngIf="price.price">: {{price.price}}<span *ngIf="price.currency">{{price.currency}}</span></span>
+          <span *ngIf="price.text_more_information"> - <span [innerHTML]="price.text_more_information"></span></span>
+          <span *ngIf="price.matIcon"> <mat-icon [matBadge]="price.count_unit" matBadgePosition="above after">{{price.matIcon}}</mat-icon></span>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
 
   <div *ngIf="model_home.activity.location.showed">
     <h1>Localisation</h1>

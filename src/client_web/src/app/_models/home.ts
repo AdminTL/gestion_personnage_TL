@@ -9,17 +9,17 @@ export interface Home {
   activity: Activity;
   thanks: Thanks;
   date: HomeDate;
+  pricing: HomePricing;
 }
 
 export interface HomeDate {
   showed: Boolean;
   title: String;
-  dates: ActivityDate[];
+  use_event_date: Boolean;
 }
 
-export interface ActivityDate {
+export interface HomePricing {
   showed: Boolean;
-  highlight: Boolean;
-  date: String;
-  text_more_information: String;
+  title: String;
+  use_next_event_pricing: Boolean;
 }

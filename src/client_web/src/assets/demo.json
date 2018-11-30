@@ -7,18 +7,45 @@
     "events": [
       {
         "title": "Jeu 1: Le commencement",
-        "type": "GN - Tout le terrain",
-        "date": "1-2 Juin 2018",
+        "event_type": "GN - Tout le terrain",
+        "age": {
+          "showed": true,
+          "text": "18+"
+        },
+        "date": {
+          "showed": true,
+          "highlight": false,
+          "text": "1-2 Juin 2018",
+          "text_more_information": "TL (Zone 1+2)"
+        },
         "selected": true,
-        "price": {
-          "showed": true,
-          "single": 123,
-          "currency": "$"
-        },
-        "season_pass": {
-          "showed": true,
-          "text": "150$ pour les 4 prochains jeux. <u>Économie de 30$</u>!"
-        },
+        "pricing": [
+          {
+            "showed": true,
+            "title": "Nouveau",
+            "price": 12,
+            "currency": "$"
+          },
+          {
+            "showed": true,
+            "title": "Régulier",
+            "price": 30,
+            "currency": "$"
+          },
+          {
+            "showed": true,
+            "title": "Passe de saison",
+            "price": 130,
+            "currency": "$",
+            "text_more_information": "4 événements <u>Économie de 30$</u>",
+            "count_unit": 10,
+            "matIcon": "card_membership"
+          },
+          {
+            "showed": true,
+            "title": "Accès aux dortoirs: <b>Dortoir non accessible pour la saison 2018</b>"
+          }
+        ],
         "facebook_event": {
           "showed": true,
           "href": "https://www.facebook.com/events/1623866417646126"
@@ -32,18 +59,32 @@
       },
       {
         "title": "Jeu 2: Nouvelle aventure",
-        "type": "GN - Tout le terrain",
-        "date": "6-7 Juillet 2018",
-        "selected": true,
-        "price": {
+        "event_type": "GN - Tout le terrain",
+        "age": {
           "showed": true,
-          "single": 123,
-          "currency": "$"
+          "text": "18+"
         },
-        "season_pass": {
-          "showed": false,
-          "text": ""
+        "date": {
+          "showed": true,
+          "highlight": false,
+          "text": "6-7 Juillet 2018",
+          "text_more_information": "TL (Zone 1+2)"
         },
+        "selected": true,
+        "pricing": [
+          {
+            "showed": true,
+            "title": "Nouveau",
+            "price": 12,
+            "currency": "$"
+          },
+          {
+            "showed": true,
+            "title": "Régulier",
+            "price": 30,
+            "currency": "$"
+          }
+        ],
         "facebook_event": {
           "showed": true,
           "href": "https://www.facebook.com/events/1623866417646126"
@@ -57,18 +98,32 @@
       },
       {
         "title": "Jeu 3: Gros périple",
-        "type": "GN - Tout le terrain",
-        "date": "24-25 Août 2018",
-        "selected": true,
-        "price": {
+        "event_type": "GN - Tout le terrain",
+        "age": {
           "showed": true,
-          "single": 123,
-          "currency": "$"
+          "text": "18+"
         },
-        "season_pass": {
-          "showed": false,
-          "text": ""
+        "date": {
+          "showed": true,
+          "highlight": false,
+          "text": "24-25 Août 2018",
+          "text_more_information": "TL (Zone 1+2)"
         },
+        "selected": true,
+        "pricing": [
+          {
+            "showed": true,
+            "title": "Nouveau",
+            "price": 12,
+            "currency": "$"
+          },
+          {
+            "showed": true,
+            "title": "Régulier",
+            "price": 30,
+            "currency": "$"
+          }
+        ],
         "facebook_event": {
           "showed": true,
           "href": "https://www.facebook.com/events/1623866417646126"
@@ -82,18 +137,32 @@
       },
       {
         "title": "Jeu 4: Renouveau",
-        "type": "GN - Tout le terrain",
-        "date": "21-22 Septembre 2018",
-        "selected": true,
-        "price": {
+        "event_type": "GN - Tout le terrain",
+        "age": {
           "showed": true,
-          "single": 123,
-          "currency": "$"
+          "text": "18+"
         },
-        "season_pass": {
-          "showed": false,
-          "text": ""
+        "date": {
+          "showed": true,
+          "highlight": true,
+          "text": "21-22 Septembre 2018",
+          "text_more_information": "TL (Zone 1+2)"
         },
+        "selected": true,
+        "pricing": [
+          {
+            "showed": true,
+            "title": "Nouveau",
+            "price": 12,
+            "currency": "$"
+          },
+          {
+            "showed": true,
+            "title": "Régulier",
+            "price": 30,
+            "currency": "$"
+          }
+        ],
         "facebook_event": {
           "showed": true,
           "href": "https://www.facebook.com/events/1623866417646126"
@@ -112,9 +181,6 @@
         "title": "Description de l'activité",
         "text": "<p>Ceci est un démo</p>"
       },
-      "stat": {
-        "total_season_pass": 10
-      },
       "location": {
         "showed": true,
         "name": "Terra Icognita",
@@ -132,33 +198,13 @@
     },
     "date": {
       "showed": true,
-      "title": "Date de 2018",
-      "dates": [
-        {
-          "showed": true,
-          "highlight": false,
-          "date": "1-2 Juin 2018",
-          "text_more_information": "TL (Zone 1+2)"
-        },
-        {
-          "showed": true,
-          "highlight": false,
-          "date": "6-7 Juillet 2018",
-          "text_more_information": "TL (Zone 1+2)"
-        },
-        {
-          "showed": true,
-          "highlight": false,
-          "date": "24-25 Août 2018",
-          "text_more_information": "TL (Zone 1+2)"
-        },
-        {
-          "showed": true,
-          "highlight": true,
-          "date": "21-22 Septembre 2018",
-          "text_more_information": "TL (Zone 1+2)"
-        }
-      ]
+      "title": "Date",
+      "use_event_date": true
+    },
+    "pricing": {
+      "showed": true,
+      "title": "Tarification",
+      "use_next_event_pricing": true
     }
   }
 }
