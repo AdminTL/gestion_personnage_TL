@@ -4,7 +4,7 @@ import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
 
 import {AlertService, AuthenticationService} from '@app/_services';
-import {User} from '@app/_models';
+import {Menu, User} from '@app/_models';
 import * as ScreenFull from 'screenfull';
 
 @Component({
@@ -23,8 +23,97 @@ export class AppComponent implements OnInit {
   public displayMode = 'flat';
   public overlap = false;
 
-  // Vue
+  // View
   public is_fullscreen = false;
+
+  // Menu
+  public menu: Menu = {
+    "title": "",
+    "sibling": [
+      {
+        "title": "Accueil",
+        "children": [],
+        "mat_icon": "home",
+        "router_link": "/home",
+        "fa_icon": ""
+      }
+    ],
+    "grouped_sibling": [
+      {
+        "title": "Guide / Manuel",
+        "mat_icon": "description",
+        "router_link": "",
+        "fa_icon": "",
+        "children": [
+          {
+            "title": "Manuel du joueur",
+            "children": [],
+            "mat_icon": "description",
+            "router_link": "/manual",
+            "fa_icon": ""
+          },
+          {
+            "title": "Univers",
+            "children": [],
+            "mat_icon": "description",
+            "router_link": "/lore",
+            "fa_icon": ""
+          }
+        ]
+      },
+      {
+        "title": "Personnage",
+        "mat_icon": "",
+        "fa_icon": "theater-masks",
+        "router_link": "",
+        "children": [
+          {
+            "title": "Personnage",
+            "children": [],
+            "mat_icon": "",
+            "router_link": "/character",
+            "fa_icon": "theater-masks"
+          }
+        ]
+      },
+      {
+        "title": "Admin",
+        "mat_icon": "",
+        "fa_icon": "mask",
+        "router_link": "",
+        "children": [
+          {
+            "title": "Personnage",
+            "children": [],
+            "mat_icon": "",
+            "router_link": "/character",
+            "fa_icon": "theater-masks"
+          },
+          {
+            "title": "Manuel Admin",
+            "children": [],
+            "mat_icon": "description",
+            "router_link": "/manual",
+            "fa_icon": ""
+          },
+          {
+            "title": "Éditeur",
+            "children": [],
+            "mat_icon": "edit",
+            "router_link": "",
+            "fa_icon": ""
+          },
+          {
+            "title": "Paramètre",
+            "children": [],
+            "mat_icon": "settings",
+            "router_link": "",
+            "fa_icon": ""
+          }
+        ]
+      }
+    ]
+  };
 
   public organization_info = {
     "name": "Traître-Lame",

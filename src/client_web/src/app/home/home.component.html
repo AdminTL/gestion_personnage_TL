@@ -94,7 +94,7 @@
   <div *ngIf="model_home.activity.location.showed">
     <h1>Localisation</h1>
     <p>
-      Lieu: <b>
+      Lieu:
       <a href="{{model_home.activity.location.external_href}}">
         <u>
           {{model_home.activity.location.name}}
@@ -102,7 +102,6 @@
           {{model_home.activity.location.address}}
         </u>
       </a>
-    </b>
     </p>
     <p *ngIf="model_home.activity.location.text_more_information" [innerHTML]="model_home.activity.location.text_more_information"></p>
   </div>
