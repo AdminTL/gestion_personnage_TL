@@ -13,25 +13,25 @@ import * as screenfull from 'screenfull';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  private currentUser: User;
+  public currentUser: User;
 
   // Menu variable
-  private opened = true;
-  private over = 'side';
-  private expandHeight = '42px';
-  private collapseHeight = '42px';
-  private displayMode = 'flat';
-  private overlap = false;
+  public opened = true;
+  public over = 'side';
+  public expandHeight = '42px';
+  public collapseHeight = '42px';
+  public displayMode = 'flat';
+  public overlap = false;
 
   // Vue
-  private is_fullscreen = false;
+  public is_fullscreen = false;
 
-  private organization_info = {
+  public organization_info = {
     "name": "Traître-Lame",
     "summary": "Grandeur-Nature 18+ ans Médiévale Fantastique"
   };
 
-  watcher: Subscription;
+  public watcher: Subscription;
 
   constructor(
     private media: ObservableMedia,
