@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "@environments/environment";
 
 import {AlertService} from '@app/_services';
+import {Activity, Event, Thanks} from '@app/_models';
 
 @Component({
   selector: 'home',
@@ -14,7 +15,7 @@ export class HomeComponent {
 
   public is_loaded: Boolean = false;
   public home_info: ConfigHome;
-  public next_event = {};
+  public next_event: Event;
   configUrl = "assets/demo.json";
 
   constructor(private http: HttpClient, private alertService: AlertService) {
@@ -49,58 +50,6 @@ interface ConfigHome {
   events: Event[];
   activity: Activity;
   thanks: Thanks;
-}
-
-interface Event {
-  title: String;
-  type: String;
-  date: String;
-  selected: Boolean;
-  location: Location;
-  price: Price;
-  season_pass: SeasonPass;
-  facebook_event: FacebookEvent;
-  description: Description;
-}
-
-interface Location {
-  showed: Boolean;
-  name: String;
-  href: String;
-  address: String;
-}
-
-interface Price {
-  showed: Boolean;
-  single: Number;
-  currency: String;
-}
-
-interface SeasonPass {
-  showed: Boolean;
-  text: String;
-}
-
-interface FacebookEvent {
-  showed: Boolean;
-  href: String;
-}
-
-interface Description {
-  showed: Boolean;
-  selected: Boolean;
-  title: String;
-  text: String;
-}
-
-interface Activity {
-  showed: Boolean;
-  description: Description;
-}
-
-interface Thanks {
-  showed: Boolean;
-  description: Description;
 }
 
 interface StatPassData {

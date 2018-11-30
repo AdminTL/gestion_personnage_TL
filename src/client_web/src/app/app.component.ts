@@ -3,8 +3,8 @@ import {ObservableMedia, MediaChange} from '@angular/flex-layout';
 import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
 
-import {AuthenticationService} from './_services';
-import {User} from './_models';
+import {AuthenticationService} from '@app/_services';
+import {User} from '@app/_models';
 
 @Component({
   selector: 'app-root',
@@ -12,18 +12,17 @@ import {User} from './_models';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  currentUser: User;
+  private currentUser: User;
 
-  isExpanded = false;
+  // Menu variable
+  private opened = true;
+  private over = 'side';
+  private expandHeight = '42px';
+  private collapseHeight = '42px';
+  private displayMode = 'flat';
+  private overlap = false;
 
-  opened = true;
-  over = 'side';
-  expandHeight = '42px';
-  collapseHeight = '42px';
-  displayMode = 'flat';
-  // overlap = false;
-
-  organization_info = {
+  private   organization_info = {
     "name": "Traître-Lame",
     "summary": "Grandeur-Nature 18+ ans Médiévale Fantastique"
   };
@@ -35,8 +34,10 @@ export class AppComponent {
     private router: Router,
     private authenticationService: AuthenticationService
   ) {
+    // User
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
 
+    // Update nav-menu depends on larger of window
     this.watcher = media.subscribe((change: MediaChange) => {
       if (change.mqAlias === 'sm' || change.mqAlias === 'xs') {
         this.opened = false;
@@ -48,16 +49,8 @@ export class AppComponent {
     });
   }
 
-  collapse() {
-    this.isExpanded = false;
-  }
-
   toggle_nav_menu() {
     this.opened != this.opened;
-  }
-
-  toggle() {
-    this.isExpanded = !this.isExpanded;
   }
 
   logout() {

@@ -12,11 +12,11 @@
     <p-accordion [multiple]="true">
       <p-accordionTab [selected]="next_event.selected">
         <p-header [innerHTML]="next_event.title"></p-header>
-        <p>Type d'événement: <b [innerHTML]="next_event.type"></b></p>
+        <p>Type d'événement: <b [innerHTML]="next_event.event_type"></b></p>
         <p>Date: <b [innerHTML]="next_event.date"></b></p>
         <p *ngIf="next_event.location.showed">
           Lieu: <b>
-          <a href="{{next_event.location.href}}">
+          <a href="{{next_event.location.external_href}}">
             <u>
               {{next_event.location.name}}
               <fa-icon icon="map-marker"></fa-icon>
@@ -28,7 +28,7 @@
         <p>Prix: <b>{{next_event.price.single}}{{next_event.price.currency}}</b></p>
         <p *ngIf="next_event.season_pass.showed">Passe de saison: <b [innerHTML]="next_event.season_pass.text"></b></p>
         <p *ngIf="next_event.facebook_event.showed">
-          <a href="{{next_event.facebook_event.href}}">
+          <a href="{{next_event.facebook_event.external_href}}">
             <fa-icon [icon]="['fab', 'facebook-square']"></fa-icon>
             <u>
               Événement
@@ -72,7 +72,7 @@
   <p-accordion>
     <p-accordionTab [selected]="next_event.selected">
       <p-header [innerHTML]="next_event.title"></p-header>
-      <p>Type d'événement: <b [innerHTML]="next_event.type"></b></p>
+      <p>Type d'événement: <b [innerHTML]="next_event.event_type"></b></p>
       <p>Date: <b [innerHTML]="next_event.date"></b></p>
       <div *ngIf="next_event.location.showed">
         Lieu: <b>
