@@ -56,13 +56,12 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary" class="header-box-shadow">
-      <span matTooltip="Menu de navigation" matTooltipPosition="right" aria-label="Boutton changer l'apparence du menu de navigation">
-        <button mat-icon-button (click)="sidenav.toggle()">
-          <mat-icon>menu</mat-icon>
-          <span *ngIf="sidenav.opened" class="mr-1" fxShow.lt-md="false" fxShow.gt-sm="true">Fermer menu</span>
-          <span *ngIf="!sidenav.opened" class="mr-1" fxShow.lt-md="false" fxShow.gt-sm="true">Ouvrir menu</span>
-        </button>
-      </span>
+
+      <button mat-button (click)="sidenav.toggle()" matTooltip="Menu de navigation" matTooltipPosition="right" aria-label="Boutton changer l'apparence du menu de navigation">
+        <mat-icon>menu</mat-icon>
+        <span *ngIf="sidenav.opened" class="mr-1" fxShow.lt-md="false" fxShow.gt-sm="true">Fermer menu</span>
+        <span *ngIf="!sidenav.opened" class="mr-1" fxShow.lt-md="false" fxShow.gt-sm="true">Ouvrir menu</span>
+      </button>
 
       <!--<span>-->
       <!--<button mat-button [routerLink]="['/home']" matTooltip="Accueil" matTooltipPosition="right" aria-label="Boutton pour se rendre à l'accueil">-->
@@ -120,6 +119,7 @@
         </button>
 
       </span>
+
       <span *ngIf="!currentUser">
         <button mat-button [routerLink]="['/login']" matTooltip="Connexion" matTooltipPosition="right" aria-label="Boutton pour se connecter">
           <fa-icon class="mr-1" icon="sign-in-alt"></fa-icon>
