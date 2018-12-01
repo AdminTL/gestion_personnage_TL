@@ -18,8 +18,8 @@
         <span class="">{{organization_info.summary}}</span>
       </div>
     </div>
-    <div class="mt-3">
-      <ng-container *ngFor="let sub_menu of menu.sibling">
+    <div class="mt-3" *ngIf="currentMenu && currentMenu.sibling">
+      <ng-container *ngFor="let sub_menu of currentMenu.sibling">
 
         <mat-nav-list *ngIf="sub_menu.children?.length == 0" [routerLink]="[sub_menu.router_link]">
           <mat-list-item class="ml-2" style="font-size:15px;">
@@ -30,8 +30,8 @@
         </mat-nav-list>
       </ng-container>
 
-      <mat-accordion *ngIf="menu.grouped_sibling?.length > 0" multi="true" [displayMode]="displayMode">
-        <mat-expansion-panel class="no-shadow" *ngFor="let sub_menu of menu.grouped_sibling">
+      <mat-accordion *ngIf="currentMenu.grouped_sibling?.length > 0" multi="true" [displayMode]="displayMode">
+        <mat-expansion-panel class="no-shadow" *ngFor="let sub_menu of currentMenu.grouped_sibling">
 
           <mat-expansion-panel-header fxLayout="row" [expandedHeight]="expandHeight" [collapsedHeight]="collapseHeight">
             <mat-panel-title>

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 
-import {AlertService} from '@app/_services';
+import {AlertService, AuthenticationService, LarpemService} from '@app/_services';
 import {Event, Home} from '@app/_models';
 
 @Component({
@@ -13,24 +13,22 @@ export class HomeComponent implements OnInit {
   public is_loaded: Boolean = false;
   public model_home: Home;
   public next_event: Event;
-  configUrl = "assets/demo.json";
 
-  constructor(private http: HttpClient, private alertService: AlertService) {
+  constructor(private http: HttpClient, private authenticationService: AuthenticationService, private alertService: AlertService, private larpemService: LarpemService) {
   }
 
   ngOnInit() {
-    // Load data
-    this.http.get(this.configUrl).subscribe(
-      (data: JsonData) => {
-        this.model_home = data.home;
+    // Home
+    this.larpemService.currentHome.subscribe(x => {
+      this.model_home = x;
+      if (this.model_home) {
         let index_next_event: any = this.model_home.index_next_event;
         this.next_event = this.model_home.events[index_next_event];
         this.is_loaded = true;
-      }, error => this.alertService.error(error));
+      } else {
+        this.alertService.error("Failed to load Model Home. It's empty");
+      }
+    });
 
   }
-}
-
-interface JsonData {
-  home: Home;
 }

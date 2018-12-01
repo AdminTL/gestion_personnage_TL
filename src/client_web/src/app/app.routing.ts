@@ -1,5 +1,7 @@
 ﻿import {Routes, RouterModule} from '@angular/router';
 
+import {environment} from '@environments/environment';
+
 import {HomeComponent} from './home';
 import {LoginComponent} from './login';
 import {RegisterComponent} from './register';
@@ -43,4 +45,4 @@ const appRoutes: Routes = [
   {path: '**', component: NotFoundComponent}
 ];
 
-export const AppRouting = RouterModule.forRoot(appRoutes, { enableTracing: true });
+export const AppRouting = RouterModule.forRoot(appRoutes, {enableTracing: environment.enableRouteTracing});
