@@ -1,10 +1,12 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {NgModule, Compiler} from '@angular/core';
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {HttpModule} from '@angular/http';
 import {FormsModule} from '@angular/forms';
 import {ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
+import {environment} from '@environments/environment';
 
 import {CharacterFrameComponent} from './character/character-frame.component';
 import {CharacterFormComponent} from './character/form/character-form.component';
@@ -66,4 +68,9 @@ import {SharedModule} from './shared';
   bootstrap: [AppComponent]
 })
 export class AppModule {
+  constructor(private compiler: Compiler) {
+    if (environment.clearCacheOnInit) {
+      compiler.clearCache();
+    }
+  }
 }

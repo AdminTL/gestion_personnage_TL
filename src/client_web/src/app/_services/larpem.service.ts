@@ -74,7 +74,6 @@ export class LarpemService {
       }, error => this.alertService.error(error));
   }
 
-
   private clearModel() {
     localStorage.removeItem('modelMenu');
     this.currentMenuSubject.next(null);
