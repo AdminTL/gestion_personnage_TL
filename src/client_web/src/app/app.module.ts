@@ -1,6 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {HttpModule} from '@angular/http';
 import {FormsModule} from '@angular/forms';
@@ -31,6 +30,16 @@ import {RegisterComponent} from './register/register.component';
 import {SharedModule} from './shared';
 
 @NgModule({
+  imports: [
+    HttpClientModule,
+    HttpModule,
+    ReactiveFormsModule,
+    FormsModule,
+    BrowserModule,
+    SharedModule,
+    BrowserAnimationsModule,
+    AppRouting,
+  ],
   declarations: [
     CharacterFrameComponent,
     CharacterFormComponent,
@@ -49,17 +58,6 @@ import {SharedModule} from './shared';
     AlertComponent,
     LoginComponent,
     RegisterComponent,
-  ],
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    HttpModule,
-    ReactiveFormsModule,
-    FormsModule,
-    BrowserModule,
-    SharedModule,
-    BrowserAnimationsModule,
-    AppRouting,
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

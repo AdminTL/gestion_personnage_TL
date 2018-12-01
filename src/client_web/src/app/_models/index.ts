@@ -2,4 +2,5 @@
 export * from './home';
 export * from './larpem';
 export * from './menu';
+export * from './organization';
 export * from './user';

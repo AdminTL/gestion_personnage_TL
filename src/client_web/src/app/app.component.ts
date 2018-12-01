@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {ObservableMedia, MediaChange} from '@angular/flex-layout';
 import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
 
 import {AlertService, AuthenticationService, LarpemService} from '@app/_services';
-import {Menu, User} from '@app/_models';
+import {Menu, Organization, User} from '@app/_models';
 import * as ScreenFull from 'screenfull';
 
 @Component({
@@ -12,12 +12,15 @@ import * as ScreenFull from 'screenfull';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   // Model
   public currentUser: User;
-  public currentMenu: Menu;
+  public modelMenu: Menu;
+  public modelOrganization: Organization;
 
-  public is_loaded: Boolean = false;
+  // Loading
+  public isLoaded: Boolean = false;
+  private watchers: Subscription[] = [];
 
   // Menu variable
   public opened = true;
@@ -28,14 +31,7 @@ export class AppComponent implements OnInit {
   public overlap = false;
 
   // View
-  public is_fullscreen = false;
-
-  public organization_info = {
-    "name": "Traître-Lame",
-    "summary": "Grandeur-Nature 18+ ans Médiévale Fantastique"
-  };
-
-  public watcher: Subscription;
+  public isFullscreen = false;
 
   constructor(
     private media: ObservableMedia,
@@ -47,22 +43,35 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    let watcher: Subscription;
     // User
-    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    watcher = this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    this.watchers.push(watcher);
 
     // Menu
-    this.larpemService.currentMenu.subscribe(x => {
-      this.currentMenu = x;
-      console.info(this.currentMenu);
-      if (this.currentMenu) {
-        this.is_loaded = true;
+    watcher = this.larpemService.currentMenu.subscribe(x => {
+      this.modelMenu = x;
+      if (this.modelMenu) {
+        this.isLoaded = true;
       } else {
         this.alertService.error("Failed to load Model Menu. It's empty");
       }
     });
+    this.watchers.push(watcher);
+
+    // Organization
+    watcher = this.larpemService.currentOrganization.subscribe(x => {
+      this.modelOrganization = x;
+      if (this.modelOrganization) {
+        this.isLoaded = true;
+      } else {
+        this.alertService.error("Failed to load Model Organization. It's empty");
+      }
+    });
+    this.watchers.push(watcher);
 
     // Update nav-menu depends on larger of window
-    this.watcher = this.media.subscribe((change: MediaChange) => {
+    watcher = this.media.subscribe((change: MediaChange) => {
       if (change.mqAlias === 'sm' || change.mqAlias === 'xs') {
         this.opened = false;
         this.over = 'over';
@@ -71,9 +80,10 @@ export class AppComponent implements OnInit {
         this.over = 'side';
       }
     });
+    this.watchers.push(watcher);
 
     ScreenFull.on("change", () => {
-      this.is_fullscreen = ScreenFull.isFullscreen;
+      this.isFullscreen = ScreenFull.isFullscreen;
     });
 
     ScreenFull.on("error", event => {
@@ -81,8 +91,10 @@ export class AppComponent implements OnInit {
     });
   }
 
-  toggle_nav_menu() {
-    this.opened != this.opened;
+  ngOnDestroy() {
+    for (let watcher of this.watchers) {
+      watcher.unsubscribe();
+    }
   }
 
   logout() {
