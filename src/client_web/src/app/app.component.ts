@@ -7,6 +7,8 @@ import {AlertService, AuthenticationService} from '@app/_services';
 import {Menu, User} from '@app/_models';
 import * as ScreenFull from 'screenfull';
 
+// declare var invertRgb: any;
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -165,6 +167,60 @@ export class AppComponent implements OnInit {
 
   onScreenToggle(): void {
     ScreenFull.toggle();
+  }
+
+  invert_color_document(): void {
+    // let el = {};
+    // let el = window.getComputedStyle(document.body);
+    let el = document.getElementById("sidenav");
+    // style.invert = 100;
+    // let el = document.body;
+    // const {invertRgb} = require('invert-rgb');
+    this.invertRgb(el, 'border-color');
+    // document.body.style.filter.invert = 100;
+  }
+
+  // getStyle(element, cssRule): any {
+  //   let value = ''
+  //   if (document.defaultView && document.defaultView.getComputedStyle) {
+  //     value = document.defaultView.getComputedStyle(element, '').getPropertyValue(cssRule)
+  //   } else if (element.currentStyle) {
+  //     cssRule = cssRule.replace(/\-(\w)/g, (res, val) => val.toUpperCase());
+  //     value = element.currentStyle[cssRule]
+  //   }
+  //   return value
+  // }
+
+  getStyle(el: Element, styleProp: string): any {
+    let value;
+    const defaultView = el.ownerDocument.defaultView;
+    // W3C standard way:
+    if (defaultView && defaultView.getComputedStyle) {
+      // sanitize property name to css notation (hypen separated words eg. font-Size)
+      styleProp = styleProp.replace(/([A-Z])/g, '-$1').toLowerCase();
+      return defaultView.getComputedStyle(el, null).getPropertyValue(styleProp);
+    } else if (el['currentStyle']) { // IE
+      // sanitize property name to camelCase
+      styleProp = styleProp.replace(/\-(\w)/g, function (str, letter) {
+        return letter.toUpperCase();
+      });
+      value = el['currentStyle'][styleProp];
+      return value;
+    }
+
+    return '';
+  }
+
+  invertRgb(element, cssRule): void {
+    let color = this.getStyle(element, cssRule);
+    let temp = color.split('(');
+    let colors = temp[1].substring(0, temp[1].length - 1).split(',');
+    for (let i = 0; i < 3; i++) {
+      colors[i] = 255 - parseInt(colors[i]);
+    }
+    colors = colors.join(',');
+    element.style[cssRule] = temp[0] + '(' + colors + ')';
+    console.log(element.style[cssRule]);
   }
 
 }

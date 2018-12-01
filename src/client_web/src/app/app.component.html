@@ -1,5 +1,5 @@
 <mat-sidenav-container class="container">
-  <mat-sidenav #sidenav [(mode)]="over" [(opened)]="opened" class="bottom-to-top" role="directory">
+  <mat-sidenav id="sidenav" #sidenav [(mode)]="over" [(opened)]="opened" class="bottom-to-top" role="directory">
     <!--<div class="my-2" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">-->
     <!--<div class="with-bg"></div>-->
     <!--<div>-->
@@ -87,6 +87,12 @@
             <mat-icon>fullscreen_exit</mat-icon>
             <span>Écran normal</span>
           </button>
+
+          <button mat-menu-item matTooltip="Inverser les couleurs" (click)="invert_color_document()" matTooltipPosition="right" aria-label="Boutton pour mettre inverser les couleurs">
+            <mat-icon>invert_colors</mat-icon>
+            <span>Inverser couleur</span>
+          </button>
+
         </mat-menu>
       </span>
 
