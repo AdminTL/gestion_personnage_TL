@@ -5,13 +5,12 @@
   <ng-template #noDocument>
     Choisissez un document :
     <ul>
-      <li *ngFor="let document of manual.documents" [routerLink]="[document.name]">{{document.name}}</li>
+      <li *ngFor="let document of manual.documents" [routerLink]="[document.name]">{{document.title}}</li>
     </ul>
   </ng-template>
 
   <ng-template #withDocument>
-    <h1>{{manualRoot.name}}</h1>
-    <h1>test {{documentName}}</h1>
-    <dynamic-section *ngFor="let element of manualRoot.sections" [section]="element" [depth]="0"></dynamic-section>
+    <h1>{{currentDocument.title}}</h1>
+    <dynamic-section *ngFor="let element of currentDocument.sections" [section]="element" [depth]="0"></dynamic-section>
   </ng-template>
 </div>

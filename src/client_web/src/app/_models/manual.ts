@@ -4,6 +4,7 @@
 
 export interface Document {
   name: string;
+  title: string;
   sections?: Section[];
 }
 
