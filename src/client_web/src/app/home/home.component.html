@@ -1,6 +1,4 @@
-﻿<div *ngIf="!isLoaded">
-  <mat-progress-spinner color="primary" mode="indeterminate"></mat-progress-spinner>
-</div>
+﻿<p-progressSpinner *ngIf="!isLoaded"></p-progressSpinner>
 
 <div *ngIf="isLoaded">
   <h1 [innerHTML]="modelHome.title"></h1>

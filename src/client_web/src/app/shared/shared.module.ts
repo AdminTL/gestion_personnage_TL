@@ -6,6 +6,7 @@ import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {
   MatButtonModule,
   MatBadgeModule,
+  MatCardModule,
   MatCheckboxModule,
   MatExpansionModule,
   MatFormFieldModule,
@@ -23,6 +24,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {AccordionModule} from 'primeng/accordion';
+import {CardModule} from 'primeng/card';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
 
 import {PanelModule} from 'primeng/panel';
 
@@ -40,6 +43,8 @@ library.add(fas, fab, far);
     CommonModule,
 
     AccordionModule,
+    CardModule,
+    ProgressSpinnerModule,
 
     FlexLayoutModule,
 
@@ -47,6 +52,7 @@ library.add(fas, fab, far);
 
     MatButtonModule,
     MatBadgeModule,
+    MatCardModule,
     MatCheckboxModule,
     MatExpansionModule,
     MatFormFieldModule,
@@ -71,6 +77,8 @@ library.add(fas, fab, far);
     CommonModule,
 
     AccordionModule,
+    CardModule,
+    ProgressSpinnerModule,
 
     FlexLayoutModule,
 
@@ -78,6 +86,7 @@ library.add(fas, fab, far);
 
     MatButtonModule,
     MatBadgeModule,
+    MatCardModule,
     MatCheckboxModule,
     MatExpansionModule,
     MatFormFieldModule,

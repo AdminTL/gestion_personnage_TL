@@ -1,12 +1,45 @@
-﻿<mat-progress-spinner *ngIf="!manual$" color="primary" mode="indeterminate"></mat-progress-spinner>
+﻿<p-progressSpinner *ngIf="!manual$"></p-progressSpinner>
 
 <div *ngIf="manual$ | async as manual">
   <ng-container *ngIf="!documentName; then noDocument; else withDocument"></ng-container>
   <ng-template #noDocument>
-    Choisissez un document :
-    <ul>
-      <li *ngFor="let document of manual.documents" [routerLink]="[document.name]">{{document.title}}</li>
-    </ul>
+    <div class="p-grid">
+      <div class="p-col-12 p-md-6 p-lg-3" *ngFor="let document of manual.documents">
+        <div class="box">
+          <mat-card class="manual-card" [routerLink]="[document.name]">
+            <mat-card-header>
+              <mat-card-title>{{document.title}}</mat-card-title>
+              <mat-card-subtitle>{{document.name}}</mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+            <mat-card-content>
+              <p>
+                {{document.summary}}
+              </p>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-button color="primary">Imprimer</button>
+              <button mat-button color="primary">Partager</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+
+    </div>
+    <!--<p-card *ngFor="let document of manual.documents" [routerLink]="[document.name]" [header]="document.title" [subheader]="document.name" [style]="{width: '360px'}" styleClass="ui-card-shadow">-->
+    <!--&lt;!&ndash;<p-header>&ndash;&gt;-->
+    <!--&lt;!&ndash;Picture!&ndash;&gt;-->
+    <!--&lt;!&ndash;</p-header>&ndash;&gt;-->
+    <!--{{document.summary}}-->
+    <!--&lt;!&ndash;<p-footer>&ndash;&gt;-->
+    <!--&lt;!&ndash;<button mat-button color="primary">Imprimer</button>&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;<button pButton type="button" label="Imprimer" icon="pi pi-print" style="margin-right: .25em"></button>&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;</p-footer>&ndash;&gt;-->
+    <!--</p-card>-->
+
+    <!--<ul>-->
+    <!--<li *ngFor="let document of manual.documents" [routerLink]="[document.name]">{{document.title}}</li>-->
+    <!--</ul>-->
   </ng-template>
 
   <ng-template #withDocument>

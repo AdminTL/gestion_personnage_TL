@@ -295,6 +295,7 @@
     "documents": [
       {
         "name": "player",
+        "summary": "Le manuel du joueur contient les règles de bases et les habilités.",
         "title": "Manuel du joueur",
         "sections": [
           {
@@ -3076,6 +3077,7 @@
       },
       {
         "name": "lore",
+        "summary": "L'univers du jeu, la politique et autre",
         "title": "Univers de jeu",
         "sections": [
           {
