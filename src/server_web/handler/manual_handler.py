@@ -1,7 +1,6 @@
 import tornado
 import tornado.web
 import tornado.auth
-import base_handler
 import jsonhandler
 import sys
 
@@ -9,12 +8,20 @@ import sys
 class ManualHandler(jsonhandler.JsonHandler):
     @tornado.web.asynchronous
     def get(self):
-        self.write(self._manual.get_str_all())
+        str_value = self._manual.get_str_all(is_admin=False)
+        self.write(str_value)
         self.finish()
 
 
-class LoreHandler(jsonhandler.JsonHandler):
+class ManualAdminHandler(jsonhandler.JsonHandler):
     @tornado.web.asynchronous
     def get(self):
-        self.write(self._lore.get_str_all())
+        if not self.is_permission_admin():
+            print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
+            # Forbidden
+            self.set_status(403)
+            self.send_error(403)
+            raise tornado.web.Finish()
+        str_value = self._manual.get_str_all(is_admin=True)
+        self.write(str_value)
         self.finish()

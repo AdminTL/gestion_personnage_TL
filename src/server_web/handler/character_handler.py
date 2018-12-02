@@ -75,5 +75,30 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
         if not user and delete_user_by_id:
             user = {"user_id": delete_user_by_id}
 
+        # admin when has admin permission, but not consider admin when updated by himself
+        updated_by_admin = self.is_permission_admin() and user.get("user_id") != self.current_user.get("user_id")
+
         self._db.update_user(user, character, delete_user_by_id=delete_user_by_id,
-                             delete_character_by_id=delete_character_by_id)
+                             delete_character_by_id=delete_character_by_id, updated_by_admin=updated_by_admin)
+
+        self.write({"status": "success"})
+        self.finish()
+
+
+class CharacterApprobationHandler(jsonhandler.JsonHandler):
+    @tornado.web.asynchronous
+    @tornado.web.authenticated
+    def post(self):
+        if not self.is_permission_admin():
+            print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
+            # Forbidden
+            self.set_status(403)
+            self.send_error(403)
+            raise tornado.web.Finish()
+        self.prepare_json()
+        user_id = self.get_argument("user_id")
+        character_name = self.get_argument("character_name")
+        approbation_status = self.get_argument("approbation_status")
+        status = self._db.set_approbation(user_id, character_name, approbation_status)
+        self.write(status)
+        self.finish()

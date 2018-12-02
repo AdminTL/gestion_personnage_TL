@@ -23,7 +23,6 @@ import stat
 import sys
 from component.db import DB
 from component.manual import Manual
-from component.lore import Lore
 from component.doc_generator.doc_generator_gspread import DocGeneratorGSpread
 from component.auth_keys import AuthKeys
 from component.project_archive import ProjectArchive
@@ -91,7 +90,6 @@ def main(parse_arg):
                 "use_internet_static": parse_arg.use_internet_static,
                 "db": DB(parse_arg),
                 "manual": Manual(parse_arg),
-                "lore": Lore(parse_arg),
                 "character_form": CharacterForm(parse_arg),
                 "doc_generator_gspread": DocGeneratorGSpread(parse_arg),
                 "project_archive": ProjectArchive(parse_arg),
@@ -129,10 +127,12 @@ def main(parse_arg):
         tornado.web.url(r"/cmd/character_view/?", character_handler.CharacterViewHandler, name='character_view',
                         kwargs=settings),
         tornado.web.url(r"/cmd/manual/?", manual_handler.ManualHandler, name='cmd_manual', kwargs=settings),
-        tornado.web.url(r"/cmd/lore/?", manual_handler.LoreHandler, name='cmd_lore', kwargs=settings),
+        tornado.web.url(r"/cmd/manual_admin/?", manual_handler.ManualAdminHandler, name='cmd_manual_admin', kwargs=settings),
         tornado.web.url(r"/cmd/stat/total_season_pass/?", index_handler.StatSeasonPass,
                         name='cmd_stat_total_season_pass',
                         kwargs=settings),
+        tornado.web.url(r"/cmd/character_approbation/?", character_handler.CharacterApprobationHandler,
+                        name='cmd_character_approbation', kwargs=settings),
 
         # Profile
         tornado.web.url(r"/cmd/profile/update_password/?", profile_handler.ProfileCmdUpdatePasswordHandler,
