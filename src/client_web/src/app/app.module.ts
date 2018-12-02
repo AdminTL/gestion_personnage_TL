@@ -4,7 +4,6 @@ import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {HttpModule} from '@angular/http';
 import {FormsModule} from '@angular/forms';
 import {ReactiveFormsModule} from '@angular/forms';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {environment} from '@environments/environment';
 
@@ -22,7 +21,6 @@ import {AppRouting} from './app.routing';
 
 import {AlertComponent} from './_components';
 import {HomeComponent} from './home/home.component';
-// import {LoreComponent} from './lore/lore.component';
 import {JwtInterceptor, ErrorInterceptor} from './_helpers';
 import {ManualComponent} from './manual/manual.component';
 import {DynamicSectionComponent} from './dynamic-section/dynamic-section.component';
@@ -39,7 +37,6 @@ import {SharedModule} from './shared';
     FormsModule,
     BrowserModule,
     SharedModule,
-    BrowserAnimationsModule,
     AppRouting,
   ],
   declarations: [
@@ -52,7 +49,6 @@ import {SharedModule} from './shared';
     CharacterSkillsComponent,
     CharacterHeaderComponent,
     HomeComponent,
-    // LoreComponent,
     DynamicSectionComponent,
     ManualComponent,
     NotFoundComponent,

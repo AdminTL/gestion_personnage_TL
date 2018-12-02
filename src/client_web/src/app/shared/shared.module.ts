@@ -1,5 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+// import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {
   MatButtonModule,
@@ -37,6 +39,12 @@ library.add(fas, fab, far);
   imports: [
     CommonModule,
 
+    AccordionModule,
+
+    FlexLayoutModule,
+
+    FontAwesomeModule,
+
     MatButtonModule,
     MatBadgeModule,
     MatCheckboxModule,
@@ -54,17 +62,20 @@ library.add(fas, fab, far);
 
     MatToolbarModule,
 
-    FlexLayoutModule,
-
-    AccordionModule,
+    NoopAnimationsModule,
+    // BrowserAnimationsModule,
 
     PanelModule,
-
-    FontAwesomeModule,
   ],
   exports: [
     CommonModule,
 
+    AccordionModule,
+
+    FlexLayoutModule,
+
+    FontAwesomeModule,
+
     MatButtonModule,
     MatBadgeModule,
     MatCheckboxModule,
@@ -82,13 +93,10 @@ library.add(fas, fab, far);
 
     MatToolbarModule,
 
-    FlexLayoutModule,
-
-    AccordionModule,
+    NoopAnimationsModule,
+    // BrowserAnimationsModule,
 
     PanelModule,
-
-    FontAwesomeModule,
   ],
 })
 export class SharedModule {
