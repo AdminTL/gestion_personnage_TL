@@ -25,8 +25,6 @@ export class HomeComponent implements OnInit {
         let index_next_event: any = this.modelHome.index_next_event;
         this.nextEvent = this.modelHome.events[index_next_event];
         this.isLoaded = true;
-      } else {
-        this.alertService.error("Failed to load Model Home. It's empty");
       }
     });
 

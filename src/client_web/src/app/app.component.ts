@@ -53,8 +53,6 @@ export class AppComponent implements OnInit, OnDestroy {
       this.modelMenu = x;
       if (this.modelMenu) {
         this.isLoaded = true;
-      } else {
-        this.alertService.error("Failed to load Model Menu. It's empty");
       }
     });
     this.watchers.push(watcher);
@@ -64,8 +62,6 @@ export class AppComponent implements OnInit, OnDestroy {
       this.modelOrganization = x;
       if (this.modelOrganization) {
         this.isLoaded = true;
-      } else {
-        this.alertService.error("Failed to load Model Organization. It's empty");
       }
     });
     this.watchers.push(watcher);

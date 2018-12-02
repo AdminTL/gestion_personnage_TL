@@ -1,20 +1,17 @@
-﻿<ng-container *ngIf="!documentName; then noDocument; else withDocument"></ng-container>
+﻿<mat-progress-spinner *ngIf="!manual$" color="primary" mode="indeterminate"></mat-progress-spinner>
 
-<ng-template #noDocument>
-  <ul>
-    <li *ngFor="let document of manualModel.documents" [routerLink]="[document.name]">{{document.name}}</li>
-  </ul>
-</ng-template>
-
-<ng-template #withDocument>
-  <ng-container *ngIf="!manualRoot; then manualLoading; else manualReady"></ng-container>
-  <ng-template #manualLoading>
-    <mat-progress-spinner color="primary" mode="indeterminate"></mat-progress-spinner>
+<div *ngIf="manual$ | async as manual">
+  <ng-container *ngIf="!documentName; then noDocument; else withDocument"></ng-container>
+  <ng-template #noDocument>
+    Choisissez un document :
+    <ul>
+      <li *ngFor="let document of manual.documents" [routerLink]="[document.name]">{{document.name}}</li>
+    </ul>
   </ng-template>
 
-  <ng-template #manualReady>
+  <ng-template #withDocument>
     <h1>{{manualRoot.name}}</h1>
     <h1>test {{documentName}}</h1>
     <dynamic-section *ngFor="let element of manualRoot.sections" [section]="element" [depth]="0"></dynamic-section>
   </ng-template>
-</ng-template>
+</div>

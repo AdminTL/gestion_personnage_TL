@@ -1,9 +1,9 @@
 ﻿import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, Observable, of} from 'rxjs';
 
 import {AlertService} from '@app/_services/alert.service';
-import {Home, LarpemModel, Manual, Menu, Organization} from '@app/_models';
+import {Document, Home, LarpemModel, Manual, Menu, Organization} from '@app/_models';
 
 @Injectable({providedIn: 'root'})
 export class LarpemService {
@@ -68,6 +68,35 @@ export class LarpemService {
   public get isManualConnected(): Manual {
     return <any>this.currentManualSubject.value;
   }
+
+  public getManualDocument(documentName: string): Document {
+    if (this.currentManualSubject.value) {
+      for (let document of this.currentManualSubject.value.documents) {
+        if (document.name == documentName) {
+          return document;
+        }
+      }
+    }
+    return null;
+  }
+
+  public getDocumentId(documentName: string): Number {
+    if (this.currentManualSubject.value) {
+      let i = 0;
+      for (let document of this.currentManualSubject.value.documents) {
+        if (document.name == documentName) {
+          return i;
+        }
+        i++;
+      }
+    }
+    return -1;
+  }
+
+  public getDocuments(): Observable<Document[]> {
+    return of(this.currentManualSubject.value.documents);
+  }
+
 
   public fetchModel() {
     this.http.get(this.configUrl).subscribe(
