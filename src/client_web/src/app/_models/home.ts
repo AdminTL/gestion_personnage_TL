@@ -3,8 +3,8 @@
 export interface Home {
   title: String;
   summary: String,
-  index_next_event: Number;
-  show_next_event: Boolean;
+  indexNextEvent: Number;
+  showNextEvent: Boolean;
   events: Event[];
   activity: Activity;
   thanks: Thanks;
@@ -15,11 +15,11 @@ export interface Home {
 export interface HomeDate {
   showed: Boolean;
   title: String;
-  use_event_date: Boolean;
+  useEventDate: Boolean;
 }
 
 export interface HomePricing {
   showed: Boolean;
   title: String;
-  use_next_event_pricing: Boolean;
+  useNextEventPricing: Boolean;
 }

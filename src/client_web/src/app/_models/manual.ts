@@ -10,8 +10,8 @@ export interface Document {
 
 export interface Section {
   title: string;
-  title_html?: string;
-  under_level_color?: string;
+  titleHtml?: string;
+  underLevelColor?: string;
   description?: any[];  // sometimes string, sometimes string[], sometimes Media
   section?: Section[];
 }

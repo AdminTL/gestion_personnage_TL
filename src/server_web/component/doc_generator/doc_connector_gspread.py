@@ -363,14 +363,14 @@ class DocConnectorGSpread:
         i_column = level * nb_column
 
         title = row[i_column]
-        title_html = row[i_column + 1]
+        titleHtml = row[i_column + 1]
         description = row[i_column + 2]
         bullet_description = row[i_column + 3]
         second_bullet_description = row[i_column + 4]
-        under_level_color = row[i_column + 5]
+        underLevelColor = row[i_column + 5]
 
         # Check error
-        if title_html and not title:
+        if titleHtml and not title:
             self._error = "L.%s S.%s: Need title when fill title html for H%s." % (
                 line_number, doc_sheet_name, i_column)
             print(self._error, file=sys.stderr)
@@ -411,13 +411,13 @@ class DocConnectorGSpread:
                 return False
 
         # Special title, contain html to improve view
-        if title_html:
-            if "title_html" in section:
-                self._error = "L.%s S.%s: Cannot manage many title_html for H%s." % (
+        if titleHtml:
+            if "titleHtml" in section:
+                self._error = "L.%s S.%s: Cannot manage many titleHtml for H%s." % (
                     line_number, doc_sheet_name, i_column)
                 print(self._error, file=sys.stderr)
                 return False
-            section["title_html"] = title_html
+            section["titleHtml"] = titleHtml
 
         # Description can be append for the same section
         if description:
@@ -480,13 +480,13 @@ class DocConnectorGSpread:
                 # First second bullet description insertion
                 lst_second_bullet_description.append(second_bullet_description)
 
-        if under_level_color:
+        if underLevelColor:
             # Add color for header
-            if "under_level_color" in section:
+            if "underLevelColor" in section:
                 self._error = "L.%s S.%s: Already contain value of 'Under Level Color'for H%s." % (
                     line_number, doc_sheet_name, i_column)
                 print(self._error, file=sys.stderr)
                 return False
-            section["under_level_color"] = under_level_color
+            section["underLevelColor"] = underLevelColor
 
         return True

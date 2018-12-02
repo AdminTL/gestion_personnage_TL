@@ -6,12 +6,12 @@
   "home": {
     "title": "Larp'em - Logiciel de GN",
     "summary": "Gestion d'événement de grandeur nature",
-    "index_next_event": 3,
-    "show_next_event": true,
+    "indexNextEvent": 3,
+    "showNextEvent": true,
     "events": [
       {
         "title": "Jeu 1: Le commencement",
-        "event_type": "GN - Tout le terrain",
+        "eventType": "GN - Tout le terrain",
         "age": {
           "showed": true,
           "text": "18+"
@@ -20,7 +20,7 @@
           "showed": true,
           "highlight": false,
           "text": "1-2 Juin 2018",
-          "text_more_information": "TL (Zone 1+2)"
+          "textMoreInformation": "TL (Zone 1+2)"
         },
         "selected": true,
         "pricing": [
@@ -41,8 +41,7 @@
             "title": "Passe de saison",
             "price": 130,
             "currency": "$",
-            "text_more_information": "4 événements <u>Économie de 30$</u>",
-            "count_unit": 10,
+            "textMoreInformation": "4 événements <u>Économie de 30$</u>",
             "matIcon": "card_membership"
           },
           {
@@ -63,7 +62,7 @@
       },
       {
         "title": "Jeu 2: Nouvelle aventure",
-        "event_type": "GN - Tout le terrain",
+        "eventType": "GN - Tout le terrain",
         "age": {
           "showed": true,
           "text": "18+"
@@ -72,7 +71,7 @@
           "showed": true,
           "highlight": false,
           "text": "6-7 Juillet 2018",
-          "text_more_information": "TL (Zone 1+2)"
+          "textMoreInformation": "TL (Zone 1+2)"
         },
         "selected": true,
         "pricing": [
@@ -102,7 +101,7 @@
       },
       {
         "title": "Jeu 3: Gros périple",
-        "event_type": "GN - Tout le terrain",
+        "eventType": "GN - Tout le terrain",
         "age": {
           "showed": true,
           "text": "18+"
@@ -111,7 +110,7 @@
           "showed": true,
           "highlight": false,
           "text": "24-25 Août 2018",
-          "text_more_information": "TL (Zone 1+2)"
+          "textMoreInformation": "TL (Zone 1+2)"
         },
         "selected": true,
         "pricing": [
@@ -141,7 +140,7 @@
       },
       {
         "title": "Jeu 4: Renouveau",
-        "event_type": "GN - Tout le terrain",
+        "eventType": "GN - Tout le terrain",
         "age": {
           "showed": true,
           "text": "18+"
@@ -150,7 +149,7 @@
           "showed": true,
           "highlight": true,
           "text": "21-22 Septembre 2018",
-          "text_more_information": "TL (Zone 1+2)"
+          "textMoreInformation": "TL (Zone 1+2)"
         },
         "selected": true,
         "pricing": [
@@ -190,7 +189,7 @@
         "name": "Terra Icognita",
         "href": "https://goo.gl/maps/YpaQu3zk9Xy",
         "address": "1801 Chemin Béthanie, Béthanie (Québec), J0H 1E1, (450) 548-2720",
-        "text_more_information": "<a href=\"http://gn.qc.ca/atelier/directions/\">Pour plus d'information sur l'indication de la route. <fa-icon icon=\"link\"></fa-icon></a>"
+        "textMoreInformation": "<a href=\"http://gn.qc.ca/atelier/directions/\">Pour plus d'information sur l'indication de la route. <fa-icon icon=\"link\"></fa-icon></a>"
       }
     },
     "thanks": {
@@ -203,12 +202,12 @@
     "date": {
       "showed": true,
       "title": "Date",
-      "use_event_date": true
+      "useEventDate": true
     },
     "pricing": {
       "showed": true,
       "title": "Tarification",
-      "use_next_event_pricing": true
+      "useNextEventPricing": true
     }
   },
   "menu": {
@@ -216,77 +215,77 @@
     "sibling": [
       {
         "title": "Accueil",
-        "mat_icon": "home",
-        "router_link": "/home",
-        "fa_icon": ""
+        "matIcon": "home",
+        "routerLink": "/home",
+        "faIcon": ""
       }
     ],
     "grouped_sibling": [
       {
         "title": "Guide / Manuel",
-        "mat_icon": "description",
-        "router_link": "/manual",
-        "fa_icon": "",
+        "matIcon": "description",
+        "routerLink": "/manual",
+        "faIcon": "",
         "children": [
           {
             "title": "Manuel du joueur",
-            "mat_icon": "description",
-            "router_link": "/manual",
-            "router_link_param": "player",
-            "fa_icon": ""
+            "matIcon": "description",
+            "routerLink": "/manual",
+            "routerLink_param": "player",
+            "faIcon": ""
           },
           {
             "title": "Univers",
-            "mat_icon": "description",
-            "router_link": "/manual",
-            "router_link_param": "lore",
-            "fa_icon": ""
+            "matIcon": "description",
+            "routerLink": "/manual",
+            "routerLink_param": "lore",
+            "faIcon": ""
           }
         ]
       },
       {
         "title": "Personnage",
-        "mat_icon": "",
-        "fa_icon": "theater-masks",
-        "router_link": "",
+        "matIcon": "",
+        "faIcon": "theater-masks",
+        "routerLink": "/character",
         "children": [
           {
             "title": "Personnage",
-            "mat_icon": "",
-            "router_link": "/character",
-            "fa_icon": "theater-masks"
+            "matIcon": "",
+            "routerLink": "/character",
+            "faIcon": "theater-masks"
           }
         ]
       },
       {
         "title": "Admin",
-        "mat_icon": "",
-        "fa_icon": "mask",
-        "router_link": "",
+        "matIcon": "",
+        "faIcon": "mask",
+        "routerLink": "",
         "children": [
           {
             "title": "Personnage",
-            "mat_icon": "",
-            "router_link": "/character",
-            "fa_icon": "theater-masks"
+            "matIcon": "",
+            "routerLink": "/character",
+            "faIcon": "theater-masks"
           },
           {
             "title": "Manuel Admin",
-            "mat_icon": "description",
-            "router_link": "/manual",
-            "fa_icon": ""
+            "matIcon": "description",
+            "routerLink": "/manual",
+            "faIcon": ""
           },
           {
             "title": "Éditeur",
-            "mat_icon": "edit",
-            "router_link": "",
-            "fa_icon": ""
+            "matIcon": "edit",
+            "routerLink": "",
+            "faIcon": ""
           },
           {
             "title": "Paramètre",
-            "mat_icon": "settings",
-            "router_link": "",
-            "fa_icon": ""
+            "matIcon": "settings",
+            "routerLink": "",
+            "faIcon": ""
           }
         ]
       }
@@ -369,7 +368,7 @@
               },
               {
                 "title": "Effets de jeu",
-                "title_html": "Effets de jeu <span class='label label-info'><span class='glyphicon glyphicon-info-sign'></span> Super important!!!</span>",
+                "titleHtml": "Effets de jeu <span class='label label-info'><span class='glyphicon glyphicon-info-sign'></span> Super important!!!</span>",
                 "description": [
                   [
                     "Assommé : tombe inconscient jusqu’à la fin des hostilités. Après 2 minutes de calme, le joueur revient à ses esprits sans énergie et avec 2 points de vie.",
@@ -404,7 +403,7 @@
           },
           {
             "title": "Habiletés et Techniques",
-            "title_html": "Habiletés et techniques",
+            "titleHtml": "Habiletés et techniques",
             "description": [
               "Les habiletés déterminent les possibilités d’un personnage en jeu. Chaque joueur peut puiser ses habiletés parmi 5 disciplines : commune, combattante, sournoise, magique et professionnelle.",
               "Chaque habileté donne accès à 5 techniques selon deux modèles :",
@@ -1390,7 +1389,7 @@
             "section": [
               {
                 "title": "Démonologie",
-                "under_level_color": "panel-danger",
+                "underLevelColor": "panel-danger",
                 "section": [
                   {
                     "title": "Possession",
@@ -1597,7 +1596,7 @@
               },
               {
                 "title": "Élémentaire",
-                "under_level_color": "panel-warning",
+                "underLevelColor": "panel-warning",
                 "section": [
                   {
                     "title": "Terre",
@@ -1922,7 +1921,7 @@
               },
               {
                 "title": "Nature",
-                "under_level_color": "panel-success",
+                "underLevelColor": "panel-success",
                 "section": [
                   {
                     "title": "Métamorphose",
@@ -2146,7 +2145,7 @@
               },
               {
                 "title": "Nécromantie",
-                "under_level_color": "panel-primary",
+                "underLevelColor": "panel-primary",
                 "section": [
                   {
                     "title": "Animation",
@@ -2449,7 +2448,7 @@
               },
               {
                 "title": "Protection",
-                "under_level_color": "panel-info",
+                "underLevelColor": "panel-info",
                 "section": [
                   {
                     "title": "Bénédiction",
@@ -2941,7 +2940,7 @@
           },
           {
             "title": "Fortification",
-            "title_html": "Fortification <span class='label label-info'><span class='glyphicon glyphicon-star'></span> Nouveau</span>",
+            "titleHtml": "Fortification <span class='label label-info'><span class='glyphicon glyphicon-star'></span> Nouveau</span>",
             "description": [
               "La résistance d’une porte, que ce soit une porte de forteresse ou de taverne, dépend du nombre de bloc de production (bp) artisanat : Fortification.",
               "1 porte de Forteresse : 50 bp artisanat : Fortification maximum",

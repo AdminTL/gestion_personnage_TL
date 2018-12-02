@@ -22,8 +22,8 @@ export class HomeComponent implements OnInit {
     this.larpemService.currentHome.subscribe(x => {
       this.modelHome = x;
       if (this.modelHome) {
-        let index_next_event: any = this.modelHome.index_next_event;
-        this.nextEvent = this.modelHome.events[index_next_event];
+        let indexNextEvent: any = this.modelHome.indexNextEvent;
+        this.nextEvent = this.modelHome.events[indexNextEvent];
         this.isLoaded = true;
       }
     });

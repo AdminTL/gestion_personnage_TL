@@ -7,14 +7,14 @@
 
   <p [innerHTML]="modelHome.summary"></p>
 
-  <div *ngIf="modelHome.show_next_event">
+  <div *ngIf="modelHome.showNextEvent">
     <h3>Prochain événement
       <fa-icon [icon]="['far', 'calendar-check']"></fa-icon>
     </h3>
     <p-accordion [multiple]="true">
       <p-accordionTab [selected]="nextEvent.selected">
         <p-header [innerHTML]="nextEvent.title"></p-header>
-        <p>Type d'événement: <b [innerHTML]="nextEvent.event_type"></b></p>
+        <p>Type d'événement: <b [innerHTML]="nextEvent.eventType"></b></p>
         <p>Date: <b [innerHTML]="nextEvent.date.text"></b></p>
         <p *ngIf="modelHome.activity.location.showed">
           Lieu: <b>
@@ -34,7 +34,7 @@
               <li *ngIf="price.showed">
                 <span *ngIf="price.title" [innerHTML]="price.title"></span>
                 <span *ngIf="price.price">: {{price.price}}<span *ngIf="price.currency">{{price.currency}}</span></span>
-                <span *ngIf="price.text_more_information"> - <span [innerHTML]="price.text_more_information"></span></span>
+                <span *ngIf="price.textMoreInformation"> - <span [innerHTML]="price.textMoreInformation"></span></span>
                 <span *ngIf="price.matIcon"> <mat-icon [matBadge]="price.count_unit" matBadgePosition="above after">{{price.matIcon}}</mat-icon></span>
               </li>
             </ng-container>
@@ -70,21 +70,21 @@
 
   <div *ngIf="modelHome.date.showed">
     <h1 [innerHTML]="modelHome.date.title"></h1>
-    <ul *ngIf="modelHome.date.use_event_date">
+    <ul *ngIf="modelHome.date.useEventDate">
       <li *ngFor="let event of modelHome.events" [ngStyle]="event.date.highlight && {'color':'#00FF00'}">{{event.date.text}}<span
-        *ngIf="event.date.text_more_information">: {{event.date.text_more_information}}</span>
+        *ngIf="event.date.textMoreInformation">: {{event.date.textMoreInformation}}</span>
       </li>
     </ul>
   </div>
 
   <div *ngIf="modelHome.pricing.showed">
     <h1 [innerHTML]="modelHome.pricing.title"></h1>
-    <ul *ngIf="modelHome.pricing.use_next_event_pricing">
+    <ul *ngIf="modelHome.pricing.useNextEventPricing">
       <ng-container *ngFor="let price of nextEvent.pricing">
         <li *ngIf="price.showed">
           <span *ngIf="price.title" [innerHTML]="price.title"></span>
           <span *ngIf="price.price">: {{price.price}}<span *ngIf="price.currency">{{price.currency}}</span></span>
-          <span *ngIf="price.text_more_information"> - <span [innerHTML]="price.text_more_information"></span></span>
+          <span *ngIf="price.textMoreInformation"> - <span [innerHTML]="price.textMoreInformation"></span></span>
           <span *ngIf="price.matIcon"> <mat-icon [matBadge]="price.count_unit" matBadgePosition="above after">{{price.matIcon}}</mat-icon></span>
         </li>
       </ng-container>
@@ -103,7 +103,7 @@
         </u>
       </a>
     </p>
-    <p *ngIf="modelHome.activity.location.text_more_information" [innerHTML]="modelHome.activity.location.text_more_information"></p>
+    <p *ngIf="modelHome.activity.location.textMoreInformation" [innerHTML]="modelHome.activity.location.textMoreInformation"></p>
   </div>
 
   <div *ngIf="modelHome.thanks.showed">

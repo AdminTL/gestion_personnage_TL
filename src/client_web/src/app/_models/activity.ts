@@ -1,6 +1,6 @@
 ﻿export interface Event {
   title: String;
-  event_type: String;
+  eventType: String;
   date: EventDate;
   selected: Boolean;
   pricing: Price[];
@@ -14,7 +14,7 @@ export interface Location {
   name: String;
   external_href: String;
   address: String;
-  text_more_information: String;
+  textMoreInformation: String;
 }
 
 export interface Price {
@@ -22,7 +22,7 @@ export interface Price {
   title: String;
   price: Number;
   currency: String;
-  text_more_information: String;
+  textMoreInformation: String;
   count_unit: Number;
   matIcon: String;
 }
@@ -54,7 +54,7 @@ export interface EventDate {
   showed: Boolean;
   highlight: Boolean;
   text: String;
-  text_more_information: String;
+  textMoreInformation: String;
 }
 
 export interface Age {

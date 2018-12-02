@@ -1,5 +1,5 @@
 <mat-sidenav-container class="container">
-  <mat-sidenav #sidenav [(mode)]="over" [(opened)]="opened" class="bottom-to-top" role="directory">
+  <mat-sidenav #sidenav [(mode)]="over" [(opened)]="opened" class="bottom-to-top" role="navigation">
     <!--<div class="my-2" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">-->
     <!--<div class="with-bg"></div>-->
     <!--<div>-->
@@ -17,10 +17,10 @@
     <div *ngIf="modelMenu && modelMenu.sibling">
       <ng-container *ngFor="let sub_menu of modelMenu.sibling">
 
-        <mat-nav-list *ngIf="!sub_menu.children" [routerLink]="sub_menu.router_link_param ? [sub_menu.router_link, sub_menu.router_link_param] : [sub_menu.router_link]">
+        <mat-nav-list *ngIf="!sub_menu.children" [routerLink]="sub_menu.routerLink_param ? [sub_menu.routerLink, sub_menu.routerLink_param] : [sub_menu.routerLink]">
           <mat-list-item>
-            <mat-icon *ngIf="sub_menu.mat_icon">{{sub_menu.mat_icon}}</mat-icon>
-            <fa-icon class="mat-icon material-icons" *ngIf="sub_menu.fa_icon" [icon]="sub_menu.fa_icon"></fa-icon>
+            <mat-icon *ngIf="sub_menu.matIcon">{{sub_menu.matIcon}}</mat-icon>
+            <fa-icon class="mat-icon material-icons" *ngIf="sub_menu.faIcon" [icon]="sub_menu.faIcon"></fa-icon>
             {{sub_menu.title}}
           </mat-list-item>
         </mat-nav-list>
@@ -31,16 +31,16 @@
 
           <mat-expansion-panel-header fxLayout="row" [expandedHeight]="expandHeight" [collapsedHeight]="collapseHeight">
             <mat-panel-title>
-              <mat-icon *ngIf="sub_menu.mat_icon">description</mat-icon>
-              <fa-icon class="mat-icon material-icons" *ngIf="sub_menu.fa_icon" [icon]="sub_menu.fa_icon"></fa-icon>
-              <span [routerLink]="sub_menu.router_link_param ? [sub_menu.router_link, sub_menu.router_link_param] : [sub_menu.router_link]">{{sub_menu.title}}</span>
+              <mat-icon *ngIf="sub_menu.matIcon">description</mat-icon>
+              <fa-icon class="mat-icon material-icons" *ngIf="sub_menu.faIcon" [icon]="sub_menu.faIcon"></fa-icon>
+              <span [routerLink]="sub_menu.routerLink_param ? [sub_menu.routerLink, sub_menu.routerLink_param] : [sub_menu.routerLink]">{{sub_menu.title}}</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
 
           <mat-nav-list dense *ngIf="sub_menu.children?.length > 0">
-            <mat-list-item [routerLink]="children.router_link_param ? [children.router_link, children.router_link_param] : [children.router_link]" *ngFor="let children of sub_menu.children">
-              <mat-icon *ngIf="children.mat_icon">{{children.mat_icon}}</mat-icon>
-              <fa-icon class="mat-icon material-icons" *ngIf="children.fa_icon" [icon]="children.fa_icon"></fa-icon>
+            <mat-list-item [routerLink]="children.routerLink_param ? [children.routerLink, children.routerLink_param] : [children.routerLink]" *ngFor="let children of sub_menu.children">
+              <mat-icon *ngIf="children.matIcon">{{children.matIcon}}</mat-icon>
+              <fa-icon class="mat-icon material-icons" *ngIf="children.faIcon" [icon]="children.faIcon"></fa-icon>
               {{children.title}}
             </mat-list-item>
           </mat-nav-list>

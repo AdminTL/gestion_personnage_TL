@@ -71,7 +71,7 @@
         },
         {
           "title": "Effets de jeu",
-          "title_html": "Effets de jeu <span class='label label-info'><span class='glyphicon glyphicon-info-sign'></span> Super important!!!</span>",
+          "titleHtml": "Effets de jeu <span class='label label-info'><span class='glyphicon glyphicon-info-sign'></span> Super important!!!</span>",
           "description": [
             [
               "Assommé : tombe inconscient jusqu’à la fin des hostilités. Après 2 minutes de calme, le joueur revient à ses esprits sans énergie et avec 2 points de vie.",
@@ -106,7 +106,7 @@
     },
     {
       "title": "Habiletés et Techniques",
-      "title_html": "Habiletés et techniques",
+      "titleHtml": "Habiletés et techniques",
       "description": [
         "Les habiletés déterminent les possibilités d’un personnage en jeu. Chaque joueur peut puiser ses habiletés parmi 5 disciplines : commune, combattante, sournoise, magique et professionnelle.",
         "Chaque habileté donne accès à 5 techniques selon deux modèles :",
@@ -1092,7 +1092,7 @@
       "section": [
         {
           "title": "Démonologie",
-          "under_level_color": "panel-danger",
+          "underLevelColor": "panel-danger",
           "section": [
             {
               "title": "Possession",
@@ -1299,7 +1299,7 @@
         },
         {
           "title": "Élémentaire",
-          "under_level_color": "panel-warning",
+          "underLevelColor": "panel-warning",
           "section": [
             {
               "title": "Terre",
@@ -1624,7 +1624,7 @@
         },
         {
           "title": "Nature",
-          "under_level_color": "panel-success",
+          "underLevelColor": "panel-success",
           "section": [
             {
               "title": "Métamorphose",
@@ -1848,7 +1848,7 @@
         },
         {
           "title": "Nécromantie",
-          "under_level_color": "panel-primary",
+          "underLevelColor": "panel-primary",
           "section": [
             {
               "title": "Animation",
@@ -2151,7 +2151,7 @@
         },
         {
           "title": "Protection",
-          "under_level_color": "panel-info",
+          "underLevelColor": "panel-info",
           "section": [
             {
               "title": "Bénédiction",
@@ -2643,7 +2643,7 @@
     },
     {
       "title": "Fortification",
-      "title_html": "Fortification <span class='label label-info'><span class='glyphicon glyphicon-star'></span> Nouveau</span>",
+      "titleHtml": "Fortification <span class='label label-info'><span class='glyphicon glyphicon-star'></span> Nouveau</span>",
       "description": [
         "La résistance d’une porte, que ce soit une porte de forteresse ou de taverne, dépend du nombre de bloc de production (bp) artisanat : Fortification.",
         "1 porte de Forteresse : 50 bp artisanat : Fortification maximum",
