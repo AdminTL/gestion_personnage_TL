@@ -1,7 +1,11 @@
 ﻿<h1>L'univers de Traître-Lame</h1>
 
-<p *ngIf="!manualRoot"><em>Chargement...</em></p>
+<ng-container *ngIf="!manualRoot; then manualLoading; else manualReady"></ng-container>
 
-<div *ngIf="!!manualRoot">
-    <dynamic-section *ngFor="let element of manualRoot.manual" [section]="element" [depth]="0"></dynamic-section>
-</div>
+<ng-template #manualLoading>
+  <p><em>Chargement...</em></p>
+</ng-template>
+
+<ng-template #manualReady>
+  <dynamic-section *ngFor="let element of manualRoot.sections" [section]="element" [depth]="0"></dynamic-section>
+</ng-template>

@@ -1,21 +1,34 @@
-﻿import {Component} from '@angular/core';
-import {Http} from '@angular/http';
+﻿import {Component, OnInit} from '@angular/core';
+// import {Http} from '@angular/http';
 import {Router} from '@angular/router';
-import {environment} from "@environments/environment";
+
+// import {environment} from "@environments/environment";
+import {AlertService, LarpemService} from '@app/_services';
+import {Manual, Document} from "@app/_models";
 
 @Component({
   selector: 'manual',
   templateUrl: 'manual.component.html'
 })
-export class ManualComponent {
-  public manualRoot: ManualRoot;
-  private router: Router;
+export class ManualComponent implements OnInit {
+  public manualRoot: Document;
+  public manualModel: Manual;
+  // private router: Router;
 
-  constructor(http: Http, router: Router) {
-    http.get(`${environment.apiUrl}/cmd/manual`).subscribe(result => {
-      this.manualRoot = result.json() as ManualRoot;
-    }, error => console.error(error));
-    this.router = router;
+  constructor(private router: Router, private alertService: AlertService, private larpemService: LarpemService) {
+
+  }
+
+  ngOnInit() {
+    // manual
+    this.larpemService.currentManual.subscribe(x => {
+      this.manualModel = x;
+      if (this.manualModel) {
+        this.manualRoot = this.manualModel.documents[0];
+      } else {
+        this.alertService.error("Failed to load Model Manual. It's empty");
+      }
+    });
   }
 
   // Be careful: changes in the page will make the page go to the anchor.
@@ -29,8 +42,4 @@ export class ManualComponent {
       }
     }
   }
-}
-
-interface ManualRoot {
-  manual: Section[];
 }

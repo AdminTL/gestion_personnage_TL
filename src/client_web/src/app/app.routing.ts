@@ -6,7 +6,6 @@ import {HomeComponent} from './home';
 import {LoginComponent} from './login';
 import {RegisterComponent} from './register';
 import {NotFoundComponent} from './not-found';
-import {LoreComponent} from './lore';
 import {ManualComponent} from './manual';
 
 import {CharacterFrameComponent} from './character/character-frame.component';
@@ -38,7 +37,7 @@ const appRoutes: Routes = [
       {path: 'messages', component: CharacterMessagesComponent}
     ]
   },
-  {path: 'lore', component: LoreComponent},
+  {path: 'lore', component: ManualComponent},
   {path: 'manual', component: ManualComponent},
   // otherwise redirect to home
   // { path: '**', redirectTo: '' }

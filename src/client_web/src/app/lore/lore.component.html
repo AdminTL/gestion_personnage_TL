@@ -1,7 +1,0 @@
-﻿<h1>L'univers de Traître-Lame</h1>
-
-<p *ngIf="!loreRoot"><em>Chargement...</em></p>
-
-<div *ngIf="!!loreRoot">
-    <dynamic-section *ngFor="let element of loreRoot.lore" [section]="element" [depth]="0"></dynamic-section>
-</div>

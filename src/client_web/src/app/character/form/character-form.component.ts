@@ -4,6 +4,7 @@ import {Component} from '@angular/core';
 import {Http} from '@angular/http';
 import {MatSnackBar} from '@angular/material';
 import {environment} from "@environments/environment";
+import {Section} from "@app/_models/manual";
 
 @Component({
   selector: 'character-form',

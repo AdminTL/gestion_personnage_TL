@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
 
 import {AlertService} from '@app/_services/alert.service';
-import {Home, LarpemModel, Menu, Organization} from '@app/_models';
+import {Home, LarpemModel, Manual, Menu, Organization} from '@app/_models';
 
 @Injectable({providedIn: 'root'})
 export class LarpemService {
@@ -18,6 +18,9 @@ export class LarpemService {
   private currentOrganizationSubject: BehaviorSubject<Organization>;
   public currentOrganization: Observable<Organization>;
 
+  private currentManualSubject: BehaviorSubject<Manual>;
+  public currentManual: Observable<Manual>;
+
   constructor(private http: HttpClient, private alertService: AlertService) {
     this.currentMenuSubject = new BehaviorSubject<Menu>(JSON.parse(localStorage.getItem('modelMenu')));
     this.currentMenu = this.currentMenuSubject.asObservable();
@@ -27,6 +30,9 @@ export class LarpemService {
 
     this.currentOrganizationSubject = new BehaviorSubject<Organization>(JSON.parse(localStorage.getItem('modelOrganization')));
     this.currentOrganization = this.currentOrganizationSubject.asObservable();
+
+    this.currentManualSubject = new BehaviorSubject<Manual>(JSON.parse(localStorage.getItem('modelManual')));
+    this.currentManual = this.currentManualSubject.asObservable();
 
     this.fetchModel();
   }
@@ -55,22 +61,39 @@ export class LarpemService {
     return <any>this.currentOrganizationSubject.value;
   }
 
+  public get currentManualValue(): Manual {
+    return this.currentManualSubject.value;
+  }
+
+  public get isManualConnected(): Manual {
+    return <any>this.currentManualSubject.value;
+  }
+
   public fetchModel() {
     this.http.get(this.configUrl).subscribe(
       (data: LarpemModel) => {
         console.info("Service Larp'em fetch model - Done.");
+        console.debug(data);
 
         let menu: Menu = data.menu;
         let home: Home = data.home;
         let organization: Organization = data.organization;
+        let manual: Manual = data.manual;
 
         localStorage.setItem('modelMenu', JSON.stringify(menu));
         localStorage.setItem('modelHome', JSON.stringify(home));
         localStorage.setItem('modelOrganization', JSON.stringify(organization));
+        localStorage.setItem('modelManual', JSON.stringify(manual));
 
         this.currentMenuSubject.next(menu);
         this.currentHomeSubject.next(home);
         this.currentOrganizationSubject.next(organization);
+        this.currentManualSubject.next(manual);
+
+        console.debug(menu);
+        console.debug(home);
+        console.debug(organization);
+        console.debug(manual);
       }, error => this.alertService.error(error));
   }
 
@@ -83,5 +106,8 @@ export class LarpemService {
 
     localStorage.removeItem('modelOrganization');
     this.currentOrganizationSubject.next(null);
+
+    localStorage.removeItem('modelManual');
+    this.currentManualSubject.next(null);
   }
 }

@@ -22,7 +22,7 @@ import {AppRouting} from './app.routing';
 
 import {AlertComponent} from './_components';
 import {HomeComponent} from './home/home.component';
-import {LoreComponent} from './lore/lore.component';
+// import {LoreComponent} from './lore/lore.component';
 import {JwtInterceptor, ErrorInterceptor} from './_helpers';
 import {ManualComponent} from './manual/manual.component';
 import {DynamicSectionComponent} from './dynamic-section/dynamic-section.component';
@@ -52,7 +52,7 @@ import {SharedModule} from './shared';
     CharacterSkillsComponent,
     CharacterHeaderComponent,
     HomeComponent,
-    LoreComponent,
+    // LoreComponent,
     DynamicSectionComponent,
     ManualComponent,
     NotFoundComponent,
