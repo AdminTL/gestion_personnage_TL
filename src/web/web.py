@@ -15,8 +15,6 @@ import stat
 import sys
 from py_class.db import DB
 from py_class.manual import Manual
-from py_class.char_rule import CharRule
-from py_class.lore import Lore
 from py_class.doc_generator.doc_generator_gspread import DocGeneratorGSpread
 from py_class.auth_keys import AuthKeys
 from py_class.project_archive import ProjectArchive
@@ -80,8 +78,6 @@ def main(parse_arg):
                 "use_internet_static": parse_arg.use_internet_static,
                 "db": DB(parse_arg),
                 "manual": Manual(parse_arg),
-                "char_rule": CharRule(parse_arg),
-                "lore": Lore(parse_arg),
                 "doc_generator_gspread": DocGeneratorGSpread(parse_arg),
                 "project_archive": ProjectArchive(parse_arg),
                 "disable_character": parse_arg.disable_character,
@@ -130,10 +126,7 @@ def main(parse_arg):
         tornado.web.url(r"/cmd/character_view/?", handlers.CharacterViewHandler, name='character_view',
                         kwargs=settings),
         tornado.web.url(r"/cmd/manual/?", handlers.ManualHandler, name='cmd_manual', kwargs=settings),
-        tornado.web.url(r"/cmd/lore/?", handlers.LoreHandler, name='cmd_lore', kwargs=settings),
-        tornado.web.url(r"/cmd/char_rule/?", handlers.CharRuleHandler, name='cmd_char_rule', kwargs=settings),
-        tornado.web.url(r"/cmd/char_rule_admin/?", handlers.CharRuleAdminHandler, name='cmd_char_rule_admin',
-                        kwargs=settings),
+        tornado.web.url(r"/cmd/manual_admin/?", handlers.ManualAdminHandler, name='cmd_manual_admin', kwargs=settings),
         tornado.web.url(r"/cmd/stat/total_season_pass/?", handlers.StatSeasonPass, name='cmd_stat_total_season_pass',
                         kwargs=settings),
         tornado.web.url(r"/cmd/character_approbation/?", handlers.CharacterApprobationHandler,

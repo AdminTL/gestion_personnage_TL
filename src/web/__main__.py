@@ -14,8 +14,6 @@ WEB_DEFAULT_TEMPLATE_DIR = os.path.join(WEB_ROOT_DIR, 'partials')
 DB_DEFAULT_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "tl_user.json")
 DB_DEMO_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "demo_user.json")
 DB_MANUAL_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "tl_manual.json")
-DB_LORE_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "tl_lore.json")
-DB_CHAR_RULE_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "tl_char_rule.json")
 DB_AUTH_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "auth.json")
 GOOGLE_API_SECRET_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "client_secret.json")
 CONFIG_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "config.json")
@@ -79,7 +77,8 @@ def parse_args():
                        help='Active to disable login module.')
     group.add_argument('--disable_admin', default=False, action='store_true',
                        help='Active to disable admin module.')
-    group.add_argument('--disable_custom_css', default=False, action='store_true',
+    # TODO Force to disable this feature until it's improve
+    group.add_argument('--disable_custom_css', default=True, action='store_true',
                        help='Active to disable custom css module.')
     group.add_argument('--hide_menu_login', default=False, action='store_true',
                        help='Active to hide login module from menu.')
@@ -87,8 +86,6 @@ def parse_args():
     _parser = parser.parse_args()
     _parser.db_demo_path = DB_DEMO_PATH
     _parser.db_manual_path = DB_MANUAL_PATH
-    _parser.db_char_rule_path = DB_CHAR_RULE_PATH
-    _parser.db_lore_path = DB_LORE_PATH
     _parser.db_auth_keys_path = DB_AUTH_PATH
     _parser.db_google_API_path = GOOGLE_API_SECRET_PATH
     _parser.db_config_path = CONFIG_PATH

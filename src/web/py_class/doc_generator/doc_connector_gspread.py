@@ -27,25 +27,18 @@ class DocType(Enum):
         """
         if self.value == self.DOC.value:
             header = [
-                "Title H1", "Title H1 HTML", "Description H1", "Bullet Description H1", "Second Bullet Description H1",
-                "Under Level Color H1",
-                "Title H2", "Title H2 HTML", "Description H2", "Bullet Description H2", "Second Bullet Description H2",
-                "Under Level Color H2",
-                "Title H3", "Title H3 HTML", "Description H3", "Bullet Description H3", "Second Bullet Description H3",
-                "Under Level Color H3",
-                "Title H4", "Title H4 HTML", "Description H4", "Bullet Description H4", "Second Bullet Description H4",
-                "Under Level Color H4",
-                "Title H5", "Title H5 HTML", "Description H5", "Bullet Description H5", "Second Bullet Description H5",
-                "Under Level Color H5"
+                "Level", "Admin", "Key", "Title", "Description", "Bullet Description", "Second Bullet Description",
+                "Under Level Color", "Sub Key", "Model", "Point", "HidePlayer"
             ]
         elif self.value == self.FORM.value:
             header = [
-                "Level", "Key", "Placeholder", "Type", "Options", "Value", "Name", "Category", "Add", "Style"
+                "Level", "Admin", "Key", "Placeholder", "Type", "Options", "Value", "Name", "Category", "Add", "Style",
+                "Model", "ReadByPlayer", "ReadOnlyPlayer"
             ]
         elif self.value == self.SCHEMA.value:
             header = [
                 "Level", "Name", "Type", "Title", "minLength", "pattern", "required", "minItems", "maxItems",
-                "uniqueItems"
+                "uniqueItems", "Description"
             ]
         else:
             header = []
@@ -87,16 +80,20 @@ class DocConnectorGSpread:
         self._error = None
         self._connector_is_valid = True
         self._msg_share_invite = msg_share_invite
+        self._doc_point = {}
+        self._doc_manual_skill = {}
 
         self._info_sheet = [
             {"type": DocType.DOC, "name": "manual", "permission": ["anyone"]},
+            {"type": DocType.DOC, "name": "manual", "permission": ["admin"], "is_admin": True},
             {"type": DocType.DOC, "name": "lore", "permission": ["anyone"]},
+            {"type": DocType.DOC, "name": "lore", "permission": ["admin"], "is_admin": True},
             {"type": DocType.SCHEMA, "name": "schema_user", "permission": ["user"]},
             {"type": DocType.SCHEMA, "name": "schema_char", "permission": ["user"]},
-            {"type": DocType.FORM, "name": "form_user", "permission": ["user"]},
-            {"type": DocType.FORM, "name": "form_char", "permission": ["user"]},
-            {"type": DocType.FORM, "name": "admin_form_user", "permission": ["admin"]},
-            {"type": DocType.FORM, "name": "admin_form_char", "permission": ["admin"]},
+            {"type": DocType.FORM, "name": "form_user", "permission": ["user"], "is_admin": False},
+            {"type": DocType.FORM, "name": "form_char", "permission": ["user"], "is_admin": False},
+            {"type": DocType.FORM, "name": "form_user", "permission": ["admin"], "is_admin": True},
+            {"type": DocType.FORM, "name": "form_char", "permission": ["admin"], "is_admin": True},
         ]
 
     def has_error(self):
@@ -222,6 +219,8 @@ class DocConnectorGSpread:
         sh = self._g_file
         worksheet_list = sh.worksheets()
         dct_doc = {}
+        self._doc_point = {}
+        self._doc_manual_skill = {}
 
         for sheet_info in self._info_sheet:
             sheet_name = sheet_info.get("name")
@@ -258,7 +257,7 @@ class DocConnectorGSpread:
             # Parse sheet
             cb = sheet_type.get_cb_parser(self)
             if cb:
-                info = cb(sheet_name, all_values)
+                info = cb(sheet_info, sheet_name, all_values)
             else:
                 self._error = "Internal error, cannot find method to parse the sheet with type %s." % sheet_type
                 print(self._error, file=sys.stderr)
@@ -269,14 +268,21 @@ class DocConnectorGSpread:
                 return False
 
             # Compilation of unique result
-            dct_doc[sheet_name] = info
+            is_form_admin = sheet_info.get("is_admin", False)
+            adapted_sheet_name = sheet_name if not is_form_admin else "admin_" + sheet_name
+            dct_doc[adapted_sheet_name] = info
+
+        # Add extra compilation about point page
+        dct_doc["point"] = self._doc_point
+        dct_doc["skill_manual"] = self._doc_manual_skill
 
         self._generated_doc = dct_doc
         return True
 
-    def _parse_sheet_type_schema(self, doc_sheet_name, all_values):
+    def _parse_sheet_type_schema(self, sheet_info, doc_sheet_name, all_values):
         """
         Read each line of the doc from the spreadsheet and generate the structure.
+        :param sheet_info: Sheet information
         :param doc_sheet_name: Sheet name
         :param all_values: List of all row from the spreadsheet
         :return: Dict of schema or None when got error
@@ -289,10 +295,23 @@ class DocConnectorGSpread:
 
         # This is use to keep reference on last object dependant on level
         lst_level_object = []
-        for level, name, s_type, title, min_length, pattern, required, min_items, max_items, unique_items in lst_line:
-            debug_values = (
-                level, name, s_type, title, min_length, pattern, required, min_items, max_items, unique_items)
+        for lst_item in lst_line:
             line_number += 1
+
+            level = lst_item[0]
+            name = lst_item[1]
+            s_type = lst_item[2]
+            title = lst_item[3]
+            min_length = lst_item[4]
+            pattern = lst_item[5]
+            required = lst_item[6]
+            min_items = lst_item[7]
+            max_items = lst_item[8]
+            unique_items = lst_item[9]
+            description = lst_item[10]
+
+            if not level:
+                continue
 
             # Validation section
 
@@ -424,6 +443,8 @@ class DocConnectorGSpread:
             # Fill data in line_value
             if s_type:
                 line_value["type"] = s_type
+            if pattern:
+                line_value["pattern"] = pattern
             if title:
                 line_value["title"] = title
             if required:
@@ -436,12 +457,15 @@ class DocConnectorGSpread:
                 line_value["maxItems"] = max_items
             if type(unique_items) is bool:
                 line_value["uniqueItems"] = unique_items
+            if description:
+                line_value["description"] = description
 
         return dct_value
 
-    def _parse_sheet_type_form(self, doc_sheet_name, all_values):
+    def _parse_sheet_type_form(self, sheet_info, doc_sheet_name, all_values):
         """
         Read each line of the doc from the spreadsheet and generate the structure.
+        :param sheet_info: Sheet information
         :param doc_sheet_name: Sheet name
         :param all_values: List of all row from the spreadsheet
         :return: List of section to the doc or None when got error
@@ -451,11 +475,39 @@ class DocConnectorGSpread:
         lst_line = all_values[1:]
         line_value = {}
 
+        is_form_admin = sheet_info.get("is_admin", False)
+
         # This is use to keep reference on last object dependant on level
         lst_level_object = [lst_value]
-        for level, s_key, placeholder, s_type, options, value, name, category, add, style in lst_line:
-            # debug_values = (level, s_key, placeholder, s_type, options, value, name, category, add, style)
+        for lst_item in lst_line:
             line_number += 1
+
+            level = lst_item[0]
+            is_admin = lst_item[1]
+            s_key = lst_item[2]
+            placeholder = lst_item[3]
+            s_type = lst_item[4]
+            options = lst_item[5]
+            value = lst_item[6]
+            name = lst_item[7]
+            category = lst_item[8]
+            add = lst_item[9]
+            style = lst_item[10]
+            model = lst_item[11]
+            read_by_player = lst_item[12]
+            read_only_player = lst_item[13]
+
+            if not level:
+                continue
+
+            if is_admin == "TRUE" or is_admin == "VRAI":
+                is_admin = True
+            else:
+                is_admin = False
+
+            # Ignore admin field when sheet is not admin
+            if not is_form_admin and is_admin:
+                continue
 
             # Validation section
             # Level is obligated
@@ -616,162 +668,106 @@ class DocConnectorGSpread:
 
         return lst_value
 
-    def _parse_sheet_type_doc(self, doc_sheet_name, all_values):
+    def _parse_sheet_type_doc(self, sheet_info, doc_sheet_name, all_values):
         """
         Read each line of the doc from the spreadsheet and generate the structure.
+        :param sheet_info: Sheet information
         :param doc_sheet_name: Sheet name
         :param all_values: List of all row from the spreadsheet
         :return: List of section to the doc or None when got error
         """
         lst_doc_section = []
+        lst_level_object = []
         line_number = 1
-        first_section = None
-        second_section = None
-        third_section = None
-        status = False
-
         lst_value = all_values[1:]
-        if not lst_value:
-            # List is empty
-            status = True
 
         for row in lst_value:
             line_number += 1
-            is_first_section = any(row[0:5])
-            is_second_section = any(row[6:11])
-            is_third_section = any(row[12:17])
-            is_fourth_section = any(row[18:23])
-            is_fifth_section = any(row[24:29])
 
-            # Check error
-            sum_section = sum(
-                (is_first_section, is_second_section, is_third_section, is_fourth_section, is_fifth_section))
-
-            if sum_section == 0:
-                # Ignore empty line
+            level = row[0]
+            # Ignore if level is empty
+            if not level:
                 continue
 
-            try:
-                if sum_section > 1:
-                    msg = "Cannot contain more than 1 section at time. H1: %s, H2: %s, H3: %s, H4: %s, H5: %s." % (
-                        is_first_section, is_second_section, is_third_section, is_fourth_section, is_fifth_section)
-
+            elif level.isdigit():
+                # Validate level value
+                level = int(level)
+                if not (0 < level <= 5):
+                    msg = "The field level need to be an integer 1 to 5. Got %s" % level
                     self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
                     print(self._error, file=sys.stderr)
                     return
+            else:
+                msg = "The field level need to be an integer 1 to 5. Type String and got %s" % level
+                self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                print(self._error, file=sys.stderr)
+                return
 
-                if is_first_section:
-                    status = self._extract_section(0, row, line_number, doc_sheet_name, lst_doc_section)
+            check_contain_value = any(row[1:])
+            if not check_contain_value:
+                # Ignore empty line
+                continue
 
-                elif is_second_section:
-                    second_section = None
-                    third_section = None
-                    first_section = lst_doc_section[-1]
+            admin = row[1]
 
-                    # Get section from last section
-                    if "section" in first_section:
-                        lst_section = first_section.get("section")
+            is_form_admin = sheet_info.get("is_admin", False)
+            if admin == "TRUE" or admin == "VRAI":
+                is_admin = True
+            else:
+                is_admin = False
+
+            # Ignore admin field when sheet is not admin
+            if not is_form_admin and is_admin:
+                continue
+
+            try:
+                # Insert level 1 element
+                if level == 1:
+                    status = self._extract_section(row, line_number, doc_sheet_name, lst_doc_section, sheet_info)
+                    # line_value = lst_doc_section
+                    # lst_level_object = lst_doc_section
+                    if status:
+                        lst_level_object = [lst_doc_section[-1]]
+                    elif status is None:
+                        continue
+                else:
+                    # level 2 and more
+                    if not lst_level_object:
+                        msg = "First element is not a Level 1."
+                        self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                        print(self._error, file=sys.stderr)
+                        return None
+
+                    # Validate level with stack
+                    diff_level = level - len(lst_level_object)
+                    if diff_level == 1:
+                        # All good, fill children
+                        pass
+                    elif diff_level > 1:
+                        msg = "Problem with level, maybe you jump a number?"
+                        self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                        print(self._error, file=sys.stderr)
+                        return None
+                    else:
+                        # Downgrade the stack
+                        pos_diff_level = abs(diff_level) + 1
+                        for i in range(pos_diff_level):
+                            lst_level_object.pop()
+
+                    last_section = lst_level_object[-1]
+
+                    if "section" in last_section:
+                        lst_section = last_section.get("section")
                     else:
                         lst_section = []
-                        first_section["section"] = lst_section
+                        last_section["section"] = lst_section
 
-                    status = self._extract_section(1, row, line_number, doc_sheet_name, lst_section)
+                    status = self._extract_section(row, line_number, doc_sheet_name, lst_section, sheet_info)
 
-                elif is_third_section:
-                    third_section = None
-                    if not first_section:
-                        msg = "Missing section H1 to insert section H3."
-                        self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
-                        print(self._error, file=sys.stderr)
-                        return
-
-                    lst_section = first_section.get("section")
-                    if not lst_section:
-                        msg = "Missing section H2 to insert section H3."
-                        self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
-                        print(self._error, file=sys.stderr)
-                        return
-
-                    second_section = lst_section[-1]
-
-                    # Get section from last section
-                    if "section" in second_section:
-                        lst_section = second_section.get("section")
-                    else:
-                        lst_section = []
-                        second_section["section"] = lst_section
-
-                    status = self._extract_section(2, row, line_number, doc_sheet_name, lst_section)
-
-                elif is_fourth_section:
-                    if not first_section:
-                        msg = "Missing section H1 to insert section H4."
-                        self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
-                        print(self._error, file=sys.stderr)
-                        return
-
-                    if not second_section:
-                        msg = "Missing section H2 to insert section H4."
-                        self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
-                        print(self._error, file=sys.stderr)
-                        return
-
-                    # Create third_section
-                    lst_section = second_section.get("section")
-                    if not lst_section:
-                        msg = "Missing section H3 to insert section H4."
-                        self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
-                        print(self._error, file=sys.stderr)
-                        return
-
-                    third_section = lst_section[-1]
-
-                    # Get section from last section
-                    if "section" in third_section:
-                        lst_section = third_section.get("section")
-                    else:
-                        lst_section = []
-                        third_section["section"] = lst_section
-
-                    status = self._extract_section(3, row, line_number, doc_sheet_name, lst_section)
-
-                elif is_fifth_section:
-                    if not first_section:
-                        msg = "Missing section H1 to insert section H5."
-                        self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
-                        print(self._error, file=sys.stderr)
-                        return
-
-                    if not second_section:
-                        msg = "Missing section H2 to insert section H5."
-                        self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
-                        print(self._error, file=sys.stderr)
-                        return
-
-                    if not third_section:
-                        msg = "Missing section H3 to insert section H5."
-                        self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
-                        print(self._error, file=sys.stderr)
-                        return
-
-                    # Create third_section
-                    lst_section = third_section.get("section")
-                    if not lst_section:
-                        msg = "Missing section H4 to insert section H5."
-                        self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
-                        print(self._error, file=sys.stderr)
-                        return
-
-                    fourth_section = lst_section[-1]
-
-                    # Get section from last section
-                    if "section" in fourth_section:
-                        lst_section = fourth_section.get("section")
-                    else:
-                        lst_section = []
-                        fourth_section["section"] = lst_section
-
-                    status = self._extract_section(4, row, line_number, doc_sheet_name, lst_section)
+                    if status:
+                        lst_level_object.append(lst_section[-1])
+                    elif status is None:
+                        continue
 
                 if not status:
                     return
@@ -787,63 +783,70 @@ class DocConnectorGSpread:
 
         return lst_doc_section
 
-    def _extract_section(self, level, row, line_number, doc_sheet_name, lst_section):
+    def _extract_section(self, row, line_number, doc_sheet_name, lst_section, sheet_info):
         """
         Fill the recent section when read the spreadsheet row.
-        :param level: The level of section, 0 to 4.
         :param row: The spreadsheet row.
         :param line_number: The row's index of spreadsheet.
         :param lst_section: list of parent section, to append new section.
         :param doc_sheet_name: Sheet name
+        :param sheet_info: Sheet information
         :return: True if success, else False
         """
-        if not (0 <= level <= 4):
-            msg = "Internal error, support only level 1 to 5 and got: %s" % level + 1
-            self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
-            print(self._error, file=sys.stderr)
-            return False
 
-        nb_column = 6
-        i_column = level * nb_column
-        header_lvl = level + 1
+        level = row[0]
+        admin = row[1]
+        key = row[2]
+        title = row[3]
+        description = row[4]
+        bullet_description = row[5]
+        second_bullet_description = row[6]
+        under_level_color = row[7]
+        sub_key = row[8]
+        model = row[9]
+        point = row[10]
+        hide_player = row[11]
 
-        title = row[i_column]
-        title_html = row[i_column + 1]
-        description = row[i_column + 2]
-        bullet_description = row[i_column + 3]
-        second_bullet_description = row[i_column + 4]
-        under_level_color = row[i_column + 5]
+        is_form_admin = sheet_info.get("is_admin", False)
+        if admin == "TRUE" or admin == "VRAI":
+            is_admin = True
+        else:
+            is_admin = False
+
+        # Ignore admin field when sheet is not admin
+        if not is_form_admin and is_admin:
+            return
 
         # Check error
-        if title_html and not title:
-            msg = "Need title when fill title html for H%s." % header_lvl
+        if title and not key:
+            msg = "Need key when fill title for H%s." % level
             self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
             print(self._error, file=sys.stderr)
             return False
 
         if description and bullet_description:
-            msg = "Cannot have a description and a bullet description on same line for H%s." % header_lvl
+            msg = "Cannot have a description and a bullet description on same line for H%s." % level
             self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
             print(self._error, file=sys.stderr)
             return False
 
         if description and second_bullet_description:
-            msg = "Cannot have a description and a second bullet description on same line for H%s." % header_lvl
+            msg = "Cannot have a description and a second bullet description on same line for H%s." % level
             self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
             print(self._error, file=sys.stderr)
             return False
 
         if bullet_description and second_bullet_description:
-            msg = "Cannot have a bullet description and a second bullet description on same line for H%s." % header_lvl
+            msg = "Cannot have a bullet description and a second bullet description on same line for H%s." % level
             self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
             print(self._error, file=sys.stderr)
             return False
 
         # Begin to fill this section
         # If contain title, it's a new section. Else, take the last on the list.
-        if title:
+        if key:
             # New section
-            section = {"title": title}
+            section = {"title": key}
             lst_section.append(section)
         else:
             section = lst_section[-1]
@@ -851,19 +854,19 @@ class DocConnectorGSpread:
             # this will cause a view error
             if "section" in section:
                 msg = "Cannot add information on this section when contain sub header on same line for " \
-                      "H%s." % header_lvl
+                      "H%s." % level
                 self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
                 print(self._error, file=sys.stderr)
                 return False
 
         # Special title, contain html to improve view
-        if title_html:
+        if title:
             if "title_html" in section:
-                msg = "Cannot manage many title_html for H%s." % header_lvl
+                msg = "Cannot manage many title_html for H%s." % level
                 self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
                 print(self._error, file=sys.stderr)
                 return False
-            section["title_html"] = title_html
+            section["title_html"] = title
 
         # Description can be append for the same section
         if description:
@@ -897,7 +900,7 @@ class DocConnectorGSpread:
 
         if second_bullet_description:
             if "description" not in section:
-                msg = "Cannot create second-bullet description missing description for H%s." % header_lvl
+                msg = "Cannot create second-bullet description missing description for H%s." % level
                 self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
                 print(self._error, file=sys.stderr)
                 return False
@@ -908,7 +911,7 @@ class DocConnectorGSpread:
                 lst_bullet_description = lst_description[-1]
             else:
                 msg = "Cannot create second-bullet description when not precede to bullet description for " \
-                      "H%s." % header_lvl
+                      "H%s." % level
                 self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
                 print(self._error, file=sys.stderr)
                 return False
@@ -930,10 +933,95 @@ class DocConnectorGSpread:
         if under_level_color:
             # Add color for header
             if "under_level_color" in section:
-                msg = "Already contain value of 'Under Level Color'for H%s." % header_lvl
+                msg = "Already contain value of 'Under Level Color'for H%s." % level
                 self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
                 print(self._error, file=sys.stderr)
                 return False
             section["under_level_color"] = under_level_color
 
+        # HACK with model
+        updated_sub_key = sub_key
+        if "habilites" in model:
+            updated_sub_key = "habilites_" + sub_key
+        elif "technique_maitre" in model:
+            updated_sub_key = "technique_maitre_" + sub_key
+        elif "merite" in model:
+            updated_sub_key = "merite_" + sub_key
+        elif "esclave" in model:
+            updated_sub_key = "esclave_" + sub_key
+        elif "marche" in model:
+            updated_sub_key = "marche_" + sub_key
+
+        if sub_key:
+            section["sub_key"] = sub_key
+
+            # Add manual skill
+            if not is_form_admin:
+                if bullet_description:
+                    self._doc_manual_skill[updated_sub_key] = bullet_description
+                elif second_bullet_description:
+                    self._doc_manual_skill[updated_sub_key] = second_bullet_description
+
+        if model:
+            section["model"] = model
+        if not is_form_admin and point and sub_key:
+            dct_point = self._transform_point(line_number, doc_sheet_name, point)
+            if dct_point is None:
+                return False
+            section["point"] = dct_point
+            # if not sub_key:
+            #     msg = "sub_key is empty."
+            #     self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+            #     print(self._error, file=sys.stderr)
+            #     return False
+
+            if updated_sub_key in self._doc_point:
+                # HACK ignore "Contrebande" duplication
+                # TODO send a warning about duplication and not a failure
+                if "Contrebande" not in updated_sub_key:
+                    msg = "Duplicated sub_key : %s" % updated_sub_key
+                    self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                    print(self._error, file=sys.stderr)
+                    return False
+
+            self._doc_point[updated_sub_key] = dct_point
+        if hide_player:
+            section["hide_player"] = hide_player
+        if admin:
+            section["admin"] = admin
+
         return True
+
+    def _transform_point(self, line_number, doc_sheet_name, str_point):
+        dct_point = {}
+        lst_point = str_point.split(";")
+
+        for str_single_point in lst_point:
+            if not str_single_point:
+                continue
+
+            if str_single_point.count(":") != 1:
+                msg = "Column 'Point' is wrong. Missing character ':' to separate key with value. " \
+                      "Point : %s" % str_point
+                self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                print(self._error, file=sys.stderr)
+                return
+
+            key, value = str_single_point.split(":")
+            if key in dct_point:
+                msg = "Duplication key %s. Point : %s" % (key, str_point)
+                self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                print(self._error, file=sys.stderr)
+                return
+
+            try:
+                int_value = int(value)
+            except ValueError:
+                msg = "Value is not a digital : %s" % value
+                self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                print(self._error, file=sys.stderr)
+                return
+
+            dct_point[key] = int_value
+
+        return dct_point

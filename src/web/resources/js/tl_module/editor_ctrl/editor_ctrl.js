@@ -70,7 +70,7 @@ characterApp.controller("editor_ctrl", ["$scope", "$q", "$http", "$window", /*"$
       method: "get",
       url: "/cmd/editor/get_info",
       headers: {"Content-Type": "application/json; charset=UTF-8"},
-      timeout: 5000
+      timeout: 60000
     }).then(function (response/*, status, headers, config*/) {
       $scope.model_editor.info = response.data;
       console.info(response.data);
@@ -110,7 +110,7 @@ characterApp.controller("editor_ctrl", ["$scope", "$q", "$http", "$window", /*"$
       method: "post",
       url: "/cmd/editor/add_generator_share",
       headers: {"Content-Type": "application/json; charset=UTF-8"},
-      timeout: 5000
+      timeout: 60000
     }).then(function (response/*, status, headers, config*/) {
       console.info(response);
       $scope.model_editor.info.user_has_writer_perm = true;
@@ -157,7 +157,7 @@ characterApp.controller("editor_ctrl", ["$scope", "$q", "$http", "$window", /*"$
       method: "post",
       url: "/cmd/editor/generate_and_save",
       headers: {"Content-Type": "application/json; charset=UTF-8"},
-      timeout: 10000
+      timeout: 60000
     }).then(function (response/*, status, headers, config*/) {
       console.info(response);
       $scope.model_editor.is_generating_doc = false;
@@ -204,7 +204,7 @@ characterApp.controller("editor_ctrl", ["$scope", "$q", "$http", "$window", /*"$
       url: "/cmd/editor/update_file_url",
       data: data,
       headers: {"Content-Type": "application/json; charset=UTF-8"},
-      timeout: 5000
+      timeout: 60000
     }).then(function (response/*, status, headers, config*/) {
       console.info(response);
       $scope.model_editor.is_updating_file_url = false;
