@@ -1,8 +1,8 @@
 ﻿export interface Event {
-  title: String;
-  eventType: String;
+  title: string;
+  eventType: string;
   date: EventDate;
-  selected: Boolean;
+  selected: boolean;
   pricing: Price[];
   facebook_event: FacebookEvent;
   description: Description;
@@ -10,54 +10,54 @@
 }
 
 export interface Location {
-  showed: Boolean;
-  name: String;
-  external_href: String;
-  address: String;
-  textMoreInformation: String;
+  showed: boolean;
+  name: string;
+  external_href: string;
+  address: string;
+  textMoreInformation: string;
 }
 
 export interface Price {
-  showed: Boolean;
-  title: String;
-  price: Number;
-  currency: String;
-  textMoreInformation: String;
-  count_unit: Number;
-  matIcon: String;
+  showed: boolean;
+  title: string;
+  price: number;
+  currency: string;
+  textMoreInformation: string;
+  count_unit: number;
+  matIcon: string;
 }
 
 export interface FacebookEvent {
-  showed: Boolean;
-  external_href: String;
+  showed: boolean;
+  external_href: string;
 }
 
 export interface Description {
-  showed: Boolean;
-  selected: Boolean;
-  title: String;
-  text: String;
+  showed: boolean;
+  selected: boolean;
+  title: string;
+  text: string;
 }
 
 export interface Activity {
-  showed: Boolean;
+  showed: boolean;
   description: Description;
   location: Location;
 }
 
 export interface Thanks {
-  showed: Boolean;
+  showed: boolean;
   description: Description;
 }
 
 export interface EventDate {
-  showed: Boolean;
-  highlight: Boolean;
-  text: String;
-  textMoreInformation: String;
+  showed: boolean;
+  highlight: boolean;
+  text: string;
+  textMoreInformation: string;
 }
 
 export interface Age {
-  showed: Boolean;
-  text: String;
+  showed: boolean;
+  text: string;
 }

@@ -297,6 +297,7 @@
         "name": "player",
         "summary": "Le manuel du joueur contient les règles de bases et les habilités.",
         "title": "Manuel du joueur",
+        "subtitle": "Le livre de règle pour le joueur",
         "sections": [
           {
             "title": "Mécanique de base",
@@ -3079,6 +3080,7 @@
         "name": "lore",
         "summary": "L'univers du jeu, la politique et autre",
         "title": "Univers de jeu",
+        "subtitle": "Politique, religion et autre",
         "sections": [
           {
             "title": "Univers de jeu",

@@ -1,4 +1,4 @@
 ﻿export interface Organization {
-  name: String;
-  summary: String;
+  name: string;
+  summary: string;
 }
