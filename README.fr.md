@@ -17,7 +17,7 @@ Guide utilisation
 Démarrer le serveur web
 -----------------------
 ```{r, engine='bash', count_lines}
-./web_server.sh
+./script/web_server.sh
 ```
 
 Accès client web local
@@ -27,6 +27,10 @@ http://127.0.0.1:8000
 Wiki pour développement
 =======================
 Le projet est en développement. [Le remu-méninge.](https://github.com/AdminTL/gestion_personnage_TL/wiki/Premier-brainstorm)
+
+Documentation
+=============
+[Lire la documentation en anglais](./doc/README.md)
 
 License
 =======
@@ -45,8 +49,4 @@ Merci!
 
 Participant
 ===========
-1. Mathieu Benoit - mathben
-2. Jérémie Gosselin
-3. alexisbssn
-4. Avasam
-5. Simon Savard
+[Read on github](https://github.com/AdminTL/gestion_personnage_TL/graphs/contributors)

@@ -226,6 +226,7 @@ characterApp.controller("manual_ctrl", ["$scope", "$q", "$http", "$window", "$lo
     timeout: 5000
   }).then(function (response/*, status, headers, config*/) {
     $scope.manual = response.data.manual;
+    console.info(response.data);
 
     var key = "/filter=";
     if ($location.path().substring(0, key.length) == key) {

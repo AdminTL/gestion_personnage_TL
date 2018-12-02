@@ -1,0 +1,10 @@
+{
+  "google_oauth": {
+    "key": "",
+    "secret": ""
+  },
+  "facebook_api_key": "",
+  "facebook_secret": "",
+  "twitter_consumer_key": "",
+  "twitter_consumer_secret": ""
+}

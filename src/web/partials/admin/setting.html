@@ -1,0 +1,19 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+<div ng-controller="setting_ctrl" ng-cloak>
+  <h1>Configuration du site et ses paramètres</h1>
+  <h2>Générateur d'archive du projet</h2>
+  <p>Cet outil permet de télécharger le projet dans un fichier format zip et l'exécuter dans un autre environnement.</p>
+  <div>
+    <a ng-click="download_archive()" class="btn btn-lg btn-success" role="button">
+      <span class="fa fa-spinner fa-spin" ng-show="model_setting.is_downloading_archive"></span> Télécharger le fichier archive.
+    </a>
+    <span ng-show="model_setting.downloading_archive.status.enabled" ng-style="model_setting.downloading_archive.status.is_error ? {'color': 'red'} : {'color': 'green'}">
+      {{! model_setting.downloading_archive.status.text }}
+    </span>
+  </div>
+</div>
+
+{% end %}

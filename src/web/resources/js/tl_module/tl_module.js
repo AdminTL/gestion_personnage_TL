@@ -1,6 +1,17 @@
 'use strict';
 
-var characterApp = angular.module('creation_personnage_TL', ['monospaced.qrcode', 'ngSanitize', 'ngRoute', 'schemaForm', 'mgcrea.ngStrap', 'ngPrint']);
+var characterApp = angular.module('creation_personnage_TL', ['monospaced.qrcode', 'ngSanitize', 'ngRoute', 'schemaForm', 'mgcrea.ngStrap', 'ngPrint', 'angularMoment']);
+
+characterApp.filter('UTCToNow', ['moment', function (moment) {
+    return function (input, format) {
+      if (format) {
+        return moment.utc(input).local().format('dddd, MMMM Do YYYY, h:mm:ss a');
+      } else {
+        return moment.utc(input).local();
+      }
+    };
+  }]
+);
 
 characterApp.config(['$routeProvider', function ($routeProvider) {
   // $routeProvider.when('/login', {templateUrl: 'templates/login.html', login: true});
@@ -11,4 +22,4 @@ characterApp.config(['$routeProvider', function ($routeProvider) {
   // $routeProvider.when('/view1', {templateUrl: 'partials/partial1.html', controller: 'MyCtrl1'});
   // $routeProvider.when('/view2', {templateUrl: 'partials/partial2.html', controller: 'MyCtrl2'});
   $routeProvider.otherwise({redirectTo: '/'});
-}])
+}]);

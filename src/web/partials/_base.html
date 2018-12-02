@@ -31,11 +31,12 @@
   {% if use_internet_static %}
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   {% else %}
   <link href="{{ static_url('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
   <link href="{{ static_url('bower_components/bootstrap/dist/css/bootstrap-theme.min.css') }}" rel="stylesheet">
+  <link href="{{ static_url('bower_components/components-font-awesome/css/fontawesome-all.min.css') }}" rel="stylesheet">
   {% end %}
-  <link href="{{ static_url('bower_components/components-font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
   <!-- Custom style -->
   <link href="{{ static_url('resources/css/_base.css') }}" rel="stylesheet">
   <link href="{{ static_url('resources/css/_base_dark.css') }}" rel="stylesheet">
@@ -62,38 +63,30 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
       <ul class="nav navbar-nav">
-        <li ng-class="{ active: isActive('/') }"><a href="/">Accueil</a></li>
-        {% if not disable_admin and current_user and current_user.is_admin() %}
-        <li ng-class="{ active: isActive('/admin') }"><a href="admin">Admin</a></li>
-        {% end %}
-        {% if not disable_character %}
-        <li ng-class="{ active: isActive('/character') }"><a href="character">Personnage</a></li>
-        {% end %}
-        <li ng-class="{ active: isActive('/manual') }"><a href="/manual">Livre de règle</a></li>
-        <li ng-class="{ active: isActive('/lore') }"><a href="/lore">Univers</a></li>
-      </ul>
+        <li ng-class="{ active: isActive('/') }"><a href="/"><span class="glyphicon glyphicon-home"></span> Accueil</a></li>
+        <li ng-class="{ active: isActive('/character') }"><a href="/character"><span class="glyphicon glyphicon-knight"></span> Personnage</a></li>
+        <li ng-class="{ active: isActive('/manual') }"><a href="/manual"><span class="glyphicon glyphicon-book"></span> Livre de règle</a></li>
+        <li ng-class="{ active: isActive('/lore') }"><a href="/lore"><span class="glyphicon glyphicon-globe"></span> Univers</a></li>
 
-      <ul class="nav navbar-nav" ng-show="nav_ariane_menu.length > 0">
+        {% if not disable_custom_css %}
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Affichage <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" ng-cloak>Affichage <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li ng-repeat="style_name in style" ng-class="{ active: isStyle(style_name)}"><a ng-click="updateStyle(style_name)" href="#">{{! style_name }}</a></li>
           </ul>
         </li>
-      </ul>
+        {% end %}
 
-      <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Affichage <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li ng-repeat="style_name in style" ng-class="{ active: isStyle(style_name)}"><a ng-click="updateStyle(style_name)" href="#">{{! style_name }}</a></li>
-          </ul>
-        </li>
-        {% if not disable_login %}
-        {% if not current_user %}
-        <li ng-class="{ active: isActive('/login') }"><a href="login">Login</a></li>
+        {% if not disable_login and not disable_admin and current_user and current_user.get("permission") == "Admin" %}
+        <li ng-class="{ active: isActive('/admin') }"><a href="/admin" style="color:red;"><span class="glyphicon glyphicon-king"></span> Admin</a></li>
+        {% end %}
+
+        {% if not disable_login and (not hide_menu_login or current_user) %}
+        {% if current_user %}
+        <li><a href="/profile/"><span class="glyphicon glyphicon-user"></span> {{current_user.get("username")}}</a></li>
+        <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Déconnexion</a></li>
         {% else %}
-        <li><a style="color:#2864E6;" href="#" ua-logout>Log out</a></li>
+        <li ng-class="{ active: isActive('/login') }"><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
         {% end %}
         {% end %}
       </ul>
@@ -123,21 +116,23 @@
   {% end %}
 </div>
 
-{% if use_internet_static %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-<script src="https://raw.githubusercontent.com/geraintluff/tv4/master/tv4.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
-<script src="https://raw.githubusercontent.com/angular/bower-angular-sanitize/master/angular-sanitize.min.js"></script>
+{% if use_internet_static %} <!-- Using online resources -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tv4/1.0.17/tv4.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.6.2/angular-sanitize.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-strap/2.3.8/angular-strap.compat.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-strap/2.3.8/angular-strap.tpl.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.min.js"></script>
 <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-1.2.2.min.js"></script>
 <script src="http://cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"></script>
-<script src="https://raw.githubusercontent.com/mike-marcacci/objectpath/master/lib/ObjectPath.js"></script>
-<script src="https://raw.githubusercontent.com/json-schema-form/angular-schema-form/development/dist/schema-form.min.js"></script>
-<script src="https://raw.githubusercontent.com/json-schema-form/angular-schema-form-bootstrap/develop/bootstrap-decorator.min.js"></script>
-<script src="https://raw.githubusercontent.com/OptimalBPM/angular-schema-form-dynamic-select/master/angular-schema-form-dynamic-select.min.js"></script>
-{% elif debug %}
+<script src="http://traitrelame.ca/static/bower_components/objectpath/lib/ObjectPath.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-schema-form/0.8.12/schema-form.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-schema-form/0.8.12/bootstrap-decorator.min.js"></script>
+<script src="http://traitrelame.ca/static/bower_components/angular-schema-form-dynamic-select/angular-schema-form-dynamic-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+{% elif debug %} <!-- Using local debug mode -->
 <script src="{{ static_url('bower_components/jquery/dist/jquery.js') }}"></script>
 <script src="{{ static_url('bower_components/tv4/tv4.js') }}"></script>
 <script src="{{ static_url('bower_components/angular/angular.js') }}"></script>
@@ -151,7 +146,9 @@
 <script src="{{ static_url('bower_components/angular-schema-form/dist/schema-form.js') }}"></script>
 <script src="{{ static_url('bower_components/angular-schema-form/dist/bootstrap-decorator.js') }}"></script>
 <script src="{{ static_url('bower_components/angular-schema-form-dynamic-select/angular-schema-form-dynamic-select.js') }}"></script>
-{% else %}
+<script src="{{ static_url('bower_components/bootstrap/dist/js/bootstrap.js') }}"></script>
+<script src="{{ static_url('bower_components/jsSHA/src/sha256.js') }}"></script>
+{% else %} <!-- Using local regular mode -->
 <script src="{{ static_url('bower_components/jquery/dist/jquery.min.js') }}"></script>
 <script src="{{ static_url('bower_components/tv4/tv4.js') }}"></script>
 <script src="{{ static_url('bower_components/angular/angular.min.js') }}"></script>
@@ -165,12 +162,15 @@
 <script src="{{ static_url('bower_components/angular-schema-form/dist/schema-form.min.js') }}"></script>
 <script src="{{ static_url('bower_components/angular-schema-form/dist/bootstrap-decorator.min.js') }}"></script>
 <script src="{{ static_url('bower_components/angular-schema-form-dynamic-select/angular-schema-form-dynamic-select.min.js') }}"></script>
+<script src="{{ static_url('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+<script src="{{ static_url('bower_components/jsSHA/src/sha256.js') }}"></script>
 {% end %}
+
+<script src="{{ static_url('bower_components/moment/moment.js') }}"></script>
+<script src="{{ static_url('bower_components/angular-moment/angular-moment.js') }}"></script>
+
 <script src="{{ static_url('resources/js/tool.js') }}"></script>
 <script src="{{ static_url('resources/js/tl_module/tl_module.js') }}"></script>
-
-<!-- add TL schema -->
-<script src="{{ static_url('resources/js/tl_module/character_ctrl/tl_character_schema.js') }}"></script>
 
 <!-- add controller -->
 <script src="{{ static_url('bower_components/ngPrint/ngPrint.js') }}"></script>
@@ -180,8 +180,9 @@
 <script src="{{ static_url('resources/js/tl_module/page_ctrl/page_ctrl.js') }}"></script>
 <script src="{{ static_url('resources/js/tl_module/manual_ctrl/manual_ctrl.js') }}"></script>
 <script src="{{ static_url('resources/js/tl_module/lore_ctrl/lore_ctrl.js') }}"></script>
+<script src="{{ static_url('resources/js/tl_module/profile_ctrl/profile_ctrl.js') }}"></script>
+<script src="{{ static_url('resources/js/tl_module/editor_ctrl/editor_ctrl.js') }}"></script>
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="{{ static_url('bower_components/qrcode-generator/js/qrcode.js') }}"></script>
 <script src="{{ static_url('bower_components/qrcode-generator/js/qrcode_UTF8.js') }}"></script>
 <script src="{{ static_url('bower_components/angular-qrcode/angular-qrcode.js') }}"></script>

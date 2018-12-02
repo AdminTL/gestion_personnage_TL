@@ -66,3 +66,15 @@ input {
 .panel-body {
     background-color: black;
 }
+
+.alert {
+    text-align: center;
+}
+
+.omb_signUpForm > .help_block {
+    color: red;
+}
+
+.close.pull-right {
+    color: white;
+}

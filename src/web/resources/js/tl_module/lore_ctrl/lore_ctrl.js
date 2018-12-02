@@ -220,12 +220,13 @@ characterApp.controller("lore_ctrl", ["$scope", "$q", "$http", "$window", "$loca
 
   $http({
     method: "get",
-    url: "/cmd/lore",
+    url: "/cmd/manual",
     headers: {"Content-Type": "application/json; charset=UTF-8"},
     // data: $httpParamSerializerJQLike(data),
     timeout: 5000
   }).then(function (response/*, status, headers, config*/) {
     $scope.lore = response.data.lore;
+    console.info(response.data);
 
     var key = "/filter=";
     if ($location.path().substring(0, key.length) == key) {
