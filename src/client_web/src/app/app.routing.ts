@@ -37,8 +37,8 @@ const appRoutes: Routes = [
       {path: 'messages', component: CharacterMessagesComponent}
     ]
   },
-  {path: 'lore', component: ManualComponent},
   {path: 'manual', component: ManualComponent},
+  {path: 'manual/:documentName', component: ManualComponent},
   // otherwise redirect to home
   // { path: '**', redirectTo: '' }
   {path: '**', component: NotFoundComponent}

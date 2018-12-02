@@ -1,13 +1,14 @@
 ﻿export interface Menu {
-  title: String;
+  title: string;
   sibling: SubMenu[];
   grouped_sibling: SubMenu[];
 }
 
 export interface SubMenu {
-  title: String;
-  children: SubMenu[];
-  mat_icon: String;
-  router_link: String;
-  fa_icon: String;
+  title: string;
+  children?: SubMenu[];
+  mat_icon?: string;
+  fa_icon?: string;
+  router_link: string;
+  router_link_param?: string;
 }

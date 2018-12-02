@@ -1,6 +1,7 @@
 ﻿import {Component, OnInit} from '@angular/core';
 // import {Http} from '@angular/http';
-import {Router} from '@angular/router';
+import {switchMap} from 'rxjs/operators';
+import {Router, ActivatedRoute, ParamMap} from '@angular/router';
 
 // import {environment} from "@environments/environment";
 import {AlertService, LarpemService} from '@app/_services';
@@ -13,13 +14,20 @@ import {Manual, Document} from "@app/_models";
 export class ManualComponent implements OnInit {
   public manualRoot: Document;
   public manualModel: Manual;
-  // private router: Router;
+  public documentName: string;
 
-  constructor(private router: Router, private alertService: AlertService, private larpemService: LarpemService) {
+  constructor(private route: ActivatedRoute, private router: Router, private alertService: AlertService, private larpemService: LarpemService) {
 
   }
 
   ngOnInit() {
+    // this.documentName = this.route.paramMap.pipe(
+    //   switchMap((params: ParamMap) =>
+    //     this.documentName = params.get('documentName'))
+    // );
+    this.documentName = this.route.snapshot.paramMap.get('documentName');
+    console.info(this.documentName);
+
     // manual
     this.larpemService.currentManual.subscribe(x => {
       this.manualModel = x;

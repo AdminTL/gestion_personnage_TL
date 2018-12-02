@@ -216,7 +216,6 @@
     "sibling": [
       {
         "title": "Accueil",
-        "children": [],
         "mat_icon": "home",
         "router_link": "/home",
         "fa_icon": ""
@@ -226,21 +225,21 @@
       {
         "title": "Guide / Manuel",
         "mat_icon": "description",
-        "router_link": "",
+        "router_link": "/manual",
         "fa_icon": "",
         "children": [
           {
             "title": "Manuel du joueur",
-            "children": [],
             "mat_icon": "description",
             "router_link": "/manual",
+            "router_link_param": "player",
             "fa_icon": ""
           },
           {
             "title": "Univers",
-            "children": [],
             "mat_icon": "description",
-            "router_link": "/lore",
+            "router_link": "/manual",
+            "router_link_param": "lore",
             "fa_icon": ""
           }
         ]
@@ -253,7 +252,6 @@
         "children": [
           {
             "title": "Personnage",
-            "children": [],
             "mat_icon": "",
             "router_link": "/character",
             "fa_icon": "theater-masks"
@@ -268,28 +266,24 @@
         "children": [
           {
             "title": "Personnage",
-            "children": [],
             "mat_icon": "",
             "router_link": "/character",
             "fa_icon": "theater-masks"
           },
           {
             "title": "Manuel Admin",
-            "children": [],
             "mat_icon": "description",
             "router_link": "/manual",
             "fa_icon": ""
           },
           {
             "title": "Éditeur",
-            "children": [],
             "mat_icon": "edit",
             "router_link": "",
             "fa_icon": ""
           },
           {
             "title": "Paramètre",
-            "children": [],
             "mat_icon": "settings",
             "router_link": "",
             "fa_icon": ""
@@ -301,7 +295,7 @@
   "manual": {
     "documents": [
       {
-        "name": "user_manual",
+        "name": "player",
         "sections": [
           {
             "title": "Mécanique de base",
@@ -3079,6 +3073,10 @@
             ]
           }
         ]
+      },
+      {
+        "name": "lore",
+        "sections": []
       }
     ]
   }

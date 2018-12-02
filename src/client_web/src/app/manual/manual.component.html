@@ -1,11 +1,20 @@
-﻿<h1>L'univers de Traître-Lame</h1>
+﻿<ng-container *ngIf="!documentName; then noDocument; else withDocument"></ng-container>
 
-<ng-container *ngIf="!manualRoot; then manualLoading; else manualReady"></ng-container>
-
-<ng-template #manualLoading>
-  <p><em>Chargement...</em></p>
+<ng-template #noDocument>
+  <ul>
+    <li *ngFor="let document of manualModel.documents" [routerLink]="[document.name]">{{document.name}}</li>
+  </ul>
 </ng-template>
 
-<ng-template #manualReady>
-  <dynamic-section *ngFor="let element of manualRoot.sections" [section]="element" [depth]="0"></dynamic-section>
+<ng-template #withDocument>
+  <ng-container *ngIf="!manualRoot; then manualLoading; else manualReady"></ng-container>
+  <ng-template #manualLoading>
+    <mat-progress-spinner color="primary" mode="indeterminate"></mat-progress-spinner>
+  </ng-template>
+
+  <ng-template #manualReady>
+    <h1>{{manualRoot.name}}</h1>
+    <h1>test {{documentName}}</h1>
+    <dynamic-section *ngFor="let element of manualRoot.sections" [section]="element" [depth]="0"></dynamic-section>
+  </ng-template>
 </ng-template>

@@ -21,7 +21,7 @@
     <div class="mt-3" *ngIf="modelMenu && modelMenu.sibling">
       <ng-container *ngFor="let sub_menu of modelMenu.sibling">
 
-        <mat-nav-list *ngIf="sub_menu.children?.length == 0" [routerLink]="[sub_menu.router_link]">
+        <mat-nav-list *ngIf="!sub_menu.children" [routerLink]="sub_menu.router_link_param ? [sub_menu.router_link, sub_menu.router_link_param] : [sub_menu.router_link]">
           <mat-list-item class="ml-2" style="font-size:15px;">
             <mat-icon *ngIf="sub_menu.mat_icon" class="mr-1">{{sub_menu.mat_icon}}</mat-icon>
             <fa-icon *ngIf="sub_menu.fa_icon" [icon]="sub_menu.fa_icon" class="mr-1"></fa-icon>
@@ -37,12 +37,12 @@
             <mat-panel-title>
               <mat-icon *ngIf="sub_menu.mat_icon" class="mr-1">description</mat-icon>
               <fa-icon *ngIf="sub_menu.fa_icon" [icon]="sub_menu.fa_icon" class="mr-1"></fa-icon>
-              {{sub_menu.title}}
+              <span [routerLink]="sub_menu.router_link_param ? [sub_menu.router_link, sub_menu.router_link_param] : [sub_menu.router_link]">{{sub_menu.title}}</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
 
           <mat-nav-list class="ml-0" dense *ngIf="sub_menu.children?.length > 0">
-            <mat-list-item [routerLink]="[children.router_link]" *ngFor="let children of sub_menu.children">
+            <mat-list-item [routerLink]="children.router_link_param ? [children.router_link, children.router_link_param] : [children.router_link]" *ngFor="let children of sub_menu.children">
               <mat-icon *ngIf="children.mat_icon" class="mr-1">{{children.mat_icon}}</mat-icon>
               <fa-icon *ngIf="children.fa_icon" [icon]="children.fa_icon" class="mr-1"></fa-icon>
               {{children.title}}
