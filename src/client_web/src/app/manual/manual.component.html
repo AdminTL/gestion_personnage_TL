@@ -3,29 +3,25 @@
 <div *ngIf="manual$ | async as manual">
   <ng-container *ngIf="!documentName; then noDocument; else withDocument"></ng-container>
   <ng-template #noDocument>
-    <div class="p-grid">
-      <div class="p-col-12 p-md-6 p-lg-3" *ngFor="let document of manual.documents">
-        <div class="box">
-          <mat-card class="manual-card" [routerLink]="[document.name]">
-            <mat-card-header>
-              <mat-card-title>{{document.title}}</mat-card-title>
-              <mat-card-subtitle>{{document.subtitle}}</mat-card-subtitle>
-            </mat-card-header>
-            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-            <mat-card-content>
-              <p>
-                {{document.summary}}
-              </p>
-            </mat-card-content>
-            <mat-card-actions>
-              <button mat-button color="primary">Imprimer</button>
-              <button mat-button color="primary">Partager</button>
-            </mat-card-actions>
-          </mat-card>
-        </div>
-      </div>
-
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="left">
+      <mat-card class="manual-card" [routerLink]="[document.name]" *ngFor="let document of manual.documents">
+        <mat-card-header>
+          <mat-card-title>{{document.title}}</mat-card-title>
+          <mat-card-subtitle>{{document.subtitle}}</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+        <mat-card-content>
+          <p>
+            {{document.summary}}
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button color="primary" fxFlex="20%">Imprimer</button>
+          <button mat-button color="primary" fxFlex="20%">Partager</button>
+        </mat-card-actions>
+      </mat-card>
     </div>
+
     <!--<p-card *ngFor="let document of manual.documents" [routerLink]="[document.name]" [header]="document.title" [subheader]="document.name" [style]="{width: '360px'}" styleClass="ui-card-shadow">-->
     <!--&lt;!&ndash;<p-header>&ndash;&gt;-->
     <!--&lt;!&ndash;Picture!&ndash;&gt;-->
