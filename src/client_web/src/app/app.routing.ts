@@ -7,6 +7,7 @@ import {LoginComponent} from './login';
 import {RegisterComponent} from './register';
 import {NotFoundComponent} from './not-found';
 import {ManualComponent} from './manual';
+import {UserProfileComponent} from './user-profile';
 
 import {CharacterFrameComponent} from './character/character-frame.component';
 import {CharacterFormComponent} from './character/form/character-form.component';
@@ -25,6 +26,7 @@ const appRoutes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   // {path: '', component: HomeComponent},
   {path: 'home', component: HomeComponent},
+  {path: 'user_profile', component: UserProfileComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'character', redirectTo: '/character/form', pathMatch: 'full'},
