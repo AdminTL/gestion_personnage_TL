@@ -83,7 +83,7 @@ export class AppComponent implements OnInit, OnDestroy {
     });
 
     ScreenFull.on("error", event => {
-      this.alertService.error("Failed to toggle fullscreen : " + event);
+      this.alertService.error("Sans succès de plein écran : " + event);
     });
   }
 

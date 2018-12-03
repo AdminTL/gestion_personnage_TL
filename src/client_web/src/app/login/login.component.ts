@@ -53,6 +53,7 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
+          this.alertService.success("Connexion réussit. Bienvenu " + this.f.username.value, true);
           this.router.navigate([this.returnUrl]);
         },
         error => {
