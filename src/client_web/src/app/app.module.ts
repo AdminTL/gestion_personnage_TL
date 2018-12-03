@@ -24,6 +24,7 @@ import {HomeComponent} from './home/home.component';
 import {JwtInterceptor, ErrorInterceptor} from './_helpers';
 import {ManualComponent} from './manual/manual.component';
 import {DynamicSectionComponent} from './dynamic-section/dynamic-section.component';
+import {LarpemEditorComponent} from './larpem-editor/larpem-editor.component';
 import {UserProfileComponent} from './user-profile/user-profile.component';
 import {NotFoundComponent} from './not-found/not-found.component';
 import {LoginComponent} from './login/login.component';
@@ -51,6 +52,7 @@ import {SharedModule} from './shared';
     CharacterHeaderComponent,
     HomeComponent,
     DynamicSectionComponent,
+    LarpemEditorComponent,
     UserProfileComponent,
     ManualComponent,
     NotFoundComponent,

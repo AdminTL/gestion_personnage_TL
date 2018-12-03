@@ -8,6 +8,7 @@ import {RegisterComponent} from './register';
 import {NotFoundComponent} from './not-found';
 import {ManualComponent} from './manual';
 import {UserProfileComponent} from './user-profile';
+import {LarpemEditorComponent} from './larpem-editor';
 
 import {CharacterFrameComponent} from './character/character-frame.component';
 import {CharacterFormComponent} from './character/form/character-form.component';
@@ -26,7 +27,8 @@ const appRoutes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   // {path: '', component: HomeComponent},
   {path: 'home', component: HomeComponent},
-  {path: 'user_profile', component: UserProfileComponent},
+  {path: 'user/profile', component: UserProfileComponent},
+  {path: 'admin/editor', component: LarpemEditorComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'character', redirectTo: '/character/form', pathMatch: 'full'},

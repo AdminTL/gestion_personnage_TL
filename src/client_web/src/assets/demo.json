@@ -278,7 +278,7 @@
           {
             "title": "Éditeur",
             "matIcon": "edit",
-            "routerLink": "",
+            "routerLink": "admin/editor",
             "faIcon": ""
           },
           {
