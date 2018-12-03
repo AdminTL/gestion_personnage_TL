@@ -278,13 +278,13 @@
           {
             "title": "Éditeur",
             "matIcon": "edit",
-            "routerLink": "admin/editor",
+            "routerLink": "/admin/editor",
             "faIcon": ""
           },
           {
             "title": "Paramètre",
             "matIcon": "settings",
-            "routerLink": "",
+            "routerLink": "/admin/setting",
             "faIcon": ""
           }
         ]

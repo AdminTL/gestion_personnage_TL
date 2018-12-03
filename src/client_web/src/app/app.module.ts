@@ -25,7 +25,9 @@ import {JwtInterceptor, ErrorInterceptor} from './_helpers';
 import {ManualComponent} from './manual/manual.component';
 import {DynamicSectionComponent} from './dynamic-section/dynamic-section.component';
 import {LarpemEditorComponent} from './larpem-editor/larpem-editor.component';
+import {LarpemSettingComponent} from './larpem-setting/larpem-setting.component';
 import {UserProfileComponent} from './user-profile/user-profile.component';
+import {UserSettingComponent} from './user-setting/user-setting.component';
 import {NotFoundComponent} from './not-found/not-found.component';
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
@@ -53,7 +55,9 @@ import {SharedModule} from './shared';
     HomeComponent,
     DynamicSectionComponent,
     LarpemEditorComponent,
+    LarpemSettingComponent,
     UserProfileComponent,
+    UserSettingComponent,
     ManualComponent,
     NotFoundComponent,
     AppComponent,
