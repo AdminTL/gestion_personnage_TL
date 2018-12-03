@@ -492,22 +492,22 @@
                       "Assaut",
                       {
                         "type": "image",
-                        "src": "static/resources/media/assaut.png"
+                        "src": "https://material.angular.io/assets/img/examples/shiba2.jpg"
                       },
                       "Jambette",
                       {
                         "type": "image",
-                        "src": "static/resources/media/jambette.png"
+                        "src": "https://material.angular.io/assets/img/examples/shiba2.jpg"
                       },
                       "Désarmement",
                       {
                         "type": "image",
-                        "src": "static/resources/media/désarmement.png"
+                        "src": "https://material.angular.io/assets/img/examples/shiba2.jpg"
                       },
                       "Coupe-souffle",
                       {
                         "type": "image",
-                        "src": "static/resources/media/coupe-souffle.png"
+                        "src": "https://material.angular.io/assets/img/examples/shiba2.jpg"
                       }
                     ]
                   },
@@ -565,22 +565,22 @@
                       "Coup bas",
                       {
                         "type": "image",
-                        "src": "static/resources/media/coup_bas.png"
+                        "src": "https://material.angular.io/assets/img/examples/shiba2.jpg"
                       },
                       "Coup sonnant",
                       {
                         "type": "image",
-                        "src": "static/resources/media/coup_sonnant.png"
+                        "src": "https://material.angular.io/assets/img/examples/shiba2.jpg"
                       },
                       "Coupe-jarret",
                       {
                         "type": "image",
-                        "src": "static/resources/media/coupe-jarret.png"
+                        "src": "https://material.angular.io/assets/img/examples/shiba2.jpg"
                       },
                       "Stylet",
                       {
                         "type": "image",
-                        "src": "static/resources/media/stylet.png"
+                        "src": "https://material.angular.io/assets/img/examples/shiba2.jpg"
                       }
                     ]
                   },
@@ -3108,7 +3108,7 @@
                       "Carte du terrain.",
                       {
                         "type": "image",
-                        "src": "static/resources/media/carte_de_demi_terrain.jpg"
+                        "src": "https://material.angular.io/assets/img/examples/shiba2.jpg"
                       }
                     ]
                   },
@@ -3118,7 +3118,7 @@
                       "Map du monde.",
                       {
                         "type": "image",
-                        "src": "static/resources/media/carte_du_monde.jpg"
+                        "src": "https://material.angular.io/assets/img/examples/shiba2.jpg"
                       }
                     ]
                   }
@@ -3158,7 +3158,7 @@
                       ],
                       {
                         "type": "image",
-                        "src": "static/resources/media/Canavim.jpg"
+                        "src": "https://material.angular.io/assets/img/examples/shiba2.jpg"
                       }
                     ]
                   },
@@ -3176,7 +3176,7 @@
                       ],
                       {
                         "type": "image",
-                        "src": "static/resources/media/Vanicant.jpg"
+                        "src": "https://material.angular.io/assets/img/examples/shiba2.jpg"
                       }
                     ]
                   },

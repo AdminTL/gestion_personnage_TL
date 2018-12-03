@@ -29,7 +29,8 @@ export class DynamicSectionComponent {
   }
 
   public isMedia(elem: any): boolean {
-    return (elem as Media).type !== undefined;
+    let mediaType: string = (elem as Media).type;
+    return mediaType !== undefined && mediaType == "image";
   }
 
   public isDefined(elem: any): boolean {

@@ -7,26 +7,43 @@
 <h6 *ngIf="depth>=5" [id]="getShortTitle()" class="show-anchor">{{section.title}} <a [routerLink]="[route]" [fragment]="getShortTitle()" class="anchor glyphicon glyphicon-link"></a></h6>
 
 <div *ngIf="isDefined(section.description)">
-    <div *ngIf="isString(section.description)">
-        {{section.description}}
-    </div>
+  <div *ngIf="isString(section.description)" [innerHTML]="section.description"></div>
 
-    <div *ngIf="!isString(section.description) && isArray(section.description)">
-        <div *ngFor="let element of section.description">
-            <div *ngIf="isString(element)">{{element}}</div>
-            <ul *ngIf="!isString(element) && isArray(element)">
-                <li *ngFor="let sub of element">
-                    <div *ngIf="isString(sub)">{{sub}}</div>
-                    <ul *ngIf="!isString(sub) && isArray(sub)">
-                        <li *ngFor="let str of sub">{{str}}</li>
-                    </ul>
-                </li>
-            </ul>
-            <div *ngIf="!isString(element) && !isArray(element) && isMedia(element)">TODO MEDIA TYPE</div>
+  <div *ngIf="!isString(section.description) && isArray(section.description)">
+    <div *ngFor="let element of section.description">
+      <div *ngIf="isString(element)" [innerHTML]="element"></div>
+      <ul *ngIf="!isString(element) && isArray(element)">
+        <li *ngFor="let sub of element">
+          <div *ngIf="isString(sub)" [innerHTML]="sub"></div>
+          <ul *ngIf="!isString(sub) && isArray(sub)">
+            <li *ngFor="let str of sub" [innerHTML]="str"></li>
+          </ul>
+        </li>
+      </ul>
+      <div *ngIf="!isString(element) && !isArray(element) && isMedia(element)">
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="left">
+          <mat-card class="manual-card">
+            <!--<mat-card-header>-->
+            <!--<mat-card-title>{{document.title}}</mat-card-title>-->
+            <!--<mat-card-subtitle>{{document.subtitle}}</mat-card-subtitle>-->
+            <!--</mat-card-header>-->
+            <img mat-card-image [src]="element.src" alt="Photo of a Shiba Inu">
+            <!--<mat-card-content>-->
+            <!--<p>-->
+            <!--{{document.summary}}-->
+            <!--</p>-->
+            <!--</mat-card-content>-->
+            <!--<mat-card-actions>-->
+            <!--<button mat-button color="primary" fxFlex="20%">Imprimer</button>-->
+            <!--<button mat-button color="primary" fxFlex="20%">Partager</button>-->
+            <!--</mat-card-actions>-->
+          </mat-card>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <div *ngFor="let section of section.section">
-    <dynamic-section [section]="section" [depth]="depth + 1"></dynamic-section>
+  <dynamic-section [section]="section" [depth]="depth + 1"></dynamic-section>
 </div>
