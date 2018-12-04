@@ -53,11 +53,15 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
-          this.alertService.success("Connexion réussit. Bienvenu " + this.f.username.value, true);
+          this.alertService.success("Connexion réussi. Bienvenu " + this.f.username.value, true);
+          // Force erase password in form
+          this.f.password.setValue("");
           this.router.navigate([this.returnUrl]);
         },
         error => {
           this.alertService.error(error);
+          // Force erase password in form
+          this.f.password.setValue("");
           this.loading = false;
         });
   }

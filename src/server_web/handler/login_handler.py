@@ -2,6 +2,7 @@ import tornado
 import tornado.web
 import tornado.auth
 import base_handler
+import jsonhandler
 import sys
 
 
@@ -366,11 +367,15 @@ class ValidateAuthHandler(base_handler.BaseHandler):
         self.finish()
 
 
-class UserAuthenticate(base_handler.BaseHandler):
+class UserAuthenticate(jsonhandler.JsonHandler):
     """This class is designed purely for client-side validation"""
 
     def post(self):
-        obj = {"id": 123, "username": "1234567890", "firstName": "123", "lastName": "123", "token": "fake"}
+        self.prepare_json()
+
+        username = self.get_argument("username")
+        password = self.get_argument("password")
+        obj = {"id": 123, "username": username, "firstName": "123", "lastName": "123", "token": "fake"}
         self.write(obj)
         self.finish()
 
