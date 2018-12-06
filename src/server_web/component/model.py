@@ -10,11 +10,12 @@ class Model(object):
 
     def __init__(self, parser):
         # self._str_manual = ""
-        self._model = {}
         if os.path.isfile(parser.db_model_path):
             self._model_path = parser.db_model_path
         elif os.path.isfile(parser.db_model_demo_path):
             self._model_path = parser.db_model_demo_path
+        else:
+            self._model_path = None
 
         if self._model_path:
             with open(self._model_path, encoding='utf-8') as model_file:

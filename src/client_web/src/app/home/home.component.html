@@ -1,117 +1,119 @@
 ﻿<p-progressSpinner *ngIf="!isLoaded"></p-progressSpinner>
 
-<div *ngIf="isLoaded">
-  <h1 [innerHTML]="modelHome.title"></h1>
+<ng-container *ngIf="modelHome">
+  <div *ngIf="isLoaded">
+    <h1 [innerHTML]="modelHome.title"></h1>
 
-  <p [innerHTML]="modelHome.summary"></p>
+    <p [innerHTML]="modelHome.summary"></p>
 
-  <div *ngIf="modelHome.showNextEvent">
-    <h3>Prochain événement
-      <fa-icon [icon]="['far', 'calendar-check']"></fa-icon>
-    </h3>
-    <p-accordion [multiple]="true">
-      <p-accordionTab [selected]="nextEvent.selected">
-        <p-header [innerHTML]="nextEvent.title"></p-header>
-        <p>Type d'événement: <b [innerHTML]="nextEvent.eventType"></b></p>
-        <p>Date: <b [innerHTML]="nextEvent.date.text"></b></p>
-        <p *ngIf="modelHome.activity.location.showed">
-          Lieu: <b>
-          <a href="{{modelHome.activity.location.external_href}}">
-            <u>
-              {{modelHome.activity.location.name}}
-              <fa-icon icon="map-marker"></fa-icon>
-              {{modelHome.activity.location.address}}
-            </u>
-          </a>
-        </b>
-        </p>
-        <div>
-          Prix:
-          <ul>
-            <ng-container *ngFor="let price of nextEvent.pricing">
-              <li *ngIf="price.showed">
-                <span *ngIf="price.title" [innerHTML]="price.title"></span>
-                <span *ngIf="price.price">: {{price.price}}<span *ngIf="price.currency">{{price.currency}}</span></span>
-                <span *ngIf="price.textMoreInformation"> - <span [innerHTML]="price.textMoreInformation"></span></span>
-                <span *ngIf="price.matIcon"> <mat-icon [matBadge]="price.count_unit" matBadgePosition="above after">{{price.matIcon}}</mat-icon></span>
-              </li>
-            </ng-container>
-          </ul>
-        </div>
-        <p *ngIf="nextEvent.age.showed">
-          Âge: <span [innerHTML]="nextEvent.age.text"></span>
-        </p>
-        <p *ngIf="nextEvent.facebook_event.showed">
-          <a href="{{nextEvent.facebook_event.external_href}}">
-            <fa-icon [icon]="['fab', 'facebook-square']"></fa-icon>
-            <u>
-              Événement
-              Facebook
-              <fa-icon icon="link"></fa-icon>
-            </u>
-          </a>
-        </p>
-      </p-accordionTab>
+    <div *ngIf="modelHome.showNextEvent">
+      <h3>Prochain événement
+        <fa-icon [icon]="['far', 'calendar-check']"></fa-icon>
+      </h3>
+      <p-accordion [multiple]="true">
+        <p-accordionTab [selected]="nextEvent.selected">
+          <p-header [innerHTML]="nextEvent.title"></p-header>
+          <p>Type d'événement: <b [innerHTML]="nextEvent.eventType"></b></p>
+          <p>Date: <b [innerHTML]="nextEvent.date.text"></b></p>
+          <p *ngIf="modelHome.activity.location.showed">
+            Lieu: <b>
+            <a href="{{modelHome.activity.location.external_href}}">
+              <u>
+                {{modelHome.activity.location.name}}
+                <fa-icon icon="map-marker"></fa-icon>
+                {{modelHome.activity.location.address}}
+              </u>
+            </a>
+          </b>
+          </p>
+          <div>
+            Prix:
+            <ul>
+              <ng-container *ngFor="let price of nextEvent.pricing">
+                <li *ngIf="price.showed">
+                  <span *ngIf="price.title" [innerHTML]="price.title"></span>
+                  <span *ngIf="price.price">: {{price.price}}<span *ngIf="price.currency">{{price.currency}}</span></span>
+                  <span *ngIf="price.textMoreInformation"> - <span [innerHTML]="price.textMoreInformation"></span></span>
+                  <span *ngIf="price.matIcon"> <mat-icon [matBadge]="price.count_unit" matBadgePosition="above after">{{price.matIcon}}</mat-icon></span>
+                </li>
+              </ng-container>
+            </ul>
+          </div>
+          <p *ngIf="nextEvent.age.showed">
+            Âge: <span [innerHTML]="nextEvent.age.text"></span>
+          </p>
+          <p *ngIf="nextEvent.facebook_event.showed">
+            <a href="{{nextEvent.facebook_event.external_href}}">
+              <fa-icon [icon]="['fab', 'facebook-square']"></fa-icon>
+              <u>
+                Événement
+                Facebook
+                <fa-icon icon="link"></fa-icon>
+              </u>
+            </a>
+          </p>
+        </p-accordionTab>
 
-      <p-accordionTab [selected]="nextEvent.description.selected">
-        <p-header [innerHTML]="nextEvent.description.title"></p-header>
-        <div [innerHTML]="nextEvent.description.text"></div>
-      </p-accordionTab>
+        <p-accordionTab [selected]="nextEvent.description.selected">
+          <p-header [innerHTML]="nextEvent.description.title"></p-header>
+          <div [innerHTML]="nextEvent.description.text"></div>
+        </p-accordionTab>
 
-    </p-accordion>
-  </div>
-
-  <div *ngIf="modelHome.activity.showed">
-    <h1 [innerHTML]="modelHome.activity.description.title"></h1>
-    <div [innerHTML]="modelHome.activity.description.text"></div>
-  </div>
-
-  <div *ngIf="modelHome.date.showed">
-    <h1 [innerHTML]="modelHome.date.title"></h1>
-    <ul *ngIf="modelHome.date.useEventDate">
-      <li *ngFor="let event of modelHome.events" [ngStyle]="event.date.highlight && {'color':'#00FF00'}">{{event.date.text}}<span
-        *ngIf="event.date.textMoreInformation">: {{event.date.textMoreInformation}}</span>
-      </li>
-    </ul>
-  </div>
-
-  <div *ngIf="modelHome.pricing.showed">
-    <h1 [innerHTML]="modelHome.pricing.title"></h1>
-    <ul *ngIf="modelHome.pricing.useNextEventPricing">
-      <ng-container *ngFor="let price of nextEvent.pricing">
-        <li *ngIf="price.showed">
-          <span *ngIf="price.title" [innerHTML]="price.title"></span>
-          <span *ngIf="price.price">: {{price.price}}<span *ngIf="price.currency">{{price.currency}}</span></span>
-          <span *ngIf="price.textMoreInformation"> - <span [innerHTML]="price.textMoreInformation"></span></span>
-          <span *ngIf="price.matIcon"> <mat-icon [matBadge]="price.count_unit" matBadgePosition="above after">{{price.matIcon}}</mat-icon></span>
-        </li>
-      </ng-container>
-    </ul>
-  </div>
-
-  <div *ngIf="modelHome.activity.location.showed">
-    <h1>Localisation</h1>
-    <p>
-      Lieu:
-      <a href="{{modelHome.activity.location.external_href}}">
-        <u>
-          {{modelHome.activity.location.name}}
-          <fa-icon icon="map-marker"></fa-icon>
-          {{modelHome.activity.location.address}}
-        </u>
-      </a>
-    </p>
-    <p *ngIf="modelHome.activity.location.textMoreInformation" [innerHTML]="modelHome.activity.location.textMoreInformation"></p>
-  </div>
-
-  <div *ngIf="modelHome.thanks.showed">
-    <h1 [innerHTML]="modelHome.thanks.description.title"></h1>
-    <div [innerHTML]="modelHome.thanks.description.text"></div>
-    <div>
-      <a href="https://github.com/AdminTL/gestion_personnage_TL/blob/master/README.fr.md">Plus d'information sur le développement du logiciel Larp'em.
-        <fa-icon icon="link"></fa-icon>
-      </a>
+      </p-accordion>
     </div>
-  </div>
 
-</div>
+    <div *ngIf="modelHome.activity.showed">
+      <h1 [innerHTML]="modelHome.activity.description.title"></h1>
+      <div [innerHTML]="modelHome.activity.description.text"></div>
+    </div>
+
+    <div *ngIf="modelHome.date.showed">
+      <h1 [innerHTML]="modelHome.date.title"></h1>
+      <ul *ngIf="modelHome.date.useEventDate">
+        <li *ngFor="let event of modelHome.events" [ngStyle]="event.date.highlight && {'color':'#00FF00'}">{{event.date.text}}<span
+          *ngIf="event.date.textMoreInformation">: {{event.date.textMoreInformation}}</span>
+        </li>
+      </ul>
+    </div>
+
+    <div *ngIf="modelHome.pricing.showed">
+      <h1 [innerHTML]="modelHome.pricing.title"></h1>
+      <ul *ngIf="modelHome.pricing.useNextEventPricing">
+        <ng-container *ngFor="let price of nextEvent.pricing">
+          <li *ngIf="price.showed">
+            <span *ngIf="price.title" [innerHTML]="price.title"></span>
+            <span *ngIf="price.price">: {{price.price}}<span *ngIf="price.currency">{{price.currency}}</span></span>
+            <span *ngIf="price.textMoreInformation"> - <span [innerHTML]="price.textMoreInformation"></span></span>
+            <span *ngIf="price.matIcon"> <mat-icon [matBadge]="price.count_unit" matBadgePosition="above after">{{price.matIcon}}</mat-icon></span>
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+
+    <div *ngIf="modelHome.activity.location.showed">
+      <h1>Localisation</h1>
+      <p>
+        Lieu:
+        <a href="{{modelHome.activity.location.external_href}}">
+          <u>
+            {{modelHome.activity.location.name}}
+            <fa-icon icon="map-marker"></fa-icon>
+            {{modelHome.activity.location.address}}
+          </u>
+        </a>
+      </p>
+      <p *ngIf="modelHome.activity.location.textMoreInformation" [innerHTML]="modelHome.activity.location.textMoreInformation"></p>
+    </div>
+
+    <div *ngIf="modelHome.thanks.showed">
+      <h1 [innerHTML]="modelHome.thanks.description.title"></h1>
+      <div [innerHTML]="modelHome.thanks.description.text"></div>
+      <div>
+        <a href="https://github.com/AdminTL/gestion_personnage_TL/blob/master/README.fr.md">Plus d'information sur le développement du logiciel Larp'em.
+          <fa-icon icon="link"></fa-icon>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</ng-container>
