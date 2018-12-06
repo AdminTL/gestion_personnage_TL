@@ -23,11 +23,12 @@ class AngularEnvironment(object):
         with open(file_path, "w") as file:
             file.write(data)
 
-    def _get_template_environment(self, dev=True):
+    def _get_template_environment(self, dev=True, use_local_demo_data=False):
         str_prod = """export const environment = {
   production: true,
   enableRouteTracing: false,
   clearCacheOnInit: true,
+  useLocalDemoData: %s,
   apiUrl: 'http://localhost:8000'
 };
 """
@@ -39,6 +40,7 @@ export const environment = {
   production: false,
   enableRouteTracing: false,
   clearCacheOnInit: true,
+  useLocalDemoData: %s,
   apiUrl: 'http://localhost:8000'
 };
 
@@ -51,6 +53,8 @@ export const environment = {
  */
 // import 'zone.js/dist/zone-error';  // Included with Angular CLI.
 """
-        if dev:
-            return str_dev
-        return str_prod
+        data = str_dev if dev else str_prod
+
+        str_use_local_demo_data = "true" if use_local_demo_data else "false"
+        return_data = data % str_use_local_demo_data
+        return return_data

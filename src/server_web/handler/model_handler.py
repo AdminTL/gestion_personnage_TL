@@ -5,15 +5,15 @@ import jsonhandler
 import sys
 
 
-class ManualHandler(jsonhandler.JsonHandler):
+class ModelHandler(jsonhandler.JsonHandler):
     @tornado.web.asynchronous
     def get(self):
-        str_value = self._manual.get_str_all(is_admin=False)
+        str_value = self._model.get_str_all(is_admin=False)
         self.write(str_value)
         self.finish()
 
 
-class ManualAdminHandler(jsonhandler.JsonHandler):
+class ModelAdminHandler(jsonhandler.JsonHandler):
     @tornado.web.asynchronous
     def get(self):
         if not self.is_permission_admin():

@@ -19,12 +19,14 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     // Home
-    this.larpemService.currentHome.subscribe(x => {
+    this.larpemService.currentHome.subscribe((x: Home) => {
       this.modelHome = x;
-      if (this.modelHome) {
+      if (this.modelHome && this.modelHome.events && this.modelHome.indexNextEvent) {
         let indexNextEvent: any = this.modelHome.indexNextEvent;
         this.nextEvent = this.modelHome.events[indexNextEvent];
         this.isLoaded = true;
+      } else {
+        this.alertService.error('Cannot receive home model data.', true);
       }
     });
 

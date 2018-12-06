@@ -4,10 +4,12 @@ import {BehaviorSubject, Observable, of} from 'rxjs';
 
 import {AlertService} from '@app/_services/alert.service';
 import {Document, Home, LarpemModel, Manual, Menu, Organization} from '@app/_models';
+import {environment} from "@environments/environment";
 
 @Injectable({providedIn: 'root'})
 export class LarpemService {
-  private configUrl = "assets/demo.json";
+  private localDemoURL = "assets/demo.json";
+  private remoteURL = `${environment.apiUrl}/cmd/model/`;
 
   private currentMenuSubject: BehaviorSubject<Menu>;
   public currentMenu: Observable<Menu>;
@@ -99,7 +101,8 @@ export class LarpemService {
 
 
   public fetchModel() {
-    this.http.get(this.configUrl).subscribe(
+    let url: string = environment.useLocalDemoData ? this.localDemoURL : this.remoteURL;
+    this.http.get(url).subscribe(
       (data: LarpemModel) => {
         console.info("Service Larp'em fetch model - Done.");
         console.debug(data);

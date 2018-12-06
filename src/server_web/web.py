@@ -13,7 +13,7 @@ from handler import character_handler
 from handler import editor_handler
 from handler import index_handler
 from handler import login_handler
-from handler import manual_handler
+from handler import model_handler
 from handler import profile_handler
 # from component import web_socket
 # from sockjs.tornado import SockJSRouter
@@ -22,7 +22,7 @@ import os
 import stat
 import sys
 from component.db import DB
-from component.manual import Manual
+from component.model import Model
 from component.doc_generator.doc_generator_gspread import DocGeneratorGSpread
 from component.auth_keys import AuthKeys
 from component.project_archive import ProjectArchive
@@ -89,7 +89,7 @@ def main(parse_arg):
                 "debug": parse_arg.debug,
                 "use_internet_static": parse_arg.use_internet_static,
                 "db": DB(parse_arg),
-                "manual": Manual(parse_arg),
+                "model": Model(parse_arg),
                 "character_form": CharacterForm(parse_arg),
                 "doc_generator_gspread": DocGeneratorGSpread(parse_arg),
                 "project_archive": ProjectArchive(parse_arg),
@@ -126,8 +126,9 @@ def main(parse_arg):
                         kwargs=settings),
         tornado.web.url(r"/cmd/character_view/?", character_handler.CharacterViewHandler, name='character_view',
                         kwargs=settings),
-        tornado.web.url(r"/cmd/manual/?", manual_handler.ManualHandler, name='cmd_manual', kwargs=settings),
-        tornado.web.url(r"/cmd/manual_admin/?", manual_handler.ManualAdminHandler, name='cmd_manual_admin', kwargs=settings),
+        tornado.web.url(r"/cmd/model/?", model_handler.ModelHandler, name='cmd_model', kwargs=settings),
+        tornado.web.url(r"/cmd/admin/model/?", model_handler.ModelAdminHandler, name='cmd_model',
+                        kwargs=settings),
         tornado.web.url(r"/cmd/stat/total_season_pass/?", index_handler.StatSeasonPass,
                         name='cmd_stat_total_season_pass',
                         kwargs=settings),

@@ -187,8 +187,6 @@ class EditorCmdGenerateAndSaveHandler(jsonhandler.JsonHandler):
                 info["char_rule"] = dct_char_rule
             info["point"] = document["point"]
             info["skill_manual"] = document["skill_manual"]
-            # Link manual and form
-            info = self._manual.generate_link(info)
             # Write to database
             self._manual.update(info, save=True)
             status = {"status": "Generated with success. Database updated."}
