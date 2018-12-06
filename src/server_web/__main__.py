@@ -6,9 +6,9 @@
 import argparse
 import os
 import web
+from client.npm import NPM
+from client.angular_environment import AngularEnvironment
 from component.config import Config
-from pynpm import NPMPackage
-import threading
 
 WEB_ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
 WEB_DEFAULT_TEMPLATE_DIR = os.path.join(WEB_ROOT_DIR, "dist")
@@ -19,8 +19,10 @@ DB_CHARACTER_FORM_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "tl_
 DB_AUTH_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "auth.json")
 GOOGLE_API_SECRET_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "client_secret.json")
 CONFIG_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "config.json")
-
 PACKAGE_NPM = os.path.join(WEB_ROOT_DIR, os.pardir, "client_web", "package.json")
+ANGULAR_ENVIRONMENT_PATH = os.path.join(WEB_ROOT_DIR, "..", "client_web", "src", "environments", "environment.ts")
+ANGULAR_ENVIRONMENT_PROD_PATH = os.path.join(WEB_ROOT_DIR, "..", "client_web", "src", "environments",
+                                             "environment.prod.ts")
 
 
 def main():
@@ -28,51 +30,13 @@ def main():
     if args.debug:
         print("Arguments:%s" % args)
 
-    lst_thread = []
-    # Compile web client
-    if args.npm_install:
-        run_npm_install()
-    if args.npm_build:
-        run_npm_build()
-    if args.npm_build_prod:
-        run_npm_build_prod()
-    if args.npm_build_watch:
-        run_npm_build_watch(lst_thread)
-
-    # run_npm_build_fast()
+    ae = AngularEnvironment(args)
+    ae.run_from_main()
+    # npm = NPM(args)
+    # npm.run_from_main()
 
     # Run web client
     web.main(args)
-
-
-def run_npm_build_fast():
-    pkg = NPMPackage(PACKAGE_NPM)
-    pkg.run_script("build_fast")
-
-
-def run_npm_build_prod():
-    pkg = NPMPackage(PACKAGE_NPM)
-    pkg.run_script("build_prod")
-
-
-def run_npm_build():
-    pkg = NPMPackage(PACKAGE_NPM)
-    pkg.run_script("build")
-
-
-def run_npm_build_watch(lst_thread):
-    def coroutine():
-        pkg = NPMPackage(PACKAGE_NPM)
-        pkg.run_script("build_watch")
-
-    t = threading.Thread(target=coroutine)
-    lst_thread.append(t)
-    t.start()
-
-
-def run_npm_install():
-    pkg = NPMPackage(PACKAGE_NPM)
-    pkg.install()
 
 
 class Listen:
@@ -143,6 +107,13 @@ def parse_args():
                        help='Run NPM build watch in threading. '
                             'Can be append with npm_build and it runs after the first build is completed.')
 
+    group = parser.add_argument_group("Web client")
+    group.add_argument('--web_environment_data_client', default=False, action='store_true',
+                       help='Use data from client side by writing configuration in web environment, '
+                            'instead of server data.')
+    group.add_argument('--web_environment_prod', default=False, action='store_true',
+                       help='Use production for development in Angular.')
+
     _parser = parser.parse_args()
     _parser.db_demo_path = DB_DEMO_PATH
     _parser.db_manual_path = DB_MANUAL_PATH
@@ -150,6 +121,9 @@ def parse_args():
     _parser.db_auth_keys_path = DB_AUTH_PATH
     _parser.db_google_API_path = GOOGLE_API_SECRET_PATH
     _parser.db_config_path = CONFIG_PATH
+    _parser.db_package_NPM = PACKAGE_NPM
+    _parser.db_angular_environment_path = ANGULAR_ENVIRONMENT_PATH
+    _parser.db_angular_environment_prod_path = ANGULAR_ENVIRONMENT_PROD_PATH
 
     # Apply condition
     if not _parser.ssl and _parser.redirect_http_to_https:
