@@ -6,6 +6,7 @@ import tornado
 import tornado.ioloop
 import tornado.web
 import tornado.httpserver
+
 from handler import auto_ssl_handler
 from handler import admin_handler
 from handler import archive_handler
@@ -17,10 +18,7 @@ from handler import model_handler
 from handler import profile_handler
 # from component import web_socket
 # from sockjs.tornado import SockJSRouter
-import ssl
-import os
-import stat
-import sys
+
 from component.db import DB
 from component.model import Model
 from component.doc_generator.doc_generator_gspread import DocGeneratorGSpread
@@ -29,59 +27,14 @@ from component.project_archive import ProjectArchive
 from component.character_form import CharacterForm
 from tornado.log import enable_pretty_logging
 
-WEB_ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
-DEFAULT_SSL_DIRECTORY = os.path.join(WEB_ROOT_DIR, "..", "..", "ssl_cert", "certs")
-
 
 def main(parse_arg):
     if parse_arg.debug:
         enable_pretty_logging()
 
     # socket_connection = SockJSRouter(web_socket.TestStatusConnection, prefix='/update_user')
-
-    ssl_options = None
-    if parse_arg.ssl:
-        # ssl cert suppose to be in hostname directory
-        cert_file = os.path.join(DEFAULT_SSL_DIRECTORY, parse_arg.listen.address, "fullchain.pem")
-        key_file = os.path.join(DEFAULT_SSL_DIRECTORY, parse_arg.listen.address, "privkey.pem")
-
-        # stop server if permission is wrong, different of 600
-        for path_cert in [cert_file, key_file]:
-            permission = oct(os.stat(path_cert)[stat.ST_MODE])[-3:]
-            if permission != "600":
-                print("Error, expect permission 600 and got %s to file %s" % (permission, path_cert))
-                sys.exit(-1)
-
-        ssl_options = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
-        if os.path.isfile(cert_file) and os.path.isfile(key_file):
-            ssl_options.load_cert_chain(certfile=cert_file, keyfile=key_file)
-
-    host = parse_arg.listen.address
-    port = parse_arg.listen.port
-
-    if parse_arg.redirect_http_to_https:
-        if port == 80:
-            ssl_port = 443
-        else:
-            ssl_port = port + 1
-    else:
-        # force to use only https
-        if port == 80:
-            ssl_port = 443
-        else:
-            ssl_port = port
-
-    if ssl_options:
-        if ssl_port == 443:
-            url = "https://{0}".format(host)
-        else:
-            url = "https://{0}:{1}".format(host, ssl_port)
-    else:
-        if port == 80:
-            url = "http://{0}".format(host)
-        else:
-            url = "http://{0}:{1}".format(host, port)
-
+    http_secure = parse_arg.http_secure
+    host, port, url = http_secure.get_host_port_url()
     auth_keys = AuthKeys(parse_arg)
 
     # TODO store cookie_secret if want to reuse it if restart server
@@ -100,9 +53,7 @@ def main(parse_arg):
                 "config": parse_arg.config,
                 "hide_menu_login": parse_arg.hide_menu_login,
                 "disable_custom_css": parse_arg.disable_custom_css,
-                "url": url,
-                "port": port,
-                "redirect_http_to_https": parse_arg.redirect_http_to_https,
+                "http_secure": http_secure,
                 "login_url": "/login",
                 "cookie_secret": auth_keys.get("cookie_secret", auto_gen=True),
                 # TODO add xsrf_cookies
@@ -127,7 +78,7 @@ def main(parse_arg):
         tornado.web.url(r"/cmd/character_view/?", character_handler.CharacterViewHandler, name='character_view',
                         kwargs=settings),
         tornado.web.url(r"/cmd/model/?", model_handler.ModelHandler, name='cmd_model', kwargs=settings),
-        tornado.web.url(r"/cmd/admin/model/?", model_handler.ModelAdminHandler, name='cmd_model',
+        tornado.web.url(r"/cmd/admin/model/?", model_handler.ModelAdminHandler, name='cmd_model_admin',
                         kwargs=settings),
         tornado.web.url(r"/cmd/stat/total_season_pass/?", index_handler.StatSeasonPass,
                         name='cmd_stat_total_season_pass',
@@ -183,18 +134,15 @@ def main(parse_arg):
                         kwargs={'path': parse_arg.template_dir}))
 
     # Angular pages
-    routes.append(tornado.web.url(r'/(?:.*)/?', index_handler.IndexHandler, kwargs={'path': parse_arg.template_dir}))
+    routes.append(tornado.web.url(r'/(?:.*)/?', index_handler.IndexHandler, kwargs=settings))
 
     # application = tornado.web.Application(routes + socket_connection.urls, **settings)
     application = tornado.web.Application(routes, **settings)
-    if parse_arg.redirect_http_to_https:
-        application.listen(port)
+    if http_secure.has_enable_redirect_http_to_https():
+        application.listen(http_secure.get_http_port())
 
-    http_server = tornado.httpserver.HTTPServer(application, ssl_options=ssl_options)
-    if ssl_options:
-        http_server.listen(port=ssl_port)
-    else:
-        http_server.listen(port=port)
+    http_server = tornado.httpserver.HTTPServer(application, ssl_options=http_secure.get_ssl_options())
+    http_server.listen(port=http_secure.get_main_port())
 
     if tornado.version_info < (5, 0):
         print("WARNING: Using Tornado %s. Please upgrade to version 5.0 or higher." % tornado.version)

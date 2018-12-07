@@ -16,10 +16,10 @@ class BaseHandler(tornado.web.RequestHandler):
     _character_form = None
     _db = None
     _invalid_login = None
-    _redirect_http_to_https = None
     _config = None
     _doc_generator_gspread = None
     _project_archive = None
+    _http_secure = None
     _global_arg = {}
 
     def initialize(self, **kwargs):
@@ -30,10 +30,10 @@ class BaseHandler(tornado.web.RequestHandler):
         self._character_form = kwargs.get("character_form")
         self._invalid_login = self.get_argument("invalid",
                                                 default="disable_login" if kwargs.get("disable_login") else None)
-        self._redirect_http_to_https = kwargs.get("redirect_http_to_https")
         self._config = kwargs.get("config")
         self._doc_generator_gspread = kwargs.get("doc_generator_gspread")
         self._project_archive = kwargs.get("project_archive")
+        self._http_secure = kwargs.get("http_secure")
 
         self._global_arg = {
             "debug": self._debug,
@@ -45,20 +45,20 @@ class BaseHandler(tornado.web.RequestHandler):
             "disable_login": kwargs.get("disable_login"),
             "hide_menu_login": kwargs.get("hide_menu_login"),
             "disable_custom_css": kwargs.get("disable_custom_css"),
-            "url": kwargs.get("url"),
-            "port": kwargs.get("port"),
             "invalid_login": self._invalid_login
         }
 
     @tornado.web.asynchronous
     def prepare(self):
-        if self._redirect_http_to_https and self.request.protocol == 'http':
+        if self._http_secure and self._http_secure.has_enable_redirect_http_to_https() and \
+                self.request.protocol == 'http':
             # self.redirect('https://' + self.request.host, permanent=False)
             # use url from __main__ argument
-            url = self._global_arg.get("url") + self.request.uri
+            url = self._http_secure.get_url() + self.request.uri
 
             self.redirect(url, permanent=True)
-        elif self.request.protocol == 'https' and self._global_arg.get("port") == 80:
+        elif self._http_secure.has_enable_redirect_http_to_https() and self.request.protocol == 'https' and \
+                self._http_secure.get_http_port() == 80:
             # 3 months in second
             max_time = 2628000
 

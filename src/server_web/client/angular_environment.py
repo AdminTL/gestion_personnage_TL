@@ -29,7 +29,7 @@ class AngularEnvironment(object):
   enableRouteTracing: false,
   clearCacheOnInit: true,
   useLocalDemoData: %s,
-  apiUrl: 'http://localhost:8000'
+  apiUrl: '%s'
 };
 """
         str_dev = """// This file can be replaced during build by using the `fileReplacements` array.
@@ -41,7 +41,7 @@ export const environment = {
   enableRouteTracing: false,
   clearCacheOnInit: true,
   useLocalDemoData: %s,
-  apiUrl: 'http://localhost:8000'
+  apiUrl: '%s'
 };
 
 /*
@@ -54,7 +54,8 @@ export const environment = {
 // import 'zone.js/dist/zone-error';  // Included with Angular CLI.
 """
         data = str_dev if dev else str_prod
+        url = self._args.http_secure.get_url()
 
         str_use_local_demo_data = "true" if use_local_demo_data else "false"
-        return_data = data % str_use_local_demo_data
+        return_data = data % (str_use_local_demo_data, url)
         return return_data
