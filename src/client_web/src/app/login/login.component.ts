@@ -3,6 +3,9 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {first} from 'rxjs/operators';
 
+import {AuthService} from "angularx-social-login";
+import {FacebookLoginProvider, GoogleLoginProvider, LinkedInLoginProvider} from "angularx-social-login";
+
 import {AlertService, AuthenticationService} from '@app/_services';
 
 @Component({templateUrl: 'login.component.html'})
@@ -18,6 +21,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private authenticationService: AuthenticationService,
     private alertService: AlertService,
+    private authService: AuthService,
   ) {
     // redirect to home if already logged in
     if (this.authenticationService.currentUserValue) {
@@ -63,6 +67,11 @@ export class LoginComponent implements OnInit {
           // Force erase password in form
           this.f.password.setValue("");
           this.loading = false;
-        });
+        }
+      );
+  }
+
+  signInWithFB(): void {
+    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
   }
 }

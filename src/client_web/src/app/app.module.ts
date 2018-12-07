@@ -7,6 +7,9 @@ import {ReactiveFormsModule} from '@angular/forms';
 
 import {environment} from '@environments/environment';
 
+import {SocialLoginModule, AuthServiceConfig} from "angularx-social-login";
+import {GoogleLoginProvider, FacebookLoginProvider, LinkedInLoginProvider} from "angularx-social-login";
+
 import {CharacterFrameComponent} from './character/character-frame.component';
 import {CharacterFormComponent} from './character/form/character-form.component';
 import {CharacterFormSectionComponent} from './character/form/character-form-section.component';
@@ -33,6 +36,25 @@ import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
 import {SharedModule} from './shared';
 
+let config = new AuthServiceConfig([
+  {
+    id: GoogleLoginProvider.PROVIDER_ID,
+    provider: new GoogleLoginProvider(environment.googleOAuthClientId)
+  },
+  {
+    id: FacebookLoginProvider.PROVIDER_ID,
+    provider: new FacebookLoginProvider(environment.facebookAppId)
+    // },
+    // {
+    //   id: LinkedInLoginProvider.PROVIDER_ID,
+    //   provider: new LinkedInLoginProvider("LinkedIn-client-Id", false, 'en_US')
+  }
+]);
+
+export function provideConfig() {
+  return config;
+}
+
 @NgModule({
   imports: [
     HttpClientModule,
@@ -41,6 +63,7 @@ import {SharedModule} from './shared';
     FormsModule,
     BrowserModule,
     SharedModule,
+    SocialLoginModule,
     AppRouting,
   ],
   declarations: [
@@ -68,6 +91,7 @@ import {SharedModule} from './shared';
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+    {provide: AuthServiceConfig, useFactory: provideConfig},
   ],
   bootstrap: [AppComponent]
 })

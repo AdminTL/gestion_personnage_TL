@@ -24,7 +24,6 @@ import sys
 from component.db import DB
 from component.model import Model
 from component.doc_generator.doc_generator_gspread import DocGeneratorGSpread
-from component.auth_keys import AuthKeys
 from component.project_archive import ProjectArchive
 from component.character_form import CharacterForm
 from tornado.log import enable_pretty_logging
@@ -82,9 +81,8 @@ def main(parse_arg):
         else:
             url = "http://{0}:{1}".format(host, port)
 
-    auth_keys = AuthKeys(parse_arg)
+    auth_keys = parse_arg.auth_keys
 
-    # TODO store cookie_secret if want to reuse it if restart server
     settings = {"template_path": parse_arg.template_dir,
                 "debug": parse_arg.debug,
                 "use_internet_static": parse_arg.use_internet_static,
@@ -104,7 +102,7 @@ def main(parse_arg):
                 "port": port,
                 "redirect_http_to_https": parse_arg.redirect_http_to_https,
                 "login_url": "/login",
-                "cookie_secret": auth_keys.get("cookie_secret", auto_gen=True),
+                "cookie_secret": auth_keys.get("cookie_secret"),
                 # TODO add xsrf_cookies
                 # "xsrf_cookies": True,
                 }
@@ -127,7 +125,7 @@ def main(parse_arg):
         tornado.web.url(r"/cmd/character_view/?", character_handler.CharacterViewHandler, name='character_view',
                         kwargs=settings),
         tornado.web.url(r"/cmd/model/?", model_handler.ModelHandler, name='cmd_model', kwargs=settings),
-        tornado.web.url(r"/cmd/admin/model/?", model_handler.ModelAdminHandler, name='cmd_model',
+        tornado.web.url(r"/cmd/admin/model/?", model_handler.ModelAdminHandler, name='cmd_model_admin',
                         kwargs=settings),
         tornado.web.url(r"/cmd/stat/total_season_pass/?", index_handler.StatSeasonPass,
                         name='cmd_stat_total_season_pass',
