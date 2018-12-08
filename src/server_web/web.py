@@ -122,7 +122,7 @@ def main(parse_arg):
                                       kwargs=settings))
         routes.append(tornado.web.url(r"/user/register", login_handler.UserRegister, name='user_register',
                                       kwargs=settings))
-        routes.append(tornado.web.url(r"/user", login_handler.User, name='user', kwargs=settings))
+        routes.append(tornado.web.url(r"/user/current", login_handler.User, name='user', kwargs=settings))
 
     # Content files in the dist folder (js, css, images)
     routes.append(

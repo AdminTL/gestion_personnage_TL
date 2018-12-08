@@ -13,6 +13,10 @@ export class UserService {
     return this.http.get<User[]>(`${environment.apiUrl}/user`);
   }
 
+  getCurrent() {
+    return this.http.get<User>(`${environment.apiUrl}/user/current`);
+  }
+
   getById(id: number) {
     return this.http.get(`${environment.apiUrl}/user/${id}`);
   }

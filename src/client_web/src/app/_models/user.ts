@@ -4,4 +4,6 @@
   firstName: string;
   lastName: string;
   token: string;
+  user_id?: string;
+  facebook_id?: string;
 }

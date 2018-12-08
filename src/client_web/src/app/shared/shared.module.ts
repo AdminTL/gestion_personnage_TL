@@ -3,6 +3,8 @@ import {CommonModule} from '@angular/common';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 // import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
+import {CookieService} from 'ngx-cookie-service';
+
 import {
   MatButtonModule,
   MatBadgeModule,
@@ -107,6 +109,7 @@ library.add(fas, fab, far);
 
     PanelModule,
   ],
+  providers: [CookieService],
 })
 export class SharedModule {
 }

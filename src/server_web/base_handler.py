@@ -67,6 +67,9 @@ class BaseHandler(tornado.web.RequestHandler):
             self.set_header('X-XSS-Protection', '1; mode=block')
             self.set_header('X-Content-Type-Options', 'nosniff')
             self.set_header('Strict-Transport-Security', 'max-age=%s; includeSubdomains' % max_time)
+        self.set_header("Access-Control-Allow-Origin", "*")
+        self.set_header("Access-Control-Allow-Headers", "x-requested-with")
+        self.set_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
 
     def get_current_user(self):
         user_cookie = self.get_secure_cookie("user")
