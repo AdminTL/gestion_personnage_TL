@@ -22,7 +22,6 @@ from handler import profile_handler
 from component.db import DB
 from component.model import Model
 from component.doc_generator.doc_generator_gspread import DocGeneratorGSpread
-from component.auth_keys import AuthKeys
 from component.project_archive import ProjectArchive
 from component.character_form import CharacterForm
 from tornado.log import enable_pretty_logging
@@ -34,10 +33,8 @@ def main(parse_arg):
 
     # socket_connection = SockJSRouter(web_socket.TestStatusConnection, prefix='/update_user')
     http_secure = parse_arg.http_secure
-    host, port, url = http_secure.get_host_port_url()
-    auth_keys = AuthKeys(parse_arg)
+    auth_keys = parse_arg.auth_keys
 
-    # TODO store cookie_secret if want to reuse it if restart server
     settings = {"template_path": parse_arg.template_dir,
                 "debug": parse_arg.debug,
                 "use_internet_static": parse_arg.use_internet_static,
@@ -55,7 +52,7 @@ def main(parse_arg):
                 "disable_custom_css": parse_arg.disable_custom_css,
                 "http_secure": http_secure,
                 "login_url": "/login",
-                "cookie_secret": auth_keys.get("cookie_secret", auto_gen=True),
+                "cookie_secret": auth_keys.get("cookie_secret"),
                 # TODO add xsrf_cookies
                 # "xsrf_cookies": True,
                 }
@@ -147,11 +144,11 @@ def main(parse_arg):
     if tornado.version_info < (5, 0):
         print("WARNING: Using Tornado %s. Please upgrade to version 5.0 or higher." % tornado.version)
 
-    print('Starting server at {0}'.format(url))
+    print('Starting server at {0}'.format(http_secure.get_url()))
 
     if parse_arg.open_browser:
         # open a URL, if possible on new tab
-        webbrowser.open(url, new=2)
+        webbrowser.open(http_secure.get_url(), new=2)
 
     try:
         tornado.ioloop.IOLoop.current().start()

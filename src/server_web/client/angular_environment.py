@@ -9,6 +9,7 @@ class AngularEnvironment(object):
         self._path_dev = args.db_angular_environment_path
         self._path_prod = args.db_angular_environment_prod_path
         self._use_prod_environment = args.web_environment_prod
+        self._auth_keys = args.auth_keys
 
     def run_from_main(self):
         # if not self._use_prod_environment:
@@ -29,7 +30,9 @@ class AngularEnvironment(object):
   enableRouteTracing: false,
   clearCacheOnInit: true,
   useLocalDemoData: %s,
-  apiUrl: '%s'
+  apiUrl: '%s',
+  googleOAuthClientId: "%s",
+  facebookAppId: "%s",
 };
 """
         str_dev = """// This file can be replaced during build by using the `fileReplacements` array.
@@ -41,7 +44,9 @@ export const environment = {
   enableRouteTracing: false,
   clearCacheOnInit: true,
   useLocalDemoData: %s,
-  apiUrl: '%s'
+  apiUrl: '%s',
+  googleOAuthClientId: "%s",
+  facebookAppId: "%s",
 };
 
 /*
@@ -57,5 +62,11 @@ export const environment = {
         url = self._args.http_secure.get_url()
 
         str_use_local_demo_data = "true" if use_local_demo_data else "false"
-        return_data = data % (str_use_local_demo_data, url)
+        dct_google_oauth_client_id = self._auth_keys.get("google_oauth")
+        if dct_google_oauth_client_id and type(dct_google_oauth_client_id) is dict:
+            google_oauth_client_id = dct_google_oauth_client_id.get("key")
+        else:
+            google_oauth_client_id = ""
+        facebook_api_id = self._auth_keys.get("facebook_api_key")
+        return_data = data % (str_use_local_demo_data, url, google_oauth_client_id, facebook_api_id)
         return return_data

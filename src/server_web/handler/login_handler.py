@@ -173,75 +173,92 @@ class GoogleOAuth2LoginHandler(base_handler.BaseHandler, tornado.auth.GoogleOAut
 class FacebookGraphLoginHandler(base_handler.BaseHandler, tornado.auth.FacebookGraphMixin):
     @tornado.gen.coroutine
     def get(self):
-        try:
-            if self.get_argument("code", False):
-                facebook_user = yield self.get_authenticated_user(
-                    redirect_uri=self._global_arg["url"] + '/cmd/auth/facebook',
-                    client_id=self.settings["facebook_api_key"],
-                    client_secret=self.settings["facebook_secret"],
-                    code=self.get_argument("code"),
-                    extra_fields=["email"])
+        if self.get_argument("code", False):
+            facebook_user = yield self.get_authenticated_user(
+                redirect_uri=self._global_arg["url"] + '/cmd/auth/facebook',
+                client_id=self.settings["facebook_api_key"],
+                client_secret=self.settings["facebook_secret"],
+                code=self.get_argument("code"),
+                extra_fields=["email"])
+            print(facebook_user)
 
-                # Cancel by the user or other reason
-                if not facebook_user:
-                    self.redirect("/login?invalid=facebook")
-                    return
+        else:
+            yield self.authorize_redirect(
+                redirect_uri=self._global_arg["url"] + '/cmd/auth/facebook',
+                client_id=self.settings["facebook_api_key"],
+                # Permissions: https://developers.facebook.com/docs/facebook-login/permissions
+                extra_params={"scope": "email"})
 
-                access_token = facebook_user.get("access_token")
-
-                facebook_id = facebook_user.get("id")
-                user = self._db.get_user(id_type="facebook", user_id=facebook_id)
-
-                # Login
-                # If user is found, give him a secure cookie based on his user_id and Facebook access_token
-                if user:
-                    self.give_cookie(user.get("user_id"), facebook_access_token=access_token)
-                    return
-
-                # Sign up
-                else:
-                    username = facebook_user.get("name")
-                    email = facebook_user.get("email")
-                    name = facebook_user.get("name")
-                    given_name = facebook_user.get("first_name")
-                    family_name = facebook_user.get("last_name")
-                    locale = facebook_user.get("locale")
-
-                    # check if email exist or name. If yes, associate it with this account
-                    if self._db.user_exist(email=email):
-                        # use this email to associate
-                        user = self._db.get_user(email=email, force_email_no_password=True)
-                        if user:
-                            self._db.add_missing_info_user(user, facebook_id=facebook_id, given_name=given_name,
-                                                           family_name=family_name, locale=locale)
-                    else:
-                        user = self._db.create_user(username, name=name, given_name=given_name, family_name=family_name,
-                                                    locale=locale, email=email, facebook_id=facebook_id)
-
-                    if user:
-                        self.give_cookie(user.get("user_id"), facebook_access_token=access_token)
-                        return
-                    else:
-                        self.redirect("/login?invalid=facebook")
-                        return
-
-            else:
-                yield self.authorize_redirect(
-                    redirect_uri=self._global_arg["url"] + '/cmd/auth/facebook',
-                    client_id=self.settings["facebook_api_key"],
-                    # Permissions: https://developers.facebook.com/docs/facebook-login/permissions
-                    extra_params={"scope": "email"})
-
-        except KeyError as exception:
-            print("KeyError: " + str(exception) + " in FacebookGraphLoginHandler from %s" % self.request.remote_ip,
-                  file=sys.stderr)
-            self.redirect("/login?invalid=facebook")
-            return
-        except Exception as e:
-            print("Exception: " + str(e) + " in FacebookGraphLoginHandler from %s" % self.request.remote_ip,
-                  file=sys.stderr)
-            self.redirect("/login?invalid=facebook")
-            return
+    # def post(self):
+    #     try:
+    #         if self.get_argument("code", False):
+    #             facebook_user = yield self.get_authenticated_user(
+    #                 redirect_uri=self._global_arg["url"] + '/cmd/auth/facebook',
+    #                 client_id=self.settings["facebook_api_key"],
+    #                 client_secret=self.settings["facebook_secret"],
+    #                 code=self.get_argument("code"),
+    #                 extra_fields=["email"])
+    #
+    #             # Cancel by the user or other reason
+    #             if not facebook_user:
+    #                 self.redirect("/login?invalid=facebook")
+    #                 return
+    #
+    #             access_token = facebook_user.get("access_token")
+    #
+    #             facebook_id = facebook_user.get("id")
+    #             user = self._db.get_user(id_type="facebook", user_id=facebook_id)
+    #
+    #             # Login
+    #             # If user is found, give him a secure cookie based on his user_id and Facebook access_token
+    #             if user:
+    #                 self.give_cookie(user.get("user_id"), facebook_access_token=access_token)
+    #                 return
+    #
+    #             # Sign up
+    #             else:
+    #                 username = facebook_user.get("name")
+    #                 email = facebook_user.get("email")
+    #                 name = facebook_user.get("name")
+    #                 given_name = facebook_user.get("first_name")
+    #                 family_name = facebook_user.get("last_name")
+    #                 locale = facebook_user.get("locale")
+    #
+    #                 # check if email exist or name. If yes, associate it with this account
+    #                 if self._db.user_exist(email=email):
+    #                     # use this email to associate
+    #                     user = self._db.get_user(email=email, force_email_no_password=True)
+    #                     if user:
+    #                         self._db.add_missing_info_user(user, facebook_id=facebook_id, given_name=given_name,
+    #                                                        family_name=family_name, locale=locale)
+    #                 else:
+    #                     user = self._db.create_user(username, name=name, given_name=given_name, family_name=family_name,
+    #                                                 locale=locale, email=email, facebook_id=facebook_id)
+    #
+    #                 if user:
+    #                     self.give_cookie(user.get("user_id"), facebook_access_token=access_token)
+    #                     return
+    #                 else:
+    #                     self.redirect("/login?invalid=facebook")
+    #                     return
+    #
+    #         else:
+    #             yield self.authorize_redirect(
+    #                 redirect_uri=self._global_arg["url"] + '/cmd/auth/facebook',
+    #                 client_id=self.settings["facebook_api_key"],
+    #                 # Permissions: https://developers.facebook.com/docs/facebook-login/permissions
+    #                 extra_params={"scope": "email"})
+    #
+    #     except KeyError as exception:
+    #         print("KeyError: " + str(exception) + " in FacebookGraphLoginHandler from %s" % self.request.remote_ip,
+    #               file=sys.stderr)
+    #         self.redirect("/login?invalid=facebook")
+    #         return
+    #     except Exception as e:
+    #         print("Exception: " + str(e) + " in FacebookGraphLoginHandler from %s" % self.request.remote_ip,
+    #               file=sys.stderr)
+    #         self.redirect("/login?invalid=facebook")
+    #         return
 
 
 class TwitterLoginHandler(base_handler.BaseHandler, tornado.auth.TwitterMixin):
@@ -375,8 +392,29 @@ class UserAuthenticate(jsonhandler.JsonHandler):
 
         username = self.get_argument("username")
         password = self.get_argument("password")
-        obj = {"id": 123, "username": username, "firstName": "123", "lastName": "123", "token": "fake"}
-        self.write(obj)
+        has_error = False
+
+        # Try finding the user by mail...
+        # user = None
+        # if "@" in username_or_email:
+        #     user = self._db.get_user(email=username_or_email, password=password)
+        # # ... or by name.
+        # if not user:
+        user = self._db.get_user(username=username, password=password)
+        if user:
+            self.give_cookie(user.get("user_id"))
+        else:
+            print("Invalid email/password combination from %s" % self.request.remote_ip, file=sys.stderr)
+            has_error = True
+
+        # Validation
+        if has_error:
+            self.set_status(400)
+            self.send_error(400)
+            raise tornado.web.Finish()
+
+        # obj = {"id": 123, "username": username, "firstName": "123", "lastName": "123", "token": "fake"}
+        # self.write(obj)
         self.finish()
 
 
@@ -384,6 +422,23 @@ class UserRegister(base_handler.BaseHandler):
     """This class is designed purely for client-side validation"""
 
     def post(self):
+        self.prepare_json()
+
+        username = self.get_argument("username")
+        if not username:
+            print("Username is empty from %s" % self.request.remote_ip, file=sys.stderr)
+
+        password = self.get_argument("password")
+        has_error = False
+        # user = self._db.create_user(username, name=name, given_name=given_name, password=password,
+        #                             family_name=family_name, email=email, facebook_id=facebook_id)
+        #
+        # if user:
+        #     self.give_cookie(user.get("user_id"), facebook_access_token=access_token)
+        #     return
+        # else:
+        #     self.redirect("/login?invalid=facebook")
+        #     return
         self.set_status(200)
         self.finish()
 
