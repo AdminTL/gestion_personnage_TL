@@ -10,7 +10,7 @@ import uuid
 class AuthKeys(object):
     """Contains keys and secrets needed for third-party authentication."""
 
-    def __init__(self, parser):
+    def __init__(self, parser, auto_gen_secret=False):
         self._db_auth_keys_path = parser.db_auth_keys_path
         self.keys = {}
         try:
@@ -22,18 +22,21 @@ class AuthKeys(object):
         except FileNotFoundError:
             print("ERROR: file %s not exist. Please create it or read installation file." % parser.db_auth_keys_path)
 
-    def get(self, key, auto_gen=False):
-        result = self.keys.get(key)
-        if not result:
-            if not auto_gen:
-                print("WARNING: Key \"%s\" is not set. Some third-party authentications may not work properly." % key,
-                      file=stderr)
-            else:
+        if auto_gen_secret:
+            key = "cookie_secret"
+            if key not in self.keys:
                 print("WARNING: Regenerate key \"%s\"." % key)
                 bytes_result = base64.b64encode(uuid.uuid4().bytes + uuid.uuid4().bytes)
                 result = bytes_result.decode('utf-8')
                 self.keys[key] = result
+                # Save generated key
                 self._flush()
+
+    def get(self, key, default=""):
+        result = self.keys.get(key, default)
+        if not result:
+            print("WARNING: Key \"%s\" is not set. Some third-party authentications may not work properly." % key,
+                  file=stderr)
         return result
 
     def _flush(self):

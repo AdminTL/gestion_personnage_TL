@@ -45,7 +45,8 @@ class BaseHandler(tornado.web.RequestHandler):
             "disable_login": kwargs.get("disable_login"),
             "hide_menu_login": kwargs.get("hide_menu_login"),
             "disable_custom_css": kwargs.get("disable_custom_css"),
-            "invalid_login": self._invalid_login
+            "invalid_login": self._invalid_login,
+            "url": self._http_secure.get_url()
         }
 
     @tornado.web.asynchronous
@@ -96,7 +97,7 @@ class BaseHandler(tornado.web.RequestHandler):
             }
             serialize_data = json.dumps(data)
             self.set_secure_cookie("user", serialize_data)
-            self.redirect("/profile")
+            self.redirect("/")
         else:
             print("User doesn't have an id.", file=sys.stderr)
             # Bad Request

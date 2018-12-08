@@ -10,6 +10,7 @@ from client.npm import NPM
 from client.angular_environment import AngularEnvironment
 from component.config import Config
 from component.http_secure import HttpSecure
+from component.auth_keys import AuthKeys
 
 WEB_ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
 WEB_DEFAULT_TEMPLATE_DIR = os.path.join(WEB_ROOT_DIR, "dist")
@@ -33,6 +34,8 @@ def main():
         print("Arguments:%s" % args)
 
     HttpSecure(args)
+    auth_keys = AuthKeys(args)
+    args.auth_keys = auth_keys
     ae = AngularEnvironment(args)
     ae.run_from_main()
     npm = NPM(args)

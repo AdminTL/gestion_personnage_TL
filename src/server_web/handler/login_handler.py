@@ -375,8 +375,29 @@ class UserAuthenticate(jsonhandler.JsonHandler):
 
         username = self.get_argument("username")
         password = self.get_argument("password")
-        obj = {"id": 123, "username": username, "firstName": "123", "lastName": "123", "token": "fake"}
-        self.write(obj)
+        has_error = False
+
+        # Try finding the user by mail...
+        # user = None
+        # if "@" in username_or_email:
+        #     user = self._db.get_user(email=username_or_email, password=password)
+        # # ... or by name.
+        # if not user:
+        user = self._db.get_user(username=username, password=password)
+        if user:
+            self.give_cookie(user.get("user_id"))
+        else:
+            print("Invalid email/password combination from %s" % self.request.remote_ip, file=sys.stderr)
+            has_error = True
+
+        # Validation
+        if has_error:
+            self.set_status(400)
+            self.send_error(400)
+            raise tornado.web.Finish()
+
+        # obj = {"id": 123, "username": username, "firstName": "123", "lastName": "123", "token": "fake"}
+        # self.write(obj)
         self.finish()
 
 
@@ -384,6 +405,23 @@ class UserRegister(base_handler.BaseHandler):
     """This class is designed purely for client-side validation"""
 
     def post(self):
+        self.prepare_json()
+
+        username = self.get_argument("username")
+        if not username:
+            print("Username is empty from %s" % self.request.remote_ip, file=sys.stderr)
+
+        password = self.get_argument("password")
+        has_error = False
+        # user = self._db.create_user(username, name=name, given_name=given_name, password=password,
+        #                             family_name=family_name, email=email, facebook_id=facebook_id)
+        #
+        # if user:
+        #     self.give_cookie(user.get("user_id"), facebook_access_token=access_token)
+        #     return
+        # else:
+        #     self.redirect("/login?invalid=facebook")
+        #     return
         self.set_status(200)
         self.finish()
 
@@ -392,10 +430,21 @@ class User(base_handler.BaseHandler):
     """This class is designed purely for client-side validation"""
 
     def get(self):
-        # obj = {"message": 'Unauthorised'}
-        # self.set_status(401)
-        user = {"id": 123, "username": "1234567890", "firstName": "123", "lastName": "123", "token": "fake"}
-        obj = {"body": user}
+        current_user = self.get_current_user()
+        if current_user:
+            obj = {"body": current_user}
+            self.set_status(200)
+        else:
+            # obj = {"body": {"user_id": ""}}
+            obj = {"message": 'Unauthorised'}
+            # TODO why the client crash and restart when send status 401?
+            # self.set_status(401)
         self.set_status(200)
+
         self.write(obj)
+
+        # user = {"id": 123, "username": "1234567890", "firstName": "123", "lastName": "123", "token": "fake"}
+        # obj = {"body": user}
+        # self.set_status(200)
+        # self.write(obj)
         self.finish()

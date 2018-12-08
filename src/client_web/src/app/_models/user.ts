@@ -1,8 +1,9 @@
 ﻿export class User {
-  id: number;
+  id: string;
   username: string;
-  password?: string;
   firstName: string;
   lastName: string;
   token: string;
+  user_id?: string;
+  facebook_id?: string;
 }

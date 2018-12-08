@@ -63,6 +63,12 @@ export class LoginComponent implements OnInit {
           // Force erase password in form
           this.f.password.setValue("");
           this.loading = false;
-        });
+        }
+      );
+  }
+
+  signInWithFB(): void {
+    this.authenticationService.signInWithFB();
+    // this.router.navigate([this.returnUrl]);
   }
 }

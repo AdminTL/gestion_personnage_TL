@@ -44,6 +44,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     let watcher: Subscription;
+
+    this.authenticationService.fetchUserServer();
+
     // User
     watcher = this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
     this.watchers.push(watcher);

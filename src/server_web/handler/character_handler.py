@@ -4,6 +4,7 @@ import tornado.auth
 import base_handler
 import jsonhandler
 import sys
+import json
 
 
 class CharacterFormHandler(jsonhandler.JsonHandler):

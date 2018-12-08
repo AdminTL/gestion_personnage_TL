@@ -9,6 +9,7 @@ class AngularEnvironment(object):
         self._path_dev = args.db_angular_environment_path
         self._path_prod = args.db_angular_environment_prod_path
         self._use_prod_environment = args.web_environment_prod
+        self._auth_keys = args.auth_keys
 
     def run_from_main(self):
         # if not self._use_prod_environment:
