@@ -13,6 +13,7 @@ class Model(object):
         if os.path.isfile(parser.db_model_path):
             self._model_path = parser.db_model_path
         elif os.path.isfile(parser.db_model_demo_path):
+            print("INFO : use demo model database.")
             self._model_path = parser.db_model_demo_path
         else:
             self._model_path = None

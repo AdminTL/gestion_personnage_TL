@@ -259,6 +259,7 @@
       },
       {
         "title": "Admin",
+        "requiredAdminPermission": true,
         "matIcon": "",
         "faIcon": "mask",
         "routerLink": "",

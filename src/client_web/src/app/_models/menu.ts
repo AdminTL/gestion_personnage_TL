@@ -6,6 +6,7 @@
 
 export interface SubMenu {
   title: string;
+  requiredAdminPermission: boolean;
   children?: SubMenu[];
   matIcon?: string;
   faIcon?: string;

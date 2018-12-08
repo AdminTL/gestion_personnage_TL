@@ -4,7 +4,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {environment} from '@environments/environment';
-import {User} from '@app/_models';
+import {User, UserPermission} from '@app/_models';
 
 @Injectable({providedIn: 'root'})
 export class AuthenticationService {
@@ -30,6 +30,8 @@ export class AuthenticationService {
             user.id = data.body.user_id;
             user.username = data.body.username;
             user.token = data.body.facebook_id;
+            user.permission = new UserPermission();
+            user.permission.isAdmin = data.body.is_admin;
 
             localStorage.setItem('currentUser', JSON.stringify(user));
             this.currentUserSubject.next(user);
@@ -70,6 +72,9 @@ export class AuthenticationService {
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
+    this.http.get(`${environment.apiUrl}/user/logout`).subscribe(data => {
+      console.log("Logout with success.");
+    });
   }
 
   signInWithFB() {

@@ -432,6 +432,7 @@ class User(base_handler.BaseHandler):
     def get(self):
         current_user = self.get_current_user()
         if current_user:
+            current_user["is_admin"] = self.is_permission_admin()
             obj = {"body": current_user}
             self.set_status(200)
         else:
@@ -447,4 +448,13 @@ class User(base_handler.BaseHandler):
         # obj = {"body": user}
         # self.set_status(200)
         # self.write(obj)
+        self.finish()
+
+
+class UserLogout(base_handler.BaseHandler):
+    """This class is designed purely for client-side validation"""
+
+    def get(self):
+        self.clear_cookie("user")
+        self.set_status(200)
         self.finish()
