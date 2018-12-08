@@ -42,9 +42,6 @@ testem.log
 .DS_Store
 Thumbs.db
 
-# npm
-/package-lock.json
-
 # Larp'em Config File
 /src/environments/environment.prod.ts
 /src/environments/environment.ts
