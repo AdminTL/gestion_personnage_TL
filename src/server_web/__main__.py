@@ -140,6 +140,9 @@ def parse_args():
     if _parser.disable_character:
         _parser.disable_user_character = True
 
+    if _parser.npm_build_prod:
+        _parser.web_environment_prod = True
+
     # Add general configuration in parser
     _parser.config = Config(_parser)
 

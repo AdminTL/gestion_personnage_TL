@@ -225,6 +225,9 @@ class FacebookGraphLoginHandler(base_handler.BaseHandler, tornado.auth.FacebookG
                         self.redirect("/login?invalid=facebook")
                         return
 
+            elif "error" in self.request.arguments.keys():
+                print("Receive error : " % self.request.arguments)
+                self.redirect("/login?invalid=facebook")
             else:
                 yield self.authorize_redirect(
                     redirect_uri=self._global_arg["url"] + '/cmd/auth/facebook',
