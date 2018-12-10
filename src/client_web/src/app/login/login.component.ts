@@ -11,11 +11,7 @@ export class LoginComponent implements OnInit {
   loading = false;
   submitted = false;
   returnUrl: string;
-  authProvider: any[] = [
-    {name:"Facebook", cb:this.signInWithFB},
-    {name:"Google", cb:this.signInWithGoogle},
-    // {name:"Twitter", cb:this.signInWithTwitter},
-  ];
+  authProvider: any[];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,6 +24,12 @@ export class LoginComponent implements OnInit {
     if (this.authenticationService.currentUserValue) {
       this.router.navigate(['/']);
     }
+
+    this.authProvider = [
+      {name: "Facebook", cb: this.authenticationService.signInWithFB},
+      {name: "Google", cb: this.authenticationService.signInWithGoogle},
+      // {name:"Twitter", cb:this.authenticationService.signInWithTwitter},
+    ];
   }
 
   ngOnInit() {
@@ -70,20 +72,5 @@ export class LoginComponent implements OnInit {
           this.loading = false;
         }
       );
-  }
-
-  signInWithFB(): void {
-    this.authenticationService.signInWithFB();
-    // this.router.navigate([this.returnUrl]);
-  }
-
-  signInWithGoogle(): void {
-    this.authenticationService.signInWithGoogle();
-    // this.router.navigate([this.returnUrl]);
-  }
-
-  signInWithTwitter(): void {
-    this.authenticationService.signInWithTwitter();
-    // this.router.navigate([this.returnUrl]);
   }
 }
