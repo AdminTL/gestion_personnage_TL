@@ -1,4 +1,4 @@
-﻿<h2>Login</h2>
+﻿<h2>Connexion</h2>
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
     <label for="username">Username</label>
@@ -22,4 +22,13 @@
   </div>
 </form>
 <br/>
-<button class="btn btn-primary" (click)="signInWithFB()">Facebook</button>
+
+<ng-container *ngIf="authProvider && authProvider.length">
+  <h3>Social login</h3>
+  <div>
+    <span *ngFor="let provider of authProvider; first as isFirst">
+      <span *ngIf="!isFirst"> | </span>
+      <button class="btn btn-primary" (click)="provider.cb()">{{provider.name}}</button>
+    </span>
+  </div>
+</ng-container>

@@ -11,6 +11,11 @@ export class LoginComponent implements OnInit {
   loading = false;
   submitted = false;
   returnUrl: string;
+  authProvider: any[] = [
+    {name:"Facebook", cb:this.signInWithFB},
+    {name:"Google", cb:this.signInWithGoogle},
+    // {name:"Twitter", cb:this.signInWithTwitter},
+  ];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -69,6 +74,16 @@ export class LoginComponent implements OnInit {
 
   signInWithFB(): void {
     this.authenticationService.signInWithFB();
+    // this.router.navigate([this.returnUrl]);
+  }
+
+  signInWithGoogle(): void {
+    this.authenticationService.signInWithGoogle();
+    // this.router.navigate([this.returnUrl]);
+  }
+
+  signInWithTwitter(): void {
+    this.authenticationService.signInWithTwitter();
     // this.router.navigate([this.returnUrl]);
   }
 }

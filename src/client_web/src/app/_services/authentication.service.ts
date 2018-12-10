@@ -81,4 +81,12 @@ export class AuthenticationService {
     window.location.href = `${environment.apiUrl}/cmd/auth/facebook/`;
   }
 
+  signInWithGoogle() {
+    window.location.href = `${environment.apiUrl}/cmd/auth/google/`;
+  }
+
+  signInWithTwitter() {
+    window.location.href = `${environment.apiUrl}/cmd/auth/twitter/`;
+  }
+
 }
