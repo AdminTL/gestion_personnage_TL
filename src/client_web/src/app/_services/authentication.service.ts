@@ -23,7 +23,7 @@ export class AuthenticationService {
           //save the token that you got from your REST API in your preferred location i.e. as a Cookie or LocalStorage as you do with normal login
           console.log(data);
           if (data.message) {
-            console.error("Cannot find user");
+            console.warn("Cannot find user");
           } else {
 
             let user = new User();
