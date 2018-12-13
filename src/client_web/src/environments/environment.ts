@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   enableRouteTracing: false,
   clearCacheOnInit: true,
-  useLocalDemoData: true,
+  useLocalDemoData: false,
   apiUrl: 'http://localhost:8000'
 };
 

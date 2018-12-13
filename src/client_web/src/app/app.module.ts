@@ -4,6 +4,7 @@ import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {HttpModule} from '@angular/http';
 import {FormsModule} from '@angular/forms';
 import {ReactiveFormsModule} from '@angular/forms';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {environment} from '@environments/environment';
 
@@ -42,6 +43,7 @@ import {SharedModule} from './shared';
     BrowserModule,
     SharedModule,
     AppRouting,
+    NgbModule
   ],
   declarations: [
     CharacterFrameComponent,

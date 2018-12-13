@@ -1,4 +1,4 @@
-<mat-sidenav-container class="container">
+<mat-sidenav-container class="container-fluid" style="height:100vh;">
   <mat-sidenav #sidenav [(mode)]="over" [(opened)]="opened" class="bottom-to-top" role="navigation">
     <!--<div class="my-2" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">-->
     <!--<div class="with-bg"></div>-->
@@ -9,7 +9,7 @@
     <!--</div>-->
     <!--</div>-->
     <!--<div style="background-color: #3e50b5 !important;" class="mt-2 py-3 text-white" fxLayout="column" fxLayoutAlign="center center"-->
-    <div style="!important;" class="mat-toolbar mat-primary" fxLayout="column" fxLayoutAlign="center center"
+    <div class="mat-toolbar mat-primary" fxLayout="column" fxLayoutAlign="center center"
          fxLayoutGap="7px" *ngIf="modelOrganization">
       <span class="lead">{{modelOrganization.name}}</span>
       <span class="" [innerHtml]="modelOrganization.summary"></span>
@@ -17,11 +17,11 @@
     <div *ngIf="modelMenu && modelMenu.sibling">
       <ng-container *ngFor="let sub_menu of modelMenu.sibling">
 
-        <mat-nav-list *ngIf="!sub_menu.children" [routerLink]="sub_menu.routerLink_param ? [sub_menu.routerLink, sub_menu.routerLink_param] : [sub_menu.routerLink]">
+        <mat-nav-list style="padding: 0 8px;" *ngIf="!sub_menu.children" [routerLink]="sub_menu.routerLink_param ? [sub_menu.routerLink, sub_menu.routerLink_param] : [sub_menu.routerLink]">
           <mat-list-item>
             <mat-icon *ngIf="sub_menu.matIcon">{{sub_menu.matIcon}}</mat-icon>
             <fa-icon class="mat-icon material-icons" *ngIf="sub_menu.faIcon" [icon]="sub_menu.faIcon"></fa-icon>
-            {{sub_menu.title}}
+            <span class="pl-2">{{sub_menu.title}}</span>
           </mat-list-item>
         </mat-nav-list>
       </ng-container>
@@ -34,7 +34,7 @@
               <mat-panel-title>
                 <mat-icon *ngIf="sub_menu.matIcon">description</mat-icon>
                 <fa-icon class="mat-icon material-icons" *ngIf="sub_menu.faIcon" [icon]="sub_menu.faIcon"></fa-icon>
-                <span [routerLink]="sub_menu.routerLink_param ? [sub_menu.routerLink, sub_menu.routerLink_param] : [sub_menu.routerLink]">{{sub_menu.title}}</span>
+                <span class="pl-2" [routerLink]="sub_menu.routerLink_param ? [sub_menu.routerLink, sub_menu.routerLink_param] : [sub_menu.routerLink]">{{sub_menu.title}}</span>
               </mat-panel-title>
             </mat-expansion-panel-header>
 
@@ -42,7 +42,7 @@
               <mat-list-item [routerLink]="children.routerLink_param ? [children.routerLink, children.routerLink_param] : [children.routerLink]" *ngFor="let children of sub_menu.children">
                 <mat-icon *ngIf="children.matIcon">{{children.matIcon}}</mat-icon>
                 <fa-icon class="mat-icon material-icons" *ngIf="children.faIcon" [icon]="children.faIcon"></fa-icon>
-                {{children.title}}
+                <span class="pl-2">{{children.title}}</span>
               </mat-list-item>
             </mat-nav-list>
 
@@ -123,7 +123,7 @@
         </button>
       </span>
     </mat-toolbar>
-    <div>
+    <div class="p-3">
       <alert></alert>
       <router-outlet></router-outlet>
     </div>

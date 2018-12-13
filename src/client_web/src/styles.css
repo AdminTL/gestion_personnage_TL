@@ -6,6 +6,7 @@
 @import "~primeng/resources/themes/luna-pink/theme.css";
 @import "~primeng/resources/primeng.min.css";
 @import "~primeicons/primeicons.css";
+@import '~bootstrap/dist/css/bootstrap.css';
 
 fa-icon {
   font-size: 18px !important;
