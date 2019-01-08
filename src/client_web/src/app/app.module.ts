@@ -31,6 +31,7 @@ import {UserProfileComponent} from './user-profile/user-profile.component';
 import {UserSettingComponent} from './user-setting/user-setting.component';
 import {NotFoundComponent} from './not-found/not-found.component';
 import {LoginComponent} from './login/login.component';
+import {SocialLoginComponent} from './social-login/social-login.component';
 import {RegisterComponent} from './register/register.component';
 import {SharedModule} from './shared';
 
@@ -65,6 +66,7 @@ import {SharedModule} from './shared';
     AppComponent,
     AlertComponent,
     LoginComponent,
+    SocialLoginComponent,
     RegisterComponent,
   ],
   providers: [

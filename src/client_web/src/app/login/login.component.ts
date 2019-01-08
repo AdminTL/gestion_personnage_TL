@@ -11,7 +11,6 @@ export class LoginComponent implements OnInit {
   loading = false;
   submitted = false;
   returnUrl: string;
-  authProvider: any[];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -24,12 +23,6 @@ export class LoginComponent implements OnInit {
     if (this.authenticationService.currentUserValue) {
       this.router.navigate(['/']);
     }
-
-    this.authProvider = [
-      {name: "Facebook", cb: this.authenticationService.signInWithFB},
-      {name: "Google", cb: this.authenticationService.signInWithGoogle},
-      // {name:"Twitter", cb:this.authenticationService.signInWithTwitter},
-    ];
   }
 
   ngOnInit() {

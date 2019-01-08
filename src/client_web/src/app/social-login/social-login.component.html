@@ -1,0 +1,27 @@
+﻿<ng-container *ngIf="authProvider && authProvider.length">
+  <h3>Social login</h3>
+  <div>
+    <span *ngFor="let provider of authProvider; first as isFirst">
+      <span *ngIf="!isFirst"> | </span>
+
+      <span *ngIf="provider.name == 'Facebook'" (click)="provider.cb()">
+        <a class="btn btn-lg btn-social btn-facebook">
+          <fa-icon [icon]="['fab', 'facebook-square']"></fa-icon>
+          Connecté avec Facebook
+        </a>
+      </span>
+
+      <span *ngIf="provider.name == 'Google'" (click)="provider.cb()">
+        <a class="btn btn-lg btn-social btn-google">
+          <fa-icon [icon]="['fab', 'google']"></fa-icon>
+          Connecté avec Google
+        </a>
+      </span>
+
+      <span *ngIf="provider.name != 'Facebook' && provider.name != 'Google'">
+        <button class="btn btn-primary" (click)="provider.cb()">{{provider.name}}</button>
+      </span>
+
+    </span>
+  </div>
+</ng-container>
