@@ -29,4 +29,8 @@ export class AdminSettingComponent implements OnInit, OnDestroy {
       watcher.unsubscribe();
     }
   }
+
+  downloadArchive() {
+    window.open("/cmd/archive/generate_project", "_blank", "");
+  }
 }

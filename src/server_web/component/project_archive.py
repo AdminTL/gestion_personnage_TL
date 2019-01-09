@@ -14,7 +14,7 @@ class ProjectArchive(object):
         actual_path_dir = os.path.dirname(os.path.realpath(__file__))
         self._root_project_path = os.path.normpath(os.path.join(actual_path_dir, os.pardir, os.pardir, os.pardir))
         self._project_name = "gestion_personnage_TL"
-        self._ignore_directory = [".git", ".idea", "__pycache__"]
+        self._ignore_directory = [".git", ".idea", "__pycache__", "node_modules"]
         self._ignore_file = [".gitmodules", ".gitignore"]
 
     def generate_archive(self):
