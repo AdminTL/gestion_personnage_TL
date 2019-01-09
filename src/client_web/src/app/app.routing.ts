@@ -2,6 +2,7 @@
 
 import {environment} from '@environments/environment';
 
+import {AdminHomeComponent} from './admin-home';
 import {HomeComponent} from './home';
 import {LoginComponent} from './login';
 import {RegisterComponent} from './register';
@@ -31,6 +32,7 @@ const appRoutes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'user/profile', component: UserProfileComponent},
   {path: 'user/setting', component: UserSettingComponent},
+  {path: 'admin/home', component: AdminHomeComponent},
   {path: 'admin/editor', component: LarpemEditorComponent},
   {path: 'admin/setting', component: LarpemSettingComponent},
   {path: 'login', component: LoginComponent},

@@ -262,7 +262,7 @@
         "requiredAdminPermission": true,
         "matIcon": "",
         "faIcon": "mask",
-        "routerLink": "",
+        "routerLink": "/admin/home",
         "children": [
           {
             "title": "Personnage",

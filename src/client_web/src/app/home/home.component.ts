@@ -5,7 +5,6 @@ import {AlertService, AuthenticationService, LarpemService} from '@app/_services
 import {Event, Home} from '@app/_models';
 
 @Component({
-  selector: 'home',
   templateUrl: 'home.component.html',
   styleUrls: ['home.component.css']
 })

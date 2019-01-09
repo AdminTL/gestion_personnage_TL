@@ -261,7 +261,7 @@
         "title": "Admin",
         "matIcon": "",
         "faIcon": "mask",
-        "routerLink": "",
+        "routerLink": "/admin/home",
         "children": [
           {
             "title": "Personnage",

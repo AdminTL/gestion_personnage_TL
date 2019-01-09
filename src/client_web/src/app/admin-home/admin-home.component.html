@@ -1,0 +1,7 @@
+﻿<div *ngIf="modelOrganization; else noModelOrganization">
+  <h1>Accueil des administrateurs de {{modelOrganization.name}}</h1>
+</div>
+
+<ng-template #noModelOrganization>
+  <h1>Accueil des administrateurs</h1>
+</ng-template>

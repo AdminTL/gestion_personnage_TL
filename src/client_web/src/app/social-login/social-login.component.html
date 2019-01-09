@@ -1,8 +1,9 @@
 ﻿<ng-container *ngIf="authProvider && authProvider.length">
   <h3>Social login</h3>
-  <div>
-    <span *ngFor="let provider of authProvider; first as isFirst">
-      <span *ngIf="!isFirst"> | </span>
+  <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="left">
+    <span *ngFor="let provider of authProvider">
+    <!--<span *ngFor="let provider of authProvider; first as isFirst">-->
+      <!--<span *ngIf="!isFirst"> | </span>-->
 
       <span *ngIf="provider.name == 'Facebook'" (click)="provider.cb()">
         <a class="btn btn-lg btn-social btn-facebook">
