@@ -26,8 +26,8 @@ import {AdminHomeComponent} from './admin-home/admin-home.component';
 import {JwtInterceptor, ErrorInterceptor} from './_helpers';
 import {ManualComponent} from './manual/manual.component';
 import {DynamicSectionComponent} from './dynamic-section/dynamic-section.component';
-import {LarpemEditorComponent} from './larpem-editor/larpem-editor.component';
-import {LarpemSettingComponent} from './larpem-setting/larpem-setting.component';
+import {AdminEditorComponent} from './admin-editor/admin-editor.component';
+import {AdminSettingComponent} from './admin-setting/admin-setting.component';
 import {UserProfileComponent} from './user-profile/user-profile.component';
 import {UserSettingComponent} from './user-setting/user-setting.component';
 import {NotFoundComponent} from './not-found/not-found.component';
@@ -59,8 +59,8 @@ import {SharedModule} from './shared';
     HomeComponent,
     AdminHomeComponent,
     DynamicSectionComponent,
-    LarpemEditorComponent,
-    LarpemSettingComponent,
+    AdminEditorComponent,
+    AdminSettingComponent,
     UserProfileComponent,
     UserSettingComponent,
     ManualComponent,

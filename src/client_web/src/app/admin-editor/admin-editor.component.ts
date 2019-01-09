@@ -4,8 +4,8 @@ import {Subscription} from 'rxjs';
 import {AlertService, AuthenticationService, LarpemService} from '@app/_services';
 import {User} from '@app/_models';
 
-@Component({selector: 'larpem-setting', templateUrl: 'larpem-setting.component.html'})
-export class LarpemSettingComponent implements OnInit, OnDestroy {
+@Component({selector: 'admin-editor', templateUrl: 'admin-editor.component.html'})
+export class AdminEditorComponent implements OnInit, OnDestroy {
   // Model
   public currentUser: User;
 
