@@ -23,7 +23,7 @@ You need python3.5
 Arch Linux
 ------
 ```{r, engine='bash', count_lines}
-sudo pacman -S python python-pip
+sudo pacman -S python python-pip npm
 sudo pip install tornado sockjs-tornado tinydb bcrypt PyOpenSSL oauth2client gspread pynpm
 ```
 

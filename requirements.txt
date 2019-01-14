@@ -1,0 +1,8 @@
+tornado
+sockjs-tornado
+tinydb
+bcrypt
+PyOpenSSL
+oauth2client
+gspread
+pynpm
