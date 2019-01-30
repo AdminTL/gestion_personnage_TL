@@ -34,7 +34,7 @@ class EditorCmdInfoHandler(jsonhandler.JsonHandler):
         email_google_service = self._doc_generator_gspread.get_email_service()
         is_auth = self._doc_generator_gspread.is_auth()
         can_generate = bool(doc_generator and has_access_perm and is_auth)
-        last_updated_date = self._manual.get_last_date_updated()
+        last_updated_date = self._model.get_last_date_updated()
         last_updated_date_for_js = last_updated_date * 1000
 
         info = {
@@ -188,7 +188,7 @@ class EditorCmdGenerateAndSaveHandler(jsonhandler.JsonHandler):
             info["point"] = document["point"]
             info["skill_manual"] = document["skill_manual"]
             # Write to database
-            self._manual.update(info, save=True)
+            self._model.update({"manual": info}, save=True)
             status = {"status": "Generated with success. Database updated."}
         else:
             status = doc_generator.get_error(force_error=True)
