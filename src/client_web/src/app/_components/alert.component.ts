@@ -28,7 +28,7 @@ export class AlertComponent implements OnInit, OnDestroy {
         } else {
           formatted_message = message.text;
         }
-        this.snackBar.open(formatted_message, "", {duration: 2000,});
+        this.snackBar.open(formatted_message, "", {duration: 10000,});
       }
     });
   }
