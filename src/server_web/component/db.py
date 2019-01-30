@@ -6,9 +6,7 @@ import tinydb
 import uuid
 import json
 import datetime
-
-
-# import bcrypt
+import bcrypt
 
 
 class DB(object):
