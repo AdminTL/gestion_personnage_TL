@@ -418,6 +418,36 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
               if (lst_habilites.indexOf("habilites_Sp\u00e9cialiste II - Mixture de Potion") > -1) {
                 total_value += point_value;
               }
+              if (lst_habilites.indexOf("technique_maitre_Joaillier") > -1) {
+                total_value += point_value;
+              }
+              if (lst_habilites.indexOf("technique_maitre_Orfèvre") > -1) {
+                total_value += point_value;
+              }
+              if (lst_habilites.indexOf("technique_maitre_Marchand_prolofique") > -1) {
+                total_value += point_value;
+              }
+              if (lst_habilites.indexOf("technique_maitre_Grand-enchanteur") > -1) {
+                total_value += point_value;
+              }
+              if (lst_habilites.indexOf("technique_maitre_Contrebande") > -1) {
+                total_value += point_value;
+              }
+              if (lst_habilites.indexOf("technique_maitre_Caravanier") > -1) {
+                total_value += point_value;
+              }
+              if (lst_habilites.indexOf("technique_maitre_Multi-Spécialiste") > -1) {
+                total_value += point_value;
+              }
+              if (lst_habilites.indexOf("technique_maitre_Forge_Légendaire:_Bluam") > -1) {
+                total_value += point_value;
+              }
+              if (lst_habilites.indexOf("technique_maitre_Forge_Légendaire:_Sanglite") > -1) {
+                total_value += point_value;
+              }
+              if (lst_habilites.indexOf("technique_maitre_Forge_Légendaire:_Malachite") > -1) {
+                total_value += point_value;
+              }
               point_value = total_value;
             }
 
