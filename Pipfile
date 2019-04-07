@@ -1,0 +1,19 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+tornado = "*"
+sockjs-tornado = "*"
+tinydb = "*"
+bcrypt = "*"
+pyopenssl = "*"
+oauth2client = "*"
+gspread = "*"
+pynpm = "*"
+
+[requires]
+python_version = "3.5"
