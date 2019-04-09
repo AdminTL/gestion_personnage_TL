@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
+import os
 import tinydb
 import uuid
 import json
@@ -11,6 +12,14 @@ import bcrypt
 
 class DB(object):
     def __init__(self, parser):
+        self._parser = parser
+        self._query_user = tinydb.Query()
+        self._open_db_user()
+
+    def _open_db_user(self):
+        parser = self._parser
+        file_path = parser.db_path
+
         if parser.db_demo:
             self._db_user = tinydb.TinyDB(storage=tinydb.storages.MemoryStorage)
             # add demo data in fake database
@@ -18,11 +27,19 @@ class DB(object):
                 demo_ddb_user = json.load(demo_user_file)
                 for db_user in demo_ddb_user:
                     self._db_user.insert(db_user)
-        else:
-            file_path = parser.db_path
-            self._db_user = tinydb.TinyDB(file_path)
 
-        self._query_user = tinydb.Query()
+        else:
+            self._db_user = tinydb.TinyDB(file_path)
+            if parser.create_new_db:
+                if os.path.exists(file_path) and not self.is_empty():
+                    # It cannot create a new db if a filled db exist
+                    raise Exception("Cannot overwrite database because it contains data. "
+                                    "Empty database or remove argument '--create_new_db'.")
+                user = "admin"
+                password = user
+                name = "Administrator"
+                permission = "Admin"
+                self.create_user("admin", password=password, name=name, permission=permission)
 
     @staticmethod
     def generate_password(password):
@@ -119,6 +136,13 @@ class DB(object):
             # get all user list
             return self._db_user.all()
         return self._db_user.search(self._query_user.user_id == user_id)
+
+    def is_empty(self):
+        """
+        Check if database contains data.
+        :return: true if contains data.
+        """
+        return not bool(self._db_user.all())
 
     def get_user(self, username=None, email=None, password=None, id_type="user", user_id=None,
                  force_email_no_password=False):

@@ -378,16 +378,22 @@ class UserAuthenticate(jsonhandler.JsonHandler):
 
         username = self.get_argument("username")
         password = self.get_argument("password")
-        has_error = False
 
         user = self._db.get_user(username=username, password=password)
         if user:
-            self.give_cookie(user.get("user_id"))
+            obj = {
+                "id": user.get("user_id"),
+                "username": user.get("username"),
+                "firstName": user.get("name"),
+                "lastName": user.get("family_name"),
+                "facebook_id": user.get("facebook_id"),
+                "token": self._global_arg.get("auth_token"),
+                "permission": {"isAdmin": user.get("permission") == "Admin"},
+            }
+            # self.set_status(200)
+            self.write(obj)
+            self.give_cookie(user.get("user_id"), do_redirection=False)
         else:
-            has_error = True
-
-        # Validation
-        if has_error:
             msg = "User authentication invalid email/password"
             msg_debug = msg + " combination from %s" % self.request.remote_ip
             print(msg_debug, file=sys.stderr)
@@ -396,8 +402,8 @@ class UserAuthenticate(jsonhandler.JsonHandler):
             raise tornado.web.Finish()
 
         # self.redirect("/")
-        # self.set_status(200)
-        # self.finish()
+        self.set_status(200)
+        self.finish()
 
 
 class UserRegister(jsonhandler.JsonHandler):

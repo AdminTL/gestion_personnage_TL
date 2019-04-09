@@ -68,6 +68,10 @@ Authentication
 ==============
 To disable authentication, use argument --disable_login
 
+First use
+=========
+Run with argument --create_new_db to create a clean database with the default user : admin and password admin.
+
 Running
 =======
 #####Compiling Angular code

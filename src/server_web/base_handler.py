@@ -46,7 +46,8 @@ class BaseHandler(tornado.web.RequestHandler):
             "hide_menu_login": kwargs.get("hide_menu_login"),
             "disable_custom_css": kwargs.get("disable_custom_css"),
             "invalid_login": self._invalid_login,
-            "url": self._http_secure.get_url()
+            "url": self._http_secure.get_url(),
+            "auth_token": kwargs.get("auth_token")
         }
 
     @tornado.web.asynchronous
@@ -87,7 +88,8 @@ class BaseHandler(tornado.web.RequestHandler):
     def is_user_id(self, user_id):
         return self.current_user and self.current_user.get("user_id") == user_id
 
-    def give_cookie(self, user_id, twitter_access_token=None, facebook_access_token=None, google_access_token=None):
+    def give_cookie(self, user_id, twitter_access_token=None, facebook_access_token=None, google_access_token=None,
+                    do_redirection=True):
         if user_id:
             data = {
                 "user_id": user_id,
@@ -97,7 +99,8 @@ class BaseHandler(tornado.web.RequestHandler):
             }
             serialize_data = json.dumps(data)
             self.set_secure_cookie("user", serialize_data)
-            self.redirect("/")
+            if do_redirection:
+                self.redirect("/")
         else:
             print("User doesn't have an id.", file=sys.stderr)
             # Bad Request

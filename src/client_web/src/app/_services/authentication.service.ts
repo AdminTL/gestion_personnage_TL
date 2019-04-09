@@ -29,7 +29,7 @@ export class AuthenticationService {
             let user = new User();
             user.id = data.body.user_id;
             user.username = data.body.username;
-            user.token = data.body.facebook_id;
+            user.token = "null";
             user.permission = new UserPermission();
             user.permission.isAdmin = data.body.is_admin;
 

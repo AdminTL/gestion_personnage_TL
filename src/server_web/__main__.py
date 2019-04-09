@@ -12,6 +12,12 @@ from component.config import Config
 from component.http_secure import HttpSecure
 from component.auth_keys import AuthKeys
 
+try:
+    import secrets
+except Exception:
+    secrets = None
+    import random
+
 WEB_ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
 WEB_DEFAULT_TEMPLATE_DIR = os.path.join(WEB_ROOT_DIR, "dist")
 DB_DEFAULT_PATH = os.path.join(WEB_ROOT_DIR, "..", "..", "database", "tl_user.json")
@@ -32,6 +38,14 @@ def main():
     args = parse_args()
     if args.debug:
         print("Arguments:%s" % args)
+
+    # Generate a new token for users authentication
+    if secrets:
+        token = secrets.token_urlsafe()
+    else:
+        token = str(random.randint(0, 1000000))
+
+    args.auth_token = token
 
     HttpSecure(args)
     auth_keys = AuthKeys(args)
@@ -75,6 +89,10 @@ def parse_args():
     group.add_argument('--db_demo', default=False, action='store_true',
                        help='Enable mode demo on database. '
                             'Cannot save information in real database, only keep in memory.')
+    group.add_argument('--create_new_db', default=False, action='store_true',
+                       help='Create a new database with default admin user. '
+                            'If a filled database exist, an error will occur. '
+                            'If an empty database exist or not, it will overwrite it.')
 
     group = parser.add_argument_group("Web")
     group.add_argument('-l', '--web-listen-address', dest='listen', default=Listen(), type=parse_listen,

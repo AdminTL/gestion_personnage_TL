@@ -53,6 +53,7 @@ def main(parse_arg):
                 "http_secure": http_secure,
                 "login_url": "/login",
                 "cookie_secret": auth_keys.get("cookie_secret"),
+                "auth_token": parse_arg.auth_token
                 # TODO add xsrf_cookies
                 # "xsrf_cookies": True,
                 }
