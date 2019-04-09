@@ -39,6 +39,28 @@ class AuthKeys(object):
                   file=stderr)
         return result
 
+    def get_social_auth_config(self):
+        """
+        Get boolean if social auth is enabled for each different component
+        :return: dictionary with boolean activation
+        """
+        # TODO check if the auth works to enable it for users
+
+        if "google_oauth" in self.keys:
+            obj = self.keys["google_oauth"]
+            use_google_auth = bool(obj.get("key") and obj.get("secret"))
+        else:
+            use_google_auth = False
+
+        use_facebook_auth = bool(self.keys.get("facebook_api_key") and self.keys.get("facebook_secret"))
+
+        social_auth_config = {
+            "enableSocialAuth": use_google_auth or use_facebook_auth,
+            "enableGoogleAuth": use_google_auth,
+            "enableFacebookAuth": use_facebook_auth,
+        }
+        return social_auth_config
+
     def _flush(self):
         with open(self._db_auth_keys_path, mode='w', encoding='utf-8') as keys_file:
             json.dump(self.keys, keys_file)

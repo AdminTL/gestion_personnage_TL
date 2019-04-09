@@ -4,7 +4,7 @@ import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
 
 import {AlertService, AuthenticationService, LarpemService} from '@app/_services';
-import {Menu, Organization, User} from '@app/_models';
+import {Menu, Organization, User, AuthConfig} from '@app/_models';
 import * as ScreenFull from 'screenfull';
 
 @Component({
@@ -14,6 +14,7 @@ import * as ScreenFull from 'screenfull';
 })
 export class AppComponent implements OnInit, OnDestroy {
   // Model
+  public currentAuthConfig: AuthConfig;
   public currentUser: User;
   public modelMenu: Menu;
   public modelOrganization: Organization;
@@ -45,7 +46,12 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     let watcher: Subscription;
 
+    this.authenticationService.fetchAuthConfigServer();
     this.authenticationService.fetchUserServer();
+
+    // Auth Config
+    watcher = this.authenticationService.currentAuthConfig.subscribe(x => this.currentAuthConfig = x);
+    this.watchers.push(watcher);
 
     // User
     watcher = this.authenticationService.currentUser.subscribe(x => this.currentUser = x);

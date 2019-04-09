@@ -6,6 +6,19 @@ import jsonhandler
 import sys
 
 
+class AuthenticationConfig(base_handler.BaseHandler):
+    """This class is designed purely for client-side validation"""
+
+    def get(self):
+        auth_keys = self._global_arg["auth_keys"]
+
+        obj = auth_keys.get_social_auth_config()
+
+        self.set_status(200)
+        self.write(obj)
+        self.finish()
+
+
 class LoginHandler(base_handler.BaseHandler):
     @tornado.web.asynchronous
     def post(self):

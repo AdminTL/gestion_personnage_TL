@@ -47,7 +47,8 @@ class BaseHandler(tornado.web.RequestHandler):
             "disable_custom_css": kwargs.get("disable_custom_css"),
             "invalid_login": self._invalid_login,
             "url": self._http_secure.get_url(),
-            "auth_token": kwargs.get("auth_token")
+            "auth_token": kwargs.get("auth_token"),
+            "auth_keys": kwargs.get("auth_keys"),
         }
 
     @tornado.web.asynchronous

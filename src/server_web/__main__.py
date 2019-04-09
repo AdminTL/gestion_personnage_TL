@@ -48,7 +48,7 @@ def main():
     args.auth_token = token
 
     HttpSecure(args)
-    auth_keys = AuthKeys(args)
+    auth_keys = AuthKeys(args, auto_gen_secret=True)
     args.auth_keys = auth_keys
     ae = AngularEnvironment(args)
     ae.run_from_main()

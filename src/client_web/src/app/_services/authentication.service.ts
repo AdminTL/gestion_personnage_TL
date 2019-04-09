@@ -4,16 +4,43 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {environment} from '@environments/environment';
-import {User, UserPermission} from '@app/_models';
+import {User, UserPermission, AuthConfig} from '@app/_models';
 
 @Injectable({providedIn: 'root'})
 export class AuthenticationService {
+  private currentAuthConfigSubject: BehaviorSubject<AuthConfig>;
+  public currentAuthConfig: Observable<AuthConfig>;
+
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
   constructor(private http: HttpClient) {
+    this.currentAuthConfigSubject = new BehaviorSubject<AuthConfig>(JSON.parse(localStorage.getItem('currentAuthConfig')));
+    this.currentAuthConfig = this.currentAuthConfigSubject.asObservable();
+
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
+  }
+
+  public fetchAuthConfigServer(): void {
+    this.http.get<any>(`${environment.apiUrl}/user/auth_config`)
+      .subscribe(data => {
+          console.log(data);
+
+          let authConfig = new AuthConfig();
+          authConfig.enableSocialAuth = data.enableSocialAuth;
+          authConfig.enableGoogleAuth = data.enableGoogleAuth;
+          authConfig.enableFacebookAuth = data.enableFacebookAuth;
+
+          localStorage.setItem('currentAuthConfig', JSON.stringify(authConfig));
+          this.currentAuthConfigSubject.next(authConfig);
+
+        }, onFail => {
+          //login was unsuccessful
+          //show an error message
+          console.error(onFail);
+        }
+      );
   }
 
   public fetchUserServer(): void {
@@ -44,6 +71,10 @@ export class AuthenticationService {
           console.error(onFail);
         }
       );
+  }
+
+  public get currentAuthConfigValue(): AuthConfig {
+    return this.currentAuthConfigSubject.value;
   }
 
   public get currentUserValue(): User {

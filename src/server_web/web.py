@@ -53,6 +53,7 @@ def main(parse_arg):
                 "http_secure": http_secure,
                 "login_url": "/login",
                 "cookie_secret": auth_keys.get("cookie_secret"),
+                "auth_keys": auth_keys,
                 "auth_token": parse_arg.auth_token
                 # TODO add xsrf_cookies
                 # "xsrf_cookies": True,
@@ -70,7 +71,6 @@ def main(parse_arg):
         # Add ? after ) to make a parameter optional
 
         # Command
-        # TODO /cmd/character_form
         tornado.web.url(r"/cmd/character_form/?", character_handler.CharacterFormHandler, name='character_form',
                         kwargs=settings),
         tornado.web.url(r"/cmd/character_view/?", character_handler.CharacterViewHandler, name='character_view',
@@ -124,6 +124,8 @@ def main(parse_arg):
         routes.append(tornado.web.url(r"/user/register", login_handler.UserRegister, name='user_register',
                                       kwargs=settings))
         routes.append(tornado.web.url(r"/user/current", login_handler.User, name='user', kwargs=settings))
+        routes.append(tornado.web.url(r"/user/auth_config", login_handler.AuthenticationConfig, name='auth_config',
+                                      kwargs=settings))
         routes.append(tornado.web.url(r"/user/logout", login_handler.UserLogout, name='user_logout', kwargs=settings))
 
     # Content files in the dist folder (js, css, images)
