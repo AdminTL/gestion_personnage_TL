@@ -20,11 +20,15 @@ export class AdminEditorComponent implements OnInit, OnDestroy {
   private showUpdateBox: boolean;
   private currentLink: string;
   private lastUpdateTime: string;
+  private error: any;
+  private isInternalError: boolean;
+  private debug: boolean;
 
   constructor(private authenticationService: AuthenticationService,
               private alertService: AlertService,
               private http: Http,
               private snackBar: MatSnackBar) {
+    this.debug = true;
   }
 
   updateLink(): void {
@@ -37,8 +41,8 @@ export class AdminEditorComponent implements OnInit, OnDestroy {
       this.lastUpdateTime = new Date().toLocaleString()
     }, error => {
       console.error(error);
-      this.snackBar.open('Erreur lors de la mise à jour', 'Fermer', {
-        duration: 5000,
+      this.snackBar.open(error.status + " " + error.statusText, 'Fermer', {
+        duration: 100000,
       });
     });
 
@@ -58,8 +62,10 @@ export class AdminEditorComponent implements OnInit, OnDestroy {
       this.lastUpdateTime = new Date(res.last_local_doc_update).toLocaleString();
     }, error => {
       console.error(error);
-      this.snackBar.open('Erreur de chargement des données', 'Fermer', {
-        duration: 10000,
+      this.error = {msg: "Erreur interne du serveur.", debug: error._body};
+      this.isInternalError = true;
+      this.snackBar.open(error.status + " " + error.statusText, 'Fermer', {
+        duration: 100000,
       });
     });
   }

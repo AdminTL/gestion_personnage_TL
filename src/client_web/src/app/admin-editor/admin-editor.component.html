@@ -3,15 +3,22 @@
 <p>Cet outil permet d'ouvrir un fichier sur Google Drive Spreadsheet, d'itérer dans le document pour extraire les données, valider le formatage du document et générer la base de donnée des
   documents.</p>
 
-<div>
-  <button *ngIf="!showUpdateBox" class="b-button" (click)="showUpdateBox = true;">Mettre à jour le lien</button>
-  <input matInput *ngIf="showUpdateBox" [(ngModel)]="updateBoxLink"/>
-  <button *ngIf="showUpdateBox" (click)="updateLink()">Confirmer</button>
+<div *ngIf="!isInternalError">
+  <div>
+    <button *ngIf="!showUpdateBox" class="b-button" (click)="showUpdateBox = true;">Mettre à jour le lien</button>
+    <input matInput *ngIf="showUpdateBox" [(ngModel)]="updateBoxLink"/>
+    <button *ngIf="showUpdateBox" (click)="updateLink()">Confirmer</button>
+  </div>
+
+  <div>
+    Date de la dernière sauvegarde locale : {{lastUpdateTime}}
+  </div>
+  <div>
+    Lien vers le document: <a [href]="currentLink">{{currentLink}}</a>
+  </div>
 </div>
 
-<div>
-  Date de la dernière sauvegarde locale : {{lastUpdateTime}}
-</div>
-<div>
-  Lien vers le document: <a [href]="currentLink">{{currentLink}}</a>
-</div>
+<p style="color:red;" *ngIf="error">
+  {{ error.msg }}
+  <span *ngIf="debug">{{ error.debug }}</span>
+</p>

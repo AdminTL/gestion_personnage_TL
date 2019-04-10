@@ -37,8 +37,8 @@ class Config(object):
                 result = self._keys.get(a_key)
                 first_run = False
             elif type(result) is not dict:
-                print("Error to get key %s in file %s" % (key, self._db_config_path), file=stderr)
-                return
+                msg = "Error to get key %s in file %s" % (key, self._db_config_path)
+                raise Exception(msg)
             else:
                 result = result.get(a_key)
 
@@ -64,8 +64,8 @@ class Config(object):
                     result = {}
                     self._keys[a_key] = result
             elif type(result) is not dict:
-                print("Error to get key %s in file %s" % (key, self._db_config_path), file=stderr)
-                return
+                msg = "Error to get key %s in file %s" % (key, self._db_config_path)
+                raise Exception(msg)
             elif i == len(lst_key) - 1:
                 result[a_key] = value
             else:

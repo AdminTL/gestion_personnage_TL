@@ -20,7 +20,12 @@ class EditorCmdInfoHandler(jsonhandler.JsonHandler):
         current_user = self.get_current_user()
 
         # Do get_instance first
-        doc_generator = self._doc_generator_gspread.get_instance()
+        try:
+            doc_generator = self._doc_generator_gspread.get_instance()
+        except Exception as e:
+            print(e, file=sys.stderr)
+            self.send_error(500, msg=str(e))
+            raise tornado.web.Finish()
 
         # Fetch information
         if doc_generator:

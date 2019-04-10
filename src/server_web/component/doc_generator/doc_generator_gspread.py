@@ -3,7 +3,6 @@
 
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-import sys
 from .doc_connector_gspread import DocConnectorGSpread
 
 
@@ -82,14 +81,12 @@ class DocGeneratorGSpread(object):
                 has_open_file = True
                 self._doc_connector = None
             elif not ignore_error:
-                self._error = "Cannot open file from empty config."
-                print(self._error, file=sys.stderr)
-                return False
+                msg = "Cannot open file from empty config."
+                raise Exception(msg)
 
         if not has_open_file and not ignore_error:
-            self._error = "Missing url to open the remote file."
-            print(self._error, file=sys.stderr)
-            return False
+            msg = "Missing url to open the remote file."
+            raise Exception(msg)
 
         if has_open_file and save:
             # Open config file
@@ -158,17 +155,15 @@ class DocGeneratorGSpread(object):
                 # Get credentials about oauth2 Service
                 credentials = ServiceAccountCredentials.from_json_keyfile_name(self._parser.db_google_API_path, scope)
             except FileNotFoundError:
-                self._error = "Missing file %s to configure Google Drive Spreadsheets." % \
-                              self._parser.db_google_API_path
-                print(self._error, file=sys.stderr)
-                return False
+                msg = "Missing file %s to configure Google Drive Spreadsheets." % \
+                      self._parser.db_google_API_path
+                raise Exception(msg)
 
             # Send http request to get authorization
             self._gc = gspread.authorize(credentials)
             if not self._gc:
-                self._error = "Cannot connect to Google API Drive."
-                print(self._error, file=sys.stderr)
-                return False
+                msg = "Cannot connect to Google API Drive."
+                raise Exception(msg)
 
             # Store useful information about account
             self._gc_email = credentials.service_account_email
@@ -186,9 +181,8 @@ class DocGeneratorGSpread(object):
         try:
             google_file = self._gc.open(name)
         except gspread.SpreadsheetNotFound:
-            self._error = "Cannot open google file from name : %s" % name
-            print(self._error, file=sys.stderr)
-            return False
+            msg = "Cannot open google file from name : %s" % name
+            raise Exception(msg)
 
         self._google_file = google_file
         return True
@@ -202,9 +196,8 @@ class DocGeneratorGSpread(object):
         try:
             google_file = self._gc.open_by_key(key)
         except gspread.SpreadsheetNotFound:
-            self._error = "Cannot open google file from key : %s" % key
-            print(self._error, file=sys.stderr)
-            return False
+            msg = "Cannot open google file from key : %s" % key
+            raise Exception(msg)
 
         self._google_file = google_file
         return True
@@ -218,13 +211,11 @@ class DocGeneratorGSpread(object):
         try:
             google_file = self._gc.open_by_url(url)
         except gspread.SpreadsheetNotFound:
-            self._error = "Cannot open google file from url : %s" % url
-            print(self._error, file=sys.stderr)
-            return False
+            msg = "Cannot open google file from url : %s" % url
+            raise Exception(msg)
         except gspread.NoValidUrlKeyFound:
-            self._error = "Cannot open google file from invalid url : %s" % url
-            print(self._error, file=sys.stderr)
-            return False
+            msg = "Cannot open google file from invalid url : %s" % url
+            raise Exception(msg)
 
         self._google_file = google_file
         return True
