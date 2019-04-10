@@ -288,6 +288,18 @@ class DB(object):
         for char in user.get("character"):
             if char.get("name") == character_name:
                 return char
+    
+    def get_characters_for_user(self, user_id):
+        user = self.get_user(user_id=user_id)
+        if not user:
+            return
+        return user.get("character")
+
+    def write_character_to_user(self, user_id, character):
+        user = self.get_user(user_id)
+        if not user:
+            return
+        self.update_user(user, character_data=character)
 
     def set_approbation(self, user_id, character_name, approbation_status):
         user = self.get_user(user_id=user_id)

@@ -115,7 +115,6 @@ class ProfileCmdInfoHandler(jsonhandler.JsonHandler):
     @tornado.web.asynchronous
     @tornado.web.authenticated
     def get(self):
-        # TODO not sure it's secure
         user = self.current_user
         return_user = {
             "email": user.get("email"),
@@ -132,6 +131,9 @@ class ProfileCmdInfoHandler(jsonhandler.JsonHandler):
             "twitter_id": bool(user.get("twitter_id")),
             "permission": user.get("permission"),
             "postal_code": user.get("postal_code"),
+            "total_point_merite": user.get("total_point_merite"),
+            "passe_saison_2018": user.get("passe_saison_2018"),
+            "date_modify": user.get("date_modify")
         }
         self.write(return_user)
         self.finish()

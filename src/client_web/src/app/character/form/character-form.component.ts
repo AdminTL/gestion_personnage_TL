@@ -5,6 +5,7 @@ import {Http} from '@angular/http';
 import {MatSnackBar} from '@angular/material';
 import {environment} from "@environments/environment";
 import {Section} from "@app/_models/manual";
+import { CharacterService } from '@app/_services/character.service';
 
 @Component({
   selector: 'character-form',
@@ -15,16 +16,19 @@ export class CharacterFormComponent {
   public characterContainer: CharacterContainer;
   public formSectionsRoot: any;
 
-  constructor(private http: Http, public snackBar: MatSnackBar) {
+  constructor(private http:Http, private characterService: CharacterService, public snackBar: MatSnackBar) {
     this.http.get(`${environment.apiUrl}/cmd/character_form`).subscribe(result => {
-      this.character = new Character();
-      this.characterContainer = new CharacterContainer(this.character, this.submit);
       this.formSectionsRoot = result.json() as Section[];
+    }, error => console.error(error));
+
+    this.characterService.getCharactersForUser().subscribe(result => {
+      this.character = result.json() as Character;
+      this.characterContainer = new CharacterContainer(this.character, this.submit);
     }, error => console.error(error));
   }
 
   submit(): void {
-    this.http.post(`${environment.apiUrl}/cmd/character`, JSON.stringify(this.character)).subscribe(result => {
+    this.characterService.addCharacterToUser(this.character).subscribe(result => {
       this.snackBar.open('Enregistré avec succès', 'Fermer', {
         duration: 2000,
       });

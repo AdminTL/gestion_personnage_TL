@@ -82,7 +82,10 @@ def main(parse_arg):
                         name='cmd_stat_total_season_pass',
                         kwargs=settings),
         tornado.web.url(r"/cmd/character_approbation/?", character_handler.CharacterApprobationHandler,
-                        name='cmd_character_approbation', kwargs=settings),
+                        name='cmd_character_approbation', kwargs=settings), 
+
+        tornado.web.url(r"/cmd/character/?", character_handler.UserCharacterHandler, name='character_get',
+                        kwargs=settings),
 
         # Profile
         tornado.web.url(r"/cmd/profile/update_password/?", profile_handler.ProfileCmdUpdatePasswordHandler,

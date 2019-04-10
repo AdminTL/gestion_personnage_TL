@@ -103,3 +103,35 @@ class CharacterApprobationHandler(jsonhandler.JsonHandler):
         status = self._db.set_approbation(user_id, character_name, approbation_status)
         self.write(status)
         self.finish()
+
+class UserCharacterHandler(jsonhandler.JsonHandler):
+    @tornado.web.asynchronous
+    @tornado.web.authenticated
+    def get(self):
+        if self._global_arg["disable_user_character"] or self._global_arg["disable_character"]:
+            # Not Found
+            self.set_status(404)
+            self.send_error(404)
+            raise tornado.web.Finish()
+        
+        data = json.dumps(self._db.get_characters_for_user(self.get_current_user().get("user_id")))
+
+        self.write(data)
+        self.finish()
+
+    @tornado.web.asynchronous
+    @tornado.web.authenticated
+    def post(self):
+        if self._global_arg["disable_character"]:
+            # Not Found
+            self.set_status(404)
+            self.send_error(404)
+            raise tornado.web.Finish()
+        self.prepare_json()
+
+        character = self.get_params()
+
+        self._db.write_character_to_user(self.get_current_user().get("user_id"), character)
+        
+        self.write({"status": "success"})
+        self.finish()
