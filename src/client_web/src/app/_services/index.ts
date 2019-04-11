@@ -2,3 +2,4 @@
 export * from './authentication.service';
 export * from './larpem.service';
 export * from './user.service';
+export * from './debug.service';
