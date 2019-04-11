@@ -3,8 +3,8 @@ import {ObservableMedia, MediaChange} from '@angular/flex-layout';
 import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
 
-import {AlertService, AuthenticationService, LarpemService} from '@app/_services';
-import {Menu, Organization, User, AuthConfig} from '@app/_models';
+import {AlertService, AuthenticationService, DebugService, LarpemService} from '@app/_services';
+import {Menu, Organization, User, AuthConfig, DebugView} from '@app/_models';
 import * as ScreenFull from 'screenfull';
 
 @Component({
@@ -33,6 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // View
   public isFullscreen = false;
+  public isDebugView: DebugView;
 
   constructor(
     private media: ObservableMedia,
@@ -40,21 +41,28 @@ export class AppComponent implements OnInit, OnDestroy {
     private authenticationService: AuthenticationService,
     private alertService: AlertService,
     private larpemService: LarpemService,
+    private debugService: DebugService,
   ) {
   }
 
   ngOnInit() {
     let watcher: Subscription;
 
-    this.authenticationService.fetchAuthConfigServer();
-    this.authenticationService.fetchUserServer();
-
     // Auth Config
+    this.authenticationService.fetchAuthConfigServer();
     watcher = this.authenticationService.currentAuthConfig.subscribe(x => this.currentAuthConfig = x);
     this.watchers.push(watcher);
 
     // User
+    this.authenticationService.fetchUserServer();
     watcher = this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    this.watchers.push(watcher);
+
+    // Debug
+    this.debugService.fetchDebugServer();
+    watcher = this.debugService.debugView.subscribe(x => {
+      this.isDebugView = x;
+    });
     this.watchers.push(watcher);
 
     // Menu
@@ -109,6 +117,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   onScreenToggle(): void {
     ScreenFull.toggle();
+  }
+
+  onDebugViewToggle(): void {
+    this.debugService.toggleDebug();
   }
 
 }

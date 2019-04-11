@@ -81,10 +81,22 @@
             <mat-icon>fullscreen</mat-icon>
             <span>Plein écran</span>
           </button>
+
           <button *ngIf="isFullscreen" mat-menu-item matTooltip="Sortir du plein écran" (click)="onScreenToggle()" matTooltipPosition="right" aria-label="Boutton pour sortir du plein écran">
             <mat-icon>fullscreen_exit</mat-icon>
             <span>Écran normal</span>
           </button>
+
+          <button *ngIf="!(isDebugView.enabled)" mat-menu-item matTooltip="Vue déverminage" (click)="onDebugViewToggle()" matTooltipPosition="right" aria-label="Boutton pour la vue en déverminage">
+            <mat-icon>bug_report</mat-icon>
+            <span>Déverminage</span>
+          </button>
+
+          <button *ngIf="(isDebugView.enabled)" mat-menu-item matTooltip="Vue utilisateur" (click)="onDebugViewToggle()" matTooltipPosition="right" aria-label="Boutton pour la vue utilisateur">
+            <mat-icon>face</mat-icon>
+            <span>Utilisateur</span>
+          </button>
+
         </mat-menu>
       </span>
 

@@ -1,7 +1,7 @@
 ﻿import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Subscription} from 'rxjs';
 
-import {AlertService, AuthenticationService, LarpemService} from '@app/_services';
+import {AlertService, AuthenticationService, DebugService, LarpemService} from '@app/_services';
 import {User} from '@app/_models';
 import {Http} from '@angular/http';
 import {MatSnackBar} from '@angular/material';
@@ -27,8 +27,10 @@ export class AdminEditorComponent implements OnInit, OnDestroy {
   constructor(private authenticationService: AuthenticationService,
               private alertService: AlertService,
               private http: Http,
-              private snackBar: MatSnackBar) {
-    this.debug = true;
+              private snackBar: MatSnackBar,
+              private debugService: DebugService,
+  ) {
+    this.debug = false;
   }
 
   updateLink(): void {
@@ -54,6 +56,12 @@ export class AdminEditorComponent implements OnInit, OnDestroy {
     let watcher: Subscription;
     // User
     watcher = this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    this.watchers.push(watcher);
+
+    // Debug
+    watcher = this.debugService.debugView.subscribe(x => {
+      this.debug = x.enabled;
+    });
     this.watchers.push(watcher);
 
     this.http.get(`${environment.apiUrl}/cmd/editor/get_info`).subscribe(result => {
