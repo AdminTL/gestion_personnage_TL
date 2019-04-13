@@ -16,19 +16,20 @@ export class CharacterFormComponent {
   public characterContainer: CharacterContainer;
   public formSectionsRoot: any;
 
-  constructor(private http:Http, private characterService: CharacterService, public snackBar: MatSnackBar) {
-    this.http.get(`${environment.apiUrl}/cmd/character_form`).subscribe(result => {
+  constructor(private characterService: CharacterService, public snackBar: MatSnackBar) {
+
+    this.characterService.getCharacterForm().subscribe(result => {
       this.formSectionsRoot = result.json() as Section[];
     }, error => console.error(error));
 
-    this.characterService.getCharactersForUser().subscribe(result => {
-      this.character = result.json() as Character;
-      this.characterContainer = new CharacterContainer(this.character, this.submit);
-    }, error => console.error(error));
+    characterService.selectedCharacter$.subscribe(char =>{
+      this.character = char;
+      this.characterContainer = new CharacterContainer(this.character, () => this.submit(this.characterService));
+    }, err => console.log(err));
   }
 
-  submit(): void {
-    this.characterService.addCharacterToUser(this.character).subscribe(result => {
+  submit(service: CharacterService): void {
+    service.addCharacterToUser(this.character).subscribe(result => {
       this.snackBar.open('Enregistré avec succès', 'Fermer', {
         duration: 2000,
       });

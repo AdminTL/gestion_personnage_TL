@@ -1,6 +1,6 @@
 import { Character } from '../character';
 import { Component, Input } from '@angular/core';
-import { CharacterService } from '../character.service';
+import { CharacterService } from '@app/_services/character.service';
 
 @Component({
     selector: 'character-skills',

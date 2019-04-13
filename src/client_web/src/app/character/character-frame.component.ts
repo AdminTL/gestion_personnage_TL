@@ -4,7 +4,7 @@ import { Player } from './player';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CharacterExtensions } from './character-extensions';
-import { CharacterService } from './character.service';
+import { CharacterService } from '@app/_services/character.service';
 
 @Component({
   selector: 'character-frame',
@@ -49,42 +49,51 @@ export class CharacterFrameComponent implements OnInit {
   }
 
   switchSelectedChar(char: Character) {
-    this.selectedChar = char;
+    this.characterService.setSelectedCharacter(char);
   }
 
   getSpentXp(): number {
+    if(!this.selectedChar){
+      return 0;
+    }
     return CharacterExtensions.countSpentXp(this.selectedChar);
   }
 
   getTotalXp(): number {
+    if(!this.selectedChar){
+      return 0;
+    }
     return CharacterExtensions.countTotalXp(this.selectedChar);
   }
 
   countTotalMerite() {
-    if (this.player === undefined) {
+    if (!this.player) {
       return 0;
     }
     return this.player.total_point_merite;
   }
-  countSpentMerite() {
-    if (this.player === undefined) {
+  countSpentMerite() { // TODO move this functionnality to the backend so that we don't have to load all characters at once
+    if (!this.player || !this.player.character) {
       return 0;
     }
     let total = 0;
-    for (let i = 0; i < this.player.character.length; i++) {
-      total += this.zeroOrLength(this.player.character[i].merite);
+    for (let character of this.player.character) {
+      total += this.zeroOrLength(character.merite);
     }
     return total;
   }
 
   zeroOrLength(value: any[]) {
-    if (value !== undefined && value !== null) {
+    if (!!value) {
       return value.length;
     }
     return 0;
   }
 
   countCharacters(): number {
+    if(!this.player || !this.player.character){
+      return 0;
+    }
     return this.player.character.length;
   }
 }

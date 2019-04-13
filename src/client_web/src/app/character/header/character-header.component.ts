@@ -13,23 +13,23 @@ export class CharacterHeaderComponent {
   @Input() private passeSaison2018: boolean;
 
   isApprobationNew(): boolean {
-    return this.character && this.character.approbation.status == 0;
+    return !!this.character && !!this.character.approbation && this.character.approbation.status == 0;
   }
 
   isApprobationApproved(): boolean {
-    return this.character && this.character.approbation.status == 1;
+    return !!this.character && !!this.character.approbation && this.character.approbation.status == 1;
   }
 
   isApprobationUnapproved(): boolean {
-    return this.character && this.character.approbation.status == 2;
+    return !!this.character && !!this.character.approbation && this.character.approbation.status == 2;
   }
 
   isApprobationInactive(): boolean {
-    return this.character && this.character.approbation.status == 3;
+    return !!this.character && !!this.character.approbation && this.character.approbation.status == 3;
   }
 
   isApprobationToCorrect(): boolean {
-    return this.character && this.character.approbation.status == 4;
+    return !!this.character && !!this.character.approbation && this.character.approbation.status == 4;
   }
 
   xpDiff(): number {

@@ -68,7 +68,8 @@
         {
           "title": "button",
           "hint": "button-hint",
-          "type": "Button"
+          "type": "Button",
+          "action": "Submit"
         }
       ]
     }

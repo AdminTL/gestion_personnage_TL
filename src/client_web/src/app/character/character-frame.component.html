@@ -8,7 +8,7 @@
   </mat-menu>
 </span>
 
-<div *ngIf="player && countCharacters() > 1">
+<div *ngIf="countCharacters() > 1">
   <div class="btn-group">
     <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       {{selectedChar.name}}
@@ -20,7 +20,7 @@
 </div>
 
 <div class="character-navigation">
-  <div *ngIf="player && countCharacters() >= 1">
+  <div *ngIf="countCharacters() >= 1">
     <button type="button" class="btn btn-secondary">
       {{selectedChar.name}}
     </button>
@@ -30,5 +30,5 @@
   <div>Points de Mérite {{countSpentMerite()}}/{{countTotalMerite()}}</div>
 </div>
 
-<character-header [character]="selectedChar" [playerMeriteDiff]="countTotalMerite() - countSpentMerite()" [passeSaison2018]="player.passe_saison_2018"></character-header>
+<character-header [character]="selectedChar" [playerMeriteDiff]="countTotalMerite() - countSpentMerite()" [passeSaison2018]="player?.passe_saison_2018"></character-header>
 <router-outlet></router-outlet>

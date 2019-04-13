@@ -7,12 +7,12 @@
   <span style="color:darkgray" *ngIf="isApprobationInactive()">✞ inactif</span>
   <span style="color:indianred" *ngIf="isApprobationToCorrect()">✐ à corriger</span>
 </div>
-<!--div>Date de changement du status : {{! character.approbation.date * 1000 | UTCToNow: true }}</div>
+<!--div>Date de changement du status : {{! character?.approbation.date * 1000 | UTCToNow: true }}</div>
 
 <h2>État de la fiche</h2>
 <div>
-  Date de création : {{! character.date_creation * 1000 | UTCToNow: true }}<br/>
-  Date de mise à jour : {{! character.date_modify * 1000 | UTCToNow: true }}
+  Date de création : {{! character?.date_creation * 1000 | UTCToNow: true }}<br/>
+  Date de mise à jour : {{! character?.date_modify * 1000 | UTCToNow: true }}
 </div-->
 
 <div>
@@ -51,10 +51,10 @@
       <span style="font-weight:bold;text-decoration: underline">{{ ritualSchoolsDiff() }}</span> sous-école à choisir
     </span>.
   </span>
-  <span *ngIf="!character.name">
+  <span *ngIf="!character?.name">
     <span class="character-sheet-bad">Nom du personnage est manquant</span>.
   </span>
-  <span *ngIf="!character.faction">
+  <span *ngIf="!character?.faction">
     <span class="character-sheet-bad">Faction manquante</span>.
   </span>
   <span *ngIf="masterTechDiff() > 0">Il y a

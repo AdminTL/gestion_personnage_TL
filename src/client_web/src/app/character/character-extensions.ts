@@ -4,10 +4,16 @@ import {Character} from './character';
 // Thus, we use these static methods to overcome that problem.
 export class CharacterExtensions {
   public static countTotalXp(char: Character): number {
+    if(!char){
+      return 0;
+    }
     return char.xp_naissance + char.xp_autre;
   }
 
   public static countSpentXp(char: Character): number {
+    if(!char){
+      return 0;
+    }
     let total_xp = 0;
 
     total_xp += CharacterExtensions.zeroOrLength(char.energie);
@@ -19,10 +25,16 @@ export class CharacterExtensions {
   }
 
   public static countMasterTech(char: Character): number {
+    if(!char){
+      return 0;
+    }
     return CharacterExtensions.countSkillsXp(char.technique_maitre);
   }
 
   public static countRitualSchools(char: Character): number {
+    if(!char){
+      return 0;
+    }
     let total = 0;
     if (char.sous_ecole !== undefined && char.sous_ecole !== null) {
       for (let school of char.sous_ecole) {
@@ -41,7 +53,7 @@ export class CharacterExtensions {
 
   private static countSkillsXp(skills: Skill[]): number {
     let total_xp = 0;
-    if (skills !== undefined && skills !== null) {
+    if (!!skills) {
       for (let i = 0; i < skills.length; i++) {
         total_xp += CharacterExtensions.zeroOrLength(skills[i].options);
       }
@@ -50,7 +62,7 @@ export class CharacterExtensions {
   }
 
   private static zeroOrLength(value: any[]): number {
-    if (value !== undefined && value !== null) {
+    if (!!value) {
       return value.length;
     }
     return 0;

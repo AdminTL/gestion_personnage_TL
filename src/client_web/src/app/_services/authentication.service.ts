@@ -25,7 +25,6 @@ export class AuthenticationService {
   public fetchAuthConfigServer(): void {
     this.http.get<any>(`${environment.apiUrl}/user/auth_config`)
       .subscribe(data => {
-          console.log(data);
 
           let authConfig = new AuthConfig();
           authConfig.enableSocialAuth = data.enableSocialAuth;
@@ -48,7 +47,6 @@ export class AuthenticationService {
       .subscribe(data => {
           //login was successful
           //save the token that you got from your REST API in your preferred location i.e. as a Cookie or LocalStorage as you do with normal login
-          console.log(data);
           if (data.message) {
             console.warn("Cannot find user");
           } else {
@@ -63,7 +61,6 @@ export class AuthenticationService {
             localStorage.setItem('currentUser', JSON.stringify(user));
             this.currentUserSubject.next(user);
           }
-          // console.log(onSuccess);
 
         }, onFail => {
           //login was unsuccessful

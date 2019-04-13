@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {environment} from '@environments/environment';
 import { Character } from '@app/character/character';
-import { Observable, BehaviorSubject, Subject, of } from 'rxjs';
+import { Observable, BehaviorSubject, Subject, of, forkJoin } from 'rxjs';
 import { Http } from '@angular/http';
 import { Player } from '@app/character/player';
 
@@ -22,48 +22,56 @@ export class CharacterService {
 
 
     setSelectedCharacter(data: Character) {
-        this.character.next(data);
+        if(!data){
+            this.character.next({} as Character);
+        }
+        else{
+            this.character.next(data);
+        }
     }
 
     setPlayer(data: Player) {
-        this.player.next(data);
-        if (data.character !== undefined && data.character.length > 0) {
-            this.setSelectedCharacter(data.character[0]);
+        if(!data){
+            this.player.next({} as Player);
+        }
+        else{
+            this.player.next(data);
         }
     }
 
     initPlayer(): void {
-        // test
-        const obs = of(JSON.parse(
-            '{\"total_point_merite\": 6, \"given_name\": \"Alexis\", \"password\": null, \"postal_code\": null, \"passe_'
-            + 'saison_2018\": false, \"twitter_id\": null, \"email\": \"alexis.buisson@hotmail.com\", \"name\": \"'
-            + 'Alexis Buisson\", \"facebook_id\": \"10213490781556886\", \"date_modify\": 1527904919.51892, \"family'
-            + '_name\": \"Buisson\", \"verified_email\": false, \"locale\": \"fr_CA\", \"google_id\": null, \"user'
-            + '_id\": \"9699f564a08743cb8eb52887143457ca\", \"permission\": \"Joueur\", \"username\": \"Alexis Buisson\"}'
-        ) as Player);
-        // end test
 
-        obs.subscribe(
-            player => {
-                this.setPlayer(player);
-            },
-            err => {
-                console.log(err);
+        forkJoin( // the subscribe will run only after all requests finish
+            this.getPlayer(),
+            this.getCharactersForUser()
+        ).subscribe(([player, character]) => {
+            const playerObj = player.json() as Player
+            let charsArr = character.json() as Character[];
+            
+            if(!charsArr || charsArr.length == 0){
+                charsArr = [{}] as Character[];
             }
-        );
 
-        this.getCharactersForUser().subscribe(
-            character => {
-                this.setSelectedCharacter(character.json() as Character);
-            }
-        )
+            playerObj.character = charsArr;
+            this.setPlayer(playerObj);
+            this.setSelectedCharacter(charsArr[0]);
+        },
+        err => console.log(err));
     }
 
-    getCharactersForUser(){
+    getPlayer(){
+        return this.http.get(`${environment.apiUrl}/cmd/profile/get_info/`)
+    }
+
+    getCharactersForUser(){ // TODO: split this to getCharacterNamesForUser and getCharacterById
         return this.http.get(`${environment.apiUrl}/cmd/character/`);
     }
 
     addCharacterToUser(character: Character){
         return this.http.post(`${environment.apiUrl}/cmd/character/`, character);
+    }
+
+    getCharacterForm(){
+        return this.http.get(`${environment.apiUrl}/cmd/character_form`);
     }
 }
