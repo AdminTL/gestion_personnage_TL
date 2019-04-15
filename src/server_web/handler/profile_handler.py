@@ -7,7 +7,6 @@ import sys
 
 
 class ProfileCmdUpdatePasswordHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     def post(self):
         if self._global_arg["disable_login"]:
             # Not Found
@@ -64,7 +63,6 @@ class ProfileCmdUpdatePasswordHandler(jsonhandler.JsonHandler):
 
 
 class ProfileCmdAddNewPasswordHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     def post(self):
         if self._global_arg["disable_login"]:
             # Not Found
@@ -112,7 +110,6 @@ class ProfileCmdAddNewPasswordHandler(jsonhandler.JsonHandler):
 
 
 class ProfileCmdInfoHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def get(self):
         user = self.current_user

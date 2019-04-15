@@ -7,7 +7,6 @@ import sys
 
 
 class EditorCmdInfoHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def get(self):
         if not self.is_permission_admin():
@@ -61,7 +60,6 @@ class EditorCmdInfoHandler(jsonhandler.JsonHandler):
 
 
 class EditorCmdAddGeneratorShareHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def post(self):
         if not self.is_permission_admin():
@@ -97,7 +95,6 @@ class EditorCmdAddGeneratorShareHandler(jsonhandler.JsonHandler):
 
 
 class EditorCmdUpdateFileUrlHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def post(self):
         if not self.is_permission_admin():
@@ -139,7 +136,6 @@ class EditorCmdUpdateFileUrlHandler(jsonhandler.JsonHandler):
 
 
 class EditorCmdGenerateAndSaveHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def post(self):
         if not self.is_permission_admin():

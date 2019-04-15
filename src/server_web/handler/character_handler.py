@@ -8,14 +8,12 @@ import json
 
 
 class CharacterFormHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     def get(self):
         self.write(self._character_form.get_str_all())
         self.finish()
 
 
 class CharacterViewHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def get(self):
         if not self.is_permission_admin() and self._global_arg["disable_user_character"] or \
@@ -58,7 +56,6 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
         self.write(data)
         self.finish()
 
-    @tornado.web.asynchronous
     def post(self):
         if self._global_arg["disable_character"]:
             # Not Found
@@ -87,7 +84,6 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
 
 
 class CharacterApprobationHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def post(self):
         if not self.is_permission_admin():
@@ -105,7 +101,6 @@ class CharacterApprobationHandler(jsonhandler.JsonHandler):
         self.finish()
 
 class UserCharacterHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def get(self):
         if self._global_arg["disable_user_character"] or self._global_arg["disable_character"]:
@@ -119,7 +114,6 @@ class UserCharacterHandler(jsonhandler.JsonHandler):
         self.write(data)
         self.finish()
 
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def post(self):
         if self._global_arg["disable_character"]:

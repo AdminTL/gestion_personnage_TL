@@ -6,7 +6,6 @@ import sys
 
 
 class ModelHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     def get(self):
         str_value = self._model.get_str_all(is_admin=False)
         self.write(str_value)
@@ -14,7 +13,6 @@ class ModelHandler(jsonhandler.JsonHandler):
 
 
 class ModelAdminHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     def get(self):
         if not self.is_permission_admin():
             print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)

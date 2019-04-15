@@ -20,7 +20,6 @@ class AuthenticationConfig(base_handler.BaseHandler):
 
 
 class LoginHandler(base_handler.BaseHandler):
-    @tornado.web.asynchronous
     def post(self):
         if self._global_arg["disable_login"]:
             self.redirect("/")
@@ -351,7 +350,6 @@ class LogoutHandler(base_handler.BaseHandler):
 class ValidateAuthHandler(base_handler.BaseHandler):
     """This class is designed purely for client-side validation"""
 
-    @tornado.web.asynchronous
     def get(self):
         username = self.get_argument("username", default=None)
 

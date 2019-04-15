@@ -51,7 +51,6 @@ class BaseHandler(tornado.web.RequestHandler):
             "auth_keys": kwargs.get("auth_keys"),
         }
 
-    @tornado.web.asynchronous
     def prepare(self):
         if self._http_secure and self._http_secure.has_enable_redirect_http_to_https() and \
                 self.request.protocol == 'http':

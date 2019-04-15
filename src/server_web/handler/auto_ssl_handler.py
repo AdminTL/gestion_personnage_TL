@@ -6,7 +6,6 @@ import sys
 
 
 class AutoSSLHandler(tornado.web.RequestHandler):
-    @tornado.web.asynchronous
     def get(self):
         # check directory exist
         path_acme_challenge = os.path.join(os.getcwd(), "..", "..", "ssl_cert", "acme-challenge")
