@@ -1,10 +1,11 @@
 ﻿import {Component, OnInit, OnDestroy} from '@angular/core';
-import {Subscription} from 'rxjs';
+import {Subscription, throwError} from 'rxjs';
+import {catchError} from 'rxjs/operators';
 
 import {AlertService, AuthenticationService, DebugService, LarpemService} from '@app/_services';
 import {User} from '@app/_models';
-import {StatusHttpUpdateFileURL} from "@app/admin-editor/editor";
-import {Http} from '@angular/http';
+import {StatusHttpUpdateFileURL, StatusHttpGetInfo} from "@app/admin-editor/editor";
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {MatSnackBar} from '@angular/material';
 
 import {environment} from "@environments/environment";
@@ -27,7 +28,7 @@ export class AdminEditorComponent implements OnInit, OnDestroy {
 
   constructor(private authenticationService: AuthenticationService,
               private alertService: AlertService,
-              private http: Http,
+              private http: HttpClient,
               private snackBar: MatSnackBar,
               private debugService: DebugService,
   ) {
@@ -37,15 +38,16 @@ export class AdminEditorComponent implements OnInit, OnDestroy {
   updateLink(): void {
     let data = {"fileURL": this.updateBoxLink};
 
-    this.http.post(`${environment.apiUrl}/cmd/editor/update_file_url`, data).subscribe(result => {
-      let data: StatusHttpUpdateFileURL = JSON.parse(result.text());
+    this.http.post(`${environment.apiUrl}/cmd/editor/update_file_url`, data).pipe(
+      catchError(this.onHttpError)
+    ).subscribe((result: StatusHttpUpdateFileURL) => {
       this.snackBar.open('Mis à jour du lien.', 'Fermer', {
         duration: 100000,
       });
-      this.currentLink = data.fileURL;
+      this.currentLink = result.fileURL;
       this.lastUpdateTime = new Date().toLocaleString()
-    }, error => {
-      this.onHttpError(error);
+      // }, (error: HttpErrorResponse) => {
+      //   this.onHttpError(error);
     });
 
     this.updateBoxLink = "";
@@ -64,23 +66,31 @@ export class AdminEditorComponent implements OnInit, OnDestroy {
     });
     this.watchers.push(watcher);
 
-    this.http.get(`${environment.apiUrl}/cmd/editor/get_info`).subscribe(result => {
-      let res = result.json();
-      this.currentLink = res.file_url;
-      this.lastUpdateTime = new Date(res.last_local_doc_update).toLocaleString();
-    }, error => {
-      this.onHttpError(error);
+    this.http.get(`${environment.apiUrl}/cmd/editor/get_info`).pipe(
+      catchError(this.onHttpError)
+    ).subscribe((result: StatusHttpGetInfo) => {
+      this.currentLink = result.fileURL;
+      this.lastUpdateTime = new Date(result.lastLocalDocUpdate).toLocaleString();
+      // }, (error: HttpErrorResponse) => {
+      //   this.onHttpError(error);
     });
   }
 
-  onHttpError(error: any) {
+  private onHttpError(error: HttpErrorResponse) {
     console.error(error);
-    this.error = {msg: "Erreur interne du serveur.", debug: error._body};
-    this.isInternalError = true;
-    this.snackBar.open(error.status + " " + error.statusText, 'Fermer', {
-      duration: 100000,
-    });
+    if (error.error instanceof ErrorEvent) {
 
+      this.error = {msg: "Erreur interne du serveur.", debug: error.error.message};
+      this.isInternalError = true;
+      this.snackBar.open(error.status + " " + error.statusText, 'Fermer', {
+        duration: 100000,
+      });
+    } else {
+      console.error(
+      `Backend returned code ${error.status}, ` +
+      `body was: ${error.error}`);
+    }
+    return throwError('Something bad happened; please try again later.');
   }
 
   ngOnDestroy() {
