@@ -158,7 +158,7 @@ class DocConnectorGSpread:
         # To know if permission error, get worksheets
         try:
             self._g_file.worksheets()
-        except gspread.v4.exceptions.APIError as e:
+        except gspread.exceptions.APIError as e:
             if e.response.status_code == 403:
                 return False
             if e.response.status_code == 401:
@@ -168,9 +168,8 @@ class DocConnectorGSpread:
                 print(self._error, file=sys.stderr)
                 return False
 
-            self._error = "Got error %s" % e
-            print(self._error, file=sys.stderr)
-            return False
+            msg = "Gspread error: %s" % str(e)
+            raise Exception(msg)
         return True
 
     def has_user_write_permission(self, email):

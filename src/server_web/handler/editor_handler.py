@@ -28,8 +28,13 @@ class EditorCmdInfoHandler(jsonhandler.JsonHandler):
 
         # Fetch information
         if doc_generator:
-            has_access_perm = doc_generator.check_has_permission()
-            has_user_writer_perm = doc_generator.has_user_write_permission(current_user.get("email"))
+            try:
+                has_access_perm = doc_generator.check_has_permission()
+                has_user_writer_perm = doc_generator.has_user_write_permission(current_user.get("email"))
+            except Exception as e:
+                print(e, file=sys.stderr)
+                self.send_error(500, msg=str(e))
+                raise tornado.web.Finish()
         else:
             has_user_writer_perm = False
             has_access_perm = False
@@ -86,7 +91,10 @@ class EditorCmdAddGeneratorShareHandler(jsonhandler.JsonHandler):
             if status:
                 data = {"status": "Document shared."}
             else:
-                data = {"error": "Cannot share the document."}
+                msg = "Cannot share the document."
+                print(msg, file=sys.stderr)
+                self.send_error(500, msg=msg)
+                raise tornado.web.Finish()
         else:
             data = {"status": "Document already shared to user %s." % email}
 
@@ -106,30 +114,35 @@ class EditorCmdUpdateFileUrlHandler(jsonhandler.JsonHandler):
 
         self.prepare_json()
 
-        file_url = self.get_argument("file_url")
+        file_url = self.get_argument("fileURL")
         if not file_url:
-            status = {"error": "The url is empty."}
-            self.write(status)
-            self.finish()
-            return
+            msg = "The url is empty."
+            print(msg, file=sys.stderr)
+            self.send_error(500, msg=msg)
+            raise tornado.web.Finish()
 
         # Validate is not the same link
         actual_file_url = self._doc_generator_gspread.get_url()
         if actual_file_url == file_url:
-            status = {"error": "The url is already open."}
-            self.write(status)
-            self.finish()
-            return
+            msg = "The url is already open."
+            print(msg, file=sys.stderr)
+            self.send_error(500, msg=msg)
+            raise tornado.web.Finish()
 
         # Update and save the new link
-        if self._doc_generator_gspread.connect():
-            self._doc_generator_gspread.update_url(url=file_url, save=True)
+        try:
+            if self._doc_generator_gspread.connect():
+                self._doc_generator_gspread.update_url(url=file_url, save=True)
+        except Exception as e:
+            print(e, file=sys.stderr)
+            self.send_error(500, msg=str(e))
+            raise tornado.web.Finish()
 
         # Return data
         if self._doc_generator_gspread.has_error():
             data = self._doc_generator_gspread.get_error()
         else:
-            data = {"status": "Document url is updated."}
+            data = {"status": "Document url is updated.", "fileURL": file_url}
 
         self.write(data)
         self.finish()

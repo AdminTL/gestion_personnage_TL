@@ -3,6 +3,7 @@ import {Subscription} from 'rxjs';
 
 import {AlertService, AuthenticationService, DebugService, LarpemService} from '@app/_services';
 import {User} from '@app/_models';
+import {StatusHttpUpdateFileURL} from "@app/admin-editor/editor";
 import {Http} from '@angular/http';
 import {MatSnackBar} from '@angular/material';
 
@@ -34,18 +35,17 @@ export class AdminEditorComponent implements OnInit, OnDestroy {
   }
 
   updateLink(): void {
+    let data = {"fileURL": this.updateBoxLink};
 
-    this.http.post(`${environment.apiUrl}/cmd/editor/update_file_url`, this.updateBoxLink).subscribe(result => {
-      this.snackBar.open('Mis à jour avec succès', 'Fermer', {
-        duration: 5000,
-      });
-      this.currentLink = this.updateBoxLink;
-      this.lastUpdateTime = new Date().toLocaleString()
-    }, error => {
-      console.error(error);
-      this.snackBar.open(error.status + " " + error.statusText, 'Fermer', {
+    this.http.post(`${environment.apiUrl}/cmd/editor/update_file_url`, data).subscribe(result => {
+      let data: StatusHttpUpdateFileURL = JSON.parse(result.text());
+      this.snackBar.open('Mis à jour du lien.', 'Fermer', {
         duration: 100000,
       });
+      this.currentLink = data.fileURL;
+      this.lastUpdateTime = new Date().toLocaleString()
+    }, error => {
+      this.onHttpError(error);
     });
 
     this.updateBoxLink = "";
@@ -69,13 +69,18 @@ export class AdminEditorComponent implements OnInit, OnDestroy {
       this.currentLink = res.file_url;
       this.lastUpdateTime = new Date(res.last_local_doc_update).toLocaleString();
     }, error => {
-      console.error(error);
-      this.error = {msg: "Erreur interne du serveur.", debug: error._body};
-      this.isInternalError = true;
-      this.snackBar.open(error.status + " " + error.statusText, 'Fermer', {
-        duration: 100000,
-      });
+      this.onHttpError(error);
     });
+  }
+
+  onHttpError(error: any) {
+    console.error(error);
+    this.error = {msg: "Erreur interne du serveur.", debug: error._body};
+    this.isInternalError = true;
+    this.snackBar.open(error.status + " " + error.statusText, 'Fermer', {
+      duration: 100000,
+    });
+
   }
 
   ngOnDestroy() {
