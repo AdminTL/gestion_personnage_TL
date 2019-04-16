@@ -38,6 +38,7 @@ export class AdminEditorComponent implements OnInit, OnDestroy {
     let data = {"fileURL": this.updateBoxLink};
 
     this.http.post(`${environment.apiUrl}/cmd/editor/update_file_url`, data).subscribe(result => {
+      this.isInternalError = false;
       let data: StatusHttpUpdateFileURL = JSON.parse(result.text());
       this.snackBar.open('Mis à jour du lien.', 'Fermer', {
         duration: 100000,
@@ -65,9 +66,10 @@ export class AdminEditorComponent implements OnInit, OnDestroy {
     this.watchers.push(watcher);
 
     this.http.get(`${environment.apiUrl}/cmd/editor/get_info`).subscribe(result => {
+      this.isInternalError = false;
       let res = result.json();
-      this.currentLink = res.file_url;
-      this.lastUpdateTime = new Date(res.last_local_doc_update).toLocaleString();
+      this.currentLink = res.fileURL;
+      this.lastUpdateTime = new Date(res.lastLocalDocUpdate).toLocaleString();
     }, error => {
       this.onHttpError(error);
     });

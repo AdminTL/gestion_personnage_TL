@@ -5,6 +5,7 @@
 
 <!--<div *ngIf="!isInternalError">-->
 <div>
+  Lien:
   <button *ngIf="!showUpdateBox" class="b-button" (click)="showUpdateBox = true;">Mettre à jour le lien</button>
   <input matInput *ngIf="showUpdateBox" [(ngModel)]="updateBoxLink"/>
   <button *ngIf="showUpdateBox" (click)="updateLink()">Confirmer</button>

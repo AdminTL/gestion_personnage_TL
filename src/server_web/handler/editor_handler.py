@@ -47,13 +47,13 @@ class EditorCmdInfoHandler(jsonhandler.JsonHandler):
         last_updated_date_for_js = last_updated_date * 1000
 
         info = {
-            "file_url": file_url,
-            "is_auth": is_auth,
-            "user_has_writer_perm": has_user_writer_perm,
-            "has_access_perm": has_access_perm,
-            "email_google_service": email_google_service,
-            "can_generate": can_generate,
-            "last_local_doc_update": last_updated_date_for_js
+            "fileURL": file_url,
+            "isAuth": is_auth,
+            "userHasWriterPerm": has_user_writer_perm,
+            "hastAccessPerm": has_access_perm,
+            "emailGoogleService": email_google_service,
+            "canGenerate": can_generate,
+            "lastLocalDocUpdate": last_updated_date_for_js
         }
 
         if self._doc_generator_gspread.has_error():
