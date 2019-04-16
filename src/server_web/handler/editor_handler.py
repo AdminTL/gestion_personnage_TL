@@ -107,9 +107,10 @@ class EditorCmdUpdateFileUrlHandler(jsonhandler.JsonHandler):
     def post(self):
         if not self.is_permission_admin():
             print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
+            msg = "Insufficient permission"
             # Forbidden
             self.set_status(403)
-            self.send_error(403)
+            self.send_error(403, msg=msg)
             raise tornado.web.Finish()
 
         self.prepare_json()
