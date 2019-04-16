@@ -2,7 +2,7 @@
   fileURL: string;
   isAuth: string;
   userHasWriterPerm: boolean;
-  hastAccessPerm: boolean;
+  hasAccessPerm: boolean;
   emailGoogleService: string;
   canGenerate: boolean;
   lastLocalDocUpdate: number;
