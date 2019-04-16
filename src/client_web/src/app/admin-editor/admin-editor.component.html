@@ -4,22 +4,37 @@
   documents.</p>
 
 <!--<div *ngIf="!isInternalError">-->
-<div>
-  Lien:
-  <button *ngIf="!showUpdateBox" class="b-button" (click)="showUpdateBox = true;">Mettre à jour le lien</button>
-  <input matInput *ngIf="showUpdateBox" [(ngModel)]="updateBoxLink"/>
-  <button *ngIf="showUpdateBox" (click)="updateLink()">Confirmer</button>
-</div>
+<div *ngIf="editorInfo$ | async as editorInfo">
+  <div>
+    <button class="b-button" (click)="refreshInit()">Rafraîchir</button>
+  </div>
 
-<div>
-  Date de la dernière sauvegarde locale : {{lastUpdateTime}}
-</div>
-<div>
-  Lien vers le document: <a [href]="currentLink">{{currentLink}}</a>
-</div>
-<!--</div>-->
+  <div>
+    Lien:
+    <button *ngIf="!showUpdateBox" class="b-button" (click)="showUpdateBox = true;">Mettre à jour le lien</button>
+    <input matInput *ngIf="showUpdateBox" [(ngModel)]="updateBoxLink"/>
+    <button *ngIf="showUpdateBox" (click)="updateLink()">Confirmer</button>
+  </div>
 
-<p style="color:red;" *ngIf="error">
-  {{ error.msg }}
-  <span *ngIf="debug">{{ error.debug }}</span>
-</p>
+  <div>
+    Date de la dernière sauvegarde locale : {{lastUpdateTime}}
+  </div>
+
+  <div *ngIf="editorInfo.fileURL">
+    Lien vers le document: <a [href]="editorInfo.fileURL">{{editorInfo.fileURL}}</a>
+  </div>
+  <div *ngIf="!editorInfo.fileURL">
+    Il n'y a aucun lien de configurer vers un document Google Drive Spreadsheet.
+  </div>
+
+  <div *ngIf="!editorInfo.userHasWriterPerm && editorInfo.hasAccessPerm">
+    <a (click)="requestWritingPermissionCurrentUser()" class="btn btn-lg btn-danger" role="button">
+      <!--    <span class="fa fa-spinner fa-spin" ng-show="model_editor.is_sharing_doc"></span>--> Recevoir les permissions d'écriture pour votre utilisateur par courriel.
+    </a>
+  </div>
+
+  <p style="color:red;" *ngIf="error">
+    {{ error.msg }}
+    <span *ngIf="debug">{{ error.debug }}</span>
+  </p>
+</div>

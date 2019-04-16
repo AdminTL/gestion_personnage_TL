@@ -50,7 +50,7 @@ class EditorCmdInfoHandler(jsonhandler.JsonHandler):
             "fileURL": file_url,
             "isAuth": is_auth,
             "userHasWriterPerm": has_user_writer_perm,
-            "hastAccessPerm": has_access_perm,
+            "hasAccessPerm": has_access_perm,
             "emailGoogleService": email_google_service,
             "canGenerate": can_generate,
             "lastLocalDocUpdate": last_updated_date_for_js
