@@ -1,13 +1,21 @@
 ﻿import {Component, OnInit, OnDestroy} from '@angular/core';
-import {BehaviorSubject, Observable, Subscription} from 'rxjs';
+import {BehaviorSubject, Observable, Subscription, throwError} from 'rxjs';
+import {catchError} from 'rxjs/operators';
 
-import {AlertService, AuthenticationService, DebugService, LarpemService} from '@app/_services';
+import {AlertService, AuthenticationService, DebugService} from '@app/_services';
 import {User} from '@app/_models';
 import {StatusHttpUpdateFileURL, StatusHttpGetInfo} from "@app/admin-editor/editor";
-import {Http} from '@angular/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {MatSnackBar} from '@angular/material';
 
 import {environment} from "@environments/environment";
+
+// Check this tutorial
+// https://scotch.io/@vigneshsithirai/angular-6-7-http-client-interceptor-with-error-handling
+// https://scotch.io/bar-talk/error-handling-with-angular-6-tips-and-best-practices192#toc-handling-errors-with-httpclient
+// https://blog.angular-university.io/angular-http/
+// https://angular.io/guide/http#getting-error-details
+// https://codecraft.tv/courses/angular/http/http-with-observables/
 
 @Component({selector: 'admin-editor', templateUrl: 'admin-editor.component.html'})
 export class AdminEditorComponent implements OnInit, OnDestroy {
@@ -34,7 +42,7 @@ export class AdminEditorComponent implements OnInit, OnDestroy {
 
   constructor(private authenticationService: AuthenticationService,
               private alertService: AlertService,
-              private http: Http,
+              private http: HttpClient,
               private snackBar: MatSnackBar,
               private debugService: DebugService,
   ) {
@@ -44,17 +52,22 @@ export class AdminEditorComponent implements OnInit, OnDestroy {
   updateLink(): void {
     let data = {"fileURL": this.updateBoxLink};
 
-    this.http.post(`${environment.apiUrl}/cmd/editor/update_file_url`, data).subscribe(result => {
-      this.isInternalError = false;
-      let data: StatusHttpUpdateFileURL = JSON.parse(result.text());
-      this.snackBar.open('Mis à jour du lien.', 'Fermer', {
-        duration: 100000,
+    this.http.post(`${environment.apiUrl}/cmd/editor/update_file_url`, data)
+      .pipe(
+        catchError(this.handlerHttpError)
+      )
+      .subscribe((result: StatusHttpUpdateFileURL) => {
+        this.isInternalError = false;
+        // let data: StatusHttpUpdateFileURL = JSON.parse(result.text());
+        this.snackBar.open('Mis à jour du lien.', 'Fermer', {
+          duration: 100000,
+        });
+        this.editorInfo.fileURL = result.fileURL;
+        this.lastUpdateTime = new Date().toLocaleString()
+        // }, error => {
+        //   console.log(`test mathben ${error}`);
+        //   this.handlerHttpError(error);
       });
-      this.editorInfo.fileURL = data.fileURL;
-      this.lastUpdateTime = new Date().toLocaleString()
-    }, error => {
-      this.onHttpError(error);
-    });
 
     this.updateBoxLink = "";
     this.showUpdateBox = false;
@@ -66,8 +79,8 @@ export class AdminEditorComponent implements OnInit, OnDestroy {
     this.http.post(`${environment.apiUrl}/cmd/editor/add_generator_share`, data).subscribe(result => {
       this.isInternalError = false;
       this.editorInfo.userHasWriterPerm = true;
-    }, error => {
-      this.onHttpError(error);
+      // }, error => {
+      //   this.handlerHttpError(error);
     });
   }
 
@@ -86,32 +99,55 @@ export class AdminEditorComponent implements OnInit, OnDestroy {
     this.refreshInit();
   }
 
-  onHttpError(error: any) {
-    console.error(error);
-    this.error = {msg: "Erreur interne du serveur.", debug: error._body};
-    this.isInternalError = true;
-    this.snackBar.open(error.status + " " + error.statusText, 'Fermer', {
-      duration: 100000,
-    });
+  private handlerHttpError(error: HttpErrorResponse) {
+    // console.error(error);
+    // this.error = {msg: "Erreur interne du serveur.", debug: error._body};
+    // this.isInternalError = true;
+    // this.snackBar.open(error.status + " " + error.statusText, 'Fermer', {
+    //   duration: 100000,
+    // });
+    if (error.error instanceof ErrorEvent) {
+
+      this.error = {msg: "Erreur interne du serveur.", debug: error.error.message};
+      this.isInternalError = true;
+      this.snackBar.open(error.status + " " + error.statusText, 'Fermer', {
+        duration: 100000,
+      });
+    } else {
+      console.error(
+        `Backend returned code ${error.status}, ` +
+        `body was: ${error.error}`);
+      console.error(error);
+      console.log(error);
+      this.error = {msg: "Erreur interne du serveur.", debug: error};
+      this.isInternalError = true;
+      // this.snackBar.open(`${error}`, 'Fermer', {
+      //   duration: 100000,
+      // });
+      this.snackBar.open(error.status + " " + error, 'Fermer', {
+        duration: 100000,
+      });
+    }
+    return throwError('Something bad happened; please try again later.');
   }
 
   refreshInit(): void {
     this.isLoaded = false;
     this.editorInfo$ = null;
 
-    this.http.get(`${environment.apiUrl}/cmd/editor/get_info`).subscribe(result => {
+    this.http.get(`${environment.apiUrl}/cmd/editor/get_info`).subscribe((result: StatusHttpGetInfo) => {
       this.isInternalError = false;
 
-      let res = result.json();
-      console.debug(res);
+      // let res = result.json();
+      // console.debug(res);
 
-      let obsEditorInfo = new BehaviorSubject<StatusHttpGetInfo>(res);
+      let obsEditorInfo = new BehaviorSubject<StatusHttpGetInfo>(result);
       this.editorInfo$ = obsEditorInfo.asObservable();
 
-      this.lastUpdateTime = new Date(res.lastLocalDocUpdate).toLocaleString();
+      this.lastUpdateTime = new Date(result.lastLocalDocUpdate).toLocaleString();
       this.isLoaded = true;
-    }, error => {
-      this.onHttpError(error);
+      // }, error => {
+      //   this.handlerHttpError(error);
     });
   }
 

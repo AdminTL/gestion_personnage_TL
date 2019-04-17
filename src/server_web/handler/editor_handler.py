@@ -118,7 +118,7 @@ class EditorCmdUpdateFileUrlHandler(jsonhandler.JsonHandler):
         if not file_url:
             msg = "The url is empty."
             print(msg, file=sys.stderr)
-            self.send_error(500, msg=msg)
+            self.send_error(500, msg={"message": msg})
             raise tornado.web.Finish()
 
         # Validate is not the same link

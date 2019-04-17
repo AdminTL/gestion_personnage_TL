@@ -38,11 +38,12 @@ import {SharedModule} from './shared';
 
 @NgModule({
   imports: [
-    HttpClientModule,
     HttpModule,
     ReactiveFormsModule,
     FormsModule,
     BrowserModule,
+    // import HttpClientModule after BrowserModule.
+    HttpClientModule,
     SharedModule,
     AppRouting,
     NgbModule
