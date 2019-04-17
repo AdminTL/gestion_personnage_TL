@@ -1,6 +1,6 @@
 ﻿export interface StatusHttpGetInfo {
   fileURL: string;
-  isAuth: string;
+  isAuth: boolean;
   userHasWriterPerm: boolean;
   hasAccessPerm: boolean;
   emailGoogleService: string;

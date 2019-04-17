@@ -27,14 +27,25 @@
     Il n'y a aucun lien de configurer vers un document Google Drive Spreadsheet.
   </div>
 
-  <div *ngIf="!editorInfo.userHasWriterPerm && editorInfo.hasAccessPerm">
-    <a (click)="requestWritingPermissionCurrentUser()" class="btn btn-lg btn-danger" role="button">
-      <!--    <span class="fa fa-spinner fa-spin" ng-show="model_editor.is_sharing_doc"></span>--> Recevoir les permissions d'écriture pour votre utilisateur par courriel.
-    </a>
+  <div *ngIf="!editorInfo.hasAccessPerm; else elseHasNoAccessPerm">
+    Le logiciel n'a pas les permissions nécessaires pour accéder au fichier. Donner les droits au courriel {{editorInfo.emailGoogleService}}<br/>
+    Veuillez rafraichir la page une fois que l'invitation a été envoyée.
   </div>
+  <ng-template #elseHasNoAccessPerm>
+    <div *ngIf="!editorInfo.userHasWriterPerm">
+      <a (click)="requestWritingPermissionCurrentUser()" class="btn btn-lg btn-danger" role="button">
+        <!--    <span class="fa fa-spinner fa-spin" ng-show="model_editor.is_sharing_doc"></span>--> Recevoir les permissions d'écriture pour votre utilisateur par courriel.
+      </a>
+    </div>
+  </ng-template>
 
   <p style="color:red;" *ngIf="error">
     {{ error.msg }}
     <span *ngIf="debug">{{ error.debug }}</span>
   </p>
+
+  <a (click)="requestGenerateDoc()" class="btn btn-lg btn-success" role="button" [ngClass]="{'disabled':(!editorInfo.canGenerate || isGeneratingDoc)}">
+    Générer le document
+  </a>
+
 </div>

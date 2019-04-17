@@ -27,10 +27,7 @@ export class AdminEditorComponent implements OnInit, OnDestroy {
   private editorInfo$: Observable<StatusHttpGetInfo>;
   private editorInfo: StatusHttpGetInfo;
 
-  private isAuth: string;
-  private hasAccessPerm: boolean;
-  private emailGoogleService: string;
-  private canGenerate: boolean;
+  private isGeneratingDoc: boolean;
 
   constructor(private authenticationService: AuthenticationService,
               private alertService: AlertService,
@@ -39,6 +36,7 @@ export class AdminEditorComponent implements OnInit, OnDestroy {
               private debugService: DebugService,
   ) {
     this.debug = false;
+    this.isGeneratingDoc = false;
   }
 
   updateLink(): void {
@@ -50,8 +48,10 @@ export class AdminEditorComponent implements OnInit, OnDestroy {
       this.snackBar.open('Mis à jour du lien.', 'Fermer', {
         duration: 100000,
       });
-      this.editorInfo.fileURL = data.fileURL;
-      this.lastUpdateTime = new Date().toLocaleString()
+      if (this.editorInfo) {
+        this.editorInfo.fileURL = data.fileURL;
+        this.lastUpdateTime = new Date().toLocaleString()
+      }
     }, error => {
       this.onHttpError(error);
     });
@@ -69,6 +69,20 @@ export class AdminEditorComponent implements OnInit, OnDestroy {
     }, error => {
       this.onHttpError(error);
     });
+  }
+
+  requestGenerateDoc(): void {
+    let data = {};
+    this.isGeneratingDoc = true;
+
+    this.http.post(`${environment.apiUrl}/cmd/editor/generate_and_save`, data).subscribe(result => {
+        this.isInternalError = false;
+      }, error => {
+        this.onHttpError(error);
+      },
+      () => {
+        this.isGeneratingDoc = false
+      });
   }
 
   ngOnInit() {
