@@ -384,110 +384,107 @@
                     "Etiam: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at rhoncus odio, eu pellentesque dolor.",
                     "At: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at rhoncus odio, eu pellentesque dolor.",
                     "Rhoncus: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at rhoncus odio, eu pellentesque dolor.",
-                    "Odio: est invisible et intangible. Le joueur croise les bras au-dessus de sa tête.",
-                    "Mort : tombe au sol et ne prend aucune action. Voir le karma et la mort pour plus de détails.",
-                    "Muet : perd l’usage de la parole. Revient au moment d’un repos.",
-                    "Paralysé : ne peut pas bouger.",
-                    "Peur : s’éloigne de l’initiateur au meilleur de ses capacités pour 10 pas.",
-                    "Repos : méditation de 5 minutes hors-combat à la fin de laquelle le joueur reprend l’ensemble de ses points de vie (sauf ceux liés à l’armure) et d’énergie.",
-                    "Nécrose : enlève un point de vie maximum. Cumulable."
+                    "Odio: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at rhoncus odio, eu pellentesque dolor",
+                    "Eu: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at rhoncus odio, eu pellentesque dolor",
+                    "Pellentesque: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at rhoncus odio, eu pellentesque dolor",
+                    "Dolor: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at rhoncus odio, eu pellentesque dolor"
+
                   ]
                 ]
               },
               {
                 "title": "Objets de jeu et objets personnels",
                 "description": [
-                  "Il est possible de dépouiller un joueur assommé, mort ou paralysé. Pour se faire, il faut chercher le corps du joueur pour la représentation de cet objet et le déposer à côté de lui. Par exemple, une armure magique peut être dérobée en retirant l’armure du cadavre. Si un joueur traine des potions, il faudrait trouver ses récipients. Un objet sans représentation physique décorum (comme un bloc) est représenté par son carton. Une fois l’objet déposé aux côtés du corps, le joueur remet les cartons d’objet à son détrousseur, si applicable. Il n’est jamais permis de cacher des possessions dans ses sous-vêtements. Chaque joueur est responsable de représenter lui-même ses objets de jeu. Par conséquent, si un joueur vole une arme magique, il doit lui-même fournir une arme règlementaire pour la représenter.",
-                  "Les objets remis par l’organisation, à l’exception des papiers d’objets, doivent toujours être redonnés à l’organisation à la fin du jeu (en personne ou au cabanon de rangement)."
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque. Nulla porta libero semper sapien euismod, vel fermentum turpis facilisis. Praesent in velit vulputate erat scelerisque hendrerit. Nunc augue lectus, maximus nec tristique interdum, dictum eget nisl. Morbi viverra velit vel est luctus congue. Nulla quis maximus justo. Sed lobortis iaculis magna nec lacinia. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas."
                 ]
               }
             ]
           },
           {
-            "title": "Habiletés et Techniques",
+            "title": "Habiletés et techniques",
             "titleHtml": "Habiletés et techniques",
             "description": [
-              "Les habiletés déterminent les possibilités d’un personnage en jeu. Chaque joueur peut puiser ses habiletés parmi 5 disciplines : commune, combattante, sournoise, magique et professionnelle.",
-              "Chaque habileté donne accès à 5 techniques selon deux modèles :",
-              "<h3>Linéaire [l]</h3>",
-              "Les techniques sont acquises dans l’ordre présenté. Elles ont une progression numérique régulière affectant une statistique ou une production précise.",
-              "<h3>Choix [c]</h3>",
-              "Chaque point d’expérience investi dans l’habileté permet de choisir une technique parmi les 5.",
-              "Les techniques représentent les possibilités du joueur en jeu. L’usage d’une technique coute toujours 1 point d’énergie. Ceci inclus, mais n’est pas limité à, l’usage d’une sauvegarde, la production d’un objet, annoncer une technique, mais rater sa cible, faire usage d’un rituel ou désarmer un piège.",
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque. Nulla porta libero semper sapien euismod, vel fermentum turpis facilisis.",
+              "orem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque. Nulla porta libero semper sapien euismod, vel fermentum turpis facilisis.",
+              "<h3>Linéaire</h3>",
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque. Nulla porta libero semper sapien euismod, vel fermentum turpis facilisis.",
+              "<h3>Choix</h3>",
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque. Nulla porta libero semper sapien euismod, vel fermentum turpis facilisis.",
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque. Nulla porta libero semper sapien euismod, vel fermentum turpis facilisis.",
               "<h3>Légende</h3>",
               [
-                "[Production] génère 4 blocs de production du nom de la technique à chaque jeu.",
-                "[Touche] frappe avec une arme à l’endroit précisé.",
-                "[Dague] frappe avec une arme de mêlée de moins de 60 cm.",
-                "[Sauvegarde] contre l’effet spécifié. Le joueur doit dire le mot «sauvegarde».",
-                "[Touché] main libre touche la cible.",
-                "[Balle] main libre, arme de bois ou une balle touche la cible.",
-                "[Passif] toujours active, ne nécessitant pas d’énergie ou d’activation.",
-                "[Toxine] il est nécessaire d’appliquer une toxine sur sa lame pour utiliser l’habileté."
+                "[Lorem ipsum] Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                "[Lorem ipsum] Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                "[Lorem ipsum] Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                "[Lorem ipsum] Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                "[Lorem ipsum] Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                "[Lorem ipsum] Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                "[Lorem ipsum] Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                "[Lorem ipsum] Lorem ipsum dolor sit amet, consectetur adipiscing elit."
               ]
             ],
             "section": [
               {
-                "title": "Discipline Commune",
+                "title": "Discipline commune",
                 "section": [
                   {
-                    "title": "Endurance [l]",
+                    "title": "Endurance",
                     "description": [
                       [
-                        "+1 point de vie maximum",
-                        "+1 point de vie maximum",
-                        "+1 point de vie maximum"
+                        "Lorem ipsum dolor",
+                        "Lorem ipsum dolor",
+                        "Lorem ipsum dolor"
                       ]
                     ]
                   },
                   {
-                    "title": "Énergie [l]",
+                    "title": "Énergie",
                     "description": [
                       [
-                        "+2 points d’énergie maximum",
-                        "+2 points d’énergie maximum",
-                        "+2 points d’énergie maximum"
+                        "Lorem ipsum dolor",
+                        "Lorem ipsum dolor",
+                        "Lorem ipsum dolor"
                       ]
                     ]
                   }
                 ]
               },
               {
-                "title": "Discipline Combattante",
+                "title": "Discipline combattante",
                 "section": [
                   {
-                    "title": "Discipline [c]",
+                    "title": "Discipline",
                     "description": [
                       [
-                        "Résilience [passif] n’a pas à simuler la douleur en combat",
-                        "Endurcie [passif] peur est remplacé par foudroyé",
-                        "Loyauté [passif] sous domination, peut refuser de trahir sa faction",
-                        "Doctrine [passif] choisit une cible qu’il peut atteindre en mêlée lorsqu’enragé",
-                        "Vigilance [pointe la cible et attend 5 secondes] perce l’effet caché"
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
                       ]
                     ]
                   },
                   {
-                    "title": "Karma [l]",
+                    "title": "Karma",
                     "description": [
                       [
-                        "+2 points de karma au début du jeu",
-                        "+2 points de karma au début du jeu",
-                        "+2 points de karma au début du jeu",
-                        "+2 points de karma au début du jeu",
-                        "+2 points de karma au début du jeu"
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet"
                       ]
                     ]
                   },
                   {
-                    "title": "Offense [c]",
+                    "title": "Offense",
                     "description": [
                       [
-                        "Assaut [touche au torse] +1 dégât physique",
-                        "Jambette [touche à la jambe] foudroyé",
-                        "Désarmement [touche à l’avant-bras] désarmé",
-                        "Coupe-souffle [touche au ventre] muet",
-                        "Charge [après une course de 3 pas] +1 dégât physique"
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet"
                       ],
                       "Assaut",
                       {
@@ -512,55 +509,55 @@
                     ]
                   },
                   {
-                    "title": "Défense [c]",
+                    "title": "Défense",
                     "description": [
                       [
-                        "Esquive [sauvegarde] foudroyé",
-                        "Déflexion [sauvegarde] désarmé",
-                        "Déviation [sauvegarde] démembré",
-                        "Santé [sauvegarde] <a target='_self' href='#Mécaniquedebase_Effetsdejeu'>nécrose</a>",
-                        "Second Souffle [sauvegarde] assommé (sauf si à 0 point de vie)"
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet"
                       ]
                     ]
                   }
                 ]
               },
               {
-                "title": "Discipline Sournoise",
+                "title": "Discipline sournoise",
                 "section": [
                   {
-                    "title": "Alchimie [l]",
+                    "title": "Alchimie",
                     "description": [
                       [
-                        "Alchimie [production] poison, toxine et venin",
-                        "+2 blocs de production alchimique",
-                        "+2 blocs de production alchimique",
-                        "+2 blocs de production alchimique",
-                        "+2 blocs de production alchimique"
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet"
                       ]
                     ]
                   },
                   {
-                    "title": "Embuscade [c]",
+                    "title": "Embuscade",
                     "description": [
                       [
-                        "Camouflage [immobile] peut se cacher en forêt",
-                        "Dissimulation [immobile] peut se cacher dans le noir",
-                        "Capture [avec une corde] la cible ne peut faire usage d’évasion",
-                        "Piège [attacher les deux extrémités du piège] permet de poser un piège",
-                        "Aveuglement [Toxine, Dague au torse] aveuglé"
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet"
                       ]
                     ]
                   },
                   {
-                    "title": "Fourberie [c]",
+                    "title": "Fourberie",
                     "description": [
                       [
-                        "Attaque sournoise [touche au dos] +1 de dégât physique. Cumulatif avec venin.",
-                        "Coup bas [Toxine, Dague à un rein] paralysé 5 secondes",
-                        "Coup sonnant [Toxine, Dague entre les omoplates] assommé",
-                        "Coupe-jarret [Dague derrière la jambe] démembré",
-                        "Stylet [Dague à la main] démembré."
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet"
                       ],
                       "Coup bas",
                       {
@@ -585,67 +582,67 @@
                     ]
                   },
                   {
-                    "title": "Travail de précision [c]",
+                    "title": "Travail de précision",
                     "description": [
                       [
-                        "Serrurier [touché, 30 secondes] ouvre un cadenas",
-                        "Évasion [30 secondes sans bouger ou être touché, sauvegarde] paralysé",
-                        "Désamorçage [touché, 30 secondes] désarme et détruit un piège",
-                        "Torture [touché, 30 secondes] doit répondre à une question (pas un effet de vérité)",
-                        "Vol à la tire : place un objet sans être vu dans une poche. Peut prendre le contenu de la poche ou y déposer un objet au choix."
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet."
                       ]
                     ]
                   }
                 ]
               },
               {
-                "title": "Discipline Magique",
+                "title": "Discipline magique",
                 "section": [
                   {
-                    "title": "Artisanat Arcane [c]",
+                    "title": "Artisanat arcane",
                     "description": [
                       [
-                        "Mixture de potions [production] potions",
-                        "Enchantement [production] objets enchantés",
-                        "Infusion [passif] accès aux rituels de création",
-                        "Réparation [touché] répare une armure ou un objet cassé",
-                        "Disjonction [touché, 1 composante] retire l’aspect enchanté. Mets fin à un rituel."
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet."
                       ]
                     ]
                   },
                   {
-                    "title": "Rituel [l]",
+                    "title": "Rituel",
                     "description": [
                       [
-                        "+6 composantes au début du jeu",
-                        "+3 composantes au début du jeu",
-                        "+3 composantes au début du jeu",
-                        "+3 composantes au début du jeu",
-                        "+3 composantes au début du jeu."
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet."
                       ]
                     ]
                   },
                   {
-                    "title": "Sorcellerie [c]",
+                    "title": "Sorcellerie",
                     "description": [
                       [
-                        "Frénésie [balle] enragé",
-                        "Terreur [balle] apeuré",
-                        "Noirceur [balle] aveuglé",
-                        "Silence [balle] muet",
-                        "Éclair [balle] 3 points de dégât."
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet."
                       ]
                     ]
                   },
                   {
-                    "title": "Thaumaturgie [c]",
+                    "title": "Thaumaturgie",
                     "description": [
                       [
-                        "Guérison [touché] redonne 1 PV",
-                        "Réanimation [touché] réveille d’assommé avec 0 point de vie et tous ses membres",
-                        "Résurrection [touché, hors combat] passe de mort à assommé.",
-                        "Liberté [touché] met fin à la paralysie",
-                        "Voix [touché] met fin à muet."
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet."
                       ]
                     ]
                   }
@@ -655,50 +652,50 @@
                 "title": "Discipline Professionnel",
                 "section": [
                   {
-                    "title": "Baratin [c]",
+                    "title": "Baratin",
                     "description": [
                       [
-                        "Diplomatie : permet de savoir si la dernière affirmation est vraie",
-                        "Mensonge [sauvegarde] vérité et diplomatie",
-                        "Revenu [passif] génère 10 piécettes par jeu",
-                        "Verbomoteur [sauvegarde] muet",
-                        "Discours [parle à la cible pendant 30 secondes] met fin à dominer"
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet"
                       ]
                     ]
                   },
                   {
-                    "title": "Marchandage [l]",
+                    "title": "Marchandage",
                     "description": [
                       [
-                        "4 blocs de production ou composantes, au choix, par jeu",
-                        "+2 blocs de production ou composantes, au choix, par jeu",
-                        "+2 blocs de production ou composantes, au choix, par jeu",
-                        "+2 blocs de production ou composantes, au choix, par jeu",
-                        "+2 blocs de production ou composantes, au choix, par jeu"
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet"
+
                       ]
                     ]
                   },
                   {
-                    "title": "Médecine [c]",
+                    "title": "Médecine",
                     "description": [
                       [
-                        "Opération [touché, 30 secondes] retire une <a target='_self' href='#Mécaniquedebase_Effetsdejeu'>nécrose</a>",
-                        "Suture [touché, 30 secondes] redonne 2 points de vie",
-                        "Psychiatrie [touché] la cible devient calme",
-                        "Relaxation [touché, 5 secondes] met fin à muet",
-                        "Pharmacie [touché, 5 secondes] peut utiliser les médicaments"
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet"
                       ]
                     ]
                   },
                   {
-                    "title": "Métier [c]",
+                    "title": "Métier",
                     "description": [
                       [
-                        "Artisanat [production] filet, corde, baguette, fortification et piège.",
-                        "Forge [production] arme , armure, bouclier, cadenas et engin",
-                        "Herboristerie [production] médicaments",
-                        "Spécialiste I : +2 blocs de production à une production existante (sauf alchimie)",
-                        "Spécialiste II : +2 blocs de production à une production existante (sauf alchimie)."
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet",
+                        "Lorem ipsum dolor sit amet."
                       ]
                     ]
                   }
@@ -709,22 +706,22 @@
           {
             "title": "Production",
             "description": [
-              "Pour produire un objet, un joueur doit écrire sur son bloc de production l’objet qu’il désire créer selon les listes de la présente section. Il doit dépenser un point d’énergie et il doit être hors-combat.",
-              "Il existe deux types d’objet :",
+              "Lorem ipsum dolor sit amet",
+              "Lorem ipsum dolor sit amet",
               [
-                "Consommable [c]: l’objet est détruit après usage. L’objet de jeu est représenté par son carton lors d’un dépouillement",
-                "Permanent [p] : l’objet n’est pas détruit par l’usage. L’objet de jeu est représenté par une représentation crédible appartenant au joueur lors d’un dépouillement.  Au moment de déposer la représentation au côté du propriétaire, le voleur peut réclamer le carton de jeu à son propriétaire."
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque. Nulla porta libero semper sapien euismod, vel fermentum turpis facilisis. Praesent in velit vulputate erat scelerisque hendrerit.",
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque. Nulla porta libero semper sapien euismod, vel fermentum turpis facilisis. Praesent in velit vulputate erat scelerisque hendrerit."
               ]
             ],
             "section": [
               {
                 "title": "Alchimie",
                 "description": [
-                  "Il est généralement nécessaire d’appliquer un produit alchimique sur sa lame en la frottant 5 secondes avec une main libre pour en faire usage.",
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque. Nulla porta libero semper sapien euismod, vel fermentum turpis facilisis. Praesent in velit vulputate erat scelerisque hendrerit.",
                   [
-                    "Poison [c] réduit de 2 points l’énergie de tous ceux qui ingèrent la boisson ou la nourriture contaminée jusqu’à ce qu’un antidote soit administré",
-                    "Toxine [c] nécessaire à l’utilisation de certaines techniques sournoises.",
-                    "Venin [c] ajoute 1 point de dégât sur la prochaine touche faite avec l’arme. Cumulatif avec attaque sournoise"
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque. Nulla porta libero semper sapien euismod, vel fermentum turpis facilisis. Praesent in velit vulputate erat scelerisque hendrerit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque. Nulla porta libero semper sapien euismod, vel fermentum turpis facilisis. Praesent in velit vulputate erat scelerisque hendrerit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque. Nulla porta libero semper sapien euismod, vel fermentum turpis facilisis. Praesent in velit vulputate erat scelerisque hendrerit."
                   ]
                 ]
               },
@@ -732,22 +729,22 @@
                 "title": "Artisan",
                 "description": [
                   [
-                    "Baguette [c] : permet, une fois par combat, de payer le coût en composante du dernier rituel mémorisé pour le mémoriser de nouveau. Usage unique",
-                    "Corde [p] : permet de paralyser une cible désarmée. Peut être détruit par une lame",
-                    "Filet [p] : permet de paralyser une cible dont on couvre la tête du filet. Peut être détruit par une lame.",
-                    "Fortification [c] : redonne un point de vie à une forteresse. Une forteresse peut avoir jusqu’à 5 points de vie, mais commence le jeu avec 3 points ",
-                    "Piège [c] corde avec une clochette : Inflige 2 points de dégât à qui touche la corde quand la clochette sonne."
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque. Nulla porta libero semper sapien euismod, vel fermentum turpis facilisis. Praesent in velit vulputate erat scelerisque hendrerit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque. Nulla porta libero semper sapien euismod, vel fermentum turpis facilisis. Praesent in velit vulputate erat scelerisque hendrerit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque. Nulla porta libero semper sapien euismod, vel fermentum turpis facilisis. Praesent in velit vulputate erat scelerisque hendrerit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque. Nulla porta libero semper sapien euismod, vel fermentum turpis facilisis. Praesent in velit vulputate erat scelerisque hendrerit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque. Nulla porta libero semper sapien euismod, vel fermentum turpis facilisis. Praesent in velit vulputate erat scelerisque hendrerit."
                   ]
                 ]
               },
               {
                 "title": "Mixture de potions",
                 "description": [
-                  "Utiliser une potion demande de boire une gorgée dans un contenant rempli d’un liquide quelconque que le joueur transporte sur lui.",
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque. Nulla porta libero semper sapien euismod, vel fermentum turpis facilisis. Praesent in velit vulputate erat scelerisque hendrerit.",
                   [
-                    "Fortitude [c] : donne une sauvegarde contre le poison",
-                    "Guérison [c] : guérit 1 point de vie",
-                    "Sagesse [c] : redonne 2 points d’énergie"
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque. Nulla porta libero semper sapien euismod, vel fermentum turpis facilisis. Praesent in velit vulputate erat scelerisque hendrerit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque."
                   ]
                 ]
               },
@@ -755,39 +752,39 @@
                 "title": "Forgeron",
                 "description": [
                   [
-                    "Armure [c] : permet au forgeron de réparer une armure en combat en 15 secondes",
-                    "Arme [c] : remplace une arme cassée",
-                    "Bouclier [c] : remplace un bouclier cassé",
-                    "Cadenas et clef [p] : empêche l’ouverture d’un coffre sans la clef",
-                    "Engin de siège [p] : inflige 1 point de dégât à une fortification. Une personne touchée par un projectile d’engin de siège est morte. Représenté par une baliste, une catapulte ou un bélier fonctionnel et sécuritaire."
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
                   ]
                 ]
               },
               {
                 "title": "Herboriste",
                 "description": [
-                  "Appliquer un médicament demande de toucher la cible avec une main libre pour 5 secondes et d’avoir la technique pharmacie.",
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                   [
-                    "Baume [c] : guérit 2 points de vie",
-                    "Injection [c] : guérit assommé",
-                    "Antidote [c] : contre les effets d’un poison."
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
                   ]
                 ]
               },
               {
                 "title": "Enchantement",
                 "description": [
-                  "Voici la liste des objets sujets à l’enchantement et l’effet associé.",
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                   [
-                    "Armure [p] : +1 point de vie à la valeur de l’armure. Ne peut plus être utilisée pour faire une réparation",
-                    "Arme [p] : une sauvegarde contre cassé par combat",
-                    "Baguette [p] : peut être utilisée une fois par combat",
-                    "Bouclier [p] : une sauvegarde contre cassé par combat",
-                    "Cadenas [p] : ne peut être ouvert par la technique serrurier",
-                    "Corde [p] : ne peut être détruit par une lame (le nœud doit être défait pour libérer la cible)",
-                    "Engin de siège [p] : inflige 2 points de dégât à une fortification",
-                    "Filet [p] : ne peut être détruit par une lame (le filet doit être retiré de sur sa cible)",
-                    "Fortification [p] : peut être fortifié jusqu’à 10 points de vie."
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
                   ]
                 ]
               }
@@ -796,16 +793,16 @@
           {
             "title": "Rituels de départ",
             "description": [
-              "Au moment de choisir l’habileté rituel, un personnage peut inscrire deux des trois rituels disponibles à son école dans son livre de sort. Il peut faire de même pour l’école de création quand il choisit la technique infusion. Les rituels sont présentés comme suit. Le nombre entre parenthèses est le coût en composantes. Le nom du rituel suit. L’information entre crochets précise la durée et la portée du sort si applicable. La description conclue."
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque. Nulla porta libero semper sapien euismod, vel fermentum turpis facilisis. Praesent in velit vulputate erat scelerisque hendrerit."
             ],
             "section": [
               {
                 "title": "Démonologie",
                 "description": [
                   [
-                    "(4) Possession [jeu, personnel] le personnage accepte un démon en sa chaire. Il doit inclure une mutation à son costume ainsi qu’un motif rouge à son visage. Le joueur choisit une technique parmi toutes les habiletés qui lui sont disponibles et l’ajoute à son personnage.",
-                    "(1) Dissipation [touché] met fin à tous les sorts non permanents sur la cible.",
-                    "(1) Sacrifice [personnel] l’initiateur peut convertir ses points d’énergie actuels en points de vie, jusqu’à son maximum habituel. Il peut aussi choisir de transformer ses points de vie en énergie, toujours jusqu’à son maximum usuel."
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque. Nulla porta libero semper sapien euismod, vel fermentum turpis facilisis. Praesent in velit vulputate erat scelerisque hendrerit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque. Nulla porta libero semper sapien euismod, vel fermentum turpis facilisis. Praesent in velit vulputate erat scelerisque hendrerit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque. Nulla porta libero semper sapien euismod, vel fermentum turpis facilisis. Praesent in velit vulputate erat scelerisque hendrerit."
                   ]
                 ]
               },
@@ -813,9 +810,9 @@
                 "title": "Élémentaire",
                 "description": [
                   [
-                    "(2) Peau de pierre [jeu, personnel] l’initiateur doit porter un maquillage gris sur sa peau. La peau de l’initiateur est considérée comme une armure conférant 4 points de vie. Elle se répare avec une composante pendant un repos.",
-                    "(1) Combustion [touché] cassé.",
-                    "(1) Armes élémentaires [personnel] +1 point de dégât aux 2 prochaines touches."
+                    "(2) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque. Nulla porta libero semper sapien euismod, vel fermentum turpis facilisis. Praesent in velit vulputate erat scelerisque hendrerit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
                   ]
                 ]
               },
@@ -823,9 +820,9 @@
                 "title": "Naturelle",
                 "description": [
                   [
-                    "(4) Armure d’écorces [jeu, personnel] la peau se couvre d’écorces, conférant une armure de 3 points de vie. Le joueur doit porter un maquillage brun ou une représentation d’écorces sur son costume. Réparer l’armure d’écorce coûte un repos.",
-                    "(1) Séisme [à vue] la forteresse désignée reçoit 3 points de dégât.",
-                    "(1) Camouflage [touché] caché tant qu’immobile."
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
                   ]
                 ]
               },
@@ -833,9 +830,9 @@
                 "title": "Nécromancie",
                 "description": [
                   [
-                    "(4) Nécromorphose [jeu, personnel] l’initiateur doit porter un maquillage (un motif visible) ou un masque blanc. L’initiateur peut discuter avec les morts. Il est aussi immunisé à la peur et à la domination.",
-                    "(1) Animation [touché, joueur mort] revient à la vie en tant que zombie sous la domination de l’initiateur avec 5 points de vie et aucune énergie. Un zombie est sans intelligence et ne peut pas communiquer, utiliser une technique ou retenir d’informations. Quand un zombie tombe assommé ou que 15 minutes se sont écoulées, le joueur se rend au cimetière où il revient à la vie selon les règles normales, mais sans coût de karma.",
-                    "(1) Décomposition [touché] <a target='_self' href='#Mécaniquedebase_Effetsdejeu'>nécrose</a>."
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
                   ]
                 ]
               },
@@ -843,73 +840,72 @@
                 "title": "Protection",
                 "description": [
                   [
-                    "(2) Aura [jeu, personnel] l’initiateur est baigné d’un halo de lumière. Il doit porter un symbole blanc et jaune au visage. Sa peau est considérée comme une armure conférant 2 points de vie et se répare avec le sort réparation.",
-                    "(1) Bouclier [touché] la cible gagne un point de vie additionnel.",
-                    "(1) Vérité [hors-combat] la cible doit répondre à la prochaine question par la vérité."
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
                   ]
                 ]
               },
               {
                 "title": "Création",
                 "description": [
-                  "L’école de création est un art rituel expérimental. Il permet aux joueurs de créer des objets magiques permanents ou temporaires et certaines formes de bénédictions et de malédictions. Le facteur qui détermine cela est l’objet cible du rituel, qui peut être n’importe quel objet se trouvant dans la section production. La puissance du rituel est à la hauteur du nombre de composantes sacrifiées dans celui-ci, avec le nombre de points de protocole équivalent. Dans un rituel de création, il est possible de remplacer jusqu’à la moitié des composantes requises par des blocs de production. Ces blocs doivent tous être du même type, et orientent le résultat final du rituel. Aucun rituel de création ne fonctionne en dessous de 6 composantes, et un investissement de plus de 30 composantes devrait toujours être associé à une piste en jeu. Tous les détails de l’expérience sont consignés au livre de sort du joueur. L’effet du rituel est déterminé par l’organisation après l’expérience. Le joueur pourra créer le même objet avec le même rituel une fois la première expérience complétée.",
-                  "NOTE : Les rituels de création n’offrent aucune garantie. Il est possible de composer deux rituels différents et de finir avec le même effet. Il est aussi possible de maudire son propre personnage à travers un rituel de création."
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque. Nulla porta libero semper sapien euismod, vel fermentum turpis facilisis. Praesent in velit vulputate erat scelerisque hendrerit. Nunc augue lectus, maximus nec tristique interdum, dictum eget nisl. Morbi viverra velit vel est luctus congue. Nulla quis maximus justo. Sed lobortis iaculis magna nec lacinia. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque. Nulla porta libero semper sapien euismod, vel fermentum turpis facilisis. Praesent in velit vulputate erat scelerisque hendrerit. Nunc augue lectus, maximus nec tristique interdum, dictum eget nisl."
                 ]
               }
             ]
           },
           {
-            "title": "Rituels - Création",
+            "title": "Rituels - création",
             "description": [
-              "Sous-écoles: Artisanat, Forgeron, Mélange et Liquide, Portail et Zone."
+              "Lorem ipsum dolor"
             ],
             "section": [
               {
                 "title": "Artisanat",
-                "description": "La sous école Artisanat regroupe les objets créés par l’artisan, en plus des vêtements, accessoires et contenants. Les artisanats magiques sont les outils de stratégie par excellence. Que ce soit pour un plan de kidnapping, un vol de haut niveau ou la sécurité d’un objet précieux, les artisanats magiques ont la solution.",
+                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque. Nulla porta libero semper sapien euismod, vel fermentum turpis facilisis. Praesent in velit vulputate erat scelerisque hendrerit. Nunc augue lectus, maximus nec tristique interdum, dictum eget nisl.",
                 "section": [
                   {
                     "title": "Baguette",
                     "description": [
-                      "<small>(Baguette: Permet, une fois par combat, de payer le coût en composante du dernier rituel mémorisé pour le mémoriser de nouveau. Usage unique.)</small>",
-                      "Une baguette créé par un Rituel de Création permet de stocker un rituel[sort] et de s’en servir plus tard. N’importe qui peut utiliser une baguette «magique» une fois fabriquée. Pour se faire la baguette doit être la cible du Rituel désiré, le faire en suivant ses protocoles et en payer les composantes. Le fabricant de la baguette «magique» n’est pas obligé d’être celui qui connaît le rituel à infuser. Puis, la même baguette doit être au centre du Rituel de Création, en suivre les protocoles et payer 5 fois les composantes magiques du rituel infusé. Il est possible d’augmenter les charges uniques de la baguette en payant chaque fois, 5 fois les composantes magiques du rituel infusé."
+                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend sed justo nec scelerisque. Nulla porta libero semper sapien euismod, vel fermentum turpis facilisis. Praesent in velit vulputate erat scelerisque hendrerit. Nunc augue lectus, maximus nec tristique interdum, dictum eget nisl."
                     ]
                   },
                   {
                     "title": "Filet",
                     "description": [
-                      "<small>(Filet: Permet de paralyser une cible dont on couvre la tête du filet. Peut être cassé par une lame.)</small>",
+                      "Lorem ipsum dolor",
                       [
-                        "6 - 7 composantes: filet avec effet sur capture",
+                        "Lorem ipsum dolor",
                         [
-                          "Aveugle",
-                          "Foudroyé",
-                          "Désarmé."
+                          "Lorem",
+                          "Ipsum",
+                          "Dolor."
                         ],
-                        "8 - 9 composantes: filet avec effet sur capture",
+                        "Lorem ipsum dolor",
                         [
-                          "Calme",
-                          "Caché",
-                          "Muet."
+                          "Lorem",
+                          "Ipsum",
+                          "Dolor."
                         ],
-                        "10 - 11 composantes:",
+                        "Lorem ipsum dolor",
                         [
-                          "Dominé (note: la cible est paralysée, mais peut marcher)",
-                          "Assommé",
-                          "Immatérielle."
+                          "Lorem ipsum dolor,",
+                          "Lorem ipsum dolor",
+                          "Lorem ipsum dolor."
                         ],
-                        "12 à 15 composantes: Filet avec une capacité extraordinaire",
+                        "Lorem ipsum dolor",
                         [
-                          "Affecte l’immatériel",
-                          "Donne une <a target='_self' href='#Mécaniquedebase_Effetsdejeu'>nécrose</a> sur capture",
-                          "Drain complet de l’énergie",
-                          "Animation [consommable] un cadavre se lève en goule sous votre contrôle (10PV, aucune énergie)"
+                          "Lorem ipsum dolor",
+                          "Lorem ipsum dolor",
+                          "Lorem ipsum dolor",
+                          "Lorem ipsum dolor"
                         ],
-                        "16 à 30 composantes: objets économiques et scénario",
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                         [
-                          "Filet de pêche: génère [composantes/10] rations par jeu",
-                          "Filet d’esclavagiste: génère [composantes/15] esclaves par jeu",
-                          "Attrapeur de rêves: génère [composantes/10] blocs d’enchantement par jeu"
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
                         ]
                       ]
                     ]
@@ -917,37 +913,37 @@
                   {
                     "title": "Corde",
                     "description": [
-                      "<small>(Corde: Permet de paralyser une cible désarmée. Peut être détruite par une lame.)</small>",
+                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                       [
-                        "6 - 7 composantes: corde avec effet sur capture",
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                         [
-                          "Aveugle",
-                          "Foudroyé",
-                          "Désarmé"
+                          "Lorem",
+                          "Ipsum",
+                          "Dolor"
                         ],
-                        "8 - 9 composantes: corde avec effet sur capture",
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                         [
-                          "Calme",
-                          "Caché",
-                          "Muet"
+                          "Lorem",
+                          "Ipsum",
+                          "Dolor"
                         ],
-                        "10 - 11 composantes: corde avec effet sur capture",
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                         [
-                          "Dominé (note: la cible est paralysée, mais peut marcher)",
-                          "Assommé",
-                          "Immatérielle."
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                          "Lorem",
+                          "Ipsum."
                         ],
-                        "12 à 15 composantes: Filet avec une capacité extraordinaire",
+                        "",
                         [
-                          "Affecte l’immatériel",
-                          "Donne une <a target='_self' href='#Mécaniquedebase_Effetsdejeu'>nécrose</a> sur capture",
-                          "Drain complet de l’énergie"
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
                         ],
-                        "16 à 30 composantes: objets économiques et scénario",
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                         [
-                          "Corde du pendu: permet de tuer de façon permanente un joueur accusé dans une cours de justice légitime",
-                          "Collet: génère [composante/10] rations par jeu",
-                          "Corde infinie: génère [composantes/10] blocs artisanaux par jeu."
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
                         ]
                       ]
                     ]
@@ -955,98 +951,98 @@
                   {
                     "title": "Fortification",
                     "description": [
-                      "<small>(Fortification: Redonne un point de vie à une forteresse. Une forteresse peut avoir jusqu’à 5 points de vie, mais commence le jeu avec 3.)</small>",
+                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                       [
-                        "6 - 7 composantes: effet à usage unique affectant tout le monde à l’intérieur d’un bâtiment",
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                         [
-                          "Guérison 2",
-                          "Regain d’énergie 1",
-                          "Dégât 1",
-                          "Drain d’énergie 1."
+                          "Lorem",
+                          "Ipsum",
+                          "Dolor",
+                          "Sit."
                         ],
-                        "8 - 9 composantes: effet à usage unique affectant tout le monde à l’intérieur d’une enceinte",
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                         [
-                          "Guérison 2",
-                          "Regain d’énergie 1",
-                          "Dégât 1",
-                          "Drain d’énergie 1."
+                          "Lorem",
+                          "Ipsum",
+                          "Dolor",
+                          "Sit."
                         ],
-                        "10 - 11 composantes: effet à usage unique affectant tout le monde à l’intérieur d’un bâtiment",
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                         [
-                          "Réanimation",
-                          "Résurrection",
-                          "Foudroyé",
-                          "<a target='_self' href='#Mécaniquedebase_Effetsdejeu'>Nécrose</a>"
+                          "Lorem",
+                          "Ipsum",
+                          "Dolor",
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
                         ],
-                        "12 - 13 composantes: effet à usage unique affectant tout le monde à l’intérieur d’une enceinte",
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                         [
-                          "Réanimation",
-                          "Résurrection",
-                          "Foudroyé",
-                          "<a target='_self' href='#Mécaniquedebase_Effetsdejeu'>Nécrose</a>"
+                          "Lorem",
+                          "Ipsum",
+                          "Dolor",
+                          "Sit."
                         ],
-                        "14 - 15 composantes: effet permanent affectant tout le monde prenant un repos dans le bâtiment",
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                         [
-                          "Énergie maximum. Perdure jusqu’à utilisation",
-                          "Répare l’armure (ne fonctionne pas sur les rituels d’armure)",
-                          "+1 point de vie maximum. Perdure jusqu’à ce que perdu",
-                          "<a target='_self' href='#Mécaniquedebase_Effetsdejeu'>Nécrose</a>"
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
                         ],
-                        "16 - 17 composantes: effet permanent affectant tout le monde prenant un repos dans l’enceinte",
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                         [
-                          "Répare l’armure (ne fonctionne pas sur les rituels d’armure)",
-                          "+1 point de vie maximum. Perdure jusqu’à ce que perdu",
-                          "<a target='_self' href='#Mécaniquedebase_Effetsdejeu'>Nécrose</a>"
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
                         ],
-                        "18 - 19 composantes: effet permanent affectant tout le monde prenant un repos dans le bâtiment",
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                         [
-                          "+1 énergie maximum. Perdure jusqu’à utilisation",
-                          "-1 karma",
-                          "Répare une armure rituelle."
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
                         ],
-                        "20 - 30 composantes: transformation d’un bâtiment en commerce de niveau [(composantes - 15)/5]",
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                         [
-                          "Distillerie",
-                          "Forge",
-                          "Atelier",
-                          "Cercle runique",
-                          "Laboratoire",
-                          "Pharmacie."
+                          "Lorem",
+                          "Ipsum",
+                          "Dolor",
+                          "Sit",
+                          "Amet",
+                          "Consectetur."
                         ]
                       ],
-                      "*Un bâtiment est une construction qui dispose d’un toit, de quatre murs et d’un plancher",
-                      "**Une enceinte est une construction qui est ceinturée d’un mur, mais qui n’a pas nécessairement un toit. L’organisation peut désigner tout lieu comme étant réputé être une enceinte.",
-                      "Par exemple: l’arène."
+                      "*Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                      "**Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
                     ]
                   },
                   {
                     "title": "Piège",
                     "description": [
-                      "<small>(Piège: corde avec une clochette. Inflige 2 points de dégât à qui touche la corde quand la clochette sonne)</small>",
+                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                       [
-                        "6 - 7 composantes: piège avec effet additionnel sur déclenchement (l’effet est sur un papier sur la corde)",
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                         [
-                          "Désarmé",
-                          "Foudroyé",
-                          "Muet"
+                          "Lorem",
+                          "Ipsum",
+                          "Dolor"
                         ],
-                        "8 - 9 composantes: piège avec effet additionnel sur déclenchement (l’effet est sur un papier sur la corde)",
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                         [
-                          "Démembré",
-                          "Peur",
-                          "Aveugle"
+                          "Lorem",
+                          "Ipsum",
+                          "Dolor"
                         ],
-                        "10 - 11 composantes: piège avec effet additionnel sur déclenchement (l’effet est sur un papier sur la corde)",
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                         [
-                          "Enragé",
-                          "Calme",
-                          "Cassé"
+                          "Lorem",
+                          "Ipsum",
+                          "Dolor"
                         ],
-                        "12 - 15 composantes: piège avec effet additionnel sur déclenchement (l’effet est sur un papier sur la corde)",
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                         [
-                          "Assommé",
-                          "Paralysé (5 minutes)",
-                          "<a target='_self' href='#Mécaniquedebase_Effetsdejeu'>Nécrose</a>"
+                          "Lorem",
+                          "Ipsum",
+                          "Dolor"
                         ],
                         "16 - 20 composantes: Pièges avec faculté extraordinaire",
                         [
