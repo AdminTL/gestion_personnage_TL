@@ -7,7 +7,7 @@ import {Event, Home, Organization} from '@app/_models';
 
 @Component({
   templateUrl: 'admin-home.component.html',
-  styleUrls: ['admin-home.component.css']
+  styleUrls: ['admin-home.component.scss']
 })
 export class AdminHomeComponent implements OnInit, OnDestroy {
   public isLoaded: Boolean = false;

@@ -5,7 +5,7 @@ import { Component, Input } from '@angular/core';
 @Component({
     selector: 'character-form-section',
     templateUrl: './character-form-section.component.html',
-    styleUrls: ['./character-form-section.component.css']
+    styleUrls: ['./character-form-section.component.scss']
 })
 export class CharacterFormSectionComponent {
     @Input()

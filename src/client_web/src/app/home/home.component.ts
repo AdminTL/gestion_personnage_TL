@@ -6,7 +6,7 @@ import {Event, Home} from '@app/_models';
 
 @Component({
   templateUrl: 'home.component.html',
-  styleUrls: ['home.component.css']
+  styleUrls: ['home.component.scss']
 })
 export class HomeComponent implements OnInit {
   public isLoaded: Boolean = false;

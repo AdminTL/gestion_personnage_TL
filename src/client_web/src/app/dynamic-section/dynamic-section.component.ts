@@ -5,7 +5,7 @@ import {Section, Media} from "@app/_models/manual";
 @Component({
   selector: 'dynamic-section',
   templateUrl: 'dynamic-section.component.html',
-  styleUrls: ['dynamic-section.component.css']
+  styleUrls: ['dynamic-section.component.scss']
 })
 export class DynamicSectionComponent {
   public route: string;

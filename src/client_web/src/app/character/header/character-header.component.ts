@@ -5,7 +5,7 @@ import { CharacterExtensions } from '../character-extensions';
 @Component({
   selector: 'character-header',
   templateUrl: './character-header.component.html',
-  styleUrls: ['./character-header.component.css']
+  styleUrls: ['./character-header.component.scss']
 })
 export class CharacterHeaderComponent {
   @Input() public character: Character;

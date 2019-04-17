@@ -1,8 +1,63 @@
-//@import '~bootstrap/scss/bootstrap-reboot';
-//@import '~bootstrap/scss/bootstrap-grid';
-@import '~bootstrap/scss/bootstrap';
+//@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+//@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 //@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
-//@import "~material-design-icons/iconfont/material-icons.css";
+//@import "~@angular/material/prebuilt-themes/purple-green.css";
+@import "./theme.sass";
+@import "~material-design-icons/iconfont/material-icons.css";
 //@import "~primeng/resources/themes/luna-pink/theme.css";
-//@import "~primeng/resources/primeng.min.css";
-//@import "~primeicons/primeicons.css";
+@import "./primeng_theme.scss";
+@import "~primeng/resources/primeng.min.css";
+@import "~primeicons/primeicons.css";
+@import '~bootstrap/dist/css/bootstrap.css';
+
+a {
+  color: $accent-light;
+}
+
+a:hover{
+    color: $accent;
+}
+
+fa-icon {
+  font-size: 18px !important;
+}
+
+/* ref : https://lipis.github.io/bootstrap-social/ */
+
+.btn-facebook {
+    color: #fff;
+    background-color: #3b5998;
+    border-color: rgba(0,0,0,0.2);
+}
+
+.btn-google {
+    color: #fff;
+    background-color: #DD4B39;
+    border-color: rgba(0,0,0,0.2);
+}
+
+.btn-social {
+    position: relative;
+    padding-left: 44px;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn-social:hover {
+    color: #eee;
+}
+
+.btn-social :first-child {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 40px;
+    padding: 7px;
+    /*font-size: 1.6em;*/
+    font-size: 2.2em;
+    text-align: center;
+    border-right: 1px solid rgba(0,0,0,0.2);
+}

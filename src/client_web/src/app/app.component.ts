@@ -10,7 +10,7 @@ import * as ScreenFull from 'screenfull';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
   // Model
@@ -83,8 +83,8 @@ export class AppComponent implements OnInit, OnDestroy {
     });
     this.watchers.push(watcher);
 
-    // Update nav-menu depends on larger of window
-    watcher = this.media.subscribe((change: MediaChange) => {
+    // Update nav-menu depends on width of window
+    watcher = this.media.subscribe((change: MediaChange) => { // TODO use MediaObserver instead of MediaChange - deprecated in flex-layout 7 https://github.com/angular/flex-layout/blob/master/CHANGELOG.md#700-beta24-2019-03-17
       if (change.mqAlias === 'sm' || change.mqAlias === 'xs') {
         this.opened = false;
         this.over = 'over';
@@ -100,7 +100,7 @@ export class AppComponent implements OnInit, OnDestroy {
     });
 
     ScreenFull.on("error", event => {
-      this.alertService.error("Sans succès de plein écran : " + event);
+      this.alertService.error("Could not set full screen : " + event);
     });
   }
 

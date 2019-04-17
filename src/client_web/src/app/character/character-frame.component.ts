@@ -9,7 +9,7 @@ import { CharacterService } from '@app/_services/character.service';
 @Component({
   selector: 'character-frame',
   templateUrl: 'character-frame.component.html',
-  styleUrls: ['character-frame.component.css']
+  styleUrls: ['character-frame.component.scss']
 })
 export class CharacterFrameComponent implements OnInit {
 
