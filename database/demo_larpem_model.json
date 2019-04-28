@@ -212,34 +212,38 @@
   },
   "menu": {
     "title": "",
-    "sibling": [
+    "matIcon": "",
+    "routerLink": "",
+    "faIcon": "",
+    "subMenu": [
       {
         "title": "Accueil",
         "matIcon": "home",
         "routerLink": "/home",
-        "faIcon": ""
-      }
-    ],
-    "grouped_sibling": [
+        "faIcon": "",
+        "subMenu": []
+      },
       {
         "title": "Guide / Manuel",
         "matIcon": "description",
         "routerLink": "/manual",
         "faIcon": "",
-        "children": [
+        "subMenu": [
           {
             "title": "Manuel du joueur",
             "matIcon": "description",
             "routerLink": "/manual",
             "routerLink_param": "player",
-            "faIcon": ""
+            "faIcon": "",
+            "subMenu": []
           },
           {
             "title": "Univers",
             "matIcon": "description",
             "routerLink": "/manual",
             "routerLink_param": "lore",
-            "faIcon": ""
+            "faIcon": "",
+            "subMenu": []
           }
         ]
       },
@@ -248,14 +252,7 @@
         "matIcon": "",
         "faIcon": "theater-masks",
         "routerLink": "/character",
-        "children": [
-          {
-            "title": "Personnage",
-            "matIcon": "",
-            "routerLink": "/character",
-            "faIcon": "theater-masks"
-          }
-        ]
+        "subMenu": []
       },
       {
         "title": "Admin",
@@ -263,30 +260,34 @@
         "matIcon": "",
         "faIcon": "mask",
         "routerLink": "/admin/home",
-        "children": [
+        "subMenu": [
           {
             "title": "Personnage",
             "matIcon": "",
             "routerLink": "/character",
-            "faIcon": "theater-masks"
+            "faIcon": "theater-masks",
+            "subMenu": []
           },
           {
             "title": "Manuel Admin",
             "matIcon": "description",
             "routerLink": "/manual",
-            "faIcon": ""
+            "faIcon": "",
+            "subMenu": []
           },
           {
             "title": "Éditeur",
             "matIcon": "edit",
             "routerLink": "/admin/editor",
-            "faIcon": ""
+            "faIcon": "",
+            "subMenu": []
           },
           {
             "title": "Paramètres",
             "matIcon": "settings",
             "routerLink": "/admin/setting",
-            "faIcon": ""
+            "faIcon": "",
+            "subMenu": []
           }
         ]
       }

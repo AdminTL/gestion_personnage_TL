@@ -14,39 +14,42 @@
       <span class="lead">{{modelOrganization.name}}</span>
       <span class="" [innerHtml]="modelOrganization.summary"></span>
     </div>
-    <div *ngIf="modelMenu && modelMenu.sibling">
-      <ng-container *ngFor="let sub_menu of modelMenu.sibling">
+    <h2>{{modelMenu.title}}</h2>
+    <div *ngIf="modelMenu?.subMenu">
+      <mat-accordion *ngIf="modelMenu.subMenu?.length" multi="false" [displayMode]="displayMode">
+        <ng-container *ngFor="let sub_menu of modelMenu.subMenu">
+          <div *ngIf="!sub_menu.requiredAdminPermission || (currentUser && currentUser.permission.isAdmin)">
 
-        <mat-nav-list style="padding: 0 8px;" *ngIf="!sub_menu.children" [routerLink]="sub_menu.routerLink_param ? [sub_menu.routerLink, sub_menu.routerLink_param] : [sub_menu.routerLink]">
-          <mat-list-item>
-            <mat-icon *ngIf="sub_menu.matIcon">{{sub_menu.matIcon}}</mat-icon>
-            <fa-icon class="mat-icon material-icons" *ngIf="sub_menu.faIcon" [icon]="sub_menu.faIcon"></fa-icon>
-            <span class="pl-2">{{sub_menu.title}}</span>
-          </mat-list-item>
-        </mat-nav-list>
-      </ng-container>
+            <mat-nav-list dense>
+              <mat-expansion-panel [hideToggle]="!sub_menu.subMenu?.length" class="no-shadow">
 
-      <mat-accordion *ngIf="modelMenu.grouped_sibling?.length > 0" multi="true" [displayMode]="displayMode">
-        <ng-container *ngFor="let sub_menu of modelMenu.grouped_sibling">
-          <mat-expansion-panel class="no-shadow" *ngIf="!sub_menu.requiredAdminPermission || (currentUser && currentUser.permission.isAdmin)">
+                <!-- Without subMenus, routerlink is on the full bar -->
+                <mat-expansion-panel-header *ngIf="!sub_menu.subMenu?.length" fxLayout="row" [expandedHeight]="expandHeight" [collapsedHeight]="collapseHeight" [routerLink]="sub_menu.routerLink_param ? [sub_menu.routerLink, sub_menu.routerLink_param] : [sub_menu.routerLink]">
+                  <mat-panel-title>
+                    <mat-icon *ngIf="sub_menu.matIcon">{{sub_menu.matIcon}}</mat-icon>
+                    <fa-icon class="mat-icon material-icons" *ngIf="sub_menu.faIcon" [icon]="sub_menu.faIcon"></fa-icon>
+                    <span class="pl-2" >{{sub_menu.title}}</span>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
 
-            <mat-expansion-panel-header fxLayout="row" [expandedHeight]="expandHeight" [collapsedHeight]="collapseHeight">
-              <mat-panel-title>
-                <mat-icon *ngIf="sub_menu.matIcon">description</mat-icon>
-                <fa-icon class="mat-icon material-icons" *ngIf="sub_menu.faIcon" [icon]="sub_menu.faIcon"></fa-icon>
-                <span class="pl-2" [routerLink]="sub_menu.routerLink_param ? [sub_menu.routerLink, sub_menu.routerLink_param] : [sub_menu.routerLink]">{{sub_menu.title}}</span>
-              </mat-panel-title>
-            </mat-expansion-panel-header>
+                <!-- With subMenus, routerlink is on the text only -->
+                <mat-expansion-panel-header *ngIf="sub_menu.subMenu?.length" fxLayout="row" [expandedHeight]="expandHeight" [collapsedHeight]="collapseHeight">
+                  <mat-panel-title>
+                    <mat-icon *ngIf="sub_menu.matIcon">{{sub_menu.matIcon}}</mat-icon>
+                    <fa-icon class="mat-icon material-icons" *ngIf="sub_menu.faIcon" [icon]="sub_menu.faIcon"></fa-icon>
+                    <span class="pl-2" [routerLink]="sub_menu.routerLink_param ? [sub_menu.routerLink, sub_menu.routerLink_param] : [sub_menu.routerLink]">{{sub_menu.title}}</span>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
 
-            <mat-nav-list dense *ngIf="sub_menu.children?.length > 0">
-              <mat-list-item [routerLink]="children.routerLink_param ? [children.routerLink, children.routerLink_param] : [children.routerLink]" *ngFor="let children of sub_menu.children">
-                <mat-icon *ngIf="children.matIcon">{{children.matIcon}}</mat-icon>
-                <fa-icon class="mat-icon material-icons" *ngIf="children.faIcon" [icon]="children.faIcon"></fa-icon>
-                <span class="pl-2">{{children.title}}</span>
-              </mat-list-item>
+                <!-- An angular limitation makes it so we can't use real recursion -->
+                <mat-list-item [routerLink]="children.routerLink_param ? [children.routerLink, children.routerLink_param] : [children.routerLink]" *ngFor="let children of sub_menu.subMenu">
+                  <mat-icon *ngIf="children.matIcon">{{children.matIcon}}</mat-icon>
+                  <fa-icon class="mat-icon material-icons" *ngIf="children.faIcon" [icon]="children.faIcon"></fa-icon>
+                  <span class="pl-2">{{children.title}}</span>
+                </mat-list-item>
+              </mat-expansion-panel>
             </mat-nav-list>
-
-          </mat-expansion-panel>
+          </div>
         </ng-container>
       </mat-accordion>
 
