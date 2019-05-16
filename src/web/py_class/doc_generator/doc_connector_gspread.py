@@ -628,7 +628,7 @@ class DocConnectorGSpread:
                 else:
                     line_value["options"] = str_option
 
-            if read_only_player:
+            if read_only_player and not is_admin:
                 line_value["readonly"] = True
 
             if style:
