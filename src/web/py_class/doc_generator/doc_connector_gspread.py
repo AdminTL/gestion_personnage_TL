@@ -500,13 +500,12 @@ class DocConnectorGSpread:
             if not level:
                 continue
 
-            if is_admin == "TRUE" or is_admin == "VRAI":
-                is_admin = True
-            else:
-                is_admin = False
+            is_admin = bool(is_admin == "TRUE" or is_admin == "VRAI")
+            read_only_player = bool(read_only_player == "TRUE" or read_only_player == "VRAI")
 
             # Ignore admin field when sheet is not admin
-            if not is_form_admin and is_admin:
+            # Exception when readOnlyPlayer
+            if (not is_form_admin and is_admin) and not read_only_player:
                 continue
 
             # Validation section
@@ -628,6 +627,9 @@ class DocConnectorGSpread:
                     line_value["options"] = dct_option
                 else:
                     line_value["options"] = str_option
+
+            if read_only_player:
+                line_value["readonly"] = True
 
             if style:
                 lst_style = style.split(",")
