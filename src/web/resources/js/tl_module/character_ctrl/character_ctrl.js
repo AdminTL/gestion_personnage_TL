@@ -639,6 +639,35 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       }
     }
 
+    if (isDefined($scope.model_char.merite_jeu_5)) {
+      for (var i = 0; i < $scope.model_char.merite_jeu_5.length; i++) {
+        if (isUndefined($scope.model_char.merite_jeu_5[i]) || !$scope.model_char.merite_jeu_5[i]) {
+          continue;
+        }
+        // Find the associate point
+        var sub_key = "merite_" + $scope.model_char.merite_jeu_5[i].sub_merite;
+
+        if (sub_key in $scope.model_database.skill_manual) {
+          $scope.character_merite.push($scope.model_database.skill_manual[sub_key]);
+        }
+
+        if (sub_key in $scope.model_database.point) {
+          var dct_key_point = $scope.model_database.point[sub_key];
+
+          for (var key_point in dct_key_point) {
+            if (dct_key_point.hasOwnProperty(key_point)) {
+              var point_value = dct_key_point[key_point];
+              if (key_point in $scope.character_point) {
+                $scope.character_point[key_point] += point_value;
+              } else {
+                $scope.character_point[key_point] = point_value;
+              }
+            }
+          }
+        }
+      }
+    }
+
     if (isDefined($scope.model_char.esclave)) {
       for (var i = 0; i < $scope.model_char.esclave.length; i++) {
         if (isUndefined($scope.model_char.esclave[i]) || !$scope.model_char.esclave[i]) {
@@ -817,6 +846,9 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       if (!isDefined(firstChar.merite_jeu_4)) {
         $scope.model_char.merite_jeu_4 = [];
       }
+      if (!isDefined(firstChar.merite_jeu_5)) {
+        $scope.model_char.merite_jeu_5 = [];
+      }
       if (!isDefined(firstChar.esclave)) {
         $scope.model_char.esclave = [];
       }
@@ -842,6 +874,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       $scope.model_char.merite_jeu_2 = [];
       $scope.model_char.merite_jeu_3 = [];
       $scope.model_char.merite_jeu_4 = [];
+      $scope.model_char.merite_jeu_5 = [];
       $scope.model_char.esclave = [];
       $scope.model_char.marche = [];
       $scope.model_char.xp_naissance = $scope.xp_default;
