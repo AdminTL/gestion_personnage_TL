@@ -1,6 +1,8 @@
 ﻿export interface Menu {
   title: string;
-  requiredAdminPermission: boolean;
+  requireAdmin: boolean;
+  requireLogin: boolean;
+  requireLogout: boolean;
   subMenu: Menu[];
   matIcon: string;
   faIcon: string;

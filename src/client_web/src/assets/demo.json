@@ -252,11 +252,20 @@
         "matIcon": "",
         "faIcon": "theater-masks",
         "routerLink": "/character",
+        "requireLogin": true,
+        "subMenu": []
+      },
+      {
+        "title": "Personnage",
+        "matIcon": "",
+        "faIcon": "theater-masks",
+        "routerLink": "/newcharacter",
+        "requireLogout": true,
         "subMenu": []
       },
       {
         "title": "Admin",
-        "requiredAdminPermission": true,
+        "requireAdmin": true,
         "matIcon": "",
         "faIcon": "mask",
         "routerLink": "/admin/home",

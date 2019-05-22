@@ -21,6 +21,7 @@ import {CharacterMessagesComponent} from './character/messages/character-message
 import {CharacterResourcesComponent} from './character/resources/character-resources.component';
 import {CharacterSkillsComponent} from './character/skills/character-skills.component';
 import {CharacterHeaderComponent} from './character/header/character-header.component';
+import { LoggedOutCharacterComponent } from './logged-out-character/logged-out-character.component';
 
 // import {AuthGuard} from './_guards';
 
@@ -44,9 +45,10 @@ const appRoutes: Routes = [
       {path: 'attributes', component: CharacterAttributesComponent},
       {path: 'skills', component: CharacterSkillsComponent},
       {path: 'resources', component: CharacterResourcesComponent},
-      {path: 'messages', component: CharacterMessagesComponent}
+      {path: 'messages', component: CharacterMessagesComponent},
     ]
   },
+  {path: 'newcharacter', component: LoggedOutCharacterComponent},
   {path: 'manual', component: ManualComponent},
   {path: 'manual/:documentName', component: ManualComponent},
   // otherwise redirect to home

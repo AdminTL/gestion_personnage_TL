@@ -34,6 +34,7 @@ import {NotFoundComponent} from './not-found/not-found.component';
 import {LoginComponent} from './login/login.component';
 import {SocialLoginComponent} from './social-login/social-login.component';
 import {RegisterComponent} from './register/register.component';
+import {LoggedOutCharacterComponent} from './logged-out-character/logged-out-character.component';
 import {SharedModule} from './shared';
 
 @NgModule({
@@ -70,6 +71,7 @@ import {SharedModule} from './shared';
     LoginComponent,
     SocialLoginComponent,
     RegisterComponent,
+    LoggedOutCharacterComponent,
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

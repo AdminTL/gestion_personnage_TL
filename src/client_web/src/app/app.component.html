@@ -18,7 +18,7 @@
     <div *ngIf="modelMenu?.subMenu">
       <mat-accordion *ngIf="modelMenu.subMenu?.length" multi="false" [displayMode]="displayMode">
         <ng-container *ngFor="let sub_menu of modelMenu.subMenu">
-          <div *ngIf="!sub_menu.requiredAdminPermission || (currentUser && currentUser.permission.isAdmin)">
+          <div *ngIf="isUserAllowedForMenuPanel(sub_menu)">
 
             <mat-nav-list dense>
               <mat-expansion-panel [hideToggle]="!sub_menu.subMenu?.length" class="no-shadow">

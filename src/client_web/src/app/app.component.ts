@@ -123,4 +123,20 @@ export class AppComponent implements OnInit, OnDestroy {
     this.debugService.toggleDebug();
   }
 
+  isUserAllowedForMenuPanel(menu: Menu): boolean {
+
+    if(menu.requireAdmin && !(this.currentUser && this.currentUser.permission.isAdmin)){
+      return false;
+    }
+
+    if(menu.requireLogin && !this.currentUser){
+      return false;
+    }
+
+    if(menu.requireLogout && this.currentUser){
+      return false;
+    }
+    
+    return true;
+  }
 }
