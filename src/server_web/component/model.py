@@ -30,6 +30,7 @@ class Model(object):
                 "home": {},
                 "manual": {"documents": []},
                 "menu": {},
+                "character": {},
             }
 
     def update(self, dct_model, save=False):
@@ -68,6 +69,10 @@ class Model(object):
     def get_str_all(self, is_admin=False):
         # obj = self.get_all(is_admin=is_admin)
         obj = self._model
+        return json.dumps(obj)
+
+    def get_str(self, name):
+        obj = self._model.get(name, {})
         return json.dumps(obj)
 
     def get_last_date_updated(self):

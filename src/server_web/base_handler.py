@@ -13,7 +13,6 @@ class BaseHandler(tornado.web.RequestHandler):
     _debug = None
     _manual = None
     _model = None
-    _character_form = None
     _db = None
     _invalid_login = None
     _config = None
@@ -27,7 +26,6 @@ class BaseHandler(tornado.web.RequestHandler):
         self._db = kwargs.get("db")
         self._manual = kwargs.get("manual")
         self._model = kwargs.get("model")
-        self._character_form = kwargs.get("character_form")
         self._invalid_login = self.get_argument("invalid",
                                                 default="disable_login" if kwargs.get("disable_login") else None)
         self._config = kwargs.get("config")

@@ -398,7 +398,6 @@
                     "Eu: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at rhoncus odio, eu pellentesque dolor",
                     "Pellentesque: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at rhoncus odio, eu pellentesque dolor",
                     "Dolor: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at rhoncus odio, eu pellentesque dolor"
-
                   ]
                 ]
               },
@@ -681,7 +680,6 @@
                         "Lorem ipsum dolor sit amet",
                         "Lorem ipsum dolor sit amet",
                         "Lorem ipsum dolor sit amet"
-
                       ]
                     ]
                   },
@@ -3393,6 +3391,83 @@
                 ]
               }
             ]
+          }
+        ]
+      }
+    ]
+  },
+  "character": {
+    "characterFormSections": [
+      {
+        "title": "Section utilisateur",
+        "type": "Section",
+        "fields": [
+          {
+            "title": "Nom du personnage",
+            "hint": "À remplir",
+            "type": "Input",
+            "bind": "name"
+          },
+          {
+            "title": "description du background",
+            "hint": "tb-hint",
+            "description": "un peu de détails sur le personnage",
+            "lines": 6,
+            "type": "Textbox",
+            "bind": "question_background_raison"
+          }
+        ]
+      },
+      {
+        "title": "section2title",
+        "type": "Section",
+        "fields": [
+          {
+            "title": "faction",
+            "bind": "faction",
+            "hint": "c'est ton groupe!",
+            "type": "Dropdown",
+            "options": [
+              {
+                "label": "Sarsar",
+                "value": "sarsar"
+              },
+              {
+                "label": "Village de Vallam",
+                "value": "vallam"
+              },
+              {
+                "label": "Amunzrat",
+                "value": "fuckers"
+              }
+            ]
+          },
+          {
+            "title": "endurances",
+            "lines": 2,
+            "hint": "multi-dropdown-hint",
+            "type": "Dropdown",
+            "multiSelect": true,
+            "options": [
+              {
+                "label": "endurance!",
+                "value": "e1"
+              },
+              {
+                "label": "plus d'endurance!",
+                "value": "e2"
+              },
+              {
+                "label": "vraiment plus d'endurance!",
+                "value": "e3"
+              }
+            ]
+          },
+          {
+            "title": "button",
+            "hint": "button-hint",
+            "type": "Button",
+            "action": "Submit"
           }
         ]
       }

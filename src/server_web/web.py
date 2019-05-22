@@ -23,7 +23,6 @@ from component.db import DB
 from component.model import Model
 from component.doc_generator.doc_generator_gspread import DocGeneratorGSpread
 from component.project_archive import ProjectArchive
-from component.character_form import CharacterForm
 from tornado.log import enable_pretty_logging
 
 
@@ -40,7 +39,6 @@ def main(parse_arg):
                 "use_internet_static": parse_arg.use_internet_static,
                 "db": DB(parse_arg),
                 "model": Model(parse_arg),
-                "character_form": CharacterForm(parse_arg),
                 "doc_generator_gspread": DocGeneratorGSpread(parse_arg),
                 "project_archive": ProjectArchive(parse_arg),
                 "disable_character": parse_arg.disable_character,

@@ -9,7 +9,8 @@ import json
 
 class CharacterFormHandler(jsonhandler.JsonHandler):
     def get(self):
-        self.write(self._character_form.get_str_all())
+        data = self._model.get_str("character")
+        self.write(data)
         self.finish()
 
 
@@ -100,6 +101,7 @@ class CharacterApprobationHandler(jsonhandler.JsonHandler):
         self.write(status)
         self.finish()
 
+
 class UserCharacterHandler(jsonhandler.JsonHandler):
     @tornado.web.authenticated
     def get(self):
@@ -108,7 +110,7 @@ class UserCharacterHandler(jsonhandler.JsonHandler):
             self.set_status(404)
             self.send_error(404)
             raise tornado.web.Finish()
-        
+
         data = json.dumps(self._db.get_characters_for_user(self.get_current_user().get("user_id")))
 
         self.write(data)
@@ -126,6 +128,6 @@ class UserCharacterHandler(jsonhandler.JsonHandler):
         character = self.get_params()
 
         self._db.write_character_to_user(self.get_current_user().get("user_id"), character)
-        
+
         self.write({"status": "success"})
         self.finish()

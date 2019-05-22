@@ -74,4 +74,5 @@ export class CharacterService {
     getCharacterForm(){
         return this.http.get(`${environment.apiUrl}/cmd/character_form`);
     }
+
 }
