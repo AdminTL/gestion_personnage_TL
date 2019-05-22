@@ -22,6 +22,15 @@ fa-icon {
   font-size: 18px !important;
 }
 
+// To fix firefox resize color in textarea
+//#mat-input-1::-webkit-resizer {
+//   background-color: green;
+//}
+//#mat-input-1 {
+//   -webkit-appearance: none;
+//}
+// when -webkit-appearance is different than none. How disabled it?
+
 /* ref : https://lipis.github.io/bootstrap-social/ */
 
 .btn-facebook {
