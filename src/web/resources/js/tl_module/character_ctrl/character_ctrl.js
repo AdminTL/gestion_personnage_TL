@@ -531,10 +531,6 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
         // Find the associate point
         var sub_key = "merite_" + $scope.model_char.merite_jeu_1[i].sub_merite;
 
-        if (sub_key in $scope.model_database.skill_manual) {
-          $scope.character_merite.push($scope.model_database.skill_manual[sub_key]);
-        }
-
         if (sub_key in $scope.model_database.point) {
           var dct_key_point = $scope.model_database.point[sub_key];
 
@@ -559,10 +555,6 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
         }
         // Find the associate point
         var sub_key = "merite_" + $scope.model_char.merite_jeu_2[i].sub_merite;
-
-        if (sub_key in $scope.model_database.skill_manual) {
-          $scope.character_merite.push($scope.model_database.skill_manual[sub_key]);
-        }
 
         if (sub_key in $scope.model_database.point) {
           var dct_key_point = $scope.model_database.point[sub_key];
@@ -589,10 +581,6 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
         // Find the associate point
         var sub_key = "merite_" + $scope.model_char.merite_jeu_3[i].sub_merite;
 
-        if (sub_key in $scope.model_database.skill_manual) {
-          $scope.character_merite.push($scope.model_database.skill_manual[sub_key]);
-        }
-
         if (sub_key in $scope.model_database.point) {
           var dct_key_point = $scope.model_database.point[sub_key];
 
@@ -617,10 +605,6 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
         }
         // Find the associate point
         var sub_key = "merite_" + $scope.model_char.merite_jeu_4[i].sub_merite;
-
-        if (sub_key in $scope.model_database.skill_manual) {
-          $scope.character_merite.push($scope.model_database.skill_manual[sub_key]);
-        }
 
         if (sub_key in $scope.model_database.point) {
           var dct_key_point = $scope.model_database.point[sub_key];
