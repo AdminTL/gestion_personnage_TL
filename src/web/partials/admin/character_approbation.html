@@ -1,0 +1,16 @@
+<h2>Approbation</h2>
+<p>
+  Approbation de la fiche :
+  <span style="color:cornflowerblue" ng-show="is_approbation_new(player)">✪ nouveau</span>
+  <span style="color:green" ng-show="is_approbation_approved(player)">✓ approuvé</span>
+  <span style="color:yellow" ng-show="is_approbation_unapproved(player)">✗ en attente</span>
+  <span style="color:darkgray" ng-show="is_approbation_inactive(player)">✞ inactif</span>
+  <span style="color:indianred" ng-show="is_approbation_to_correct(player)">✐ à corriger</span>
+  <br/>
+  <span ng-show="model_char.approbation.date">Date d'approbation : {{! model_char.approbation.date * 1000 | UTCToNow: true }}</span><br/>
+  <button class="btn btn-success" ng-click="send_approbation(1)" ng-hide="is_approbation_approved(player)">Approuver ✓</button>
+  <button class="btn btn-danger" ng-click="send_approbation(4)" ng-hide="is_approbation_to_correct(player)">À corriger ✐</button>
+  <button class="btn btn-warning" ng-click="send_approbation(2)" ng-hide="is_approbation_unapproved(player)">Désapprouver ✗</button>
+  <button class="btn btn-default" ng-click="send_approbation(3)" ng-hide="is_approbation_inactive(player)">Inactif ✞</button>
+  <button class="btn btn-info" ng-click="send_approbation(0)" ng-hide="is_approbation_new(player)">Nouveau ✪</button>
+</p>
