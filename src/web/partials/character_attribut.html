@@ -12,7 +12,8 @@
       d'énergie
     </li>
     <li>
-      <span style="font-weight:bold;color:cornflowerblue">{{! 10 + get_character_point('PtKarmaMax') }}</span> point<span ng-show="10 + get_character_point('PtKarmaMax') > 1">s</span> de
+      <span style="font-weight:bold;color:cornflowerblue">{{! get_karma(10 + get_character_point('PtKarmaMax'), get_character_point('PtKarmaEsclave')) }}</span> point<span
+        ng-show="10 + get_character_point('PtKarmaMax') > 1">s</span> de
       karma
     </li>
     <li>

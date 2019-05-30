@@ -731,6 +731,9 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     if (isDefined($scope.model_user["xp_gn_4"]) && $scope.model_user.xp_gn_4) {
       $scope.xp_receive++;
     }
+    if (isDefined($scope.model_user["xp_gn_5"]) && $scope.model_user.xp_gn_5) {
+      $scope.xp_receive++;
+    }
     total_xp += $scope.xp_receive;
     $scope.xp_total = total_xp;
 
@@ -1124,6 +1127,14 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       return 1;
     }
     return 0;
+  };
+
+  $scope.get_karma = function (karma, karmaEsclave) {
+    var value = karma - karmaEsclave;
+    if (value > 10) {
+      return 10;
+    }
+    return value;
   };
 
   $scope.get_character_point = function (name) {

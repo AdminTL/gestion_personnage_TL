@@ -966,7 +966,7 @@ class DocConnectorGSpread:
 
         if model:
             section["model"] = model
-        if not is_form_admin and point and sub_key:
+        if point and sub_key:
             dct_point = self._transform_point(line_number, doc_sheet_name, point)
             if dct_point is None:
                 return False
@@ -977,14 +977,14 @@ class DocConnectorGSpread:
             #     print(self._error, file=sys.stderr)
             #     return False
 
-            if updated_sub_key in self._doc_point:
-                # HACK ignore "Contrebande" duplication
-                # TODO send a warning about duplication and not a failure
-                if "Contrebande" not in updated_sub_key:
-                    msg = "Duplicated sub_key : %s" % updated_sub_key
-                    self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
-                    print(self._error, file=sys.stderr)
-                    return False
+            # if updated_sub_key in self._doc_point:
+            #     # HACK ignore "Contrebande" duplication
+            #     # TODO send a warning about duplication and not a failure
+            #     if "Contrebande" not in updated_sub_key:
+            #         msg = "Duplicated sub_key : %s" % updated_sub_key
+            #         self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+            #         print(self._error, file=sys.stderr)
+            #         return False
 
             self._doc_point[updated_sub_key] = dct_point
         if hide_player:
