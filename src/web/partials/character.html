@@ -57,7 +57,9 @@
           </li>
         </ul>
         <br/>
+        <button class="btn btn-primary" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i>Imprimer</button>
       </div>
+      <br/>
 
       <div ng-show="player && player.character">
         <div>
@@ -89,72 +91,74 @@
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sommaire <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="#menu_attribut" data-toggle="pill">Attribut</a></li>
-            <li><a href="#menu_skill" data-toggle="pill">Habileté</a></li>
-            <li><a href="#menu_game_begin" data-toggle="pill">Objet de départ</a></li>
+            <li><a data-toggle="pill" href="#menu_attribut">Attribut</a></li>
+            <li><a data-toggle="pill" href="#menu_skill">Habileté</a></li>
+            <li><a data-toggle="pill" href="#menu_game_begin">Objet de départ</a></li>
           </ul>
         </li>
         <li><a data-toggle="pill" href="#menu_message">Message important</a></li>
+        <li><a data-toggle="pill" href="#menu_status">Statut</a></li>
       </ul>
 
-      <h1>Information pour le joueur</h1>
+      <div class="tab-content" id="manual_main_content">
+        <!-- Status -->
+        <div id="menu_status" class="tab-pane fade">
+          <h1>Information pour le joueur</h1>
 
-      <div>
-        <h2>Approbation</h2>
-        <p>
-          Status de validation de la fiche par le maître du jeu :
-          <span style="color:cornflowerblue" ng-show="is_approbation_new(player)">✪ nouveau</span>
-          <span style="color:green" ng-show="is_approbation_approved(player)">✓ approuvé</span>
-          <span style="color:yellow" ng-show="is_approbation_unapproved(player)">✗ en attente</span>
-          <span style="color:darkgray" ng-show="is_approbation_inactive(player)">✞ inactif</span>
-          <span style="color:indianred" ng-show="is_approbation_to_correct(player)">✐ à corriger</span>
-          <br/>
-          <span ng-show="model_char.approbation.date">Date de changement du status : {{! model_char.approbation.date * 1000 | UTCToNow: true }}</span>
-        </p>
-      </div>
+          <h2>Approbation</h2>
+          <p>
+            Status de validation de la fiche par le maître du jeu :
+            <span style="color:cornflowerblue" ng-show="is_approbation_new(player)">✪ nouveau</span>
+            <span style="color:green" ng-show="is_approbation_approved(player)">✓ approuvé</span>
+            <span style="color:yellow" ng-show="is_approbation_unapproved(player)">✗ en attente</span>
+            <span style="color:darkgray" ng-show="is_approbation_inactive(player)">✞ inactif</span>
+            <span style="color:indianred" ng-show="is_approbation_to_correct(player)">✐ à corriger</span>
+            <br/>
+            <span ng-show="model_char.approbation.date">Date de changement du status : {{! model_char.approbation.date * 1000 | UTCToNow: true }}</span>
+          </p>
 
-      <h2>État de la fiche</h2>
-      <p>
-        Date de création : {{! model_char.date_creation * 1000 | UTCToNow: true }}<br/>
-        Date de mise à jour : {{! model_char.date_modify * 1000 | UTCToNow: true }}
-      </p>
+          <h2>État de la fiche</h2>
+          <p>
+            Date de création : {{! model_char.date_creation * 1000 | UTCToNow: true }}<br/>
+            Date de mise à jour : {{! model_char.date_modify * 1000 | UTCToNow: true }}
+          </p>
 
-      <div>
-        <!-- Sheet status -->
-        La fiche <span ng-show="get_status_validation() == 0" style="color:green">est à jour</span><span ng-show="get_status_validation() == 1" style="color:yellow">est à améliorer</span><span
-          ng-show="get_status_validation() == -1" style="color:red">est à corriger</span>.
-        <span ng-show="xp_total < 0">Il y a <span style="color:red"><span style="font-weight:bold;text-decoration: underline">{{! -(xp_total) }}</span> XP à enlever</span>.</span>
-        <span ng-show="xp_total > 0">Il y a <span style="color:yellow"><span style="font-weight:bold;text-decoration: underline">{{! xp_total }}</span> XP à placer</span>.</span>
-        <span ng-show="merite_total < 0">Il y a <span style="color:red"><span style="font-weight:bold;text-decoration: underline">{{! -(merite_total) }}</span> Mérite à enlever</span>.</span>
-        <span ng-show="merite_total > 0">Il y a <span style="color:yellow"><span style="font-weight:bold;text-decoration: underline">{{! merite_total }}</span> Mérite en banque</span>.</span>
-        <span ng-show="diff_sous_ecole < 0">Il y a <span style="color:red"><span
-            style="font-weight:bold;text-decoration: underline">{{! -(diff_sous_ecole) }}</span> sous-école à enlever</span>.</span>
-        <span ng-show="diff_sous_ecole > 0">Il y a <span style="color:yellow"><span
-            style="font-weight:bold;text-decoration: underline">{{! diff_sous_ecole }}</span> sous-école à choisir</span>.</span>
-        <span ng-show="!model_char.name"><span style="color:red">Nom du personnage est manquant</span>.</span>
-        <span ng-show="!model_char.faction"><span style="color:red">Faction manquante</span>.</span>
-        <span ng-show="count_master_tech > (xp_receive - xp_default + 1)">Il y a <span style="color:red"><span
-            style="font-weight:bold;text-decoration: underline">{{! count_master_tech - (xp_receive - xp_default + 1) }}</span> technique de maitre à enlever</span>.</span>
-      </div>
+          <div>
+            <!-- Sheet status -->
+            La fiche <span ng-show="get_status_validation() == 0" style="color:green">est à jour</span><span ng-show="get_status_validation() == 1" style="color:yellow">est à améliorer</span><span
+              ng-show="get_status_validation() == -1" style="color:red">est à corriger</span>.
+            <span ng-show="xp_total < 0">Il y a <span style="color:red"><span style="font-weight:bold;text-decoration: underline">{{! -(xp_total) }}</span> XP à enlever</span>.</span>
+            <span ng-show="xp_total > 0">Il y a <span style="color:yellow"><span style="font-weight:bold;text-decoration: underline">{{! xp_total }}</span> XP à placer</span>.</span>
+            <span ng-show="merite_total < 0">Il y a <span style="color:red"><span style="font-weight:bold;text-decoration: underline">{{! -(merite_total) }}</span> Mérite à enlever</span>.</span>
+            <span ng-show="merite_total > 0">Il y a <span style="color:yellow"><span style="font-weight:bold;text-decoration: underline">{{! merite_total }}</span> Mérite en banque</span>.</span>
+            <span ng-show="diff_sous_ecole < 0">Il y a <span style="color:red"><span
+                style="font-weight:bold;text-decoration: underline">{{! -(diff_sous_ecole) }}</span> sous-école à enlever</span>.</span>
+            <span ng-show="diff_sous_ecole > 0">Il y a <span style="color:yellow"><span
+                style="font-weight:bold;text-decoration: underline">{{! diff_sous_ecole }}</span> sous-école à choisir</span>.</span>
+            <span ng-show="!model_char.name"><span style="color:red">Nom du personnage est manquant</span>.</span>
+            <span ng-show="!model_char.faction"><span style="color:red">Faction manquante</span>.</span>
+            <span ng-show="count_master_tech > (xp_receive - xp_default + 1)">Il y a <span style="color:red"><span
+                style="font-weight:bold;text-decoration: underline">{{! count_master_tech - (xp_receive - xp_default + 1) }}</span> technique de maitre à enlever</span>.</span>
+          </div>
 
-      <div ng-show="isMobile() && enable_debug">
-        <div>
-          Point d'XP
-          <span ng-style="xp_total > 0 ? {'color': 'yellow'} : (xp_total < 0 ? {'color': 'red'} : {'color': 'green'})"> {{! xp_spend }} / {{! xp_receive }}</span>
-        </div>
-        <div>
-          Point de Mérite
-          <span ng-style="merite_total > 0 ? {'color': 'yellow'} : (merite_total < 0 ? {'color': 'red'} : {'color': 'green'})"> {{! merite_spend }} / {{! merite_receive }}</span>
-        </div>
-        <div ng-show="enable_debug">
-          <br/>
-          <div ng-repeat="(key, value) in character_point" style="color:gold">
-            {{! key }} : {{! value }}
+          <div ng-show="isMobile() && enable_debug">
+            <div>
+              Point d'XP
+              <span ng-style="xp_total > 0 ? {'color': 'yellow'} : (xp_total < 0 ? {'color': 'red'} : {'color': 'green'})"> {{! xp_spend }} / {{! xp_receive }}</span>
+            </div>
+            <div>
+              Point de Mérite
+              <span ng-style="merite_total > 0 ? {'color': 'yellow'} : (merite_total < 0 ? {'color': 'red'} : {'color': 'green'})"> {{! merite_spend }} / {{! merite_receive }}</span>
+            </div>
+            <div ng-show="enable_debug">
+              <br/>
+              <div ng-repeat="(key, value) in character_point" style="color:gold">
+                {{! key }} : {{! value }}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="tab-content">
         <!-- form -->
         <div id="menu_form" class="tab-pane fade in active">
           <form name="my_form_char" ng-submit="onSubmit(my_form_char)">
@@ -463,13 +467,15 @@
               Le <span style="font-weight:bold;">BRUIT DE NUIT</span> : Dès 23h, baissez le ton (surtout aux halls et à Amunzrat) afin d'éviter la visite de la SQ.
             </li>
             <li>
-              Veuillez ne <span style="font-weight:bold;">PAS DÉPLACER</span> les objets de décor/mobilier et d’éclairage (les glowsticks et les torches sont des objets de décor, ainsi que d’éclairage.)
+              Veuillez ne <span style="font-weight:bold;">PAS DÉPLACER</span> les objets de décor/mobilier et d’éclairage (les glowsticks et les torches sont des objets de décor, ainsi que
+              d’éclairage.)
             </li>
             <li>
               Les coffres cadenassés nécessitent des habiletés pour être ouverts. Prenez le temps de lire les cartons dessus. <span style="font-weight:bold;">(TOUT COFFRE EST NON DÉPLAÇABLE)</span>
             </li>
             <li>
-              Le 2e étage de presque tous les bâtiments est hors jeu. Il est donc <span style="font-weight:bold;">INTERDIT</span> d’y fouiller ou d’y <span style="font-weight:bold;">CACHER</span> des objets de jeu, bourses ou autres, et ce, même la nuit.
+              Le 2e étage de presque tous les bâtiments est hors jeu. Il est donc <span style="font-weight:bold;">INTERDIT</span> d’y fouiller ou d’y <span style="font-weight:bold;">CACHER</span> des
+              objets de jeu, bourses ou autres, et ce, même la nuit.
               <span style="font-weight:bold;">Notez que le poste de traite est réservé aux «NPC». Il est interdit d’y entrer et interdit de le voler.</span>
             </li>
             <li>
