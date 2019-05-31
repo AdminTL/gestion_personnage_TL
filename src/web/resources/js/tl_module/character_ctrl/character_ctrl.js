@@ -336,16 +336,16 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
               var dct_key_point = $scope.model_database.point[sub_key];
               $scope.count_master_tech += 1;
 
-              for (var key_point in dct_key_point) {
-                if (dct_key_point.hasOwnProperty(key_point)) {
-                  var point_value = dct_key_point[key_point];
-                  if (key_point in $scope.character_point) {
-                    $scope.character_point[key_point] += point_value;
-                  } else {
-                    $scope.character_point[key_point] = point_value;
-                  }
-                }
-              }
+              // for (var key_point in dct_key_point) {
+              //   if (dct_key_point.hasOwnProperty(key_point)) {
+              //     var point_value = dct_key_point[key_point];
+              //     if (key_point in $scope.character_point) {
+              //       $scope.character_point[key_point] += point_value;
+              //     } else {
+              //       $scope.character_point[key_point] = point_value;
+              //     }
+              //   }
+              // }
             }
           }
         }
