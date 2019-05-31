@@ -26,7 +26,6 @@ def ioloop_wrapper(callback):
 
 
 class AutoSSLHandler(tornado.web.RequestHandler):
-    @tornado.web.asynchronous
     def get(self):
         # check directory exist
         path_acme_challenge = os.path.join(os.getcwd(), "..", "..", "ssl_cert", "acme-challenge")
@@ -55,25 +54,21 @@ class AutoSSLHandler(tornado.web.RequestHandler):
 
 
 class IndexHandler(base_handler.BaseHandler):
-    @tornado.web.asynchronous
     def get(self):
         self.render('news.html', enable_facebook_feed=ENABLE_FACEBOOK_FEED, **self._global_arg)
 
 
 class ManualPageHandler(base_handler.BaseHandler):
-    @tornado.web.asynchronous
     def get(self):
         self.render('manual.html', **self._global_arg)
 
 
 class LorePageHandler(base_handler.BaseHandler):
-    @tornado.web.asynchronous
     def get(self):
         self.render('lore.html', **self._global_arg)
 
 
 class LoginHandler(base_handler.BaseHandler):
-    @tornado.web.asynchronous
     def get(self):
         if self.get_current_user():
             self.redirect("/profile")
@@ -81,7 +76,6 @@ class LoginHandler(base_handler.BaseHandler):
 
         self.render('login.html', **self._global_arg)
 
-    @tornado.web.asynchronous
     def post(self):
         if self._global_arg["disable_login"]:
             self.redirect("/")
@@ -407,7 +401,6 @@ class LogoutHandler(base_handler.BaseHandler):
 
 
 class AdminHandler(base_handler.BaseHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def get(self):
         if self._global_arg["disable_admin"] or self._global_arg["disable_login"]:
@@ -426,7 +419,6 @@ class AdminHandler(base_handler.BaseHandler):
 
 
 class AdminCharacterHandler(base_handler.BaseHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def get(self):
         if self._global_arg["disable_admin"]:
@@ -445,7 +437,6 @@ class AdminCharacterHandler(base_handler.BaseHandler):
 
 
 class AdminEditorHandler(base_handler.BaseHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def get(self):
         if self._global_arg["disable_admin"]:
@@ -465,7 +456,6 @@ class AdminEditorHandler(base_handler.BaseHandler):
 
 
 class AdminSettingHandler(base_handler.BaseHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def get(self):
         if self._global_arg["disable_admin"]:
@@ -485,7 +475,6 @@ class AdminSettingHandler(base_handler.BaseHandler):
 
 
 class ProfileHandler(base_handler.BaseHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def get(self, user_id=None):
         if self._global_arg["disable_login"]:
@@ -504,7 +493,7 @@ class ProfileHandler(base_handler.BaseHandler):
 
 
 class CharacterHandler(base_handler.BaseHandler):
-    @tornado.web.asynchronous
+
     def get(self):
         # don't block the page when disable character, user need to be inform
         # if self._global_arg["disable_character"]:
@@ -517,7 +506,6 @@ class CharacterHandler(base_handler.BaseHandler):
 
 
 class CharacterViewHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def get(self):
         if not self.is_permission_admin() and self._global_arg["disable_user_character"] or \
@@ -560,7 +548,6 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
         self.write(data)
         self.finish()
 
-    @tornado.web.asynchronous
     def post(self):
         if self._global_arg["disable_character"]:
             # Not Found
@@ -589,7 +576,6 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
 
 
 class ManualHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     def get(self):
         str_value = self._manual.get_str_all(is_admin=False)
         self.write(str_value)
@@ -597,7 +583,6 @@ class ManualHandler(jsonhandler.JsonHandler):
 
 
 class ManualAdminHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     def get(self):
         if not self.is_permission_admin():
             print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
@@ -611,7 +596,6 @@ class ManualAdminHandler(jsonhandler.JsonHandler):
 
 
 class ProfileCmdUpdatePasswordHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     def post(self):
         if self._global_arg["disable_login"]:
             # Not Found
@@ -668,7 +652,6 @@ class ProfileCmdUpdatePasswordHandler(jsonhandler.JsonHandler):
 
 
 class ProfileCmdAddNewPasswordHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     def post(self):
         if self._global_arg["disable_login"]:
             # Not Found
@@ -716,7 +699,6 @@ class ProfileCmdAddNewPasswordHandler(jsonhandler.JsonHandler):
 
 
 class ProfileCmdInfoHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def get(self):
         # TODO not sure it's secure
@@ -742,7 +724,6 @@ class ProfileCmdInfoHandler(jsonhandler.JsonHandler):
 
 
 class EditorCmdInfoHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def get(self):
         if not self.is_permission_admin():
@@ -792,7 +773,6 @@ class EditorCmdInfoHandler(jsonhandler.JsonHandler):
 
 
 class EditorCmdAddGeneratorShareHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def post(self):
         if not self.is_permission_admin():
@@ -828,7 +808,6 @@ class EditorCmdAddGeneratorShareHandler(jsonhandler.JsonHandler):
 
 
 class EditorCmdUpdateFileUrlHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def post(self):
         if not self.is_permission_admin():
@@ -870,7 +849,6 @@ class EditorCmdUpdateFileUrlHandler(jsonhandler.JsonHandler):
 
 
 class EditorCmdGenerateAndSaveHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def post(self):
         if not self.is_permission_admin():
@@ -940,7 +918,6 @@ class EditorCmdGenerateAndSaveHandler(jsonhandler.JsonHandler):
 
 
 class CharacterApprobationHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def post(self):
         if not self.is_permission_admin():
@@ -963,7 +940,6 @@ class CharacterApprobationHandler(jsonhandler.JsonHandler):
 
 
 class StatSeasonPass(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     def get(self):
         self.write(self._db.stat_get_total_season_pass())
         self.finish()
@@ -972,7 +948,6 @@ class StatSeasonPass(jsonhandler.JsonHandler):
 class ValidateAuthHandler(base_handler.BaseHandler):
     """This class is designed purely for client-side validation"""
 
-    @tornado.web.asynchronous
     def get(self):
         username = self.get_argument("username", default=None)
 

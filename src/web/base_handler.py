@@ -43,7 +43,6 @@ class BaseHandler(tornado.web.RequestHandler):
             "invalid_login": self._invalid_login
         }
 
-    @tornado.web.asynchronous
     def prepare(self):
         if self._redirect_http_to_https and self.request.protocol == 'http':
             # self.redirect('https://' + self.request.host, permanent=False)
