@@ -99,7 +99,7 @@
       </div>
 
       <ul class="nav nav-pills">
-        <li><a data-toggle="pill" href="#menu_form">Formulaire</a></li>
+        <li class="active"><a data-toggle="pill" href="#menu_form">Formulaire</a></li>
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sommaire <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
@@ -111,12 +111,12 @@
           </ul>
         </li>
         <li><a data-toggle="pill" href="#menu_message">Message important</a></li>
-        <li class="active"><a data-toggle="pill" href="#menu_status">Statut</a></li>
+        <li><a data-toggle="pill" href="#menu_status">Statut</a></li>
       </ul>
 
       <div class="tab-content" id="manual_main_content">
         <!-- Status -->
-        <div id="menu_status" class="tab-pane fade in active">
+        <div id="menu_status" class="tab-pane fade">
           <h1>Statut de la fiche</h1>
 
           {% include "character_approbation.html" %}
@@ -124,7 +124,7 @@
         </div>
 
         <!-- form -->
-        <div id="menu_form" class="tab-pane fade">
+        <div id="menu_form" class="tab-pane fade in active">
           {% include "../character_form.html" %}
         </div>
         <!-- END form -->
