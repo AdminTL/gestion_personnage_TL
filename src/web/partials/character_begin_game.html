@@ -223,7 +223,7 @@
     choix
   </li>
   <li ng-show="character_point.hasOwnProperty('PtKarmaEsclave')">
-    <span style="font-weight:bold;color:forestgreen">{{! character_point["PtKarmaEsclave"] * -1 }}</span> karma<span ng-show="character_point['PtKarmaEsclave'] != 0">s</span> esclave
+    <span style="font-weight:bold;color:forestgreen">{{! character_point["PtKarmaEsclave"] * -1 }}</span> karma<span ng-show="character_point['PtKarmaEsclave'] > 1">s</span> esclave
   </li>
   <li ng-show="character_point.hasOwnProperty('PtRation')">
     <span style="font-weight:bold;color:forestgreen">{{! character_point["PtRation"] }}</span> boite<span ng-show="character_point['PtRation'] > 1">s</span> de ration

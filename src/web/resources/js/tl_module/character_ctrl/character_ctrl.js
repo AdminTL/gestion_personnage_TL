@@ -315,10 +315,44 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       }
     }
 
+    var lst_habilites = [];
+
+    if (isDefined($scope.model_char.technique_maitre)) {
+      for (var i = 0; i < $scope.model_char.technique_maitre.length; i++) {
+        var obj = $scope.model_char.technique_maitre[i];
+        if (isDefined(obj.options)) {
+          // total_xp += obj.options.length;
+          // Find the associate point
+          for (var j = 0; j < obj.options.length; j++) {
+            var sub_key = "technique_maitre_" + obj.options[j];
+
+            if (sub_key in $scope.model_database.skill_manual) {
+              $scope.character_skill.push($scope.model_database.skill_manual[sub_key]);
+            }
+
+            if (sub_key in $scope.model_database.point) {
+              lst_habilites.push(sub_key);
+
+              var dct_key_point = $scope.model_database.point[sub_key];
+              $scope.count_master_tech += 1;
+
+              for (var key_point in dct_key_point) {
+                if (dct_key_point.hasOwnProperty(key_point)) {
+                  var point_value = dct_key_point[key_point];
+                  if (key_point in $scope.character_point) {
+                    $scope.character_point[key_point] += point_value;
+                  } else {
+                    $scope.character_point[key_point] = point_value;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
 
     if (isDefined($scope.model_char.habilites)) {
-      var lst_habilites = [];
-
       for (var i = 0; i < $scope.model_char.habilites.length; i++) {
         var obj = $scope.model_char.habilites[i];
         if (isDefined(obj.options)) {
@@ -424,7 +458,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
               if (lst_habilites.indexOf("technique_maitre_Orfèvre") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("technique_maitre_Marchand_prolofique") > -1) {
+              if (lst_habilites.indexOf("technique_maitre_Marchand prolofique") > -1) {
                 total_value += point_value;
               }
               if (lst_habilites.indexOf("technique_maitre_Grand-enchanteur") > -1) {
@@ -439,13 +473,13 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
               if (lst_habilites.indexOf("technique_maitre_Multi-Spécialiste") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("technique_maitre_Forge_Légendaire:_Bluam") > -1) {
+              if (lst_habilites.indexOf("technique_maitre_Forge Légendaire: Bluam") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("technique_maitre_Forge_Légendaire:_Sanglite") > -1) {
+              if (lst_habilites.indexOf("technique_maitre_Forge Légendaire: Sanglite") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("technique_maitre_Forge_Légendaire:_Malachite") > -1) {
+              if (lst_habilites.indexOf("technique_maitre_Forge Légendaire: Malachite") > -1) {
                 total_value += point_value;
               }
               point_value = total_value;
@@ -455,39 +489,6 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
               $scope.character_point[key_point] += point_value;
             } else {
               $scope.character_point[key_point] = point_value;
-            }
-          }
-        }
-      }
-    }
-
-    if (isDefined($scope.model_char.technique_maitre)) {
-      for (var i = 0; i < $scope.model_char.technique_maitre.length; i++) {
-        var obj = $scope.model_char.technique_maitre[i];
-        if (isDefined(obj.options)) {
-          // total_xp += obj.options.length;
-          // Find the associate point
-          for (var j = 0; j < obj.options.length; j++) {
-            var sub_key = "technique_maitre_" + obj.options[j];
-
-            if (sub_key in $scope.model_database.skill_manual) {
-              $scope.character_skill.push($scope.model_database.skill_manual[sub_key]);
-            }
-
-            if (sub_key in $scope.model_database.point) {
-              var dct_key_point = $scope.model_database.point[sub_key];
-              $scope.count_master_tech += 1;
-
-              for (var key_point in dct_key_point) {
-                if (dct_key_point.hasOwnProperty(key_point)) {
-                  var point_value = dct_key_point[key_point];
-                  if (key_point in $scope.character_point) {
-                    $scope.character_point[key_point] += point_value;
-                  } else {
-                    $scope.character_point[key_point] = point_value;
-                  }
-                }
-              }
             }
           }
         }
