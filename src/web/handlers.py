@@ -686,7 +686,7 @@ class ProfileCmdAddNewPasswordHandler(jsonhandler.JsonHandler):
             raise tornado.web.Finish()
 
         # Validate if can add a new password
-        if current_user["password"]:
+        if current_user.get("password"):
             # Already contain a password
             print("User password is not empty from %s" % self.request.remote_ip, file=sys.stderr)
             data = {"error": "User password is not empty."}
