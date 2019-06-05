@@ -59,6 +59,7 @@ def parse_args():
     group = parser.add_argument_group("Web")
     group.add_argument('-l', '--web-listen-address', dest='listen', default=Listen(), type=parse_listen,
                        help='Web: Web server listen address')
+    group.add_argument('--host', dest='host', default="", help='Host name for third party')
     group.add_argument('--redirect_http_to_https', default=False, action='store_true',
                        help='Redirect all http request to https, only if ssl is enable. When enable, if port is 80, '
                             'https port will be 443, else the port of https will be http port + 1.')

@@ -40,6 +40,7 @@ class BaseHandler(tornado.web.RequestHandler):
             "disable_custom_css": kwargs.get("disable_custom_css"),
             "url": kwargs.get("url"),
             "port": kwargs.get("port"),
+            "host": kwargs.get("host"),
             "invalid_login": self._invalid_login
         }
 

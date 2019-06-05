@@ -161,7 +161,7 @@ class GoogleOAuth2LoginHandler(base_handler.BaseHandler, tornado.auth.GoogleOAut
         try:
             if self.get_argument('code', False):
                 google_user = yield self.get_authenticated_user(
-                    redirect_uri=self._global_arg["url"] + '/cmd/auth/google',
+                    redirect_uri=self._global_arg["host"] + '/cmd/auth/google',
                     code=self.get_argument('code'))
 
                 # Cancel by the user or other reason
@@ -220,7 +220,7 @@ class GoogleOAuth2LoginHandler(base_handler.BaseHandler, tornado.auth.GoogleOAut
 
             else:
                 yield self.authorize_redirect(
-                    redirect_uri=self._global_arg["url"] + '/cmd/auth/google',
+                    redirect_uri=self._global_arg["host"] + '/cmd/auth/google',
                     client_id=self.settings['google_oauth']['key'],
                     scope=['profile', 'email'],
                     response_type='code',
@@ -244,7 +244,7 @@ class FacebookGraphLoginHandler(base_handler.BaseHandler, tornado.auth.FacebookG
         try:
             if self.get_argument("code", False):
                 facebook_user = yield self.get_authenticated_user(
-                    redirect_uri=self._global_arg["url"] + '/cmd/auth/facebook',
+                    redirect_uri=self._global_arg["host"] + '/cmd/auth/facebook',
                     client_id=self.settings["facebook_api_key"],
                     client_secret=self.settings["facebook_secret"],
                     code=self.get_argument("code"),
@@ -295,7 +295,7 @@ class FacebookGraphLoginHandler(base_handler.BaseHandler, tornado.auth.FacebookG
 
             else:
                 yield self.authorize_redirect(
-                    redirect_uri=self._global_arg["url"] + '/cmd/auth/facebook',
+                    redirect_uri=self._global_arg["host"] + '/cmd/auth/facebook',
                     client_id=self.settings["facebook_api_key"],
                     # Permissions: https://developers.facebook.com/docs/facebook-login/permissions
                     extra_params={"scope": "email"})
@@ -371,7 +371,7 @@ class TwitterLoginHandler(base_handler.BaseHandler, tornado.auth.TwitterMixin):
                 self.redirect("/login?invalid=twitter")
                 return
             else:
-                yield self.authorize_redirect(callback_uri=self._global_arg["url"] + '/cmd/auth/twitter')
+                yield self.authorize_redirect(callback_uri=self._global_arg["host"] + '/cmd/auth/twitter')
         except KeyError as e:
             print("KeyError: " + str(e) + " in TwitterLoginHandler from %s" % self.request.remote_ip,
                   file=sys.stderr)
