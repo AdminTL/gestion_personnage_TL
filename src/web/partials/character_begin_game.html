@@ -9,6 +9,7 @@
               character_point.hasOwnProperty('PtBlocHerboristerie') || 
               character_point.hasOwnProperty('PtBlocEnchantement') || 
               character_point.hasOwnProperty('PtBlocProduction') || 
+              character_point.hasOwnProperty('PtBlocProductionAppliqueAcquis') || 
               character_point.hasOwnProperty('PtComposanteOuProduction') || 
               character_point.hasOwnProperty('PtComposanteEle') || 
               character_point.hasOwnProperty('PtComposanteNat') || 
@@ -89,23 +90,23 @@
       ng-show="character_point['PtComposanteInf'] > 1">s</span>
   </li>
   <li ng-show="character_point.hasOwnProperty('PtBlocPotion')">
-    <span style="font-weight:bold;color:forestgreen">{{! character_point["PtBlocPotion"] }}</span> bloc<span ng-show="character_point['PtBlocPotion'] > 1">s</span> de potion
+    <span style="font-weight:bold;color:forestgreen">{{! character_point["PtBlocPotion"] + moreProductionPt() }}</span> bloc<span ng-show="character_point['PtBlocPotion'] > 1">s</span> de potion
   </li>
   <li ng-show="character_point.hasOwnProperty('PtBlocAlchimie')">
-    <span style="font-weight:bold;color:forestgreen">{{! character_point["PtBlocAlchimie"] }}</span> bloc<span ng-show="character_point['PtBlocAlchimie'] > 1">s</span> d'alchimie
+    <span style="font-weight:bold;color:forestgreen">{{! character_point["PtBlocAlchimie"] + moreProductionPt() }}</span> bloc<span ng-show="character_point['PtBlocAlchimie'] > 1">s</span> d'alchimie
   </li>
   <li ng-show="character_point.hasOwnProperty('PtBlocArtisan')">
-    <span style="font-weight:bold;color:forestgreen">{{! character_point["PtBlocArtisan"] }}</span> bloc<span ng-show="character_point['PtBlocArtisan'] > 1">s</span> d'artisan
+    <span style="font-weight:bold;color:forestgreen">{{! character_point["PtBlocArtisan"] + moreProductionPt() }}</span> bloc<span ng-show="character_point['PtBlocArtisan'] > 1">s</span> d'artisan
   </li>
   <li ng-show="character_point.hasOwnProperty('PtBlocForgeron')">
-    <span style="font-weight:bold;color:forestgreen">{{! character_point["PtBlocForgeron"] }}</span> bloc<span ng-show="character_point['PtBlocForgeron'] > 1">s</span> de forgeron
+    <span style="font-weight:bold;color:forestgreen">{{! character_point["PtBlocForgeron"] + moreProductionPt() }}</span> bloc<span ng-show="character_point['PtBlocForgeron'] > 1">s</span> de forgeron
   </li>
   <li ng-show="character_point.hasOwnProperty('PtBlocEnchantement')">
-    <span style="font-weight:bold;color:forestgreen">{{! character_point["PtBlocEnchantement"] }}</span> bloc<span ng-show="character_point['PtBlocEnchantement'] > 1">s</span>
+    <span style="font-weight:bold;color:forestgreen">{{! character_point["PtBlocEnchantement"] + moreProductionPt() }}</span> bloc<span ng-show="character_point['PtBlocEnchantement'] > 1">s</span>
     d'enchantement
   </li>
   <li ng-show="character_point.hasOwnProperty('PtBlocHerboristerie')">
-    <span style="font-weight:bold;color:forestgreen">{{! character_point["PtBlocHerboristerie"] }}</span> bloc<span ng-show="character_point['PtBlocHerboristerie'] > 1">s</span>
+    <span style="font-weight:bold;color:forestgreen">{{! character_point["PtBlocHerboristerie"] + moreProductionPt() }}</span> bloc<span ng-show="character_point['PtBlocHerboristerie'] > 1">s</span>
     d'herboristerie
   </li>
   <li ng-show="character_point.hasOwnProperty('PtBlocProduction')">

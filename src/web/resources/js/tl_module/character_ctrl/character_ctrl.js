@@ -1067,6 +1067,13 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     // $scope.player.character. = [$scope.character];
   };
 
+  $scope.moreProductionPt = function () {
+    if ($scope.character_point.hasOwnProperty('PtBlocProductionAppliqueAcquis')) {
+      return $scope.character_point.PtBlocProductionAppliqueAcquis;
+    }
+    return 0;
+  };
+
   $scope.deleteCharacter = function () {
     var data = Object();
     // TODO: use user id from user creation management to permission
