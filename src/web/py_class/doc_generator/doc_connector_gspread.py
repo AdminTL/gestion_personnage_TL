@@ -158,7 +158,7 @@ class DocConnectorGSpread:
         # To know if permission error, get worksheets
         try:
             self._g_file.worksheets()
-        except gspread.v4.exceptions.APIError as e:
+        except gspread.exceptions.APIError as e:
             if e.response.status_code == 403:
                 return False
             if e.response.status_code == 401:
