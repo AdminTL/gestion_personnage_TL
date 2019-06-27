@@ -263,6 +263,8 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     $scope.character_reduce_point = {};
     $scope.character_skill = [];
     $scope.character_merite = [];
+    $scope.character_marche = [];
+    $scope.character_esclave = [];
     $scope.count_master_tech = 0;
 
     if (isDefined($scope.model_char.energie)) {
