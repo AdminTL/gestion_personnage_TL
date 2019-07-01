@@ -1,7 +1,7 @@
 {% extends "_base.html" %}
 
 {% block content %}
-<div ng-controller="character_ctrl" ng-cloak>
+<div ng-controller="character_ctrl" style="padding-top: 100px;" ng-cloak>
   <div class="col-xs-3 bs-docs-sidebar" ng-hide="isMobile() && player">
     <br/>
     <div class="bs-sidebar hidden-print affix" role="complementary">
@@ -33,8 +33,8 @@
         <!--<label>-->
         <!--<input type="radio" ng-model="sheet_view.mode" value="form_write"> Formulaire-->
         <!--</label><br/>-->
-        <br/>
-        <button class="btn btn-primary" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i>Imprimer</button>
+        <!--        <br/>-->
+        <!--        <button class="btn btn-primary" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i>Imprimer</button>-->
       </div>
 
       <div ng-show="player && !new_player">
@@ -112,6 +112,7 @@
           </ul>
         </li>
         <li><a data-toggle="pill" href="#menu_message">Message important</a></li>
+        <li><a data-toggle="pill" href="#menu_print">Impression</a></li>
         <li><a data-toggle="pill" href="#menu_status">Statut</a></li>
       </ul>
 
@@ -132,36 +133,42 @@
 
         <!-- attribut -->
         <div id="menu_attribut" class="tab-pane fade">
+          <button class="btn btn-primary hidden-print" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer</button>
           {% include "../character_attribut.html" %}
         </div>
         <!-- END attribut -->
 
         <!-- skill -->
         <div id="menu_skill" class="tab-pane fade">
+          <button class="btn btn-primary hidden-print" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer</button>
           {% include "../character_skill.html" %}
         </div>
         <!-- END skill -->
 
         <!-- debut de jeu -->
         <div id="menu_game_begin" class="tab-pane fade">
+          <button class="btn btn-primary hidden-print" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer</button>
           {% include "../character_begin_game.html" %}
         </div>
         <!-- END debut de jeu -->
 
         <!-- marche -->
         <div id="menu_marche" class="tab-pane fade">
+          <button class="btn btn-primary hidden-print" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer</button>
           {% include "../character_marche.html" %}
         </div>
         <!-- END marche -->
 
         <!-- merite -->
         <div id="menu_merite" class="tab-pane fade">
+          <button class="btn btn-primary hidden-print" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer</button>
           {% include "../character_merite.html" %}
         </div>
         <!-- END merite -->
 
         <!-- all_summary -->
         <div id="menu_all_summary" class="tab-pane fade">
+          <button class="btn btn-primary hidden-print" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer</button>
           {% include "../character_attribut.html" %}
           {% include "../character_skill.html" %}
           {% include "../character_begin_game.html" %}
@@ -172,9 +179,23 @@
 
         <!-- message -->
         <div id="menu_message" class="tab-pane fade">
+          <button class="btn btn-primary hidden-print" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer</button>
           {% include "../character_message.html" %}
         </div>
         <!-- END message -->
+
+        <!-- Print -->
+        <div id="menu_print" class="tab-pane fade">
+          <button class="btn btn-primary hidden-print" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer</button>
+          {% include "../character_print.html" %}
+          {% include "../character_attribut.html" %}
+          {% include "../character_skill.html" %}
+          {% include "../character_begin_game.html" %}
+          {% include "../character_marche.html" %}
+          {% include "../character_merite.html" %}
+        </div>
+        <!-- END Print -->
+
       </div>
 
       <div ng-show="enable_debug">

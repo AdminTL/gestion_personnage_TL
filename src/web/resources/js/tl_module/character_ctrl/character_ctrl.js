@@ -99,7 +99,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       $scope.form_user = data.form_user;
       $scope.form_char = data.form_char;
       $scope.model_database = response.data;
-      $scope.update_point();
+      // $scope.update_point();
     }, function errorCallback(response) {
       console.error(response);
     });
@@ -243,7 +243,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   };
 
   $scope.$watch("model_user", function (value) {
-    $scope.update_point();
+    // $scope.update_point();
     if (value) {
       $scope.prettyModelUser = JSON.stringify(value, undefined, 2);
     }
@@ -266,6 +266,10 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     $scope.character_marche = [];
     $scope.character_esclave = [];
     $scope.count_master_tech = 0;
+
+    if (isUndefined($scope.model_database.skill_manual)) {
+      return;
+    }
 
     if (isDefined($scope.model_char.energie)) {
       for (var i = 0; i < $scope.model_char.energie.length; i++) {
