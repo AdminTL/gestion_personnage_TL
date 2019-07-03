@@ -24,7 +24,7 @@ export class AdminEditorComponent implements OnInit, OnDestroy {
   private isInternalError: boolean;
   private debug: boolean;
 
-  private editorInfo$: Observable<StatusHttpGetInfo>;
+  public editorInfo$: Observable<StatusHttpGetInfo>;
   private editorInfo: StatusHttpGetInfo;
 
   private isGeneratingDoc: boolean;
