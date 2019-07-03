@@ -72,6 +72,11 @@ First use
 =========
 Run with argument --create_new_db to create a clean database with the default user : admin and password admin.
 
+#####NPM installation
+```
+cd src/client_web; npm install
+```
+
 Running
 =======
 #####Compiling Angular code
