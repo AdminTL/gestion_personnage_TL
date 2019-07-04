@@ -35,7 +35,31 @@ class Model(object):
 
     def update(self, dct_model, save=False):
         # Transform the object in json string
-        self._model.update(dct_model)
+        # TODO mathben remove hack and clean model
+        if "manual" in dct_model.keys():
+            tmp_dct_model = {
+                "manual": {
+                    "documents": [
+                        {
+                            "name": "player",
+                            "summary": "Le manuel du joueur contient les règles de base et les habilités.",
+                            "title": "Manuel du joueur",
+                            "subtitle": "Le livre de règles pour le joueur",
+                            "sections": dct_model["manual"]["manual"]
+                        },
+                        {
+                            "name": "lore",
+                            "summary": "L'univers du jeu, la politique et autre",
+                            "title": "Univers de jeu",
+                            "subtitle": "Politique, religion et autre",
+                            "sections": dct_model["manual"]["lore"]
+                        }
+                    ]
+                }
+            }
+        else:
+            tmp_dct_model = dct_model
+        self._model.update(tmp_dct_model)
 
         # Save on file
         if save:

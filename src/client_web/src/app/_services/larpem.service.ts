@@ -72,7 +72,7 @@ export class LarpemService {
   }
 
   public getManualDocument(documentName: string): Document {
-    if (this.currentManualSubject.value) {
+    if (this.currentManualSubject.value && this.currentManualSubject.value.documents) {
       for (let document of this.currentManualSubject.value.documents) {
         if (document.name == documentName) {
           return document;
@@ -83,7 +83,7 @@ export class LarpemService {
   }
 
   public getDocumentId(documentName: string): Number {
-    if (this.currentManualSubject.value) {
+    if (this.currentManualSubject.value && this.currentManualSubject.value.documents) {
       let i = 0;
       for (let document of this.currentManualSubject.value.documents) {
         if (document.name == documentName) {
