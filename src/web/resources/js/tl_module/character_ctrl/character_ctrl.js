@@ -724,10 +724,10 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
           for (var key_point in dct_key_point) {
             if (dct_key_point.hasOwnProperty(key_point)) {
               var point_value = dct_key_point[key_point];
-              if (key_point in $scope.character_point) {
-                $scope.character_point[key_point] += point_value;
+              if (key_point in $scope.character_reduce_point) {
+                $scope.character_reduce_point[key_point] += point_value;
               } else {
-                $scope.character_point[key_point] = point_value;
+                $scope.character_reduce_point[key_point] = point_value;
               }
             }
           }
