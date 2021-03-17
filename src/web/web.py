@@ -92,6 +92,7 @@ def main(parse_arg):
                 "redirect_http_to_https": parse_arg.redirect_http_to_https,
                 "login_url": "/login",
                 "cookie_secret": auth_keys.get("cookie_secret", auto_gen=True),
+                "host": parse_arg.host,
                 # TODO add xsrf_cookies
                 # "xsrf_cookies": True,
                 }

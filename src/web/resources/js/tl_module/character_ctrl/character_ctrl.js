@@ -263,7 +263,13 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     $scope.character_reduce_point = {};
     $scope.character_skill = [];
     $scope.character_merite = [];
+    $scope.character_marche = [];
+    $scope.character_esclave = [];
     $scope.count_master_tech = 0;
+
+    if (isUndefined($scope.model_database.skill_manual)) {
+      return;
+    }
 
     if (isDefined($scope.model_char.energie)) {
       for (var i = 0; i < $scope.model_char.energie.length; i++) {
@@ -315,10 +321,44 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       }
     }
 
+    var lst_habilites = [];
+
+    if (isDefined($scope.model_char.technique_maitre)) {
+      for (var i = 0; i < $scope.model_char.technique_maitre.length; i++) {
+        var obj = $scope.model_char.technique_maitre[i];
+        if (isDefined(obj.options)) {
+          // total_xp += obj.options.length;
+          // Find the associate point
+          for (var j = 0; j < obj.options.length; j++) {
+            var sub_key = "technique_maitre_" + obj.options[j];
+
+            if (sub_key in $scope.model_database.skill_manual) {
+              $scope.character_skill.push($scope.model_database.skill_manual[sub_key]);
+            }
+
+            if (sub_key in $scope.model_database.point) {
+              lst_habilites.push(sub_key);
+
+              var dct_key_point = $scope.model_database.point[sub_key];
+              $scope.count_master_tech += 1;
+
+              // for (var key_point in dct_key_point) {
+              //   if (dct_key_point.hasOwnProperty(key_point)) {
+              //     var point_value = dct_key_point[key_point];
+              //     if (key_point in $scope.character_point) {
+              //       $scope.character_point[key_point] += point_value;
+              //     } else {
+              //       $scope.character_point[key_point] = point_value;
+              //     }
+              //   }
+              // }
+            }
+          }
+        }
+      }
+    }
 
     if (isDefined($scope.model_char.habilites)) {
-      var lst_habilites = [];
-
       for (var i = 0; i < $scope.model_char.habilites.length; i++) {
         var obj = $scope.model_char.habilites[i];
         if (isDefined(obj.options)) {
@@ -418,6 +458,36 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
               if (lst_habilites.indexOf("habilites_Sp\u00e9cialiste II - Mixture de Potion") > -1) {
                 total_value += point_value;
               }
+              if (lst_habilites.indexOf("technique_maitre_Joaillier") > -1) {
+                total_value += point_value;
+              }
+              if (lst_habilites.indexOf("technique_maitre_Orfèvre") > -1) {
+                total_value += point_value;
+              }
+              if (lst_habilites.indexOf("technique_maitre_Marchand prolofique") > -1) {
+                total_value += point_value;
+              }
+              if (lst_habilites.indexOf("technique_maitre_Grand-enchanteur") > -1) {
+                total_value += point_value;
+              }
+              if (lst_habilites.indexOf("technique_maitre_Contrebande") > -1) {
+                total_value += point_value;
+              }
+              if (lst_habilites.indexOf("technique_maitre_Caravanier") > -1) {
+                total_value += point_value;
+              }
+              if (lst_habilites.indexOf("technique_maitre_Multi-Spécialiste") > -1) {
+                total_value += point_value;
+              }
+              if (lst_habilites.indexOf("technique_maitre_Forge Légendaire: Bluam") > -1) {
+                total_value += point_value;
+              }
+              if (lst_habilites.indexOf("technique_maitre_Forge Légendaire: Sanglite") > -1) {
+                total_value += point_value;
+              }
+              if (lst_habilites.indexOf("technique_maitre_Forge Légendaire: Malachite") > -1) {
+                total_value += point_value;
+              }
               point_value = total_value;
             }
 
@@ -425,39 +495,6 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
               $scope.character_point[key_point] += point_value;
             } else {
               $scope.character_point[key_point] = point_value;
-            }
-          }
-        }
-      }
-    }
-
-    if (isDefined($scope.model_char.technique_maitre)) {
-      for (var i = 0; i < $scope.model_char.technique_maitre.length; i++) {
-        var obj = $scope.model_char.technique_maitre[i];
-        if (isDefined(obj.options)) {
-          // total_xp += obj.options.length;
-          // Find the associate point
-          for (var j = 0; j < obj.options.length; j++) {
-            var sub_key = "technique_maitre_" + obj.options[j];
-
-            if (sub_key in $scope.model_database.skill_manual) {
-              $scope.character_skill.push($scope.model_database.skill_manual[sub_key]);
-            }
-
-            if (sub_key in $scope.model_database.point) {
-              var dct_key_point = $scope.model_database.point[sub_key];
-              $scope.count_master_tech += 1;
-
-              for (var key_point in dct_key_point) {
-                if (dct_key_point.hasOwnProperty(key_point)) {
-                  var point_value = dct_key_point[key_point];
-                  if (key_point in $scope.character_point) {
-                    $scope.character_point[key_point] += point_value;
-                  } else {
-                    $scope.character_point[key_point] = point_value;
-                  }
-                }
-              }
             }
           }
         }
@@ -501,10 +538,6 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
         // Find the associate point
         var sub_key = "merite_" + $scope.model_char.merite_jeu_1[i].sub_merite;
 
-        if (sub_key in $scope.model_database.skill_manual) {
-          $scope.character_merite.push($scope.model_database.skill_manual[sub_key]);
-        }
-
         if (sub_key in $scope.model_database.point) {
           var dct_key_point = $scope.model_database.point[sub_key];
 
@@ -529,10 +562,6 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
         }
         // Find the associate point
         var sub_key = "merite_" + $scope.model_char.merite_jeu_2[i].sub_merite;
-
-        if (sub_key in $scope.model_database.skill_manual) {
-          $scope.character_merite.push($scope.model_database.skill_manual[sub_key]);
-        }
 
         if (sub_key in $scope.model_database.point) {
           var dct_key_point = $scope.model_database.point[sub_key];
@@ -559,10 +588,6 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
         // Find the associate point
         var sub_key = "merite_" + $scope.model_char.merite_jeu_3[i].sub_merite;
 
-        if (sub_key in $scope.model_database.skill_manual) {
-          $scope.character_merite.push($scope.model_database.skill_manual[sub_key]);
-        }
-
         if (sub_key in $scope.model_database.point) {
           var dct_key_point = $scope.model_database.point[sub_key];
 
@@ -588,6 +613,107 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
         // Find the associate point
         var sub_key = "merite_" + $scope.model_char.merite_jeu_4[i].sub_merite;
 
+        if (sub_key in $scope.model_database.point) {
+          var dct_key_point = $scope.model_database.point[sub_key];
+
+          for (var key_point in dct_key_point) {
+            if (dct_key_point.hasOwnProperty(key_point)) {
+              var point_value = dct_key_point[key_point];
+              if (key_point in $scope.character_reduce_point) {
+                $scope.character_reduce_point[key_point] += point_value;
+              } else {
+                $scope.character_reduce_point[key_point] = point_value;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    if (isDefined($scope.model_char.merite_jeu_5)) {
+      for (var i = 0; i < $scope.model_char.merite_jeu_5.length; i++) {
+        if (isUndefined($scope.model_char.merite_jeu_5[i]) || !$scope.model_char.merite_jeu_5[i]) {
+          continue;
+        }
+        // Find the associate point
+        var sub_key = "merite_" + $scope.model_char.merite_jeu_5[i].sub_merite;
+
+        if (sub_key in $scope.model_database.point) {
+          var dct_key_point = $scope.model_database.point[sub_key];
+
+          for (var key_point in dct_key_point) {
+            if (dct_key_point.hasOwnProperty(key_point)) {
+              var point_value = dct_key_point[key_point];
+              if (key_point in $scope.character_reduce_point) {
+                $scope.character_reduce_point[key_point] += point_value;
+              } else {
+                $scope.character_reduce_point[key_point] = point_value;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    if (isDefined($scope.model_char.merite_jeu_6)) {
+      for (var i = 0; i < $scope.model_char.merite_jeu_6.length; i++) {
+        if (isUndefined($scope.model_char.merite_jeu_6[i]) || !$scope.model_char.merite_jeu_6[i]) {
+          continue;
+        }
+        // Find the associate point
+        var sub_key = "merite_" + $scope.model_char.merite_jeu_6[i].sub_merite;
+
+        if (sub_key in $scope.model_database.point) {
+          var dct_key_point = $scope.model_database.point[sub_key];
+
+          for (var key_point in dct_key_point) {
+            if (dct_key_point.hasOwnProperty(key_point)) {
+              var point_value = dct_key_point[key_point];
+              if (key_point in $scope.character_reduce_point) {
+                $scope.character_reduce_point[key_point] += point_value;
+              } else {
+                $scope.character_reduce_point[key_point] = point_value;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    if (isDefined($scope.model_char.merite_jeu_7)) {
+      for (var i = 0; i < $scope.model_char.merite_jeu_7.length; i++) {
+        if (isUndefined($scope.model_char.merite_jeu_7[i]) || !$scope.model_char.merite_jeu_7[i]) {
+          continue;
+        }
+        // Find the associate point
+        var sub_key = "merite_" + $scope.model_char.merite_jeu_7[i].sub_merite;
+
+        if (sub_key in $scope.model_database.point) {
+          var dct_key_point = $scope.model_database.point[sub_key];
+
+          for (var key_point in dct_key_point) {
+            if (dct_key_point.hasOwnProperty(key_point)) {
+              var point_value = dct_key_point[key_point];
+              if (key_point in $scope.character_reduce_point) {
+                $scope.character_reduce_point[key_point] += point_value;
+              } else {
+                $scope.character_reduce_point[key_point] = point_value;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    if (isDefined($scope.model_char.merite_jeu_8)) {
+      for (var i = 0; i < $scope.model_char.merite_jeu_8.length; i++) {
+        if (isUndefined($scope.model_char.merite_jeu_8[i]) || !$scope.model_char.merite_jeu_8[i]) {
+          continue;
+        }
+        // Find the associate point
+        var sub_key = "merite_" + $scope.model_char.merite_jeu_8[i].sub_merite;
+
+        // compile merite
         if (sub_key in $scope.model_database.skill_manual) {
           $scope.character_merite.push($scope.model_database.skill_manual[sub_key]);
         }
@@ -598,10 +724,10 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
           for (var key_point in dct_key_point) {
             if (dct_key_point.hasOwnProperty(key_point)) {
               var point_value = dct_key_point[key_point];
-              if (key_point in $scope.character_point) {
-                $scope.character_point[key_point] += point_value;
+              if (key_point in $scope.character_reduce_point) {
+                $scope.character_reduce_point[key_point] += point_value;
               } else {
-                $scope.character_point[key_point] = point_value;
+                $scope.character_reduce_point[key_point] = point_value;
               }
             }
           }
@@ -686,6 +812,18 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       $scope.xp_receive++;
     }
     if (isDefined($scope.model_user["xp_gn_4"]) && $scope.model_user.xp_gn_4) {
+      $scope.xp_receive++;
+    }
+    if (isDefined($scope.model_user["xp_gn_5"]) && $scope.model_user.xp_gn_5) {
+      $scope.xp_receive++;
+    }
+    if (isDefined($scope.model_user["xp_gn_6"]) && $scope.model_user.xp_gn_6) {
+      $scope.xp_receive++;
+    }
+    if (isDefined($scope.model_user["xp_gn_7"]) && $scope.model_user.xp_gn_7) {
+      $scope.xp_receive++;
+    }
+    if (isDefined($scope.model_user["xp_gn_8"]) && $scope.model_user.xp_gn_8) {
       $scope.xp_receive++;
     }
     total_xp += $scope.xp_receive;
@@ -787,6 +925,18 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       if (!isDefined(firstChar.merite_jeu_4)) {
         $scope.model_char.merite_jeu_4 = [];
       }
+      if (!isDefined(firstChar.merite_jeu_5)) {
+        $scope.model_char.merite_jeu_5 = [];
+      }
+      if (!isDefined(firstChar.merite_jeu_6)) {
+        $scope.model_char.merite_jeu_6 = [];
+      }
+      if (!isDefined(firstChar.merite_jeu_7)) {
+        $scope.model_char.merite_jeu_7 = [];
+      }
+      if (!isDefined(firstChar.merite_jeu_8)) {
+        $scope.model_char.merite_jeu_8 = [];
+      }
       if (!isDefined(firstChar.esclave)) {
         $scope.model_char.esclave = [];
       }
@@ -812,6 +962,9 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       $scope.model_char.merite_jeu_2 = [];
       $scope.model_char.merite_jeu_3 = [];
       $scope.model_char.merite_jeu_4 = [];
+      $scope.model_char.merite_jeu_5 = [];
+      $scope.model_char.merite_jeu_6 = [];
+      $scope.model_char.merite_jeu_7 = [];
       $scope.model_char.esclave = [];
       $scope.model_char.marche = [];
       $scope.model_char.xp_naissance = $scope.xp_default;
@@ -983,6 +1136,13 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     // $scope.player.character. = [$scope.character];
   };
 
+  $scope.moreProductionPt = function () {
+    if ($scope.character_point.hasOwnProperty('PtBlocProductionAppliqueAcquis')) {
+      return $scope.character_point.PtBlocProductionAppliqueAcquis;
+    }
+    return 0;
+  };
+
   $scope.deleteCharacter = function () {
     var data = Object();
     // TODO: use user id from user creation management to permission
@@ -1077,6 +1237,14 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       return 1;
     }
     return 0;
+  };
+
+  $scope.get_karma = function (karma, karmaEsclave) {
+    var value = karma - karmaEsclave;
+    if (value > 10) {
+      return 10;
+    }
+    return value;
   };
 
   $scope.get_character_point = function (name) {

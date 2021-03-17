@@ -40,10 +40,10 @@ class BaseHandler(tornado.web.RequestHandler):
             "disable_custom_css": kwargs.get("disable_custom_css"),
             "url": kwargs.get("url"),
             "port": kwargs.get("port"),
+            "host": kwargs.get("host"),
             "invalid_login": self._invalid_login
         }
 
-    @tornado.web.asynchronous
     def prepare(self):
         if self._redirect_http_to_https and self.request.protocol == 'http':
             # self.redirect('https://' + self.request.host, permanent=False)

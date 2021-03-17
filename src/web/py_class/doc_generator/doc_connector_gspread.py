@@ -158,7 +158,7 @@ class DocConnectorGSpread:
         # To know if permission error, get worksheets
         try:
             self._g_file.worksheets()
-        except gspread.v4.exceptions.APIError as e:
+        except gspread.exceptions.APIError as e:
             if e.response.status_code == 403:
                 return False
             if e.response.status_code == 401:
@@ -500,13 +500,12 @@ class DocConnectorGSpread:
             if not level:
                 continue
 
-            if is_admin == "TRUE" or is_admin == "VRAI":
-                is_admin = True
-            else:
-                is_admin = False
+            is_admin = bool(is_admin == "TRUE" or is_admin == "VRAI")
+            read_only_player = bool(read_only_player == "TRUE" or read_only_player == "VRAI")
 
             # Ignore admin field when sheet is not admin
-            if not is_form_admin and is_admin:
+            # Exception when readOnlyPlayer
+            if (not is_form_admin and is_admin) and not read_only_player:
                 continue
 
             # Validation section
@@ -628,6 +627,9 @@ class DocConnectorGSpread:
                     line_value["options"] = dct_option
                 else:
                     line_value["options"] = str_option
+
+            if read_only_player and not is_form_admin:
+                line_value["readonly"] = True
 
             if style:
                 lst_style = style.split(",")
@@ -964,7 +966,7 @@ class DocConnectorGSpread:
 
         if model:
             section["model"] = model
-        if not is_form_admin and point and sub_key:
+        if point and sub_key:
             dct_point = self._transform_point(line_number, doc_sheet_name, point)
             if dct_point is None:
                 return False
@@ -975,14 +977,14 @@ class DocConnectorGSpread:
             #     print(self._error, file=sys.stderr)
             #     return False
 
-            if updated_sub_key in self._doc_point:
-                # HACK ignore "Contrebande" duplication
-                # TODO send a warning about duplication and not a failure
-                if "Contrebande" not in updated_sub_key:
-                    msg = "Duplicated sub_key : %s" % updated_sub_key
-                    self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
-                    print(self._error, file=sys.stderr)
-                    return False
+            # if updated_sub_key in self._doc_point:
+            #     # HACK ignore "Contrebande" duplication
+            #     # TODO send a warning about duplication and not a failure
+            #     if "Contrebande" not in updated_sub_key:
+            #         msg = "Duplicated sub_key : %s" % updated_sub_key
+            #         self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+            #         print(self._error, file=sys.stderr)
+            #         return False
 
             self._doc_point[updated_sub_key] = dct_point
         if hide_player:

@@ -49,6 +49,10 @@ or
 ```{r, engine='bash', count_lines}
 sudo pip3 install --upgrade google-auth-oauthlib
 ```
+or install all Google tools
+```{r, engine='bash', count_lines}
+sudo pip3 install -U pypinfo
+```
 
 Windows
 -------
