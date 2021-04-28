@@ -117,10 +117,17 @@ Systemctl
 You can setup the daemon with Systemctl.
 
 ```
-cp ./script/gestion_personnage.service /etc/systemd/system/gestion_personnage.service
+sudo cp ./script/gestion_personnage.service /etc/systemd/system/gestion_personnage.service
 ```
 
-And edit the file on destination with argument you need.
+Edit the file on destination with argument you need.
+Update the variable `WorkingDirectory` and `ExecStart`.
+
+Run the daemon:
+```
+sudo systemctl enable gestion_personnage.service
+sudo systemctl start gestion_personnage.service
+```
 
 Options
 -------
