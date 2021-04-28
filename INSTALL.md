@@ -129,6 +129,19 @@ sudo systemctl enable gestion_personnage.service
 sudo systemctl start gestion_personnage.service
 ```
 
+Database
+--------
+
+Create user database.
+```
+touch database/client_secret.json
+```
+
+Create you a user.
+
+TODO missing admin permission, ask help
+TODO missing Google Spreadsheet documentation
+
 Options
 -------
 ```
