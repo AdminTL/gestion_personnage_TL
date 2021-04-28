@@ -82,6 +82,7 @@ Choose the first option if bower asks to resolve conflict.
 Authentication
 ==============
 To disable authentication, use argument --disable_login
+To disable oauth authentication, use argument --disable_login_oauth
 
 Running
 =======
@@ -135,6 +136,7 @@ Options
 --redirect_http_to_https : when you need to support external link with http, this will redirect request to https.
 --use_internet_static : Not implemented. Force using static files like css and js from another internet website. Use web browser cache. (default=False)
 --disable_login : Disable authentication
+--disable_login_oauth : Disable authentication oauth
 --disable_character : Disable access to character
 --disable_user_character : Disable access to user of our character
 ```

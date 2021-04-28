@@ -158,6 +158,11 @@ class LoginHandler(base_handler.BaseHandler):
 class GoogleOAuth2LoginHandler(base_handler.BaseHandler, tornado.auth.GoogleOAuth2Mixin):
     @tornado.gen.coroutine
     def get(self):
+        if self._global_arg["disable_login_oauth"]:
+            # Not Found
+            self.set_status(404)
+            self.send_error(404)
+            raise tornado.web.Finish()
         try:
             if self.get_argument('code', False):
                 google_user = yield self.get_authenticated_user(
@@ -241,6 +246,11 @@ class GoogleOAuth2LoginHandler(base_handler.BaseHandler, tornado.auth.GoogleOAut
 class FacebookGraphLoginHandler(base_handler.BaseHandler, tornado.auth.FacebookGraphMixin):
     @tornado.gen.coroutine
     def get(self):
+        if self._global_arg["disable_login_oauth"]:
+            # Not Found
+            self.set_status(404)
+            self.send_error(404)
+            raise tornado.web.Finish()
         try:
             if self.get_argument("code", False):
                 facebook_user = yield self.get_authenticated_user(
@@ -315,6 +325,11 @@ class FacebookGraphLoginHandler(base_handler.BaseHandler, tornado.auth.FacebookG
 class TwitterLoginHandler(base_handler.BaseHandler, tornado.auth.TwitterMixin):
     @tornado.gen.coroutine
     def get(self):
+        if self._global_arg["disable_login_oauth"]:
+            # Not Found
+            self.set_status(404)
+            self.send_error(404)
+            raise tornado.web.Finish()
         try:
             if self.get_argument("oauth_token", False):
                 twitter_user = yield self.get_authenticated_user()
@@ -713,12 +728,14 @@ class ProfileCmdInfoHandler(jsonhandler.JsonHandler):
             "locale": user.get("locale"),
             "password": bool(user.get("password")),
             "user_id": user.get("user_id"),
-            "google_id": bool(user.get("google_id")),
-            "facebook_id": bool(user.get("facebook_id")),
-            "twitter_id": bool(user.get("twitter_id")),
             "permission": user.get("permission"),
             "postal_code": user.get("postal_code"),
         }
+        if not self._global_arg["disable_login_oauth"]:
+            return_user["google_id"] = bool(user.get("google_id"))
+            return_user["facebook_id"] = bool(user.get("facebook_id"))
+            return_user["twitter_id"] = bool(user.get("twitter_id"))
+
         self.write(return_user)
         self.finish()
 

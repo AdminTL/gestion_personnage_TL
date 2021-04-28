@@ -84,6 +84,7 @@ def main(parse_arg):
                 "disable_user_character": parse_arg.disable_user_character,
                 "disable_admin": parse_arg.disable_admin,
                 "disable_login": parse_arg.disable_login,
+                "disable_login_oauth": parse_arg.disable_login_oauth,
                 "config": parse_arg.config,
                 "hide_menu_login": parse_arg.hide_menu_login,
                 "disable_custom_css": parse_arg.disable_custom_css,
@@ -97,7 +98,7 @@ def main(parse_arg):
                 # "xsrf_cookies": True,
                 }
 
-    if not parse_arg.disable_login:
+    if not parse_arg.disable_login and not parse_arg.disable_login_oauth:
         settings["google_oauth"] = auth_keys.get("google_oauth")
         settings["facebook_api_key"] = auth_keys.get("facebook_api_key")
         settings["facebook_secret"] = auth_keys.get("facebook_secret")
@@ -162,12 +163,13 @@ def main(parse_arg):
     if not parse_arg.disable_login:
         routes.append(tornado.web.url(r"/cmd/auth/validate/?", handlers.ValidateAuthHandler, name='validate_auth',
                                       kwargs=settings))
-        routes.append(tornado.web.url(r"/cmd/auth/google/?", handlers.GoogleOAuth2LoginHandler, name='google_login',
-                                      kwargs=settings))
-        routes.append(tornado.web.url(r"/cmd/auth/facebook/?", handlers.FacebookGraphLoginHandler,
-                                      name='facebook_login', kwargs=settings))
-        routes.append(tornado.web.url(r"/cmd/auth/twitter/?", handlers.TwitterLoginHandler, name='twitter_login',
-                                      kwargs=settings))
+        if not parse_arg.disable_login_oauth:
+            routes.append(tornado.web.url(r"/cmd/auth/google/?", handlers.GoogleOAuth2LoginHandler, name='google_login',
+                                          kwargs=settings))
+            routes.append(tornado.web.url(r"/cmd/auth/facebook/?", handlers.FacebookGraphLoginHandler,
+                                          name='facebook_login', kwargs=settings))
+            routes.append(tornado.web.url(r"/cmd/auth/twitter/?", handlers.TwitterLoginHandler, name='twitter_login',
+                                          kwargs=settings))
 
     # application = tornado.web.Application(routes + socket_connection.urls, **settings)
     application = tornado.web.Application(routes, **settings)
