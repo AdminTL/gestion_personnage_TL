@@ -68,10 +68,10 @@ class DB(object):
 
     def add_missing_info_user(self, obj_user, password=None, google_id=None, facebook_id=None, twitter_id=None,
                               name=None, given_name=None, family_name=None, verified_email=False, locale=None,
-                              postal_code=None):
+                              postal_code=None, force=False):
         has_update = False
 
-        if password and not obj_user.get("password"):
+        if password and (not obj_user.get("password") or force):
             obj_user["password"] = password
             has_update = True
 

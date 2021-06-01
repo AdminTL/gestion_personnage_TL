@@ -489,6 +489,36 @@ class AdminSettingHandler(base_handler.BaseHandler):
             raise tornado.web.Finish()
 
 
+class AdminModifyPasswordHandler(jsonhandler.JsonHandler):
+    @tornado.web.authenticated
+    def post(self):
+        if self._global_arg["disable_admin"]:
+            # Not Found
+            self.set_status(404)
+            self.send_error(404)
+            raise tornado.web.Finish()
+
+        if self.is_permission_admin():
+            self.prepare_json()
+            user_id = self.get_argument("user_id")
+            password = self.get_argument("password")
+
+            user = self._db.get_user(user_id=user_id)
+
+            updated_password = self._db.generate_password(password)
+            self._db.add_missing_info_user(user, password=updated_password, force=True)
+
+            data = {"status": "Password added."}
+            self.write(data)
+            self.finish()
+        else:
+            print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
+            # Forbidden
+            self.set_status(403)
+            self.send_error(403)
+            raise tornado.web.Finish()
+
+
 class ProfileHandler(base_handler.BaseHandler):
     @tornado.web.authenticated
     def get(self, user_id=None):

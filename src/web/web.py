@@ -123,6 +123,8 @@ def main(parse_arg):
         tornado.web.url(r"/admin/character?", handlers.AdminCharacterHandler, name='admin character', kwargs=settings),
         tornado.web.url(r"/admin/editor?", handlers.AdminEditorHandler, name='admin editor', kwargs=settings),
         tornado.web.url(r"/admin/setting?", handlers.AdminSettingHandler, name='admin setting', kwargs=settings),
+        tornado.web.url(r"/admin/profile/modify_password/?", handlers.AdminModifyPasswordHandler,
+                        name='cmd_admin_modify_password', kwargs=settings),
 
         # Command
         tornado.web.url(r"/cmd/character_view/?", handlers.CharacterViewHandler, name='character_view',

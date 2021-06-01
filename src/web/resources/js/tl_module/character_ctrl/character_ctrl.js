@@ -17,6 +17,19 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   $scope.sheet_view = {};
   $scope.sheet_view.mode = "form_write";
 
+  $scope.model_profile = {
+    add_password: {
+      password: "",
+      check_password: "",
+      loading: false
+    },
+    status_password: {
+      text: "",
+      enabled: true,
+      is_error: false
+    }
+  };
+
   $scope.html_qr_code = "";
   $scope.url_qr_code = "";
 
@@ -1245,6 +1258,73 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       return 10;
     }
     return value;
+  };
+
+  $scope.modify_password = function (e) {
+    // Validate request is not pending
+    if ($scope.model_profile.add_password.loading) {
+      return;
+    }
+
+    // Validate model field
+    if ($scope.model_profile.add_password.password == "") {
+      $scope.model_profile.status_password.enabled = true;
+      $scope.model_profile.status_password.is_error = true;
+      $scope.model_profile.status_password.text = "The password is empty.";
+    } else if ($scope.model_profile.add_password.password != $scope.model_profile.add_password.check_password) {
+      $scope.model_profile.status_password.enabled = true;
+      $scope.model_profile.status_password.is_error = true;
+      $scope.model_profile.status_password.text = "The password is not identical to the check password.";
+    } else {
+      let data = {
+        "password": hashSha256($scope.model_profile.add_password.password),
+        "user_id": $scope.model_user.user_id,
+      };
+
+      // Send command to server
+      $scope.model_profile.add_password.loading = true;
+      $http({
+        method: "post",
+        url: "/admin/profile/modify_password",
+        headers: {"Content-Type": "application/json; charset=UTF-8"},
+        data: data,
+        timeout: 2000
+      }).then(function (response/*, status, headers, config*/) {
+        console.info(response.data);
+
+        // Reset the loading
+        $scope.model_profile.add_password.loading = false;
+        $scope.model_profile.add_password.password = "";
+        $scope.model_profile.add_password.check_password = "";
+
+        // Show message from server
+        $scope.model_profile.status_password.enabled = true;
+        if ("error" in response.data) {
+          $scope.model_profile.status_password.is_error = true;
+          $scope.model_profile.status_password.text = response.data.error;
+        } else if ("status" in response.data) {
+          $scope.model_profile.status_password.is_error = false;
+          $scope.model_profile.status_password.text = response.data.status;
+        } else {
+          $scope.model_profile.status_password.is_error = true;
+          $scope.model_profile.status_password.text = "Unknown error";
+        }
+      }, function errorCallback(response) {
+        console.error(response);
+
+        if (response.status == -1) {
+          // Timeout
+          $scope.model_profile.add_password.loading = false;
+          $scope.model_profile.status_password.is_error = true;
+          $scope.model_profile.status_password.text = "Timeout request.";
+        } else {
+          // Error from server
+          $scope.model_profile.add_password.loading = false;
+          $scope.model_profile.status_password.is_error = true;
+          $scope.model_profile.status_password.text = "Error from server : " + response.status;
+        }
+      });
+    }
   };
 
   $scope.get_character_point = function (name) {

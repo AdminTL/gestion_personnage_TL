@@ -27,7 +27,7 @@
     "ngPrint": "master",
     "components-font-awesome": "master",
     "angular-qrcode": "master",
-    "jsSHA": "master",
+    "jsSHA": "2.4.2",
     "angular-moment": "master"
   }
 }
