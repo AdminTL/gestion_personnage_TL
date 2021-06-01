@@ -65,4 +65,17 @@ class Manual(object):
 
     @staticmethod
     def generate_link(manual):
+        if "manual" not in manual.keys():
+            manual["manual"] = []
+        if "lore" not in manual.keys():
+            manual["lore"] = []
+        if "char_rule" not in manual.keys():
+            manual["char_rule"] = {
+                "schema_user": {},
+                "schema_char": {},
+                "form_user": {},
+                "form_char": {},
+                "admin_form_user": {},
+                "admin_form_char": {},
+            }
         return manual

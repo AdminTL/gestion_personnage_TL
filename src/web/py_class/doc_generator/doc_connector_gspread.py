@@ -147,6 +147,20 @@ class DocConnectorGSpread:
         :return: return False if the document is not generated, else return the dict
         """
         if self._generated_doc:
+            # Fill missing part
+            if "manual" not in self._generated_doc.keys():
+                self._generated_doc["manual"] = []
+            if "lore" not in self._generated_doc.keys():
+                self._generated_doc["lore"] = []
+            if "char_rule" not in self._generated_doc.keys():
+                self._generated_doc["char_rule"] = {
+                    "schema_user": {},
+                    "schema_char": {},
+                    "form_user": {},
+                    "form_char": {},
+                    "admin_form_user": {},
+                    "admin_form_char": {},
+                }
             return self._generated_doc
         return False
 
@@ -244,8 +258,12 @@ class DocConnectorGSpread:
                 return False
 
             # Validate the header
-            header_row = manual_sheet.row_values(1)
-            if sheet_type.get_header() != header_row:
+            has_error = False
+            try:
+                header_row = manual_sheet.row_values(1)
+            except:
+                has_error = True
+            if has_error or sheet_type.get_header() != header_row:
                 self._error = "Header of sheet %s is %s, and expected is %s" % (
                     sheet_name, header_row, sheet_type.get_header())
                 print(self._error, file=sys.stderr)
@@ -255,22 +273,25 @@ class DocConnectorGSpread:
             all_values = manual_sheet.get_all_values()
 
             # Parse sheet
-            cb = sheet_type.get_cb_parser(self)
-            if cb:
-                info = cb(sheet_info, sheet_name, all_values)
+            if len(all_values) < 2:
+                """missing data"""
             else:
-                self._error = "Internal error, cannot find method to parse the sheet with type %s." % sheet_type
-                print(self._error, file=sys.stderr)
-                return False
+                cb = sheet_type.get_cb_parser(self)
+                if cb:
+                    info = cb(sheet_info, sheet_name, all_values)
+                else:
+                    self._error = "Internal error, cannot find method to parse the sheet with type %s." % sheet_type
+                    print(self._error, file=sys.stderr)
+                    return False
 
-            if info is None:
-                # Error in parsing
-                return False
+                if info is None:
+                    # Error in parsing
+                    return False
 
-            # Compilation of unique result
-            is_form_admin = sheet_info.get("is_admin", False)
-            adapted_sheet_name = sheet_name if not is_form_admin else "admin_" + sheet_name
-            dct_doc[adapted_sheet_name] = info
+                # Compilation of unique result
+                is_form_admin = sheet_info.get("is_admin", False)
+                adapted_sheet_name = sheet_name if not is_form_admin else "admin_" + sheet_name
+                dct_doc[adapted_sheet_name] = info
 
         # Add extra compilation about point page
         dct_doc["point"] = self._doc_point
