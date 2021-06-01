@@ -28,6 +28,10 @@ Wiki pour développement
 =======================
 Le projet est en développement. [Le remu-méninge.](https://github.com/AdminTL/gestion_personnage_TL/wiki/Premier-brainstorm)
 
+Comment faire
+=============
+[Comment configurer le projet pour son GN](./doc/HOWTO.fr.md)
+
 Documentation
 =============
 [Lire la documentation en anglais](./doc/README.md)
