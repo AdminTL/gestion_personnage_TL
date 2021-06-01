@@ -275,6 +275,7 @@ class DocConnectorGSpread:
             # Parse sheet
             if len(all_values) < 2:
                 """missing data"""
+                print(f"Missing data for {sheet_name}", file=sys.stderr)
             else:
                 cb = sheet_type.get_cb_parser(self)
                 if cb:
