@@ -950,6 +950,7 @@ class EditorCmdGenerateAndSaveHandler(jsonhandler.JsonHandler):
 
             info["point"] = document["point"]
             info["skill_manual"] = document["skill_manual"]
+            info["system_point"] = document["system_point"]
 
             # Link manual and form
             info = self._manual.generate_link(info)
