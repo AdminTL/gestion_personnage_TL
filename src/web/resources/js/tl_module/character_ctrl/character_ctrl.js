@@ -13,6 +13,9 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   // todo move this variable in json
   $scope.xp_default = 6;
 
+  $scope.is_char_init = false;
+  $scope.is_updated_player = false;
+
   $scope.enable_debug = false;
   $scope.sheet_view = {};
   $scope.sheet_view.mode = "form_write";
@@ -48,6 +51,10 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   $scope.character_merite = [];
   $scope.character_esclave = [];
   $scope.character_marche = [];
+  $scope.lst_habilites = [];
+
+  $scope.char_point = {};
+  $scope.char_point_attr = {};
 
   $scope.xp_receive = 0;
   $scope.xp_spend = 0;
@@ -68,6 +75,8 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   $scope.model_user = {};
   $scope.schema_user = {};
   $scope.form_user = [];
+  $scope.system_point = [];
+  $scope.habilites_point = {};
 
   $scope.model_char = {};
   $scope.schema_char = {};
@@ -109,16 +118,27 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       var data = response.data.char_rule;
       $scope.schema_user = data.schema_user;
       $scope.schema_char = data.schema_char;
+      $scope.schema_user_point = data.schema_user_point;
+      $scope.schema_char_point = data.schema_char_point;
       $scope.form_user = data.form_user;
       $scope.form_char = data.form_char;
+      $scope.system_point = response.data.system_point;
+      $scope.habilites_point = response.data.hability_point;
       $scope.model_database = response.data;
-      $scope.update_point();
+      $scope.is_char_init = true;
     }, function errorCallback(response) {
       console.error(response);
     });
 
   };
   $scope.update_character();
+
+  $scope.transform_plural = function (value, label) {
+    if (value > 1 || value < -1) {
+      return label.replaceAll("(s)", "s");
+    }
+    return label.replaceAll("(s)", "");
+  };
 
   $scope.is_approbation_new = function (user) {
     return user && (isUndefined(user.character[0].approbation) || user.character[0].approbation.status == 0);
@@ -256,22 +276,35 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   };
 
   $scope.$watch("model_user", function (value) {
-    $scope.update_point();
+    console.debug("Update model_user");
     if (value) {
       $scope.prettyModelUser = JSON.stringify(value, undefined, 2);
+    } else {
+      $scope.prettyModelUser = "";
     }
-    // todo : update player
-    // $scope.player = value;
+    if ($scope.is_updated_player) {
+      $scope.update_point();
+    }
   }, true);
 
   $scope.$watch("model_char", function (value) {
-    $scope.update_point();
+    console.debug("Update model_char");
     if (value) {
       $scope.prettyModelChar = JSON.stringify(value, undefined, 2);
+    } else {
+      $scope.prettyModelChar = "";
+    }
+    if ($scope.is_updated_player) {
+      $scope.update_point();
     }
   }, true);
 
   $scope.update_point = function () {
+    if (isObjEmpty($scope.model_char) && !$scope.is_updated_player) {
+      return
+    }
+    $scope.char_point = {};
+    $scope.char_point_attr = {};
     $scope.character_point = {};
     $scope.character_reduce_point = {};
     $scope.character_skill = [];
@@ -334,8 +367,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       }
     }
 
-    var lst_habilites = [];
-
+    $scope.lst_habilites = [];
     if (isDefined($scope.model_char.technique_maitre)) {
       for (var i = 0; i < $scope.model_char.technique_maitre.length; i++) {
         var obj = $scope.model_char.technique_maitre[i];
@@ -350,7 +382,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
             }
 
             if (sub_key in $scope.model_database.point) {
-              lst_habilites.push(sub_key);
+              $scope.lst_habilites.push(sub_key);
 
               var dct_key_point = $scope.model_database.point[sub_key];
               $scope.count_master_tech += 1;
@@ -385,14 +417,14 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
             }
 
             if (sub_key in $scope.model_database.point) {
-              lst_habilites.push(sub_key);
+              $scope.lst_habilites.push(sub_key);
             }
           }
         }
       }
 
-      for (var i = 0; i < lst_habilites.length; i++) {
-        var sub_key = lst_habilites[i];
+      for (var i = 0; i < $scope.lst_habilites.length; i++) {
+        var sub_key = $scope.lst_habilites[i];
         var dct_key_point = $scope.model_database.point[sub_key];
 
         for (var key_point in dct_key_point) {
@@ -402,103 +434,103 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
             // Exception for salary, multiply PtPA
             if (sub_key == "habilites_Salaire" && key_point == "PtPA") {
               var total_value = point_value;
-              if (lst_habilites.indexOf("habilites_Alchimie") > -1) {
+              if ($scope.lst_habilites.indexOf("habilites_Alchimie") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("habilites_Enchantement") > -1) {
+              if ($scope.lst_habilites.indexOf("habilites_Enchantement") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("habilites_Artisanat") > -1) {
+              if ($scope.lst_habilites.indexOf("habilites_Artisanat") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("habilites_Forge") > -1) {
+              if ($scope.lst_habilites.indexOf("habilites_Forge") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("habilites_Herboristerie") > -1) {
+              if ($scope.lst_habilites.indexOf("habilites_Herboristerie") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("habilites_Mixture de potions") > -1) {
+              if ($scope.lst_habilites.indexOf("habilites_Mixture de potions") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("habilites_Marchandage_1") > -1) {
+              if ($scope.lst_habilites.indexOf("habilites_Marchandage_1") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("habilites_Marchandage_2") > -1) {
+              if ($scope.lst_habilites.indexOf("habilites_Marchandage_2") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("habilites_Marchandage_3") > -1) {
+              if ($scope.lst_habilites.indexOf("habilites_Marchandage_3") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("habilites_Marchandage_4") > -1) {
+              if ($scope.lst_habilites.indexOf("habilites_Marchandage_4") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("habilites_Marchandage_5") > -1) {
+              if ($scope.lst_habilites.indexOf("habilites_Marchandage_5") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("habilites_Sp\u00e9cialiste I - Herboristerie") > -1) {
+              if ($scope.lst_habilites.indexOf("habilites_Sp\u00e9cialiste I - Herboristerie") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("habilites_Sp\u00e9cialiste I - Artisanat") > -1) {
+              if ($scope.lst_habilites.indexOf("habilites_Sp\u00e9cialiste I - Artisanat") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("habilites_Sp\u00e9cialiste I - Enchantement") > -1) {
+              if ($scope.lst_habilites.indexOf("habilites_Sp\u00e9cialiste I - Enchantement") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("habilites_Sp\u00e9cialiste I - Forge") > -1) {
+              if ($scope.lst_habilites.indexOf("habilites_Sp\u00e9cialiste I - Forge") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("habilites_Sp\u00e9cialiste I - Alchimie") > -1) {
+              if ($scope.lst_habilites.indexOf("habilites_Sp\u00e9cialiste I - Alchimie") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("habilites_Sp\u00e9cialiste I - Mixture de Potion") > -1) {
+              if ($scope.lst_habilites.indexOf("habilites_Sp\u00e9cialiste I - Mixture de Potion") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("habilites_Sp\u00e9cialiste II - Herboristerie") > -1) {
+              if ($scope.lst_habilites.indexOf("habilites_Sp\u00e9cialiste II - Herboristerie") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("habilites_Sp\u00e9cialiste II - Artisanat") > -1) {
+              if ($scope.lst_habilites.indexOf("habilites_Sp\u00e9cialiste II - Artisanat") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("habilites_Sp\u00e9cialiste II - Enchantement") > -1) {
+              if ($scope.lst_habilites.indexOf("habilites_Sp\u00e9cialiste II - Enchantement") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("habilites_Sp\u00e9cialiste II - Alchimie") > -1) {
+              if ($scope.lst_habilites.indexOf("habilites_Sp\u00e9cialiste II - Alchimie") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("habilites_Sp\u00e9cialiste II - Forge") > -1) {
+              if ($scope.lst_habilites.indexOf("habilites_Sp\u00e9cialiste II - Forge") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("habilites_Sp\u00e9cialiste II - Mixture de Potion") > -1) {
+              if ($scope.lst_habilites.indexOf("habilites_Sp\u00e9cialiste II - Mixture de Potion") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("technique_maitre_Joaillier") > -1) {
+              if ($scope.lst_habilites.indexOf("technique_maitre_Joaillier") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("technique_maitre_Orfèvre") > -1) {
+              if ($scope.lst_habilites.indexOf("technique_maitre_Orfèvre") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("technique_maitre_Marchand prolofique") > -1) {
+              if ($scope.lst_habilites.indexOf("technique_maitre_Marchand prolofique") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("technique_maitre_Grand-enchanteur") > -1) {
+              if ($scope.lst_habilites.indexOf("technique_maitre_Grand-enchanteur") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("technique_maitre_Contrebande") > -1) {
+              if ($scope.lst_habilites.indexOf("technique_maitre_Contrebande") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("technique_maitre_Caravanier") > -1) {
+              if ($scope.lst_habilites.indexOf("technique_maitre_Caravanier") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("technique_maitre_Multi-Spécialiste") > -1) {
+              if ($scope.lst_habilites.indexOf("technique_maitre_Multi-Spécialiste") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("technique_maitre_Forge Légendaire: Bluam") > -1) {
+              if ($scope.lst_habilites.indexOf("technique_maitre_Forge Légendaire: Bluam") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("technique_maitre_Forge Légendaire: Sanglite") > -1) {
+              if ($scope.lst_habilites.indexOf("technique_maitre_Forge Légendaire: Sanglite") > -1) {
                 total_value += point_value;
               }
-              if (lst_habilites.indexOf("technique_maitre_Forge Légendaire: Malachite") > -1) {
+              if ($scope.lst_habilites.indexOf("technique_maitre_Forge Légendaire: Malachite") > -1) {
                 total_value += point_value;
               }
               point_value = total_value;
@@ -806,6 +838,8 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       }
     }
 
+    console.debug("ici");
+
     // xp
     var total_xp = 0;
     if ($scope.character_point.hasOwnProperty("PtXp")) {
@@ -895,10 +929,140 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     } else {
       $scope.validated_count_master_tech = true;
     }
+
+    console.debug("mathben")
+    $scope.system_point.forEach((element) => {
+      // Shadow copy object
+      let new_element = {...element};
+      if (element.type == "Attribue") {
+        $scope.char_point_attr[element.name] = new_element;
+        // Field value is modified by the system and skill. The value is negative to be filled.
+        // Field max_value is the limitation permitted
+        // Field diff_value is max_value + value. If 0, good, if pos, missing fill, if neg, error too much fill
+        // Field display_value is the value in reverse : -(value)
+
+        // Initialisation
+        if (isUndefined(new_element.initial)) {
+          new_element.initial = 0;
+        }
+        new_element["value"] = 0;
+        new_element["max_value"] = new_element["initial"];
+
+        // Extract data from char sheet
+        if ($scope.schema_char_point.hasOwnProperty(element.name)) {
+          for (const [key, value] of Object.entries($scope.schema_char_point[element.name])) {
+            // Check status in model_char
+            if ($scope.model_char.hasOwnProperty(key) && $scope.model_char[key]) {
+              const result = $scope.model_char[key];
+              $scope._update_attribut(result, key, value, new_element);
+            }
+          }
+        }
+
+        // Extract data from user sheet
+        if ($scope.schema_user_point.hasOwnProperty(element.name)) {
+          for (const [key, value] of Object.entries($scope.schema_user_point[element.name])) {
+            // Check status in model_user
+            if ($scope.model_user.hasOwnProperty(key) && $scope.model_user[key]) {
+              const result = $scope.model_user[key];
+              $scope._update_attribut(result, key, value, new_element);
+            }
+          }
+        }
+
+        // Extract data from skills
+        if ($scope.habilites_point.hasOwnProperty(element.name)) {
+          const lst_habilites_point = $scope.habilites_point[element.name];
+          for (const habilite of $scope.lst_habilites) {
+            if (habilite in lst_habilites_point) {
+              // new_element["value"] += lst_habilites_point[habilite];
+              const result = lst_habilites_point[habilite];
+              $scope._update_attribut(true, habilite, result, new_element);
+            }
+          }
+        }
+
+        // Closure
+        // TODO do we need initial feature?
+        // if ("initial_value" in new_element) {
+        //   new_element["initial"] += new_element["initial_value"]
+        // }
+
+        if (isDefined(new_element.max)) {
+          new_element.value = -Math.min(-new_element.value, new_element.max);
+          new_element.max_value = Math.min(new_element.max_value, new_element.max);
+        }
+        if (isDefined(new_element.min)) {
+          new_element.value = -Math.max(-new_element.value, new_element.min);
+          new_element.max_value = Math.max(new_element.max_value, new_element.min);
+        }
+        new_element["diff_value"] = new_element["max_value"] + new_element["value"];
+        new_element["display_value"] = -new_element["value"];
+
+        // Special case
+        if (new_element["hide_value"]) {
+          new_element["value"] = new_element["max_value"];
+        }
+      }
+    });
+
+    // Run formule when all is created
+    for (const sys_ele of $scope.system_point) {
+      if (sys_ele.formule) {
+        let result = $scope._run_formule(sys_ele.formule, $scope.char_point_attr);
+        let new_element = $scope.char_point_attr[sys_ele.name];
+        if (isDefined(new_element.max)) {
+          result = Math.min(result, new_element.max);
+        }
+        if (isDefined(new_element.min)) {
+          result = Math.max(result, new_element.min);
+        }
+        new_element["formule_result"] = result;
+      }
+    }
+  };
+
+  $scope._run_formule = function (unique_variable_formule, unique_variable_dct_element) {
+    if (unique_variable_formule) {
+      for (const [unique_variable_key_ele, unique_variable_var_ele] of Object.entries(unique_variable_dct_element)) {
+        eval("window['" + unique_variable_var_ele.name + "'] = " + JSON.stringify(unique_variable_var_ele) + ";");
+      }
+
+      let unique_variable_formule_mod = unique_variable_formule.replaceAll(".max", ".max_value");
+      return eval(unique_variable_formule_mod);
+    }
+  };
+
+  $scope._update_attribut = function (result, key, value, element) {
+    // result is the value to affect the element, like a boolean
+    // value is the transformation
+    // element is the cache to update
+    var ele_key_name;
+    if (typeof value === "object") {
+      const lst_key = Object.keys(value);
+      if (lst_key.length > 1) {
+        console.error("Too much key for " + key + " _ " + value + " _ " + element);
+      }
+      const extract_key = lst_key[0];
+      value = value[extract_key];
+      ele_key_name = extract_key + "_value";
+    } else {
+      ele_key_name = "value";
+    }
+    if (isBoolean(result)) {
+      if (ele_key_name in element) {
+        element[ele_key_name] += value;
+      } else {
+        element[ele_key_name] = value;
+      }
+    } else {
+      console.error("Type " + typeof result + " is not supported.")
+    }
   };
 
   $scope.$watch("player", function (value) {
     if (!value) {
+      $scope.clear_sheet();
       return;
     }
     $scope.prettyPlayer = JSON.stringify(value, undefined, 2);
@@ -966,28 +1130,33 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       $scope.cs_player = $scope.player;
       $scope.cs_setting = "filled";
     } else {
-      $scope.model_char = {};
-      $scope.model_char.habilites = [{}];
-      $scope.model_char.technique_maitre = [];
-      $scope.model_char.rituel = [];
-      $scope.model_char.sous_ecole = [];
-      $scope.model_char.merite_jeu_1 = [];
-      $scope.model_char.merite_jeu_2 = [];
-      $scope.model_char.merite_jeu_3 = [];
-      $scope.model_char.merite_jeu_4 = [];
-      $scope.model_char.merite_jeu_5 = [];
-      $scope.model_char.merite_jeu_6 = [];
-      $scope.model_char.merite_jeu_7 = [];
-      $scope.model_char.esclave = [];
-      $scope.model_char.marche = [];
-      $scope.model_char.xp_naissance = $scope.xp_default;
-      $scope.model_char.xp_autre = 0;
-
-      $scope.cs_player = {};
+      $scope.clear_sheet();
     }
+    $scope.update_point();
+    $scope.is_updated_player = true;
     $scope.get_html_qr_code();
   }, true);
 
+  $scope.clear_sheet = function () {
+    $scope.model_char = {};
+    $scope.model_char.habilites = [{}];
+    $scope.model_char.technique_maitre = [];
+    $scope.model_char.rituel = [];
+    $scope.model_char.sous_ecole = [];
+    $scope.model_char.merite_jeu_1 = [];
+    $scope.model_char.merite_jeu_2 = [];
+    $scope.model_char.merite_jeu_3 = [];
+    $scope.model_char.merite_jeu_4 = [];
+    $scope.model_char.merite_jeu_5 = [];
+    $scope.model_char.merite_jeu_6 = [];
+    $scope.model_char.merite_jeu_7 = [];
+    $scope.model_char.esclave = [];
+    $scope.model_char.marche = [];
+    $scope.model_char.xp_naissance = $scope.xp_default;
+    $scope.model_char.xp_autre = 0;
+
+    $scope.cs_player = {};
+  }
 // $scope.$watch("character", function (value) {
 //   $scope.cs_character = $scope.character;
 //   // $scope.fill_cs_character_habilites();
@@ -1119,15 +1288,15 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   };
 
 //fills the checks array with booleans used as models to determine whether checkboxes are checked or not
-  $scope.setChecks = function () {
-
-    $scope.cs_checks = [];
-
-    [1, 2, 3].foreach(function (value) {
-      $scope.cs_checks.push(cs_character.endurance.length >= value);
-      $scope.cs_checks.push(cs_character.energie.length >= value);
-    });
-  };
+//   $scope.setChecks = function () {
+//
+//     $scope.cs_checks = [];
+//
+//     [1, 2, 3].foreach(function (value) {
+//       $scope.cs_checks.push(cs_character.endurance.length >= value);
+//       $scope.cs_checks.push(cs_character.energie.length >= value);
+//     });
+//   };
 
   $scope.newPlayer = function () {
     // create empty player with empty character
@@ -1244,11 +1413,25 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   $scope.get_status_validation = function () {
     // need to fix if some negative value
     // xp is preferred to use all point
-    if ($scope.xp_total < 0 || $scope.merite_total < 0 || $scope.diff_sous_ecole < 0 || !$scope.model_char.name || !$scope.model_char.faction || !$scope.validated_count_master_tech) {
-      return -1;
-    } else if ($scope.xp_total > 0 || $scope.diff_sous_ecole > 0) {
-      return 1;
+    // if ($scope.xp_total < 0 || $scope.merite_total < 0 || $scope.diff_sous_ecole < 0 || !$scope.model_char.name || !$scope.model_char.faction || !$scope.validated_count_master_tech) {
+
+    for (const [key_ele, var_ele] of Object.entries($scope.char_point_attr)) {
+      if (var_ele.required) {
+        if (var_ele.type == "Attribue") {
+          if (var_ele.diff_value < 0) {
+            return -1;
+          } else if (var_ele.diff_value > 0) {
+            return 1;
+          }
+        }
+      }
     }
+
+    // if ($scope.xp_total < 0) {
+    //   return -1;
+    // } else if ($scope.xp_total > 0 || $scope.diff_sous_ecole > 0) {
+    //   return 1;
+    // }
     return 0;
   };
 
@@ -1375,14 +1558,13 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     console.log(response.data);
     var data = response.data;
     // special effect, if only one character, select first one
-    if (data.length >= 1 && !$scope.is_admin) {
+    if ((data.length >= 1 && !$scope.is_admin) || (data.length == 1 && $scope.is_admin)) {
       $scope.player = data[0];
       $scope.character = data[0].character[0];
       $scope.setCharacterData(data[0]);
       $scope.player = data[0];
       $scope.setCharacterData($scope.character);
-
-      $scope.$apply();
+      // $scope.$apply();
     }
   });
 }]);

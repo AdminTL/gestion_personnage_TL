@@ -1,14 +1,35 @@
-<div>
-  Point d'XP
-  <span ng-style="xp_total > 0 ? {'color': 'yellow'} : (xp_total < 0 ? {'color': 'red'} : {'color': 'green'})"> {{!xp_spend }} / {{!xp_receive }}</span>
-</div>
-<div>
-  Point de Mérite
-  <span ng-style="merite_total > 0 ? {'color': 'yellow'} : (merite_total < 0 ? {'color': 'red'} : {'color': 'green'})"> {{!merite_spend }} / {{!merite_receive }}</span>
-</div>
-<div ng-show="enable_debug">
-  <br/>
-  <div ng-repeat="(key, value) in character_point" style="color:gold">
-    {{!key }} : {{!value }}
+<span ng-show="player">
+  <div ng-repeat="(key, value) in char_point_attr">
+    <span ng-show="value['formule']">
+      {{!transform_plural(value.formule_result, value.description)}} <span ng-style="value.formule_result >= 0 ? {'color': 'green'} : {'color': 'red'}">{{!value.formule_result }}</span>
+    </span>
+    <span ng-hide="value['formule']">
+
+      <span ng-show="value['hide_value']">
+        {{!transform_plural(value.value, value.description)}} <span ng-style="value.value >= 0 ? {'color': 'green'} : {'color': 'red'}">{{!value.value }}</span>
+      </span>
+      <span ng-hide="value['hide_value']">
+      {{!transform_plural(value.value, value.description)}} <span
+          ng-style="value.diff_value > 0 ? {'color': 'yellow'} : (value.diff_value < 0 ? {'color': 'red'} : {'color': 'green'})"> {{!value.display_value}} / {{!value.max_value
+        }}</span>
+      </span>
+
+    </span>
   </div>
-</div>
+  <br/>
+  <br/>
+  <div>
+    Point d'XP
+    <span ng-style="xp_total > 0 ? {'color': 'yellow'} : (xp_total < 0 ? {'color': 'red'} : {'color': 'green'})"> {{!xp_spend }} / {{!xp_receive }}</span>
+  </div>
+  <div>
+    Point de Mérite
+    <span ng-style="merite_total > 0 ? {'color': 'yellow'} : (merite_total < 0 ? {'color': 'red'} : {'color': 'green'})"> {{!merite_spend }} / {{!merite_receive }}</span>
+  </div>
+  <div ng-show="enable_debug">
+    <br/>
+    <div ng-repeat="(key, value) in character_point" style="color:gold">
+      {{!key }} : {{!value }}
+    </div>
+  </div>
+</span>

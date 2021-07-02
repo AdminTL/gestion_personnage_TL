@@ -3,6 +3,7 @@
 import sys
 import gspread
 from enum import Enum
+from collections import defaultdict
 
 SHEET_SYSTEM_POINT = "system_point"
 
@@ -46,7 +47,8 @@ class DocType(Enum):
             ]
         elif self.value == self.POINT.value:
             header = [
-                "Level", "Name", "Description", "Explication", "Type", "Min", "Max", "Initial", "Formule"
+                "Level", "Name", "Description", "Explication", "Type", "Min", "Max", "Initial", "Formule", "HideValue",
+                "Required"
             ]
         else:
             header = []
@@ -167,6 +169,8 @@ class DocConnectorGSpread:
                 self._generated_doc["char_rule"] = {
                     "schema_user": {},
                     "schema_char": {},
+                    "schema_user_point": {},
+                    "schema_char_point": {},
                     "form_user": {},
                     "form_char": {},
                     "admin_form_user": {},
@@ -315,7 +319,46 @@ class DocConnectorGSpread:
         dct_doc["point"] = self._doc_point
         dct_doc["skill_manual"] = self._doc_manual_skill
 
+        status = self._build_schema_point(dct_doc)
+        if status is None:
+            # Error in parsing
+            return
+        status = self._build_reverse_point(dct_doc)
+        if status is None:
+            # Error in parsing
+            return
+
         self._generated_doc = dct_doc
+        return True
+
+    def _build_reverse_point(self, dct_doc):
+        # Create hability_point
+        dct_hability_point = defaultdict(dict)
+        dct_doc["hability_point"] = dct_hability_point
+        for hability_name, dct_point in dct_doc.get("point").items():
+            for point_key, point_value in dct_point.items():
+                dct_hability_point[point_key][hability_name] = point_value
+        return True
+
+    def _build_schema_point(self, dct_doc):
+        dct_schema_user_point = defaultdict(dict)
+        dct_schema_char_point = defaultdict(dict)
+        dct_doc["schema_user_point"] = dct_schema_user_point
+        dct_doc["schema_char_point"] = dct_schema_char_point
+        status = self._extract_point_from_schema(dct_schema_user_point, dct_doc.get("schema_user"))
+        if status is None:
+            return
+        status = self._extract_point_from_schema(dct_schema_char_point, dct_doc.get("schema_char"))
+        if status is None:
+            return
+        return True
+
+    def _extract_point_from_schema(self, dct_doc_point, dct_schema):
+        for key, prop in dct_schema.get("properties").items():
+            if "point" in prop.keys():
+                point = prop.get("point")
+                for pt_name, value in point.items():
+                    dct_doc_point[pt_name][key] = value
         return True
 
     def _parse_sheet_type_schema(self, sheet_info, doc_sheet_name, all_values):
@@ -826,6 +869,14 @@ class DocConnectorGSpread:
             if formule:
                 section["formule"] = formule
 
+            hide_value = row[9]
+            if hide_value:
+                section["hide_value"] = bool(hide_value)
+
+            required = row[10]
+            if required:
+                section["required"] = bool(required)
+
             lst_point_section.append(section)
 
         return lst_point_section
@@ -1170,6 +1221,24 @@ class DocConnectorGSpread:
                 return
 
             key, value = str_single_point.split(":")
+
+            # special attribute of key with a dot
+            attribute_name = ""
+            if "." in key:
+                if key.count(".") > 1:
+                    msg = f"The key '{key}' has more than 1 '.'. Support only 1 with attributes."
+                    self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                    print(self._error, file=sys.stderr)
+                    return
+                lst_key = key.split(".")
+                attribute_name = lst_key[1]
+                if not attribute_name:
+                    msg = f"The key '{key}' missing information after the '.'."
+                    self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                    print(self._error, file=sys.stderr)
+                    return
+                key = lst_key[0]
+
             if key in dct_point:
                 msg = "Duplication key %s. Point : %s" % (key, str_point)
                 self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
@@ -1191,6 +1260,9 @@ class DocConnectorGSpread:
                 print(self._error, file=sys.stderr)
                 return
 
-            dct_point[key] = int_value
+            if attribute_name:
+                dct_point[key] = {attribute_name: int_value}
+            else:
+                dct_point[key] = int_value
 
         return dct_point

@@ -79,3 +79,10 @@ function hashSha256(secret, salt) {
 function isObjEmpty(obj) {
   return Object.keys(obj).length === 0;
 }
+
+function isBoolean(bool) {
+  return typeof bool === 'boolean' ||
+    (typeof bool === 'object' &&
+      bool !== null &&
+      typeof bool.valueOf() === 'boolean');
+}

@@ -1,18 +1,32 @@
 <div>
-
   <!-- Sheet status -->
   La fiche <span ng-show="get_status_validation() == 0" style="color:green">est à jour</span><span ng-show="get_status_validation() == 1" style="color:yellow">est à améliorer</span><span
     ng-show="get_status_validation() == -1" style="color:red">est à corriger</span>.
-  <span ng-show="xp_total < 0">Il y a <span style="color:red"><span style="font-weight:bold;text-decoration: underline">{{!-(xp_total) }}</span> XP à enlever</span>.</span>
-  <span ng-show="xp_total > 0">Il y a <span style="color:yellow"><span style="font-weight:bold;text-decoration: underline">{{!xp_total }}</span> XP à placer</span>.</span>
-  <span ng-show="merite_total < 0">Il y a <span style="color:red"><span style="font-weight:bold;text-decoration: underline">{{!-(merite_total) }}</span> Mérite à enlever</span>.</span>
-  <span ng-show="merite_total > 0">Il y a <span style="color:yellow"><span style="font-weight:bold;text-decoration: underline">{{!merite_total }}</span> Mérite en banque</span>.</span>
-  <span ng-show="diff_sous_ecole < 0">Il y a <span style="color:red"><span
-      style="font-weight:bold;text-decoration: underline">{{!-(diff_sous_ecole) }}</span> sous-école à enlever</span>.</span>
-  <span ng-show="diff_sous_ecole > 0">Il y a <span style="color:yellow"><span
-      style="font-weight:bold;text-decoration: underline">{{!diff_sous_ecole }}</span> sous-école à choisir</span>.</span>
-  <span ng-show="!model_char.name"><span style="color:red">Nom du personnage est manquant</span>.</span>
-  <span ng-show="!model_char.faction"><span style="color:red">Faction manquante</span>.</span>
-  <span ng-show="count_master_tech > (xp_receive - xp_default + 1)">Il y a <span style="color:red"><span
-      style="font-weight:bold;text-decoration: underline">{{!count_master_tech - (xp_receive - xp_default + 1) }}</span> technique de maitre à enlever</span>.</span>
+
+  <div ng-repeat="(key, value) in char_point_attr">
+    <ul>
+      <span ng-show="!value.formule && !value.hide_value">
+        <li ng-show="value.diff_value < 0"><span style="color:red"><span style="font-weight:bold;text-decoration: underline">{{!-(value.diff_value)
+          }}</span> {{!transform_plural(value.value, value.description)}} à enlever</span>.
+        </li>
+        <li ng-show="value.diff_value > 0"><span style="color:yellow"><span style="font-weight:bold;text-decoration: underline">{{!value.diff_value
+          }}</span> {{!transform_plural(value.value, value.description)}} à placer</span>.
+        </li>
+      </span>
+    </ul>
+  </div>
+  <!--
+    <span ng-show="xp_total < 0">Il y a <span style="color:red"><span style="font-weight:bold;text-decoration: underline">{{!-(xp_total) }}</span> XP à enlever</span>.</span>
+    <span ng-show="xp_total > 0">Il y a <span style="color:yellow"><span style="font-weight:bold;text-decoration: underline">{{!xp_total }}</span> XP à placer</span>.</span>
+    <span ng-show="merite_total < 0">Il y a <span style="color:red"><span style="font-weight:bold;text-decoration: underline">{{!-(merite_total) }}</span> Mérite à enlever</span>.</span>
+    <span ng-show="merite_total > 0">Il y a <span style="color:yellow"><span style="font-weight:bold;text-decoration: underline">{{!merite_total }}</span> Mérite en banque</span>.</span>
+    <span ng-show="diff_sous_ecole < 0">Il y a <span style="color:red"><span
+        style="font-weight:bold;text-decoration: underline">{{!-(diff_sous_ecole) }}</span> sous-école à enlever</span>.</span>
+    <span ng-show="diff_sous_ecole > 0">Il y a <span style="color:yellow"><span
+        style="font-weight:bold;text-decoration: underline">{{!diff_sous_ecole }}</span> sous-école à choisir</span>.</span>
+    <span ng-show="!model_char.name"><span style="color:red">Nom du personnage est manquant</span>.</span>
+    <span ng-show="!model_char.faction"><span style="color:red">Faction manquante</span>.</span>
+    <span ng-show="count_master_tech > (xp_receive - xp_default + 1)">Il y a <span style="color:red"><span
+        style="font-weight:bold;text-decoration: underline">{{!count_master_tech - (xp_receive - xp_default + 1) }}</span> technique de maitre à enlever</span>.</span>
+        -->
 </div>

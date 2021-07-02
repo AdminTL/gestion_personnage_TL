@@ -924,8 +924,9 @@ class EditorCmdGenerateAndSaveHandler(jsonhandler.JsonHandler):
                 doc_part = document.get("lore")
                 info["lore"] = doc_part
                 # self._manual.update({"lore": doc_part}, save=True)
-            if "schema_user" in document or "schema_char" in document or "form_user" in document \
-                    or "form_char" in document or "admin_form_user" in document or "admin_form_char" in document:
+            if "schema_user" in document or "schema_user_point" in document or "schema_char" in document \
+                    or "schema_char_point" in document or "form_user" in document or "form_char" in document \
+                    or "admin_form_user" in document or "admin_form_char" in document:
                 dct_char_rule = {}
                 if "schema_user" in document:
                     doc_part = document.get("schema_user")
@@ -933,6 +934,12 @@ class EditorCmdGenerateAndSaveHandler(jsonhandler.JsonHandler):
                 if "schema_char" in document:
                     doc_part = document.get("schema_char")
                     dct_char_rule["schema_char"] = doc_part
+                if "schema_user_point" in document:
+                    doc_part = document.get("schema_user_point")
+                    dct_char_rule["schema_user_point"] = doc_part
+                if "schema_char_point" in document:
+                    doc_part = document.get("schema_char_point")
+                    dct_char_rule["schema_char_point"] = doc_part
                 if "form_user" in document:
                     doc_part = document.get("form_user")
                     dct_char_rule["form_user"] = doc_part
@@ -950,6 +957,7 @@ class EditorCmdGenerateAndSaveHandler(jsonhandler.JsonHandler):
 
             info["point"] = document["point"]
             info["skill_manual"] = document["skill_manual"]
+            info["hability_point"] = document["hability_point"]
             info["system_point"] = document["system_point"]
 
             # Link manual and form
