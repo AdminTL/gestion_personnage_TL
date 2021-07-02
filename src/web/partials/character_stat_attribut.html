@@ -1,0 +1,14 @@
+<div>
+  Point d'XP
+  <span ng-style="xp_total > 0 ? {'color': 'yellow'} : (xp_total < 0 ? {'color': 'red'} : {'color': 'green'})"> {{!xp_spend }} / {{!xp_receive }}</span>
+</div>
+<div>
+  Point de Mérite
+  <span ng-style="merite_total > 0 ? {'color': 'yellow'} : (merite_total < 0 ? {'color': 'red'} : {'color': 'green'})"> {{!merite_spend }} / {{!merite_receive }}</span>
+</div>
+<div ng-show="enable_debug">
+  <br/>
+  <div ng-repeat="(key, value) in character_point" style="color:gold">
+    {{!key }} : {{!value }}
+  </div>
+</div>

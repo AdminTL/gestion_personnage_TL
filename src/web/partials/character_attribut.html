@@ -2,26 +2,26 @@
 <div>
   <ul>
     <li>
-      <span style="font-weight:bold;color:cornflowerblue">{{! xp_receive }}</span> points d'expérience
+      <span style="font-weight:bold;color:cornflowerblue">{{!xp_receive }}</span> points d'expérience
     </li>
     <li>
-      <span style="font-weight:bold;color:cornflowerblue">{{! 3 + get_character_point('PtVieMax') }}</span> point<span ng-show="3 + get_character_point('PtVieMax') > 1">s</span> de vie
+      <span style="font-weight:bold;color:cornflowerblue">{{!3 + get_character_point('PtVieMax') }}</span> point<span ng-show="3 + get_character_point('PtVieMax') > 1">s</span> de vie
     </li>
     <li>
-      <span style="font-weight:bold;color:cornflowerblue">{{! 2 + get_character_point('PtEnergieMax') }}</span> point<span ng-show="2 + get_character_point('PtEnergieMax') > 1">s</span>
+      <span style="font-weight:bold;color:cornflowerblue">{{!2 + get_character_point('PtEnergieMax') }}</span> point<span ng-show="2 + get_character_point('PtEnergieMax') > 1">s</span>
       d'énergie
     </li>
     <li>
-      <span style="font-weight:bold;color:cornflowerblue">{{! get_karma(10 + get_character_point('PtKarmaMax'), get_character_point('PtKarmaEsclave')) }}</span> point<span
+      <span style="font-weight:bold;color:cornflowerblue">{{!get_karma(10 + get_character_point('PtKarmaMax'), get_character_point('PtKarmaEsclave')) }}</span> point<span
         ng-show="10 + get_character_point('PtKarmaMax') > 1">s</span> de
       karma
     </li>
     <li>
-      <span style="font-weight:bold;color:cornflowerblue">{{! get_character_point('PtEcoleMagieMax') }}</span> école<span ng-show="get_character_point('PtEcoleMagieMax') > 1">s</span> de
+      <span style="font-weight:bold;color:cornflowerblue">{{!get_character_point('PtEcoleMagieMax') }}</span> école<span ng-show="get_character_point('PtEcoleMagieMax') > 1">s</span> de
       magie
     </li>
     <li>
-      <span style="font-weight:bold;color:cornflowerblue">{{! get_character_point('PtSousEcoleMagieMax')}}</span> sous-école<span
+      <span style="font-weight:bold;color:cornflowerblue">{{!get_character_point('PtSousEcoleMagieMax')}}</span> sous-école<span
         ng-show="get_character_point('PtSousEcoleMagieMax') > 1">s</span> de magie
     </li>
   </ul>

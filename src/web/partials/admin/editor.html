@@ -13,7 +13,7 @@
     <hr/>
     <div ng-show="model_editor.module_state.has_error">
       <span style="color:red">
-        {{! model_editor.module_state.error }}
+        {{!model_editor.module_state.error }}
       </span>
     </div>
     <div ng-hide="model_editor.module_state.has_error">
@@ -23,16 +23,16 @@
           <span class="fa fa-spinner fa-spin" ng-show="model_editor.is_updating_file_url"></span> Mise à jour du fichier.
         </a><br/>
         <span ng-show="model_editor.update_file_url.status.enabled" ng-style="model_editor.update_file_url.status.is_error ? {'color': 'red'} : {'color': 'green'}">
-          {{! model_editor.update_file_url.status.text }}
+          {{!model_editor.update_file_url.status.text }}
         </span>
         <span ng-show="model_editor.info.string_last_local_doc_update && model_editor.update_file_url.status.enabled"><br/></span>
-        <span ng-show="model_editor.info.string_last_local_doc_update"><a>Temps de la dernière sauvegarde locale : {{! model_editor.info.last_local_doc_update | UTCToNow: true }}</a></span>
+        <span ng-show="model_editor.info.string_last_local_doc_update"><a>Temps de la dernière sauvegarde locale : {{!model_editor.info.last_local_doc_update | UTCToNow: true }}</a></span>
       </div>
       <div ng-hide="model_editor.info.file_url">
         <span style="color:yellow">Le lien du document est manquant.</span>
       </div>
       <div ng-show="model_editor.info.file_url">
-        Lien du document : <a href="{{! model_editor.info.file_url }}" style="text-decoration: underline">{{! model_editor.info.file_url }}</a>
+        Lien du document : <a href="{{! model_editor.info.file_url }}" style="text-decoration: underline">{{!model_editor.info.file_url }}</a>
         <div ng-show="!model_editor.info.user_has_writer_perm && model_editor.info.has_access_perm">
           Vous n'avez pas les permissions d'écriture.
           <a ng-click="send_writing_permission()" class="btn btn-lg btn-danger" role="button">
@@ -41,7 +41,7 @@
         </div>
         <div ng-show="!model_editor.info.has_access_perm">
           <span style="color:red">
-            Le logiciel n'a pas les permissions nécessaire pour accéder au fichier. Donner les droits au courriel {{! model_editor.info.email_google_service }}<br/>
+            Le logiciel n'a pas les permissions nécessaire pour accéder au fichier. Donner les droits au courriel {{!model_editor.info.email_google_service }}<br/>
             Veuillez rafraichir la page une fois que l'invitation a été envoyé.
           </span>
         </div>
@@ -55,7 +55,7 @@
     </div>
   </div>
   <span ng-show="model_editor.generated_doc.status.enabled" ng-style="model_editor.generated_doc.status.is_error ? {'color': 'red'} : {'color': 'green'}">
-    {{! model_editor.generated_doc.status.text }}
+    {{!model_editor.generated_doc.status.text }}
   </span>
 </div>
 

@@ -1,0 +1,20 @@
+<div ng-show="player && !new_player">
+  Fiche personnage<br/>
+  <!--<div ng-show="!new_character">-->
+  <!--<button class="btn btn-success" ng-click="newCharacter()"><span class="glyphicon glyphicon-plus"></span> <span class="glyphicon glyphicon-file"></span> Nouveau personnage</button>-->
+  <!--</div>-->
+  <ul class="nav">
+    <li ng-repeat="value in player.character">
+      <button ng-style="character.name == value.name && {color:'#FF4E00'}" ng-if="character.name" type="button"
+              class="btn btn-info nav-button" ng-click="setCharacterData(value)">
+        {{!value.name }}
+      </button>
+    </li>
+  </ul>
+</div>
+<br/>
+
+{% include "character_stat_attribut.html" %}
+<!--<div ng-hide="isMobile() || !html_qr_code" style="height:200px;width:200px;background:white"-->
+<!--ng-bind-html="html_qr_code"></div>-->
+</div>

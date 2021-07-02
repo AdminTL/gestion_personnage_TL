@@ -7,7 +7,7 @@
   <span style="color:darkgray" ng-show="is_approbation_inactive(player)">✞ inactif</span>
   <span style="color:indianred" ng-show="is_approbation_to_correct(player)">✐ à corriger</span>
   <br/>
-  <span ng-show="model_char.approbation.date">Date d'approbation : {{! model_char.approbation.date * 1000 | UTCToNow: true }}</span><br/>
+  <span ng-show="model_char.approbation.date">Date d'approbation : {{!model_char.approbation.date * 1000 | UTCToNow: true }}</span><br/>
   <button class="btn btn-success" ng-click="send_approbation(1)" ng-hide="is_approbation_approved(player)">Approuver ✓</button>
   <button class="btn btn-danger" ng-click="send_approbation(4)" ng-hide="is_approbation_to_correct(player)">À corriger ✐</button>
   <button class="btn btn-warning" ng-click="send_approbation(2)" ng-hide="is_approbation_unapproved(player)">Désapprouver ✗</button>
@@ -19,7 +19,8 @@
   <h3>Modifier le mot de passe</h3>
   <input type="password" ng-model="model_profile.add_password.password" placeholder="Mot de passe" required>
   <input type="password" ng-model="model_profile.add_password.check_password" placeholder="Confirmation du mot de passe" required>
-  <a ng-click="modify_password()" class="btn btn-lg btn-default" role="button" ng-class="model_profile.add_password.loading ? 'disabled' : ''"><span class="fa fa-spinner fa-spin" ng-show="model_profile.add_password.loading"></span>
+  <a ng-click="modify_password()" class="btn btn-lg btn-default" role="button" ng-class="model_profile.add_password.loading ? 'disabled' : ''"><span class="fa fa-spinner fa-spin"
+                                                                                                                                                     ng-show="model_profile.add_password.loading"></span>
     Modifier</a>
   <br/>
   <!-- Status of password -->
