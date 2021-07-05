@@ -43,7 +43,7 @@ class DocType(Enum):
         elif self.value == self.SCHEMA.value:
             header = [
                 "Level", "Name", "Type", "Title", "minLength", "pattern", "required", "minItems", "maxItems",
-                "uniqueItems", "Point", "Description"
+                "uniqueItems", "ValidateRequired", "Point", "Description"
             ]
         elif self.value == self.POINT.value:
             header = [
@@ -390,8 +390,9 @@ class DocConnectorGSpread:
             min_items = lst_item[7]
             max_items = lst_item[8]
             unique_items = lst_item[9]
-            point = lst_item[10]
-            description = lst_item[11]
+            validate_required = bool(lst_item[10])
+            point = lst_item[11]
+            description = lst_item[12]
 
             if not level:
                 continue
@@ -548,6 +549,8 @@ class DocConnectorGSpread:
                 line_value["maxItems"] = max_items
             if type(unique_items) is bool:
                 line_value["uniqueItems"] = unique_items
+            if validate_required:
+                line_value["validateRequired"] = validate_required
             if dct_point_v:
                 line_value["point"] = dct_point_v
             if description:

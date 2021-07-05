@@ -40,6 +40,9 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   $scope.html_qr_code = "";
   $scope.url_qr_code = "";
 
+  $scope.status_validation = 0;
+  $scope.lst_msg_status_validation = [];
+
   $scope.player = null;
   $scope.last_player = null;
   $scope.character = null;
@@ -1101,6 +1104,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       }
     }
 
+    $scope.get_status_validation();
   };
 
   $scope._run_formule = function (unique_variable_formule, unique_variable_dct_element) {
@@ -1375,24 +1379,49 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     // xp is preferred to use all point
     // if ($scope.xp_total < 0 || $scope.merite_total < 0 || $scope.diff_sous_ecole < 0 || !$scope.model_char.name || !$scope.model_char.faction || !$scope.validated_count_master_tech) {
 
+    $scope.status_validation = 0;
+    $scope.lst_msg_status_validation = []
+
+    // Search validateRequired
+    for (const [key, value] of Object.entries($scope.schema_char.properties)) {
+      if (value.hasOwnProperty("validateRequired") && value.validateRequired) {
+        if (value.type == "string") {
+          if (!$scope.model_char[key]) {
+            $scope.status_validation = -1;
+            $scope.lst_msg_status_validation.push("Le champs " + key + " doit être rempli.")
+          }
+        } else {
+          console.error(value);
+          console.error("Key " + key + " type not supported: " + value.type);
+        }
+      }
+    }
+
+    if ($scope.status_validation != 0) {
+      return;
+    }
+
     for (const [key_ele, var_ele] of Object.entries($scope.char_point_attr)) {
       if (var_ele.required) {
         if (var_ele.type == "Attribut") {
           if (var_ele.diff_value < 0) {
-            return -1;
+            $scope.status_validation = -1;
+            return
           } else if (var_ele.diff_value > 0) {
-            return 1;
+            $scope.status_validation = 1;
+            return
           }
         }
       }
     }
+
 
     // if ($scope.xp_total < 0) {
     //   return -1;
     // } else if ($scope.xp_total > 0 || $scope.diff_sous_ecole > 0) {
     //   return 1;
     // }
-    return 0;
+    $scope.status_validation = 0;
   };
 
   $scope.get_karma = function (karma, karmaEsclave) {
