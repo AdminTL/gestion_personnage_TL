@@ -825,7 +825,7 @@ class DocConnectorGSpread:
             # explication = row[3]
 
             type_v = row[4]
-            tpl_type = ("Attribue", "Ressource")
+            tpl_type = ("Attribut", "Ressource")
             if not type_v:
                 msg = "Type element is empty."
                 self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)

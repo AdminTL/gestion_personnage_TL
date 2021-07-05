@@ -940,7 +940,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     $scope.system_point.forEach((element) => {
       // Shadow copy object
       let new_element = {...element};
-      if (element.type == "Attribue") {
+      if (element.type == "Attribut") {
         $scope.char_point_attr[element.name] = new_element;
         // Field value is modified by the system and skill. The value is negative to be filled.
         // Field max_value is the limitation permitted
@@ -1512,7 +1512,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
 
     for (const [key_ele, var_ele] of Object.entries($scope.char_point_attr)) {
       if (var_ele.required) {
-        if (var_ele.type == "Attribue") {
+        if (var_ele.type == "Attribut") {
           if (var_ele.diff_value < 0) {
             return -1;
           } else if (var_ele.diff_value > 0) {
