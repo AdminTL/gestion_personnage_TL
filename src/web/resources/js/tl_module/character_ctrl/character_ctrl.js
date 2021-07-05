@@ -61,7 +61,9 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   $scope.lst_habilites = [];
 
   $scope.char_point = {};
+  $scope.char_point_ress = {};
   $scope.char_point_attr = {};
+  $scope.char_has_ress = false;
 
   $scope.xp_receive = 0;
   $scope.xp_spend = 0;
@@ -924,7 +926,10 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       return
     }
     $scope.char_point = {};
+    $scope.char_point_ress = {};
     $scope.char_point_attr = {};
+    $scope.char_has_ress = false;
+
     $scope.character_point = {};
     $scope.character_reduce_point = {};
     $scope.character_skill = [];
@@ -940,104 +945,98 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     // $scope.update_old_system_point();
 
     console.debug("mathben")
-    $scope.system_point.forEach((element) => {
+    for (const element of $scope.system_point) {
+      // Level 1 - Initialize
       // Shadow copy object
       let new_element = {...element};
+
+      if (isUndefined(new_element.initial)) {
+        new_element.initial = 0;
+      }
+
+      new_element["value"] = 0;
       if (element.type == "Attribut") {
         $scope.char_point_attr[element.name] = new_element;
+        $scope.char_point[element.name] = new_element;
         // Field value is modified by the system and skill. The value is negative to be filled.
         // Field max_value is the limitation permitted
         // Field diff_value is max_value + value. If 0, good, if pos, missing fill, if neg, error too much fill
         // Field display_value is the value in reverse : -(value)
-
-        // Initialisation
-        if (isUndefined(new_element.initial)) {
-          new_element.initial = 0;
-        }
-        new_element["value"] = 0;
+        // Field initial for initial value
         new_element["max_value"] = new_element["initial"];
+      } else if (element.type == "Ressource") {
+        $scope.char_point_ress[element.name] = new_element;
+        $scope.char_point[element.name] = new_element;
+        // Field value is the ressource value
+        // Field initial for initial value
+      } else {
+        console.error("Type unknown: " + element.type);
+        console.error(element);
+        continue;
+      }
 
-        // Extract data from char sheet
-        if ($scope.schema_char_point.hasOwnProperty(element.name)) {
-          for (const [key, value] of Object.entries($scope.schema_char_point[element.name])) {
-            // Check status in model_char
-            if ($scope.model_char.hasOwnProperty(key) && $scope.model_char[key]) {
-              const result = $scope.model_char[key];
-              $scope._update_attribut(result, key, value, new_element);
-            }
+      // Level 2 - Extract data
+      // Extract data from char sheet
+      if ($scope.schema_char_point.hasOwnProperty(element.name)) {
+        for (const [key, value] of Object.entries($scope.schema_char_point[element.name])) {
+          // Check status in model_char
+          if ($scope.model_char.hasOwnProperty(key) && $scope.model_char[key]) {
+            const result = $scope.model_char[key];
+            $scope._update_attribut(result, key, value, new_element);
           }
         }
+      }
 
-        // Extract data from user sheet
-        if ($scope.schema_user_point.hasOwnProperty(element.name)) {
-          for (const [key, value] of Object.entries($scope.schema_user_point[element.name])) {
-            // Check status in model_user
-            if ($scope.model_user.hasOwnProperty(key) && $scope.model_user[key]) {
-              const result = $scope.model_user[key];
-              $scope._update_attribut(result, key, value, new_element);
-            }
+      // Extract data from user sheet
+      if ($scope.schema_user_point.hasOwnProperty(element.name)) {
+        for (const [key, value] of Object.entries($scope.schema_user_point[element.name])) {
+          // Check status in model_user
+          if ($scope.model_user.hasOwnProperty(key) && $scope.model_user[key]) {
+            const result = $scope.model_user[key];
+            $scope._update_attribut(result, key, value, new_element);
           }
         }
+      }
 
-        // Extract data from skills
-        // TODO cannot use lst_habilites, it's generated from update_old_system_point
-        // if ($scope.habilites_point.hasOwnProperty(element.name)) {
-        //   const lst_habilites_point = $scope.habilites_point[element.name];
-        //   // TODO implement generic system to parse data
-        //   for (const habilite of $scope.lst_habilites) {
-        //     if (habilite in lst_habilites_point) {
-        //       // new_element["value"] += lst_habilites_point[habilite];
-        //       const result = lst_habilites_point[habilite];
-        //       console.error(result);
-        //       $scope._update_attribut(true, habilite, result, new_element);
-        //     }
-        //   }
-        // }
-
-        // TODO not optimal, move this outside of this function
-        // Extract data from other field
-        for (const [key, lst_value] of Object.entries($scope.model_char)) {
-          if (Array.isArray(lst_value)) {
-            // Manage only first level, sub level is manage by hability
-            for (const value of lst_value) {
-              if (typeof value == "string" && $scope.model_database.point.hasOwnProperty(value)) {
-                for (const [point_name, point_value] of Object.entries($scope.model_database.point[value])) {
-                  if (element.name == point_name) {
-                    $scope._update_attribut(true, value, point_value, new_element);
-                  }
+      // TODO not optimal, move this outside of this function
+      // Extract data
+      for (const [key, lst_value] of Object.entries($scope.model_char)) {
+        if (Array.isArray(lst_value)) {
+          // Manage only first level, sub level is manage by hability
+          for (const value of lst_value) {
+            if (typeof value == "string" && $scope.model_database.point.hasOwnProperty(value)) {
+              for (const [point_name, point_value] of Object.entries($scope.model_database.point[value])) {
+                if (element.name == point_name) {
+                  $scope._update_attribut(true, value, point_value, new_element);
                 }
-              } else if (Array.isArray(value)) {
-                console.error("Cannot support array.");
-              } else if (typeof value == "object") {
-                // Ignore when missing options, the skill is not completed
-                if (value.hasOwnProperty("options")) {
-                  for (const option of value.options) {
-                    // let new_value = "habilites_" + option;
-                    let new_value = key + "_" + option;
-                    if ($scope.model_database.point.hasOwnProperty(new_value)) {
-                      for (const [point_name, point_value] of Object.entries($scope.model_database.point[new_value])) {
-                        if (element.name == point_name) {
-                          $scope._update_attribut(true, new_value, point_value, new_element);
-                        }
-                      }
-                    } else {
-                      console.error("Missing habilites " + new_value);
-                    }
-                  }
-                }
-              } else {
-                console.error("Another type");
               }
+            } else if (Array.isArray(value)) {
+              console.error("Cannot support array.");
+            } else if (typeof value == "object") {
+              // Ignore when missing options, the skill is not completed
+              if (value.hasOwnProperty("options")) {
+                for (const option of value.options) {
+                  let new_value = key + "_" + option;
+                  if ($scope.model_database.point.hasOwnProperty(new_value)) {
+                    for (const [point_name, point_value] of Object.entries($scope.model_database.point[new_value])) {
+                      if (element.name == point_name) {
+                        $scope._update_attribut(true, new_value, point_value, new_element);
+                      }
+                    }
+                  } else {
+                    console.error("Missing habilites " + new_value);
+                  }
+                }
+              }
+            } else {
+              console.error("Another type");
             }
           }
         }
+      }
 
-        // Closure
-        // TODO do we need initial feature?
-        // if ("initial_value" in new_element) {
-        //   new_element["initial"] += new_element["initial_value"]
-        // }
-
+      // Level 3 - Closure
+      if (element.type == "Attribut") {
         if (isDefined(new_element.max)) {
           new_element.value = -Math.min(-new_element.value, new_element.max);
           new_element.max_value = Math.min(new_element.max_value, new_element.max);
@@ -1054,8 +1053,9 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
           new_element["value"] = new_element["max_value"];
         }
       }
-    });
+    }
 
+    // Level 4 - end of execution
     // Run formule when all is created
     for (const sys_ele of $scope.system_point) {
       if (sys_ele.formule) {
@@ -1071,6 +1071,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       }
     }
 
+    // Level 5 - Update status
     // Fill documentation
     for (const [key, lst_value] of Object.entries($scope.model_char)) {
       if (Array.isArray(lst_value)) {
@@ -1101,6 +1102,13 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
             console.error("Another type");
           }
         }
+      }
+    }
+
+    for (const [key, value] of Object.entries($scope.char_point_ress)) {
+      if (value.value > 0) {
+        $scope.char_has_ress = true;
+        break;
       }
     }
 
