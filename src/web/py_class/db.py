@@ -120,6 +120,12 @@ class DB(object):
             return self._db_user.all()
         return self._db_user.search(self._query_user.user_id == user_id)
 
+    def get_all_user_admin(self, ignore_user_id=None):
+        if ignore_user_id:
+            return self._db_user.search(
+                self._query_user.permission == "Admin" and self._query_user.user_id != ignore_user_id)
+        return self._db_user.search(self._query_user.permission == "Admin")
+
     def get_user(self, username=None, email=None, password=None, id_type="user", user_id=None,
                  force_email_no_password=False):
         # Lookup the user by it's name

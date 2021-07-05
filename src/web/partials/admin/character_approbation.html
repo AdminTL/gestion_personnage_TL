@@ -26,3 +26,8 @@
   <!-- Status of password -->
   <a ng-show="model_profile.status_password.enabled" ng-style="model_profile.status_password.is_error ? {'color': 'red'} : {'color': 'green'}">{{!model_profile.status_password.text }}</a>
 </div>
+
+<div>
+  <h3>Modifier les permissions</h3>
+  <select ng-model="model_user.permission" ng-options="perm for perm in lst_permission"></select>
+</div>

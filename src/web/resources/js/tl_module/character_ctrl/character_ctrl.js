@@ -33,6 +33,10 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     }
   };
 
+  $scope.lst_permission = [
+    "Joueur", "Admin"
+  ]
+
   $scope.html_qr_code = "";
   $scope.url_qr_code = "";
 

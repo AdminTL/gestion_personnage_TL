@@ -606,12 +606,37 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
         delete_user_by_id = self.get_argument("delete_user_by_id")
         delete_character_by_id = self.get_argument("delete_character_by_id")
 
+        user_id = user.get("user_id")
+
         # exception, if delete_user_by_id, create user if not exist
         if not user and delete_user_by_id:
             user = {"user_id": delete_user_by_id}
+        elif user_id:
+            # detect if update permission
+            old_user = self._db.get_user(user_id=user_id)
+            old_permission = old_user.get("permission")
+            user_permission = user.get("permission")
+            if old_permission != user_permission:
+                # Check permission to change permission
+                if not self.is_permission_admin():
+                    print("Missing permission to change permission from %s" % self.request.remote_ip, file=sys.stderr)
+                    data = {"error": "Cannot change permission."}
+                    self.write(data)
+                    self.finish()
+                    return
+                # Check if last admin, cancel
+                if user_permission == "Joueur":
+                    all_user_admin = self._db.get_all_user_admin(ignore_user_id=user_id)
+                    if not all_user_admin:
+                        print("Cannot remove admin permission, you are the last one from %s" % self.request.remote_ip,
+                              file=sys.stderr)
+                        data = {"error": "Cannot change permission because you are the last admin."}
+                        self.write(data)
+                        self.finish()
+                        return
 
         # admin when has admin permission, but not consider admin when updated by himself
-        updated_by_admin = self.is_permission_admin() and user.get("user_id") != self.current_user.get("user_id")
+        updated_by_admin = self.is_permission_admin() and user_id != self.current_user.get("user_id")
 
         self._db.update_user(user, character, delete_user_by_id=delete_user_by_id,
                              delete_character_by_id=delete_character_by_id, updated_by_admin=updated_by_admin)
