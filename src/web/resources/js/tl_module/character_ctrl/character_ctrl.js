@@ -299,73 +299,56 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     }
   }, true);
 
-  $scope.update_point = function () {
-    if (isObjEmpty($scope.model_char) && !$scope.is_updated_player) {
-      return
-    }
-    $scope.char_point = {};
-    $scope.char_point_attr = {};
-    $scope.character_point = {};
-    $scope.character_reduce_point = {};
-    $scope.character_skill = [];
-    $scope.character_merite = [];
-    $scope.character_marche = [];
-    $scope.character_esclave = [];
-    $scope.count_master_tech = 0;
+  $scope.update_old_system_point = function () {
+    // if (isDefined($scope.model_char.energie)) {
+    //   for (var i = 0; i < $scope.model_char.energie.length; i++) {
+    //     var sub_key = "Energie_1";
+    //
+    //     if (sub_key in $scope.model_database.skill_manual) {
+    //       $scope.character_skill.push($scope.model_database.skill_manual[sub_key]);
+    //     }
+    //
+    //     if (sub_key in $scope.model_database.point) {
+    //       var dct_key_point = $scope.model_database.point[sub_key];
+    //
+    //       for (var key_point in dct_key_point) {
+    //         if (dct_key_point.hasOwnProperty(key_point)) {
+    //           var point_value = dct_key_point[key_point];
+    //           if (key_point in $scope.character_point) {
+    //             $scope.character_point[key_point] += point_value;
+    //           } else {
+    //             $scope.character_point[key_point] = point_value;
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
 
-    if (isUndefined($scope.model_database.skill_manual)) {
-      return;
-    }
-
-    if (isDefined($scope.model_char.energie)) {
-      for (var i = 0; i < $scope.model_char.energie.length; i++) {
-        var sub_key = "Energie_1";
-
-        if (sub_key in $scope.model_database.skill_manual) {
-          $scope.character_skill.push($scope.model_database.skill_manual[sub_key]);
-        }
-
-        if (sub_key in $scope.model_database.point) {
-          var dct_key_point = $scope.model_database.point[sub_key];
-
-          for (var key_point in dct_key_point) {
-            if (dct_key_point.hasOwnProperty(key_point)) {
-              var point_value = dct_key_point[key_point];
-              if (key_point in $scope.character_point) {
-                $scope.character_point[key_point] += point_value;
-              } else {
-                $scope.character_point[key_point] = point_value;
-              }
-            }
-          }
-        }
-      }
-    }
-
-    if (isDefined($scope.model_char.endurance)) {
-      for (var i = 0; i < $scope.model_char.endurance.length; i++) {
-        var sub_key = "Endurance_1";
-
-        if (sub_key in $scope.model_database.skill_manual) {
-          $scope.character_skill.push($scope.model_database.skill_manual[sub_key]);
-        }
-
-        if (sub_key in $scope.model_database.point) {
-          var dct_key_point = $scope.model_database.point[sub_key];
-
-          for (var key_point in dct_key_point) {
-            if (dct_key_point.hasOwnProperty(key_point)) {
-              var point_value = dct_key_point[key_point];
-              if (key_point in $scope.character_point) {
-                $scope.character_point[key_point] += point_value;
-              } else {
-                $scope.character_point[key_point] = point_value;
-              }
-            }
-          }
-        }
-      }
-    }
+    // if (isDefined($scope.model_char.endurance)) {
+    //   for (var i = 0; i < $scope.model_char.endurance.length; i++) {
+    //     var sub_key = "Endurance_1";
+    //
+    //     if (sub_key in $scope.model_database.skill_manual) {
+    //       $scope.character_skill.push($scope.model_database.skill_manual[sub_key]);
+    //     }
+    //
+    //     if (sub_key in $scope.model_database.point) {
+    //       var dct_key_point = $scope.model_database.point[sub_key];
+    //
+    //       for (var key_point in dct_key_point) {
+    //         if (dct_key_point.hasOwnProperty(key_point)) {
+    //           var point_value = dct_key_point[key_point];
+    //           if (key_point in $scope.character_point) {
+    //             $scope.character_point[key_point] += point_value;
+    //           } else {
+    //             $scope.character_point[key_point] = point_value;
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
 
     $scope.lst_habilites = [];
     if (isDefined($scope.model_char.technique_maitre)) {
@@ -838,8 +821,6 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       }
     }
 
-    console.debug("ici");
-
     // xp
     var total_xp = 0;
     if ($scope.character_point.hasOwnProperty("PtXp")) {
@@ -929,6 +910,27 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     } else {
       $scope.validated_count_master_tech = true;
     }
+  }
+
+  $scope.update_point = function () {
+    if (isObjEmpty($scope.model_char) && !$scope.is_updated_player) {
+      return
+    }
+    $scope.char_point = {};
+    $scope.char_point_attr = {};
+    $scope.character_point = {};
+    $scope.character_reduce_point = {};
+    $scope.character_skill = [];
+    $scope.character_merite = [];
+    $scope.character_marche = [];
+    $scope.character_esclave = [];
+    $scope.count_master_tech = 0;
+
+    if (isUndefined($scope.model_database.skill_manual)) {
+      return;
+    }
+
+    // $scope.update_old_system_point();
 
     console.debug("mathben")
     $scope.system_point.forEach((element) => {
@@ -971,13 +973,54 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
         }
 
         // Extract data from skills
-        if ($scope.habilites_point.hasOwnProperty(element.name)) {
-          const lst_habilites_point = $scope.habilites_point[element.name];
-          for (const habilite of $scope.lst_habilites) {
-            if (habilite in lst_habilites_point) {
-              // new_element["value"] += lst_habilites_point[habilite];
-              const result = lst_habilites_point[habilite];
-              $scope._update_attribut(true, habilite, result, new_element);
+        // TODO cannot use lst_habilites, it's generated from update_old_system_point
+        // if ($scope.habilites_point.hasOwnProperty(element.name)) {
+        //   const lst_habilites_point = $scope.habilites_point[element.name];
+        //   // TODO implement generic system to parse data
+        //   for (const habilite of $scope.lst_habilites) {
+        //     if (habilite in lst_habilites_point) {
+        //       // new_element["value"] += lst_habilites_point[habilite];
+        //       const result = lst_habilites_point[habilite];
+        //       console.error(result);
+        //       $scope._update_attribut(true, habilite, result, new_element);
+        //     }
+        //   }
+        // }
+
+        // TODO not optimal, move this outside of this function
+        // Extract data from other field
+        for (const [key, lst_value] of Object.entries($scope.model_char)) {
+          if (Array.isArray(lst_value)) {
+            // Manage only first level, sub level is manage by hability
+            for (const value of lst_value) {
+              if (typeof value == "string" && $scope.model_database.point.hasOwnProperty(value)) {
+                for (const [point_name, point_value] of Object.entries($scope.model_database.point[value])) {
+                  if (element.name == point_name) {
+                    $scope._update_attribut(true, value, point_value, new_element);
+                  }
+                }
+              } else if (Array.isArray(value)) {
+                console.error("Cannot support array.");
+              } else if (typeof value == "object") {
+                // Ignore when missing options, the skill is not completed
+                if (value.hasOwnProperty("options")) {
+                  for (const option of value.options) {
+                    // let new_value = "habilites_" + option;
+                    let new_value = key + "_" + option;
+                    if ($scope.model_database.point.hasOwnProperty(new_value)) {
+                      for (const [point_name, point_value] of Object.entries($scope.model_database.point[new_value])) {
+                        if (element.name == point_name) {
+                          $scope._update_attribut(true, new_value, point_value, new_element);
+                        }
+                      }
+                    } else {
+                      console.error("Missing habilites " + new_value);
+                    }
+                  }
+                }
+              } else {
+                console.error("Another type");
+              }
             }
           }
         }
@@ -1020,6 +1063,40 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
         new_element["formule_result"] = result;
       }
     }
+
+    // Fill documentation
+    for (const [key, lst_value] of Object.entries($scope.model_char)) {
+      if (Array.isArray(lst_value)) {
+        // Manage only first level, sub level is manage by hability
+        for (const value of lst_value) {
+          if (typeof value == "string" && $scope.model_database.point.hasOwnProperty(value)) {
+            if (value in $scope.model_database.skill_manual) {
+              $scope.character_skill.push($scope.model_database.skill_manual[value]);
+            }
+          } else if (Array.isArray(value)) {
+            console.error("Cannot support array.");
+          } else if (typeof value == "object") {
+            // Ignore when missing options, the skill is not completed
+            if (value.hasOwnProperty("options")) {
+              for (const option of value.options) {
+                // let new_value = "habilites_" + option;
+                let new_value = key + "_" + option;
+                if ($scope.model_database.point.hasOwnProperty(new_value)) {
+                  if (new_value in $scope.model_database.skill_manual) {
+                    $scope.character_skill.push($scope.model_database.skill_manual[new_value]);
+                  }
+                } else {
+                  console.error("Missing habilites " + new_value);
+                }
+              }
+            }
+          } else {
+            console.error("Another type");
+          }
+        }
+      }
+    }
+
   };
 
   $scope._run_formule = function (unique_variable_formule, unique_variable_dct_element) {

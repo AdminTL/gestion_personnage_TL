@@ -7,10 +7,10 @@
     <ul>
       <span ng-show="!value.formule && !value.hide_value">
         <li ng-show="value.diff_value < 0"><span style="color:red"><span style="font-weight:bold;text-decoration: underline">{{!-(value.diff_value)
-          }}</span> {{!transform_plural(value.value, value.description)}} à enlever</span>.
+          }}</span> {{!transform_plural(value.diff_value, value.description)}} à enlever</span>.
         </li>
         <li ng-show="value.diff_value > 0"><span style="color:yellow"><span style="font-weight:bold;text-decoration: underline">{{!value.diff_value
-          }}</span> {{!transform_plural(value.value, value.description)}} à placer</span>.
+          }}</span> {{!transform_plural(value.diff_value, value.description)}} à placer</span>.
         </li>
       </span>
     </ul>
