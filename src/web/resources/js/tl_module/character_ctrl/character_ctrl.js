@@ -1427,10 +1427,12 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   };
 
   $scope.deletePlayer = function () {
-    var data = Object();
     // TODO: use user id from user creation management to permission
     // data.user_id = $scope.player.id;
-    data.delete_player_id = $scope.player.id;
+    let data = {
+      "delete_user_by_id": $scope.player.user_id,
+    };
+    console.debug(data);
     // TODO: need to get id if new character or player to update ddb_user
     $http({
       method: "post",
@@ -1438,10 +1440,22 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       headers: {"Content-Type": "application/json; charset=UTF-8"},
       data: data,
       timeout: 5000
-    });
-    $scope.ddb_user.remove($scope.ddb_user.indexOf($scope.player));
-    $scope.player = null;
-    $scope.character = null;
+    }).then(function (response/*, status, headers, config*/) {
+      if (isDefined(response.data.error)) {
+        console.error(response.data.error);
+        $scope.status_send.text = response.data.error;
+        $scope.status_send.is_error = true;
+      } else {
+        $scope.status_send.is_error = false;
+        $scope.status_send.text = "Succès.";
+
+        $scope.ddb_user.remove($scope.ddb_user.indexOf($scope.player));
+        $scope.player = null;
+        $scope.character = null;
+      }
+    }, function errorCallback(response) {
+      console.error(response);
+    })
   };
 
   $scope.discardPlayer = function () {

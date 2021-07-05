@@ -31,3 +31,10 @@
   <h3>Modifier les permissions</h3>
   <select ng-model="model_user.permission" ng-options="perm for perm in lst_permission"></select>
 </div>
+
+<div>
+  <h3>Effacer le joueur</h3>
+  <button class="btn btn-danger" ng-click="deletePlayer()">Effacer le joueur</button>
+  <br/>
+  Danger, ceci est irréversible.
+</div>

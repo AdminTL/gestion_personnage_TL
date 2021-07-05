@@ -606,7 +606,15 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
         delete_user_by_id = self.get_argument("delete_user_by_id")
         delete_character_by_id = self.get_argument("delete_character_by_id")
 
-        user_id = user.get("user_id")
+        if user is None and character is None and delete_user_by_id is None and delete_character_by_id is None:
+            print("Request get only None argument from %s" % self.request.remote_ip,
+                  file=sys.stderr)
+            data = {"error": "Cannot save something with only none value."}
+            self.write(data)
+            self.finish()
+            return
+
+        user_id = user.get("user_id") if user else None
 
         # exception, if delete_user_by_id, create user if not exist
         if not user and delete_user_by_id:
