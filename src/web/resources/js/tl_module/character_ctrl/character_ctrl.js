@@ -1210,12 +1210,14 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   $scope.clear_sheet = function () {
     $scope.model_char = {};
 
-    for (const [key, value] of Object.entries($scope.schema_char.properties)) {
-      if (value.hasOwnProperty("type")) {
-        if (value.type == "array") {
-          $scope.model_char[key] = [];
-        } else if (value.type == "integer") {
-          $scope.model_char[key] = 0;
+    if (isDefined($scope.schema_char.properties)) {
+      for (const [key, value] of Object.entries($scope.schema_char.properties)) {
+        if (value.hasOwnProperty("type")) {
+          if (value.type == "array") {
+            $scope.model_char[key] = [];
+          } else if (value.type == "integer") {
+            $scope.model_char[key] = 0;
+          }
         }
       }
     }
