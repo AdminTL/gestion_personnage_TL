@@ -1182,63 +1182,19 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     $scope.prettyPlayer = JSON.stringify(value, undefined, 2);
     // update model information
     $scope.model_user = filterIgnore(value, ["$$hashKey", "character"]);
-    // var first_id;
-    // for(first_id in $scope.model_user.character) break;
-    // $scope.model_char = $scope.model_user.character[first_id];
-    // TODO put xp default in json configuration file
     // TODO need to find right id character, and not taking first!
     if (isDefined(value.character)) {
       var firstChar = value.character[0];
       $scope.model_char = filterIgnore(firstChar, ["$$hashKey"]);
 
-      // TODO need to feel empty field
-      if (!isDefined(firstChar.habilites)) {
-        $scope.model_char.habilites = [{}];
-      }
-      if (!isDefined(firstChar.technique_maitre)) {
-        $scope.model_char.technique_maitre = [];
-      }
-      if (!isDefined(firstChar.rituel)) {
-        $scope.model_char.rituel = [];
-      }
-      if (!isDefined(firstChar.sous_ecole)) {
-        $scope.model_char.sous_ecole = [];
-      }
-      if (!isDefined(firstChar.merite_jeu_1)) {
-        $scope.model_char.merite_jeu_1 = [];
-      }
-      if (!isDefined(firstChar.merite_jeu_2)) {
-        $scope.model_char.merite_jeu_2 = [];
-      }
-      if (!isDefined(firstChar.merite_jeu_3)) {
-        $scope.model_char.merite_jeu_3 = [];
-      }
-      if (!isDefined(firstChar.merite_jeu_4)) {
-        $scope.model_char.merite_jeu_4 = [];
-      }
-      if (!isDefined(firstChar.merite_jeu_5)) {
-        $scope.model_char.merite_jeu_5 = [];
-      }
-      if (!isDefined(firstChar.merite_jeu_6)) {
-        $scope.model_char.merite_jeu_6 = [];
-      }
-      if (!isDefined(firstChar.merite_jeu_7)) {
-        $scope.model_char.merite_jeu_7 = [];
-      }
-      if (!isDefined(firstChar.merite_jeu_8)) {
-        $scope.model_char.merite_jeu_8 = [];
-      }
-      if (!isDefined(firstChar.esclave)) {
-        $scope.model_char.esclave = [];
-      }
-      if (!isDefined(firstChar.marche)) {
-        $scope.model_char.marche = [];
-      }
-      if (!isDefined(firstChar.xp_naissance)) {
-        $scope.model_char.xp_naissance = $scope.xp_default;
-      }
-      if (!isDefined(firstChar.xp_autre)) {
-        $scope.model_char.xp_autre = 0;
+      for (const [key, value] of Object.entries($scope.schema_char.properties)) {
+        if (value.hasOwnProperty("type")) {
+          if (value.type == "array") {
+            $scope.model_char[key] = [];
+          } else if (value.type == "integer") {
+            $scope.model_char[key] = 0;
+          }
+        }
       }
 
       $scope.cs_player = $scope.player;
@@ -1253,21 +1209,16 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
 
   $scope.clear_sheet = function () {
     $scope.model_char = {};
-    $scope.model_char.habilites = [{}];
-    $scope.model_char.technique_maitre = [];
-    $scope.model_char.rituel = [];
-    $scope.model_char.sous_ecole = [];
-    $scope.model_char.merite_jeu_1 = [];
-    $scope.model_char.merite_jeu_2 = [];
-    $scope.model_char.merite_jeu_3 = [];
-    $scope.model_char.merite_jeu_4 = [];
-    $scope.model_char.merite_jeu_5 = [];
-    $scope.model_char.merite_jeu_6 = [];
-    $scope.model_char.merite_jeu_7 = [];
-    $scope.model_char.esclave = [];
-    $scope.model_char.marche = [];
-    $scope.model_char.xp_naissance = $scope.xp_default;
-    $scope.model_char.xp_autre = 0;
+
+    for (const [key, value] of Object.entries($scope.schema_char.properties)) {
+      if (value.hasOwnProperty("type")) {
+        if (value.type == "array") {
+          $scope.model_char[key] = [];
+        } else if (value.type == "integer") {
+          $scope.model_char[key] = 0;
+        }
+      }
+    }
 
     $scope.cs_player = {};
   }
