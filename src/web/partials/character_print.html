@@ -1,6 +1,7 @@
 <h1>Joueur</h1>
 <p>
-  Nom: {{!model_user.name }}
+  Nom: {{!model_user.name }}<br/>
+  Courriel: {{!model_user.email }}
   <span ng-if="model_user.passe_saison_2019">
     <br/>
     Passe saison 2019
@@ -8,5 +9,11 @@
 </p>
 <h1>Personnage</h1>
 <p>
-  Personnage: {{!model_char.name }}
+  Personnage: {{!model_char.name }}<br/>
+  Peuple: {{!model_char.Peuple }}<br/>
+  Nation: {{!model_char.Nation }}<br/>
+  Signe de naissance: {{!model_char["Signe de naissance"] }}<br/>
+  Groupe: {{!model_char["Groupe"] }}<br/>
+  Altération de lumière: {{!model_char["Altération de lumière"] }}<br/>
+  Inventaire: {{!model_char["Inventaire"] }}<br/>
 </p>
