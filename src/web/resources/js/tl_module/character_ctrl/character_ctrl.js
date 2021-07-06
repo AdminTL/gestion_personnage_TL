@@ -144,9 +144,9 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
 
   $scope.transform_plural = function (value, label) {
     if (value > 1 || value < -1) {
-      return label.replaceAll("(s)", "s");
+      return label.replaceAll("(s)", "s").replaceAll("(x)", "x");
     }
-    return label.replaceAll("(s)", "");
+    return label.replaceAll("(s)", "").replaceAll("(x)", "");
   };
 
   $scope.is_approbation_new = function (user) {
@@ -945,8 +945,8 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     // $scope.update_old_system_point();
 
     console.debug("mathben")
+    // Level 1 - Initialize
     for (const element of $scope.system_point) {
-      // Level 1 - Initialize
       // Shadow copy object
       let new_element = {...element};
 
@@ -997,46 +997,67 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
           }
         }
       }
+    }
 
-      // TODO not optimal, move this outside of this function
-      // Extract data
-      for (const [key, lst_value] of Object.entries($scope.model_char)) {
-        if (Array.isArray(lst_value)) {
-          // Manage only first level, sub level is manage by hability
-          for (const value of lst_value) {
-            if (typeof value == "string" && $scope.model_database.point.hasOwnProperty(value)) {
-              for (const [point_name, point_value] of Object.entries($scope.model_database.point[value])) {
-                if (element.name == point_name) {
-                  $scope._update_attribut(true, value, point_value, new_element);
-                }
-              }
-            } else if (Array.isArray(value)) {
-              console.error("Cannot support array.");
-            } else if (typeof value == "object") {
-              // Ignore when missing options, the skill is not completed
-              if (value.hasOwnProperty("options")) {
-                for (const option of value.options) {
-                  let new_value = key + "_" + option;
-                  if ($scope.model_database.point.hasOwnProperty(new_value)) {
-                    for (const [point_name, point_value] of Object.entries($scope.model_database.point[new_value])) {
-                      if (element.name == point_name) {
-                        $scope._update_attribut(true, new_value, point_value, new_element);
-                      }
-                    }
-                  } else {
-                    console.error("Missing habilites " + new_value);
+    // TODO not optimal, move this outside of this function
+    // Extract data
+    for (const [key, lst_value] of Object.entries($scope.model_char)) {
+      if (Array.isArray(lst_value)) {
+        // Manage only first level, sub level is manage by hability
+        for (const value of lst_value) {
+          if (typeof value == "string" && $scope.model_database.point.hasOwnProperty(value)) {
+            for (const [point_name, point_value] of Object.entries($scope.model_database.point[value])) {
+              // TODO get new_element
+              let new_element = $scope.char_point[point_name];
+              $scope._update_attribut(true, value, point_value, new_element);
+            }
+          } else if (Array.isArray(value)) {
+            console.error("Cannot support array.");
+          } else if (typeof value == "object") {
+            // Ignore when missing options, the skill is not completed
+            if (value.hasOwnProperty("options")) {
+              for (const option of value.options) {
+                let new_value = key + "_" + option;
+                if ($scope.model_database.point.hasOwnProperty(new_value)) {
+                  for (const [point_name, point_value] of Object.entries($scope.model_database.point[new_value])) {
+                    // TODO get new_element
+                    let new_element = $scope.char_point[point_name];
+                    $scope._update_attribut(true, new_value, point_value, new_element);
                   }
+                } else {
+                  console.error("Missing  " + key + " " + new_value);
                 }
               }
             } else {
-              console.error("Another type");
+              // Only 1 level to support
+              let new_key;
+              let pos_char = key.indexOf("_");
+              if (pos_char >= 0) {
+                new_key = key.slice(0, pos_char);
+              } else {
+                new_key = key;
+              }
+              let new_value = new_key + "_" + value["sub_" + new_key];
+              if ($scope.model_database.point.hasOwnProperty(new_value)) {
+                for (const [point_name, point_value] of Object.entries($scope.model_database.point[new_value])) {
+                  // TODO get new_element
+                  let new_element = $scope.char_point[point_name];
+                  $scope._update_attribut(true, new_value, point_value, new_element);
+                }
+              } else {
+                console.error("Missing  " + key + " " + new_value);
+              }
             }
+          } else {
+            console.error("Another type");
           }
         }
       }
+    }
 
-      // Level 3 - Closure
-      if (element.type == "Attribut") {
+    // Level 3 - Update values
+    for (const [key, new_element] of Object.entries($scope.char_point)) {
+      if (new_element.type == "Attribut") {
         if (isDefined(new_element.max)) {
           new_element.value = -Math.min(-new_element.value, new_element.max);
           new_element.max_value = Math.min(new_element.max_value, new_element.max);

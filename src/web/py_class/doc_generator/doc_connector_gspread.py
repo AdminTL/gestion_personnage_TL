@@ -1155,18 +1155,12 @@ class DocConnectorGSpread:
                 return False
             section["under_level_color"] = under_level_color
 
-        # HACK with model
         updated_sub_key = sub_key
-        if "habilites" in model:
-            updated_sub_key = "habilites_" + sub_key
-        elif "technique_maitre" in model:
-            updated_sub_key = "technique_maitre_" + sub_key
-        elif "merite" in model:
-            updated_sub_key = "merite_" + sub_key
-        elif "esclave" in model:
-            updated_sub_key = "esclave_" + sub_key
-        elif "marche" in model:
-            updated_sub_key = "marche_" + sub_key
+        # Support array of array
+        key_detected_options = "[]."
+        pos_key = model.find(key_detected_options)
+        if pos_key >= 0:
+            updated_sub_key = f"{model[:pos_key]}_{sub_key}"
 
         if sub_key:
             section["sub_key"] = sub_key
@@ -1224,6 +1218,8 @@ class DocConnectorGSpread:
                 return
 
             key, value = str_single_point.split(":")
+            key = key.strip()
+            value = value.strip()
 
             # special attribute of key with a dot
             attribute_name = ""
