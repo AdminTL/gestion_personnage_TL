@@ -86,10 +86,10 @@
           <!-- END marche -->
 
           <!-- merite -->
-          <div id="menu_merite" class="tab-pane fade">
-            <button class="btn btn-primary hidden-print" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer</button>
-            {% include "../character_merite.html" %}
-          </div>
+          <!--          <div id="menu_merite" class="tab-pane fade">-->
+          <!--            <button class="btn btn-primary hidden-print" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer</button>-->
+          <!--            {% include "../character_merite.html" %}-->
+          <!--          </div>-->
           <!-- END merite -->
 
           <!-- all_summary -->
@@ -125,7 +125,9 @@
 
         </div>
 
-        {% include "../character_debug_sheet.html" %}
+        <div class="hidden-print">
+          {% include "../character_debug_sheet.html" %}
+        </div>
       </div> <!-- end div form write -->
 
     </div> <!-- end div if player -->
