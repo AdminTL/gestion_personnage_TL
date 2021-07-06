@@ -1187,12 +1187,14 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       var firstChar = value.character[0];
       $scope.model_char = filterIgnore(firstChar, ["$$hashKey"]);
 
-      for (const [key, value] of Object.entries($scope.schema_char.properties)) {
-        if (value.hasOwnProperty("type")) {
-          if (value.type == "array") {
-            $scope.model_char[key] = [];
-          } else if (value.type == "integer") {
-            $scope.model_char[key] = 0;
+      if (isDefined($scope.schema_char.properties)) {
+        for (const [key, value] of Object.entries($scope.schema_char.properties)) {
+          if (value.hasOwnProperty("type")) {
+            if (value.type == "array") {
+              $scope.model_char[key] = [];
+            } else if (value.type == "integer") {
+              $scope.model_char[key] = 0;
+            }
           }
         }
       }
@@ -1365,16 +1367,18 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     $scope.lst_msg_status_validation = []
 
     // Search validateRequired
-    for (const [key, value] of Object.entries($scope.schema_char.properties)) {
-      if (value.hasOwnProperty("validateRequired") && value.validateRequired) {
-        if (value.type == "string") {
-          if (!$scope.model_char[key]) {
-            $scope.status_validation = -1;
-            $scope.lst_msg_status_validation.push("Le champs " + key + " doit être rempli.")
+    if (isDefined($scope.schema_char.properties)) {
+      for (const [key, value] of Object.entries($scope.schema_char.properties)) {
+        if (value.hasOwnProperty("validateRequired") && value.validateRequired) {
+          if (value.type == "string") {
+            if (!$scope.model_char[key]) {
+              $scope.status_validation = -1;
+              $scope.lst_msg_status_validation.push("Le champs " + key + " doit être rempli.")
+            }
+          } else {
+            console.error(value);
+            console.error("Key " + key + " type not supported: " + value.type);
           }
-        } else {
-          console.error(value);
-          console.error("Key " + key + " type not supported: " + value.type);
         }
       }
     }
