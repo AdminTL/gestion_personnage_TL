@@ -130,7 +130,9 @@ class LoginHandler(base_handler.BaseHandler):
                 return
 
             email = self.get_argument("email", default=None)
-            name = self.get_argument("name", default=None)
+            name = self.get_argument("name", default=username)
+            if not name:
+                name = username
             postal_code = self.get_argument("postal_code", default=None)
 
             # TODO uncomment when need to validate email

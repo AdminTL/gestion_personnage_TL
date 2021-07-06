@@ -63,7 +63,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
       <ul class="nav navbar-nav">
-        <li ng-class="{ active: isActive('/admin') }"><a href="/admin"><span class="glyphicon glyphicon-home"></span> Accueil</a></li>
+        <!--        <li ng-class="{ active: isActive('/admin') }"><a href="/admin"><span class="glyphicon glyphicon-home"></span> Accueil</a></li>-->
         {% if not disable_character %}
         <li ng-class="{ active: isActive('/admin/character') }"><a href="/admin/character"><span class="glyphicon glyphicon-knight"></span> Personnage</a></li>
         {% end %}
@@ -81,14 +81,6 @@
 
         <li><a href="/" style="color:red;"><span class="glyphicon glyphicon-remove-circle"></span> Quitter</a></li>
 
-        {% if not disable_login %}
-        {% if current_user %}
-        <li><a href="/profile/"><span class="glyphicon glyphicon-user"></span> {{current_user.get("username")}}</a></li>
-        <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Déconnexion</a></li>
-        {% else %}
-        <li ng-class="{ active: isActive('/login') }"><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
-        {% end %}
-        {% end %}
       </ul>
 
     </div><!-- /.navbar-collapse -->

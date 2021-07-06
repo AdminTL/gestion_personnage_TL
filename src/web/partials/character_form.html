@@ -8,4 +8,7 @@
 
 <span ng-show="status_send.enabled" ng-style="status_send.is_error ? {'color': 'red'} : {'color': 'green'}">{{!status_send.text }}</span>
 
-{% include "character_sheet_status.html" %}
+<div class="char-stat-bottom">
+  {% include "character_stat_attribut.html" %}
+  {% include "character_sheet_status.html" %}
+</div>

@@ -25,28 +25,13 @@
 
 {% else %}
 
-<div ng-controller="character_ctrl" style="padding-top: 100px;" ng-cloak>
-  <div class="col-xs-3 bs-docs-sidebar" ng-hide="isMobile() && player">
-    <br/>
-    <div ng-hide="!ddb_user" class="bs-sidebar hidden-print affix" role="complementary">
-
-      <!--<div class="list-group" ng-show="!new_player">-->
-      <!--<br/>-->
-      <!--Vue de fiche:<br/>-->
-      <!--<label>-->
-      <!--<input type="radio" ng-model="sheet_view.mode" value="fiche_read"> Fiche en lecture-->
-      <!--</label><br/>-->
-      <!--<label>-->
-      <!--<input type="radio" ng-model="sheet_view.mode" value="form_write"> Formulaire-->
-      <!--</label><br/>-->
-      <!--<button class="btn btn-primary" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer-->
-      <!--</button>-->
-      <!--</div>-->
+<div ng-controller="character_ctrl" class="row" ng-cloak>
+  <div>
+    <div ng-hide="!ddb_user" class="bs-docs-sidebar col-xs-12 col-sm-3 hidden-print affix" role="complementary">
       {% include "character_choose_sheet.html" %}
-
     </div>
 
-    <div ng-show="player" role="main" class="col-sm-offset-4">
+    <div ng-show="player" role="main" class="col-xs-12 col-sm-9 pull-right">
 
       <div ng-hide="new_player">
 
@@ -123,7 +108,6 @@
           <!-- Print -->
           <div id="menu_print" class="tab-pane fade">
             <button class="btn btn-primary hidden-print" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer</button>
-            {% include "character_sheet_status.html" %}
             {% include "character_print.html" %}
             {% include "character_attribut.html" %}
             {% include "character_skill.html" %}
@@ -140,5 +124,6 @@
 
     </div> <!-- end div if player -->
   </div> <!-- end of character_ctrl -->
-  {% end %}
-  {% end %}
+</div>
+{% end %}
+{% end %}
