@@ -43,7 +43,7 @@ class DocType(Enum):
         elif self.value == self.SCHEMA.value:
             header = [
                 "Level", "Name", "Type", "Title", "minLength", "pattern", "required", "minItems", "maxItems",
-                "uniqueItems", "ValidateRequired", "Point", "Description"
+                "uniqueItems", "ImpressionIndex", "ValidateRequired", "Point", "Description"
             ]
         elif self.value == self.POINT.value:
             header = [
@@ -390,9 +390,10 @@ class DocConnectorGSpread:
             min_items = lst_item[7]
             max_items = lst_item[8]
             unique_items = lst_item[9]
-            validate_required = bool(lst_item[10])
-            point = lst_item[11]
-            description = lst_item[12]
+            impression_index = lst_item[10]
+            validate_required = bool(lst_item[11])
+            point = lst_item[12]
+            description = lst_item[13]
 
             if not level:
                 continue
@@ -410,6 +411,14 @@ class DocConnectorGSpread:
 
             # The next parameter is optional
             # Check if integer
+            if impression_index:
+                if not impression_index.isdigit():
+                    msg = "The case ImpressionIndex need to be an integer, receive %s" % level
+                    self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                    print(self._error, file=sys.stderr)
+                    return None
+                impression_index = int(impression_index)
+
             if min_length:
                 if not min_length.isdigit():
                     msg = "The case MinLength need to be an integer, receive %s" % level
@@ -549,6 +558,8 @@ class DocConnectorGSpread:
                 line_value["maxItems"] = max_items
             if type(unique_items) is bool:
                 line_value["uniqueItems"] = unique_items
+            if type(impression_index) is int:
+                line_value["ImpressionIndex"] = impression_index
             if validate_required:
                 line_value["validateRequired"] = validate_required
             if dct_point_v:
