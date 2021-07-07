@@ -57,6 +57,10 @@ class DB(object):
         empty_character = [{
         }]
 
+        # Special case, if only empty user, force permission to Admin
+        if len(self._db_user.all()) == 0:
+            permission = "Admin"
+
         data = {"email": email, "username": username, "name": name, "given_name": given_name,
                 "family_name": family_name, "password": secure_pass, "user_id": user_id, "google_id": google_id,
                 "facebook_id": facebook_id, "twitter_id": twitter_id, "permission": permission,
