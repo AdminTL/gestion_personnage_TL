@@ -247,6 +247,16 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       data.player = $scope.model_user;
       data.character = $scope.model_char;
 
+      // Filter empty element
+      for (const [key, lst_value] of Object.entries(data.character)) {
+        if (Array.isArray(lst_value)) {
+          let new_lst_value = lst_value.filter(function (el) {
+            return ifObjIsObjNotEmpty(el);
+          });
+          data.character[key] = new_lst_value;
+        }
+      }
+
       $http({
         method: "post",
         url: "/cmd/character_view",
@@ -1196,31 +1206,18 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     if (isDefined(value.character)) {
       var firstChar = value.character[0];
       $scope.model_char = filterIgnore(firstChar, ["$$hashKey"]);
-
-      if (isDefined($scope.schema_char.properties)) {
-        for (const [key, value] of Object.entries($scope.schema_char.properties)) {
-          if (value.hasOwnProperty("type")) {
-            if (value.type == "array") {
-              $scope.model_char[key] = [];
-            } else if (value.type == "integer") {
-              $scope.model_char[key] = 0;
-            }
-          }
-        }
-      }
-
-      $scope.cs_player = $scope.player;
+      $scope.clear_sheet($scope.model_char, $scope.player)
       $scope.cs_setting = "filled";
     } else {
-      $scope.clear_sheet();
+      $scope.clear_sheet({}, {});
     }
     $scope.update_point();
     $scope.is_updated_player = true;
     $scope.get_html_qr_code();
   }, true);
 
-  $scope.clear_sheet = function () {
-    $scope.model_char = {};
+  $scope.clear_sheet = function (model_char, cs_player) {
+    $scope.model_char = model_char;
 
     if (isDefined($scope.schema_char.properties)) {
       for (const [key, value] of Object.entries($scope.schema_char.properties)) {
@@ -1234,7 +1231,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       }
     }
 
-    $scope.cs_player = {};
+    $scope.cs_player = cs_player;
   }
 
 //get the string to output on the character sheet

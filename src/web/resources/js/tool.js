@@ -80,6 +80,13 @@ function isObjEmpty(obj) {
   return Object.keys(obj).length === 0;
 }
 
+function ifObjIsObjNotEmpty(obj) {
+  if (!(typeof obj === 'object')) {
+    return obj != null;
+  }
+  return !(Object.keys(obj).length === 0);
+}
+
 function isBoolean(bool) {
   return typeof bool === 'boolean' ||
     (typeof bool === 'object' &&
