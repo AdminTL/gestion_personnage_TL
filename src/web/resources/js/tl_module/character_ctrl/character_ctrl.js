@@ -1005,7 +1005,10 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       if (Array.isArray(lst_value)) {
         // Manage only first level, sub level is manage by hability
         for (const value of lst_value) {
-          if (typeof value == "string" && $scope.model_database.point.hasOwnProperty(value)) {
+          if (isUndefined(value) || value == null) {
+            console.error("Value is undefined for key " + key + ".");
+            console.error(lst_value);
+          } else if (typeof value == "string" && $scope.model_database.point.hasOwnProperty(value)) {
             for (const [point_name, point_value] of Object.entries($scope.model_database.point[value])) {
               // TODO get new_element
               let new_element = $scope.char_point[point_name];
@@ -1098,7 +1101,10 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       if (Array.isArray(lst_value)) {
         // Manage only first level, sub level is manage by hability
         for (const value of lst_value) {
-          if (typeof value == "string" && $scope.model_database.point.hasOwnProperty(value)) {
+          if (isUndefined(value) || value == null) {
+            console.error("Value is undefined for key " + key + ".");
+            console.error(lst_value);
+          } else if (typeof value == "string" && $scope.model_database.point.hasOwnProperty(value)) {
             if (value in $scope.model_database.skill_manual) {
               $scope.character_skill.push($scope.model_database.skill_manual[value]);
             }
