@@ -1085,13 +1085,17 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       if (sys_ele.formule) {
         let result = $scope._run_formule(sys_ele.formule, $scope.char_point_attr);
         let new_element = $scope.char_point_attr[sys_ele.name];
-        if (isDefined(new_element.max)) {
-          result = Math.min(result, new_element.max);
+        if (isUndefined(new_element)) {
+          console.error("Formule execution error, check " + sys_ele.name);
+        } else {
+          if (isDefined(new_element.max)) {
+            result = Math.min(result, new_element.max);
+          }
+          if (isDefined(new_element.min)) {
+            result = Math.max(result, new_element.min);
+          }
+          new_element["formule_result"] = result;
         }
-        if (isDefined(new_element.min)) {
-          result = Math.max(result, new_element.min);
-        }
-        new_element["formule_result"] = result;
       }
     }
 
