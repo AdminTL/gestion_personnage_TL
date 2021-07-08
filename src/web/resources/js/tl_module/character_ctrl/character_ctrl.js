@@ -1021,11 +1021,13 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
             console.error("Value is undefined for key " + key + ".");
             console.error(lst_value);
             delete $scope.model_char[key];
-          } else if (typeof value == "string" && $scope.model_database.point.hasOwnProperty(value)) {
-            for (const [point_name, point_value] of Object.entries($scope.model_database.point[value])) {
-              // TODO get new_element
-              let new_element = $scope.char_point[point_name];
-              $scope._update_attribut(true, value, point_value, new_element);
+          } else if (typeof value == "string") {
+            if ($scope.model_database.point.hasOwnProperty(value)) {
+              for (const [point_name, point_value] of Object.entries($scope.model_database.point[value])) {
+                // TODO get new_element
+                let new_element = $scope.char_point[point_name];
+                $scope._update_attribut(true, value, point_value, new_element);
+              }
             }
           } else if (Array.isArray(value)) {
             console.error("Cannot support array.");
@@ -1398,7 +1400,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
           if (value.type == "string") {
             if (!$scope.model_char[key]) {
               $scope.status_validation = -1;
-              $scope.lst_msg_status_validation.push("Le champs " + key + " doit être rempli.")
+              $scope.lst_msg_status_validation.push("Le champs «" + value.title + "» doit être rempli.")
             }
           } else {
             console.error(value);
