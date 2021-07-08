@@ -54,7 +54,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   $scope.no_character = true;
   $scope.character_point = {};
   $scope.character_reduce_point = {};
-  $scope.character_skill = [];
+  $scope.character_skill = new DefaultDict(Array);
   $scope.character_merite = [];
   $scope.character_esclave = [];
   $scope.character_marche = [];
@@ -129,6 +129,8 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       $scope.schema_char = data.schema_char;
       $scope.schema_user_point = data.schema_user_point;
       $scope.schema_char_point = data.schema_char_point;
+      $scope.schema_user_print = data.schema_user_print;
+      $scope.schema_char_print = data.schema_char_print;
       $scope.form_user = data.form_user;
       $scope.form_char = data.form_char;
       $scope.system_point = response.data.system_point;
@@ -941,7 +943,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
 
     $scope.character_point = {};
     $scope.character_reduce_point = {};
-    $scope.character_skill = [];
+    $scope.character_skill = new DefaultDict(Array);
     $scope.character_merite = [];
     $scope.character_marche = [];
     $scope.character_esclave = [];
@@ -1017,6 +1019,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
           if (isUndefined(value) || value == null) {
             console.error("Value is undefined for key " + key + ".");
             console.error(lst_value);
+            delete $scope.model_char[key];
           } else if (typeof value == "string" && $scope.model_database.point.hasOwnProperty(value)) {
             for (const [point_name, point_value] of Object.entries($scope.model_database.point[value])) {
               // TODO get new_element
@@ -1119,7 +1122,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
             console.error(lst_value);
           } else if (typeof value == "string" && $scope.model_database.point.hasOwnProperty(value)) {
             if (value in $scope.model_database.skill_manual) {
-              $scope.character_skill.push($scope.model_database.skill_manual[value]);
+              $scope.character_skill[key].push($scope.model_database.skill_manual[value]);
             }
           } else if (Array.isArray(value)) {
             console.error("Cannot support array.");
@@ -1131,7 +1134,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
                 let new_value = key + "_" + option;
                 if ($scope.model_database.point.hasOwnProperty(new_value)) {
                   if (new_value in $scope.model_database.skill_manual) {
-                    $scope.character_skill.push($scope.model_database.skill_manual[new_value]);
+                    $scope.character_skill[key].push($scope.model_database.skill_manual[new_value]);
                   }
                 } else {
                   console.error("Missing habilites " + new_value);
@@ -1192,6 +1195,10 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       console.error("Type " + typeof result + " is not supported.")
     }
   };
+
+  $scope.$watch("character_skill", function (value) {
+    $scope.prettySkill = JSON.stringify(value, undefined, 2);
+  });
 
   $scope.$watch("player", function (value) {
     if (!value) {
@@ -1496,6 +1503,18 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
         }
       });
     }
+  };
+
+  $scope.isDefined = function (x) {
+    return x !== undefined;
+  };
+
+  $scope.toTitleCase = function (str) {
+    return str.replace(
+      /\w\S*/g,
+      function (txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      })
   };
 
   $scope.get_character_point = function (name) {

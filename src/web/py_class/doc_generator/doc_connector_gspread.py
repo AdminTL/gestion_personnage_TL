@@ -171,6 +171,8 @@ class DocConnectorGSpread:
                     "schema_char": {},
                     "schema_user_point": {},
                     "schema_char_point": {},
+                    "schema_user_print": {},
+                    "schema_char_print": {},
                     "form_user": {},
                     "form_char": {},
                     "admin_form_user": {},
@@ -327,6 +329,10 @@ class DocConnectorGSpread:
         if status is None:
             # Error in parsing
             return
+        status = self._build_schema_print(dct_doc)
+        if status is None:
+            # Error in parsing
+            return
 
         self._generated_doc = dct_doc
         return True
@@ -351,6 +357,37 @@ class DocConnectorGSpread:
         status = self._extract_point_from_schema(dct_schema_char_point, dct_doc.get("schema_char"))
         if status is None:
             return
+        return True
+
+    def _build_schema_print(self, dct_doc):
+        lst_schema_user_print = []
+        lst_schema_char_print = []
+        dct_doc["schema_user_print"] = lst_schema_user_print
+        dct_doc["schema_char_print"] = lst_schema_char_print
+
+        for (key, value) in dct_doc.get("schema_user").get("properties").items():
+            if "ImpressionIndex" not in value.keys():
+                continue
+            new_value = value.copy()
+            if "key" in new_value.keys():
+                self._error = "Internal error, duplicated key."
+                print(self._error, file=sys.stderr)
+                return False
+            new_value["key"] = key
+            lst_schema_user_print.append(new_value)
+        lst_schema_user_print.sort(key=lambda x: x.get("ImpressionIndex"))
+
+        for (key, value) in dct_doc.get("schema_char").get("properties").items():
+            if "ImpressionIndex" not in value.keys():
+                continue
+            new_value = value.copy()
+            if "key" in new_value.keys():
+                self._error = "Internal error, duplicated key."
+                print(self._error, file=sys.stderr)
+                return False
+            new_value["key"] = key
+            lst_schema_char_print.append(new_value)
+        lst_schema_char_print.sort(key=lambda x: x.get("ImpressionIndex"))
         return True
 
     def _extract_point_from_schema(self, dct_doc_point, dct_schema):

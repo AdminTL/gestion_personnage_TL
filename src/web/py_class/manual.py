@@ -53,6 +53,8 @@ class Manual(object):
         tmp_rule["char_rule"]["schema_char"] = self._manual["char_rule"]["schema_char"]
         tmp_rule["char_rule"]["schema_user_point"] = self._manual["char_rule"]["schema_user_point"]
         tmp_rule["char_rule"]["schema_char_point"] = self._manual["char_rule"]["schema_char_point"]
+        tmp_rule["char_rule"]["schema_user_print"] = self._manual["char_rule"]["schema_user_print"]
+        tmp_rule["char_rule"]["schema_char_print"] = self._manual["char_rule"]["schema_char_print"]
 
         return tmp_rule
 
@@ -80,6 +82,8 @@ class Manual(object):
                 "schema_char": {},
                 "schema_user_point": {},
                 "schema_char_point": {},
+                "schema_user_print": {},
+                "schema_char_print": {},
                 "form_user": {},
                 "form_char": {},
                 "admin_form_user": {},

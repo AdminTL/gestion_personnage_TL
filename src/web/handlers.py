@@ -971,9 +971,10 @@ class EditorCmdGenerateAndSaveHandler(jsonhandler.JsonHandler):
                 doc_part = document.get("lore")
                 info["lore"] = doc_part
                 # self._manual.update({"lore": doc_part}, save=True)
-            if "schema_user" in document or "schema_user_point" in document or "schema_char" in document \
-                    or "schema_char_point" in document or "form_user" in document or "form_char" in document \
-                    or "admin_form_user" in document or "admin_form_char" in document:
+            if "schema_user" in document or "schema_user_point" in document or "schema_user_print" in document or \
+                    "schema_char" in document or "schema_char_point" in document or "schema_char_print" in document or \
+                    "form_user" in document or "form_char" in document or "admin_form_user" in document or \
+                    "admin_form_char" in document:
                 dct_char_rule = {}
                 if "schema_user" in document:
                     doc_part = document.get("schema_user")
@@ -987,6 +988,12 @@ class EditorCmdGenerateAndSaveHandler(jsonhandler.JsonHandler):
                 if "schema_char_point" in document:
                     doc_part = document.get("schema_char_point")
                     dct_char_rule["schema_char_point"] = doc_part
+                if "schema_user_print" in document:
+                    doc_part = document.get("schema_user_print")
+                    dct_char_rule["schema_user_print"] = doc_part
+                if "schema_char_print" in document:
+                    doc_part = document.get("schema_char_print")
+                    dct_char_rule["schema_char_print"] = doc_part
                 if "form_user" in document:
                     doc_part = document.get("form_user")
                     dct_char_rule["form_user"] = doc_part

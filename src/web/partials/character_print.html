@@ -1,19 +1,17 @@
 <h1>Joueur</h1>
 <p>
-  Nom: {{!model_user.name }}<br/>
-  Courriel: {{!model_user.email }}
-  <span ng-if="model_user.passe_saison_2019">
-    <br/>
-    Passe saison 2019
-  </span>
+<div ng-repeat="value in schema_user_print | orderBy: 'ImpressionIndex'" ng-if="isDefined(value.ImpressionIndex) && model_user[value.key] && value.type != 'array'">
+  {{!value.title}}: {{!model_user[value.key]}}
+</div>
 </p>
 <h1>Personnage</h1>
 <p>
-  Personnage: {{!model_char.name }}<br/>
-  Peuple: {{!model_char.Peuple }}<br/>
-  Nation: {{!model_char.Nation }}<br/>
-  Signe de naissance: {{!model_char["Signe de naissance"] }}<br/>
-  Groupe: {{!model_char["Groupe"] }}<br/>
-  Altération de lumière: {{!model_char["Altération de lumière"] }}<br/>
-  Inventaire: {{!model_char["Inventaire"] }}<br/>
+<div ng-repeat="value in schema_char_print | orderBy: 'ImpressionIndex'" ng-if="isDefined(value.ImpressionIndex) && model_char[value.key] && value.type != 'array'">
+    <span ng-if="isDefined(value.title)">
+      {{!value.title}}: {{!model_char[value.key]}}
+    </span>
+  <span ng-if="isDefined(value.key)">
+      {{!value.key}}: {{!model_char[value.key]}}
+    </span>
+</div>
 </p>
