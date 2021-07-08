@@ -130,7 +130,9 @@ class LoginHandler(base_handler.BaseHandler):
                 return
 
             email = self.get_argument("email", default=None)
-            name = self.get_argument("name", default=None)
+            name = self.get_argument("name", default=username)
+            if not name:
+                name = username
             postal_code = self.get_argument("postal_code", default=None)
 
             # TODO uncomment when need to validate email
@@ -424,7 +426,7 @@ class AdminHandler(base_handler.BaseHandler):
             self.send_error(404)
             raise tornado.web.Finish()
         if self.is_permission_admin():
-            self.render('admin/news.html', **self._global_arg)
+            self.render('admin/character.html', **self._global_arg)
         else:
             print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
             # Forbidden
@@ -606,12 +608,57 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
         delete_user_by_id = self.get_argument("delete_user_by_id")
         delete_character_by_id = self.get_argument("delete_character_by_id")
 
+        if user is None and character is None and delete_user_by_id is None and delete_character_by_id is None:
+            print("Request get only None argument from %s" % self.request.remote_ip,
+                  file=sys.stderr)
+            data = {"error": "Cannot save something with only none value."}
+            self.write(data)
+            self.finish()
+            return
+
+        user_id = user.get("user_id") if user else None
+
         # exception, if delete_user_by_id, create user if not exist
         if not user and delete_user_by_id:
             user = {"user_id": delete_user_by_id}
+        elif user_id:
+            # detect if update permission
+            old_user = self._db.get_user(user_id=user_id)
+            old_permission = old_user.get("permission")
+            user_permission = user.get("permission")
+            if old_permission != user_permission:
+                # Check permission to change permission
+                if not self.is_permission_admin():
+                    print("Missing permission to change permission from %s" % self.request.remote_ip, file=sys.stderr)
+                    data = {"error": "Cannot change permission."}
+                    self.write(data)
+                    self.finish()
+                    return
+                # Check if last admin, cancel
+                if user_permission == "Joueur":
+                    all_user_admin = self._db.get_all_user_admin(ignore_user_id=user_id)
+                    if not all_user_admin:
+                        print("Cannot remove admin permission, you are the last one from %s" % self.request.remote_ip,
+                              file=sys.stderr)
+                        data = {"error": "Cannot change permission because you are the last admin."}
+                        self.write(data)
+                        self.finish()
+                        return
 
         # admin when has admin permission, but not consider admin when updated by himself
-        updated_by_admin = self.is_permission_admin() and user.get("user_id") != self.current_user.get("user_id")
+        updated_by_admin = False
+        if self.is_permission_admin():
+            updated_by_admin = True
+        if user_id != self.current_user.get("user_id"):
+            if not updated_by_admin:
+                # Cannot access to another user if not admin
+                print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
+                # Forbidden
+                self.set_status(403)
+                self.send_error(403)
+        else:
+            # Disable update by admin, because an admin will change the statut of sheet validation
+            updated_by_admin = False
 
         self._db.update_user(user, character, delete_user_by_id=delete_user_by_id,
                              delete_character_by_id=delete_character_by_id, updated_by_admin=updated_by_admin)
@@ -924,8 +971,10 @@ class EditorCmdGenerateAndSaveHandler(jsonhandler.JsonHandler):
                 doc_part = document.get("lore")
                 info["lore"] = doc_part
                 # self._manual.update({"lore": doc_part}, save=True)
-            if "schema_user" in document or "schema_char" in document or "form_user" in document \
-                    or "form_char" in document or "admin_form_user" in document or "admin_form_char" in document:
+            if "schema_user" in document or "schema_user_point" in document or "schema_user_print" in document or \
+                    "schema_char" in document or "schema_char_point" in document or "schema_char_print" in document or \
+                    "form_user" in document or "form_char" in document or "admin_form_user" in document or \
+                    "admin_form_char" in document:
                 dct_char_rule = {}
                 if "schema_user" in document:
                     doc_part = document.get("schema_user")
@@ -933,6 +982,18 @@ class EditorCmdGenerateAndSaveHandler(jsonhandler.JsonHandler):
                 if "schema_char" in document:
                     doc_part = document.get("schema_char")
                     dct_char_rule["schema_char"] = doc_part
+                if "schema_user_point" in document:
+                    doc_part = document.get("schema_user_point")
+                    dct_char_rule["schema_user_point"] = doc_part
+                if "schema_char_point" in document:
+                    doc_part = document.get("schema_char_point")
+                    dct_char_rule["schema_char_point"] = doc_part
+                if "schema_user_print" in document:
+                    doc_part = document.get("schema_user_print")
+                    dct_char_rule["schema_user_print"] = doc_part
+                if "schema_char_print" in document:
+                    doc_part = document.get("schema_char_print")
+                    dct_char_rule["schema_char_print"] = doc_part
                 if "form_user" in document:
                     doc_part = document.get("form_user")
                     dct_char_rule["form_user"] = doc_part
@@ -950,6 +1011,8 @@ class EditorCmdGenerateAndSaveHandler(jsonhandler.JsonHandler):
 
             info["point"] = document["point"]
             info["skill_manual"] = document["skill_manual"]
+            info["hability_point"] = document["hability_point"]
+            info["system_point"] = document["system_point"]
 
             # Link manual and form
             info = self._manual.generate_link(info)

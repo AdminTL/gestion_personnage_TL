@@ -79,3 +79,29 @@ function hashSha256(secret, salt) {
 function isObjEmpty(obj) {
   return Object.keys(obj).length === 0;
 }
+
+function ifObjIsObjNotEmpty(obj) {
+  if (!(typeof obj === 'object')) {
+    return obj != null;
+  }
+  return !(Object.keys(obj).length === 0);
+}
+
+function isBoolean(bool) {
+  return typeof bool === 'boolean' ||
+    (typeof bool === 'object' &&
+      bool !== null &&
+      typeof bool.valueOf() === 'boolean');
+}
+
+class DefaultDict {
+  constructor(defaultInit) {
+    return new Proxy({}, {
+      get: (target, name) => name in target ?
+        target[name] :
+        (target[name] = typeof defaultInit === 'function' ?
+          new defaultInit().valueOf() :
+          defaultInit)
+    })
+  }
+}

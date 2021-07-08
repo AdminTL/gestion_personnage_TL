@@ -25,180 +25,63 @@
 
 {% else %}
 
-<div ng-controller="character_ctrl" style="padding-top: 100px;" ng-cloak>
-  <div class="col-xs-3 bs-docs-sidebar" ng-hide="isMobile() && player">
-    <br/>
-    <div ng-hide="!ddb_user" class="bs-sidebar hidden-print affix" role="complementary">
+<div ng-controller="character_ctrl" class="row" ng-cloak>
+  <div>
+    <div ng-hide="!ddb_user" class="bs-docs-sidebar col-xs-12 col-sm-3 hidden-print affix" role="complementary">
+      {% include "character_choose_sheet.html" %}
+    </div>
 
-      <!--<div class="list-group" ng-show="!new_player">-->
-      <!--<br/>-->
-      <!--Vue de fiche:<br/>-->
-      <!--<label>-->
-      <!--<input type="radio" ng-model="sheet_view.mode" value="fiche_read"> Fiche en lecture-->
-      <!--</label><br/>-->
-      <!--<label>-->
-      <!--<input type="radio" ng-model="sheet_view.mode" value="form_write"> Formulaire-->
-      <!--</label><br/>-->
-      <!--<button class="btn btn-primary" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer-->
-      <!--</button>-->
-      <!--</div>-->
+    <div ng-show="player" role="main" class="col-xs-12 col-sm-9 pull-right">
 
-      <div ng-show="player && !new_player">
-        Fiche personnage<br/>
-        <!--<div ng-show="!new_character">-->
-        <!--<button class="btn btn-success" ng-click="newCharacter()"><span class="glyphicon glyphicon-plus"></span> <span class="glyphicon glyphicon-file"></span> Nouveau personnage</button>-->
-        <!--</div>-->
-        <ul class="nav">
-          <li ng-repeat="value in player.character">
-            <button ng-style="character.name == value.name && {color:'#FF4E00'}" ng-if="character.name" type="button"
-                    class="btn btn-info nav-button" ng-click="setCharacterData(value)">
-              {{! value.name }}
-            </button>
-          </li>
-        </ul>
-      </div>
-      <br/>
+      <div ng-hide="new_player">
 
-      <div ng-show="player && player.character">
-        <div>
-          Point d'XP
-          <span ng-style="xp_total > 0 ? {'color': 'yellow'} : (xp_total < 0 ? {'color': 'red'} : {'color': 'green'})"> {{! xp_spend }} / {{! xp_receive }}</span>
-        </div>
-        <div>
-          Point de Mérite
-          <span ng-style="merite_total > 0 ? {'color': 'yellow'} : (merite_total < 0 ? {'color': 'red'} : {'color': 'green'})"> {{! merite_spend }} / {{! merite_receive }}</span>
-        </div>
-        <div ng-show="enable_debug">
-          <br/>
-          <div ng-repeat="(key, value) in character_point" style="color:gold">
-            {{! key }} : {{! value }}
+        {% include "character_menu.html" %}
+
+        <div class="tab-content" id="manual_main_content">
+          <!-- form -->
+          <div id="menu_form" class="tab-pane fade in active">
+            {% include "character_form.html" %}
           </div>
+          <!-- END form -->
+
+          <!-- all_summary -->
+          <div id="menu_all_summary" class="tab-pane fade">
+            <button class="btn btn-primary hidden-print" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer</button>
+            {% include "character_attribut.html" %}
+            {% include "character_skill.html" %}
+            {% include "character_begin_game.html" %}
+          </div>
+          <!-- END all_summary -->
+
+          {% if not disable_message_character %}
+          <!-- message -->
+          <div id="menu_message" class="tab-pane fade">
+            <button class="btn btn-primary hidden-print" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer</button>
+            {% include "character_message.html" %}
+          </div>
+          <!-- END message -->
+          {% end %}
+
+          <!-- Print -->
+          <div id="menu_print" class="tab-pane fade">
+            <button class="btn btn-primary hidden-print" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer</button>
+            {% include "character_sheet_status.html" %}
+            {% include "character_approbation.html" %}
+            {% include "character_print.html" %}
+            {% include "character_attribut.html" %}
+            {% include "character_skill.html" %}
+            {% include "character_begin_game.html" %}
+          </div>
+          <!-- END Print -->
+
         </div>
       </div>
-      <!--<div ng-hide="isMobile() || !html_qr_code" style="height:200px;width:200px;background:white"-->
-      <!--ng-bind-html="html_qr_code"></div>-->
-    </div>
-  </div>
 
-  <div ng-show="player" role="main" class="col-sm-offset-4">
-
-    <div ng-hide="new_player">
-
-      <ul class="nav nav-pills">
-        <li class="active"><a data-toggle="pill" href="#menu_form">Formulaire</a></li>
-        <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sommaire <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a data-toggle="pill" href="#menu_attribut">Attribut</a></li>
-            <li><a data-toggle="pill" href="#menu_skill">Habileté</a></li>
-            <li><a data-toggle="pill" href="#menu_game_begin">Objet de départ</a></li>
-            <li><a data-toggle="pill" href="#menu_marche">Marché</a></li>
-            <li><a data-toggle="pill" href="#menu_merite">Mérite</a></li>
-            <li><a data-toggle="pill" href="#menu_all_summary">Tous ces choix</a></li>
-          </ul>
-        </li>
-        <li><a data-toggle="pill" href="#menu_message">Message important</a></li>
-        <li><a data-toggle="pill" href="#menu_print">Impression</a></li>
-        <li><a data-toggle="pill" href="#menu_status">Statut</a></li>
-      </ul>
-
-      <div class="tab-content" id="manual_main_content">
-        <!-- Status -->
-        <div id="menu_status" class="tab-pane fade">
-          <h1>Statut de la fiche</h1>
-
-          {% include "character_approbation.html" %}
-          {% include "character_status_sheet.html" %}
-        </div>
-
-        <!-- form -->
-        <div id="menu_form" class="tab-pane fade in active">
-          {% include "character_form.html" %}
-        </div>
-        <!-- END form -->
-
-        <!-- attribut -->
-        <div id="menu_attribut" class="tab-pane fade">
-          <button class="btn btn-primary hidden-print" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer</button>
-          {% include "character_attribut.html" %}
-        </div>
-        <!-- END attribut -->
-
-        <!-- skill -->
-        <div id="menu_skill" class="tab-pane fade">
-          <button class="btn btn-primary hidden-print" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer</button>
-          {% include "character_skill.html" %}
-        </div>
-        <!-- END skill -->
-
-        <!-- debut de jeu -->
-        <div id="menu_game_begin" class="tab-pane fade">
-          <button class="btn btn-primary hidden-print" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer</button>
-          {% include "character_begin_game.html" %}
-        </div>
-        <!-- END debut de jeu -->
-
-        <!-- marche -->
-        <div id="menu_marche" class="tab-pane fade">
-          <button class="btn btn-primary hidden-print" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer</button>
-          {% include "character_marche.html" %}
-        </div>
-        <!-- END marche -->
-
-        <!-- merite -->
-        <div id="menu_merite" class="tab-pane fade">
-          <button class="btn btn-primary hidden-print" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer</button>
-          {% include "character_merite.html" %}
-        </div>
-        <!-- END merite -->
-
-        <!-- all_summary -->
-        <div id="menu_all_summary" class="tab-pane fade">
-          <button class="btn btn-primary hidden-print" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer</button>
-          {% include "character_attribut.html" %}
-          {% include "character_skill.html" %}
-          {% include "character_begin_game.html" %}
-          {% include "character_marche.html" %}
-          {% include "character_merite.html" %}
-        </div>
-        <!-- END all_summary -->
-
-        <!-- message -->
-        <div id="menu_message" class="tab-pane fade">
-          <button class="btn btn-primary hidden-print" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer</button>
-          {% include "character_message.html" %}
-        </div>
-        <!-- END message -->
-
-        <!-- Print -->
-        <div id="menu_print" class="tab-pane fade">
-          <button class="btn btn-primary hidden-print" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer</button>
-          {% include "character_print.html" %}
-          {% include "character_attribut.html" %}
-          {% include "character_skill.html" %}
-          {% include "character_begin_game.html" %}
-          {% include "character_marche.html" %}
-          {% include "character_merite.html" %}
-        </div>
-        <!-- END Print -->
-
+      <div class="hidden-print">
+        {% include "character_debug_sheet.html" %}
       </div>
-    </div>
-
-    <div ng-show="enable_debug">
-      <hr/>
-      <div style="color:gold">{{! prettyModelUser }}</div>
-      <hr/>
-      <div style="color:gold">{{! prettyModelChar }}</div>
-      <hr/>
-      <div style="color:gold">{{! prettyPlayer }}</div>
-      <hr/>
-      <div style="color:gold">http://www.traitrelame.ca/character#/?id_player={{! player.id }}</div>
-      <div style="color:gold">{{! url_qr_code }}</div>
-      <hr/>
-    </div>
-
-  </div> <!-- end div if player -->
-</div> <!-- end of character_ctrl -->
+    </div> <!-- end div if player -->
+  </div> <!-- end of character_ctrl -->
+</div>
 {% end %}
 {% end %}

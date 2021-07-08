@@ -1,0 +1,28 @@
+<div>
+  <!-- Sheet status -->
+  La fiche <span ng-show="status_validation == 0" style="color:green">est à jour</span><span ng-show="status_validation == 1" style="color:yellow">est à améliorer</span><span
+    ng-show="status_validation == -1" style="color:red">est à corriger</span>.
+
+  <ul>
+    <div ng-repeat="(key, value) in char_point_attr">
+      <span ng-show="!value.formule && !value.hide_value">
+        <li ng-show="value.diff_value < 0"><span style="color:red"><span style="font-weight:bold;text-decoration: underline">{{!-(value.diff_value)
+          }}</span> {{!transform_plural(value.diff_value, value.description)}} à enlever</span>.
+        </li>
+        <li ng-show="value.diff_value > 0"><span style="color:yellow"><span style="font-weight:bold;text-decoration: underline">{{!value.diff_value
+          }}</span> {{!transform_plural(value.diff_value, value.description)}} à placer</span>.
+        </li>
+      </span>
+    </div>
+    <li ng-repeat="msg in lst_msg_status_validation"><span style="color:red">{{!msg }}</span>
+    </li>
+  </ul>
+  <!--
+    <span ng-show="diff_sous_ecole < 0">Il y a <span style="color:red"><span
+        style="font-weight:bold;text-decoration: underline">{{!-(diff_sous_ecole) }}</span> sous-école à enlever</span>.</span>
+    <span ng-show="diff_sous_ecole > 0">Il y a <span style="color:yellow"><span
+        style="font-weight:bold;text-decoration: underline">{{!diff_sous_ecole }}</span> sous-école à choisir</span>.</span>
+    <span ng-show="count_master_tech > (xp_receive - xp_default + 1)">Il y a <span style="color:red"><span
+        style="font-weight:bold;text-decoration: underline">{{!count_master_tech - (xp_receive - xp_default + 1) }}</span> technique de maitre à enlever</span>.</span>
+        -->
+</div>

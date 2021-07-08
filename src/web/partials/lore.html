@@ -42,14 +42,14 @@
   <!-- Main content -->
   <div id="lore_main_content" class="col-sm-9" style="padding-bottom: 70px;">
     <span class="anchor" id="top"></span>
-    <h1 class="tl" style="text-align: center">L'univers de Traître-Lame</h1>
+    <h1 class="tl" style="text-align: center">L'univers de {{ organization_name }}</h1>
 
     <!-- LEVEL 1 -->
     <div ng-repeat="lore_sect_1 in lore">
       <!-- This span class anchor only exist to help anchor with nav menu top fixed -->
       <span class="anchor" id="{{! formatAnchor(lore_sect_1, null) }}"></span>
 
-      <div ng-show="in_filter_edition || lore_sect_1.visible" ng-class="{'print-hide': !lore_sect_1.visible}">
+      <div ng-show="in_filter_edition || lore_sect_1.visible" ng-class="{'print-hide': !lore_sect_1.visible}">
         <div>
           <input ng-show="in_filter_edition" type="checkbox" ng-model="lore_sect_1.visible">
           <h1 style="display:inline" ng-bind-html="getTitleHtml(lore_sect_1)"></h1>
@@ -64,7 +64,7 @@
       <div ng-repeat="lore_sect_2 in lore_sect_1.section">
         <span class="anchor" id="{{! formatAnchor(lore_sect_2, [lore_sect_1]) }}"></span>
 
-        <div ng-show="in_filter_edition || lore_sect_2.visible" ng-class="{'print-hide': !lore_sect_1.visible}">
+        <div ng-show="in_filter_edition || lore_sect_2.visible" ng-class="{'print-hide': !lore_sect_1.visible}">
           <div>
             <input ng-show="in_filter_edition" type="checkbox" ng-model="lore_sect_2.visible">
             <h2 style="display:inline" ng-bind-html="getTitleHtml(lore_sect_2)"></h2>
@@ -79,7 +79,7 @@
         <div ng-repeat="lore_sect_3 in lore_sect_2.section">
           <span class="anchor" id="{{! formatAnchor(lore_sect_3, [lore_sect_1, lore_sect_2]) }}"></span>
 
-          <div ng-show="in_filter_edition || lore_sect_3.visible" ng-class="{'print-hide': !lore_sect_1.visible}">
+          <div ng-show="in_filter_edition || lore_sect_3.visible" ng-class="{'print-hide': !lore_sect_1.visible}">
             <div>
               <input ng-show="in_filter_edition" type="checkbox" ng-model="lore_sect_3.visible">
               <h3 style="display:inline" ng-bind-html="getTitleHtml(lore_sect_3)"></h3>
@@ -94,7 +94,7 @@
           <div ng-repeat="lore_sect_4 in lore_sect_3.section">
             <span class="anchor" id="{{! formatAnchor(lore_sect_4, [lore_sect_1, lore_sect_2, lore_sect_3]) }}"></span>
 
-            <div ng-show="in_filter_edition || lore_sect_4.visible" ng-class="{'print-hide': !lore_sect_1.visible}">
+            <div ng-show="in_filter_edition || lore_sect_4.visible" ng-class="{'print-hide': !lore_sect_1.visible}">
               <div>
                 <input ng-show="in_filter_edition" type="checkbox" ng-model="lore_sect_4.visible">
                 <h4 style="display:inline" ng-bind-html="getTitleHtml(lore_sect_4)"></h4>
@@ -109,7 +109,7 @@
             <div ng-repeat="lore_sect_5 in lore_sect_4.section">
               <span class="anchor" id="{{! formatAnchor(lore_sect_5, [lore_sect_1, lore_sect_2, lore_sect_3, lore_sect_4]) }}"></span>
 
-              <div ng-show="in_filter_edition || lore_sect_5.visible" ng-class="{'print-hide': !lore_sect_1.visible}">
+              <div ng-show="in_filter_edition || lore_sect_5.visible" ng-class="{'print-hide': !lore_sect_1.visible}">
                 <div>
                   <input ng-show="in_filter_edition" type="checkbox" ng-model="lore_sect_5.visible">
                   <h5 style="display:inline" ng-bind-html="getTitleHtml(lore_sect_5)"></h5>

@@ -23,6 +23,25 @@ body {
     }
 }
 
+.bs-docs-sidebar.affix {
+    margin-top: 0px;
+}
+
+@media (max-width: 767px) {
+    .bs-docs-sidebar.affix {
+        position: static;
+        width: auto;
+        top: 0;
+        margin-top: 0px;
+    }
+}
+
+@media (min-width: 767px) {
+    .char-stat-bottom {
+        display: none;
+    }
+}
+
 #btn-ldr {
     background-image: url("../icon/livrederegle1.jpg");
     color: #EB7915;

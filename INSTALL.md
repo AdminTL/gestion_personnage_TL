@@ -129,6 +129,19 @@ sudo systemctl enable gestion_personnage.service
 sudo systemctl start gestion_personnage.service
 ```
 
+Database
+--------
+
+Create user database.
+```
+touch database/client_secret.json
+```
+
+Create you a user.
+
+TODO missing admin permission, ask help
+TODO missing Google Spreadsheet documentation
+
 Options
 -------
 ```
@@ -146,4 +159,5 @@ Options
 --disable_login_oauth : Disable authentication oauth
 --disable_character : Disable access to character
 --disable_user_character : Disable access to user of our character
+--disable_message_character : Disable message to user in your character sheet from administration
 ```

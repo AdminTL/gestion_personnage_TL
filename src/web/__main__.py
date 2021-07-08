@@ -74,8 +74,17 @@ def parse_args():
                        help='Active to disable character module.')
     group.add_argument('--disable_user_character', default=False, action='store_true',
                        help='Active to disable character module for not admin user.')
+    group.add_argument('--disable_message_character', default=False, action='store_true',
+                       help='Active to disable message from administration for player.')
+    group.add_argument('--organization_name', default="Larp'em", help='Choose your organization name.')
     group.add_argument('--disable_login', default=False, action='store_true',
                        help='Active to disable login module.')
+    group.add_argument('--disable_news', default=False, action='store_true',
+                       help='Active to disable news module.')
+    group.add_argument('--disable_lore', default=False, action='store_true',
+                       help='Active to disable lore module.')
+    group.add_argument('--disable_manual', default=False, action='store_true',
+                       help='Active to disable manual module.')
     group.add_argument('--disable_login_oauth', default=False, action='store_true',
                        help='Active to disable login oauth module.')
     group.add_argument('--disable_admin', default=False, action='store_true',

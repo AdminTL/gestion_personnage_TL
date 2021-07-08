@@ -16,7 +16,8 @@ class Manual(object):
             with open(self._manual_path, encoding='utf-8') as manual_file:
                 self._manual = json.load(manual_file)
         else:
-            self._manual = {"manual": [], "lore": [], "char_rule": {}, "point": {}, "skill_manual": {}}
+            self._manual = {"manual": [], "lore": [], "char_rule": {}, "point": {}, "skill_manual": {},
+                            "system_point": [], "hability_point": {}}
 
     def update(self, dct_manual, save=False):
         # Transform the object in json string
@@ -37,18 +38,23 @@ class Manual(object):
             "manual": self._manual["manual"],
             "lore": self._manual["lore"],
             "point": self._manual["point"],
-            "skill_manual": self._manual["skill_manual"]
+            "skill_manual": self._manual["skill_manual"],
+            "hability_point": self._manual["hability_point"],
+            "system_point": self._manual["system_point"],
         }
         if is_admin:
-            tmp_rule["char_rule"]["schema_user"] = self._manual["char_rule"]["schema_user"]
-            tmp_rule["char_rule"]["schema_char"] = self._manual["char_rule"]["schema_char"]
             tmp_rule["char_rule"]["form_user"] = self._manual["char_rule"]["admin_form_user"]
             tmp_rule["char_rule"]["form_char"] = self._manual["char_rule"]["admin_form_char"]
         else:
-            tmp_rule["char_rule"]["schema_user"] = self._manual["char_rule"]["schema_user"]
-            tmp_rule["char_rule"]["schema_char"] = self._manual["char_rule"]["schema_char"]
             tmp_rule["char_rule"]["form_user"] = self._manual["char_rule"]["form_user"]
             tmp_rule["char_rule"]["form_char"] = self._manual["char_rule"]["form_char"]
+
+        tmp_rule["char_rule"]["schema_user"] = self._manual["char_rule"]["schema_user"]
+        tmp_rule["char_rule"]["schema_char"] = self._manual["char_rule"]["schema_char"]
+        tmp_rule["char_rule"]["schema_user_point"] = self._manual["char_rule"]["schema_user_point"]
+        tmp_rule["char_rule"]["schema_char_point"] = self._manual["char_rule"]["schema_char_point"]
+        tmp_rule["char_rule"]["schema_user_print"] = self._manual["char_rule"]["schema_user_print"]
+        tmp_rule["char_rule"]["schema_char_print"] = self._manual["char_rule"]["schema_char_print"]
 
         return tmp_rule
 
@@ -65,4 +71,22 @@ class Manual(object):
 
     @staticmethod
     def generate_link(manual):
+        if "manual" not in manual.keys():
+            manual["manual"] = []
+        if "lore" not in manual.keys():
+            manual["lore"] = []
+        if "char_rule" not in manual.keys():
+            # TODO remove char_rule, this is a complexity
+            manual["char_rule"] = {
+                "schema_user": {},
+                "schema_char": {},
+                "schema_user_point": {},
+                "schema_char_point": {},
+                "schema_user_print": {},
+                "schema_char_print": {},
+                "form_user": {},
+                "form_char": {},
+                "admin_form_user": {},
+                "admin_form_char": {},
+            }
         return manual

@@ -57,6 +57,10 @@ class DB(object):
         empty_character = [{
         }]
 
+        # Special case, if only empty user, force permission to Admin
+        if len(self._db_user.all()) == 0:
+            permission = "Admin"
+
         data = {"email": email, "username": username, "name": name, "given_name": given_name,
                 "family_name": family_name, "password": secure_pass, "user_id": user_id, "google_id": google_id,
                 "facebook_id": facebook_id, "twitter_id": twitter_id, "permission": permission,
@@ -114,11 +118,23 @@ class DB(object):
         if has_update:
             self.update_user(obj_user)
 
-    def get_all_user(self, user_id=None):
+    def get_all_user(self, user_id=None, with_password=False):
         if not user_id:
             # get all user list
-            return self._db_user.all()
-        return self._db_user.search(self._query_user.user_id == user_id)
+            lst_user = self._db_user.all()
+        else:
+            lst_user = self._db_user.search(self._query_user.user_id == user_id)
+        if not with_password:
+            for user_obj in lst_user:
+                if "password" in user_obj:
+                    del user_obj["password"]
+        return lst_user
+
+    def get_all_user_admin(self, ignore_user_id=None):
+        if ignore_user_id:
+            return self._db_user.search(
+                self._query_user.permission == "Admin" and self._query_user.user_id != ignore_user_id)
+        return self._db_user.search(self._query_user.permission == "Admin")
 
     def get_user(self, username=None, email=None, password=None, id_type="user", user_id=None,
                  force_email_no_password=False):
