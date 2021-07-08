@@ -646,7 +646,19 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
                         return
 
         # admin when has admin permission, but not consider admin when updated by himself
-        updated_by_admin = self.is_permission_admin() and user_id != self.current_user.get("user_id")
+        updated_by_admin = False
+        if self.is_permission_admin():
+            updated_by_admin = True
+        if user_id != self.current_user.get("user_id"):
+            if not updated_by_admin:
+                # Cannot access to another user if not admin
+                print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
+                # Forbidden
+                self.set_status(403)
+                self.send_error(403)
+        else:
+            # Disable update by admin, because an admin will change the statut of sheet validation
+            updated_by_admin = False
 
         self._db.update_user(user, character, delete_user_by_id=delete_user_by_id,
                              delete_character_by_id=delete_character_by_id, updated_by_admin=updated_by_admin)
