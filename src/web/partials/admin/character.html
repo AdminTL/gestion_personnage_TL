@@ -27,50 +27,48 @@
     </div>
 
     <div ng-show="player" role="main" class="col-xs-12 col-sm-9 pull-right">
-      <div ng-show="sheet_view.mode == 'form_write'">
-        {% include "character_menu.html" %}
+      {% include "character_menu.html" %}
 
-        <div class="tab-content" id="manual_main_content">
-          <!-- Status -->
-          <div id="menu_status" class="tab-pane fade">
-            <h1>Statut de la fiche</h1>
+      <div class="tab-content" id="manual_main_content">
+        <!-- Status -->
+        <div id="menu_status" class="tab-pane fade">
+          <h1>Statut de la fiche</h1>
 
-            {% include "character_approbation.html" %}
-            {% include "../character_status_sheet.html" %}
-            {% include "profile_permission.html" %}
-          </div>
-
-          <!-- form -->
-          <div id="menu_form" class="tab-pane fade in active">
-            {% include "../character_form.html" %}
-          </div>
-          <!-- END form -->
-
-          <!-- message -->
-          <div id="menu_message" class="tab-pane fade">
-            <button class="btn btn-primary hidden-print" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer</button>
-            {% include "../character_message.html" %}
-          </div>
-          <!-- END message -->
-
-          <!-- Print -->
-          <div id="menu_print" class="tab-pane fade">
-            <button class="btn btn-primary hidden-print" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer</button>
-            {% include "../character_sheet_status.html" %}
-            {% include "../character_approbation.html" %}
-            {% include "../character_print.html" %}
-            {% include "../character_attribut.html" %}
-            {% include "../character_skill.html" %}
-            {% include "../character_begin_game.html" %}
-          </div>
-          <!-- END Print -->
-
+          {% include "character_approbation.html" %}
+          {% include "../character_status_sheet.html" %}
+          {% include "profile_permission.html" %}
         </div>
 
-        <div class="hidden-print">
-          {% include "../character_debug_sheet.html" %}
+        <!-- form -->
+        <div id="menu_form" class="tab-pane fade in active">
+          {% include "../character_form.html" %}
         </div>
-      </div> <!-- end div form write -->
+        <!-- END form -->
+
+        <!-- message -->
+        <div id="menu_message" class="tab-pane fade">
+          <button class="btn btn-primary hidden-print" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer</button>
+          {% include "../character_message.html" %}
+        </div>
+        <!-- END message -->
+
+        <!-- Print -->
+        <div id="menu_print" class="tab-pane fade">
+          <button class="btn btn-primary hidden-print" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer</button>
+          {% include "../character_sheet_status.html" %}
+          {% include "../character_approbation.html" %}
+          {% include "../character_print.html" %}
+          {% include "../character_attribut.html" %}
+          {% include "../character_skill.html" %}
+          {% include "../character_begin_game.html" %}
+        </div>
+        <!-- END Print -->
+
+      </div>
+
+      <div class="hidden-print">
+        {% include "../character_debug_sheet.html" %}
+      </div>
 
     </div> <!-- end div if player -->
   </div> <!-- end of character_ctrl -->

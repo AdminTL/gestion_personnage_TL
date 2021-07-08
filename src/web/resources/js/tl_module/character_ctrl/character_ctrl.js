@@ -12,10 +12,6 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   $scope.is_updated_player = false;
   $scope.show_advance_admin_profil_permission = false;
 
-  $scope.enable_debug = false;
-  $scope.sheet_view = {};
-  $scope.sheet_view.mode = "form_write";
-
   $scope.model_profile = {
     add_password: {
       password: "",
@@ -82,7 +78,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   };
 
   // fill user and character schema and form
-  $scope.update_character = function (e) {
+  $scope.update_character = function () {
     let char_rule_url = $scope.is_admin ? "/cmd/manual_admin" : "/cmd/manual";
     $http({
       method: "get",
@@ -117,23 +113,23 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   };
 
   $scope.is_approbation_new = function (user) {
-    return user && (isUndefined(user.character[0].approbation) || user.character[0].approbation.status == 0);
+    return user && (isUndefined(user.character[0].approbation) || user.character[0].approbation.status === 0);
   };
 
   $scope.is_approbation_approved = function (user) {
-    return user && isDefined(user.character[0].approbation) && user.character[0].approbation.status == 1;
+    return user && isDefined(user.character[0].approbation) && user.character[0].approbation.status === 1;
   };
 
   $scope.is_approbation_unapproved = function (user) {
-    return user && isDefined(user.character[0].approbation) && user.character[0].approbation.status == 2;
+    return user && isDefined(user.character[0].approbation) && user.character[0].approbation.status === 2;
   };
 
   $scope.is_approbation_inactive = function (user) {
-    return user && isDefined(user.character[0].approbation) && user.character[0].approbation.status == 3;
+    return user && isDefined(user.character[0].approbation) && user.character[0].approbation.status === 3;
   };
 
   $scope.is_approbation_to_correct = function (user) {
-    return user && isDefined(user.character[0].approbation) && user.character[0].approbation.status == 4;
+    return user && isDefined(user.character[0].approbation) && user.character[0].approbation.status === 4;
   };
 
   $scope.get_timestamp_approbation_date = function (user) {
@@ -144,7 +140,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   };
 
   $scope.get_text_select_character = function (user) {
-    let txt_append = "";
+    let txt_append;
     if ($scope.is_approbation_new(user)) {
       txt_append = '✪';
     } else if ($scope.is_approbation_approved(user)) {
@@ -194,7 +190,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       $scope.approbation_status.enabled = true;
       $scope.approbation_status.is_error = true;
 
-      if (response.status == -1) {
+      if (response.status === -1) {
         // Timeout
         $scope.approbation_status.text = "Timeout request.";
       } else {
@@ -220,10 +216,9 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
           let new_lst_value = lst_value.filter(function (el) {
             if (Array.isArray(el)) {
               if (el.length) {
-                let hasValue = el.some(function (value) {
+                return el.some(function (value) {
                   return value !== null;
                 });
-                return hasValue;
               }
               return false;
             }
@@ -258,7 +253,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
         $scope.status_send.enabled = true;
         $scope.status_send.is_error = true;
 
-        if (response.status == -1) {
+        if (response.status === -1) {
           // Timeout
           $scope.status_send.text = "Timeout request.";
         } else {
@@ -320,7 +315,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       }
 
       new_element["value"] = 0;
-      if (element.type == "Attribut") {
+      if (element.type === "Attribut") {
         $scope.char_point_attr[element.name] = new_element;
         $scope.char_point[element.name] = new_element;
         // Field value is modified by the system and skill. The value is negative to be filled.
@@ -428,7 +423,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
 
     // Level 3 - Update values
     for (const [key, new_element] of Object.entries($scope.char_point)) {
-      if (new_element.type == "Attribut") {
+      if (new_element.type === "Attribut") {
         if (isDefined(new_element.max)) {
           new_element.value = -Math.min(-new_element.value, new_element.max);
           new_element.max_value = Math.min(new_element.max_value, new_element.max);
@@ -586,7 +581,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     if (isDefined($scope.schema_char.properties)) {
       for (const [key, value] of Object.entries($scope.schema_char.properties)) {
         if (value.hasOwnProperty("type")) {
-          if (value.type == "array") {
+          if (value.type === "array") {
             if (!isDefined($scope.model_char[key]) || force_clean) {
               $scope.model_char[key] = [];
             }
@@ -712,7 +707,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     if (isDefined($scope.schema_char.properties)) {
       for (const [key, value] of Object.entries($scope.schema_char.properties)) {
         if (value.hasOwnProperty("validateRequired") && value.validateRequired) {
-          if (value.type == "string") {
+          if (value.type === "string") {
             if (!$scope.model_char[key]) {
               $scope.status_validation = -1;
               $scope.lst_msg_status_validation.push("Le champs «" + value.title + "» doit être rempli.")
@@ -725,13 +720,13 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       }
     }
 
-    if ($scope.status_validation != 0) {
+    if ($scope.status_validation !== 0) {
       return;
     }
 
     for (const [key_ele, var_ele] of Object.entries($scope.char_point_attr)) {
       if (var_ele.required) {
-        if (var_ele.type == "Attribut") {
+        if (var_ele.type === "Attribut") {
           if (var_ele.diff_value < 0) {
             $scope.status_validation = -1;
             return
@@ -753,11 +748,11 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     }
 
     // Validate model field
-    if ($scope.model_profile.add_password.password == "") {
+    if ($scope.model_profile.add_password.password === "") {
       $scope.model_profile.status_password.enabled = true;
       $scope.model_profile.status_password.is_error = true;
       $scope.model_profile.status_password.text = "The password is empty.";
-    } else if ($scope.model_profile.add_password.password != $scope.model_profile.add_password.check_password) {
+    } else if ($scope.model_profile.add_password.password !== $scope.model_profile.add_password.check_password) {
       $scope.model_profile.status_password.enabled = true;
       $scope.model_profile.status_password.is_error = true;
       $scope.model_profile.status_password.text = "The password is not identical to the check password.";
@@ -798,7 +793,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       }, function errorCallback(response) {
         console.error(response);
 
-        if (response.status == -1) {
+        if (response.status === -1) {
           // Timeout
           $scope.model_profile.add_password.loading = false;
           $scope.model_profile.status_password.is_error = true;
@@ -836,14 +831,14 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     $scope.html_qr_code = qr.createImgTag();
   };
 
-  $scope.is_main = $window.location.hash.substring($window.location.hash.length - 4) == "#!/";
+  $scope.is_main = $window.location.hash.substring($window.location.hash.length - 4) === "#!/";
   if ($scope.is_main) {
     $scope.player_id_from_get = "";
   } else {
     // Get id_player, it's suppose to be the last 32 bytes
     $scope.player_id_from_get = $window.location.hash.substr(-32);
     // When no id_player, it's because == #!/
-    if ($scope.player_id_from_get == "#!/") {
+    if ($scope.player_id_from_get === "#!/") {
       $scope.player_id_from_get = "";
     } else {
       $scope.no_character = true;
@@ -866,7 +861,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     console.log(response.data);
     let data = response.data;
     // special effect, if only one character, select first one
-    if ((data.length >= 1 && !$scope.is_admin) || (data.length == 1 && $scope.is_admin)) {
+    if ((data.length >= 1 && !$scope.is_admin) || (data.length === 1 && $scope.is_admin)) {
       $scope.player = data[0];
       $scope.character = data[0].character[0];
       $scope.is_char_init = true;
