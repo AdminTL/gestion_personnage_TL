@@ -14,27 +14,3 @@
   <button class="btn btn-default" ng-click="send_approbation(3)" ng-hide="is_approbation_inactive(player)">Inactif ✞</button>
   <button class="btn btn-info" ng-click="send_approbation(0)" ng-hide="is_approbation_new(player)">Nouveau ✪</button>
 </p>
-
-<div>
-  <h3>Modifier le mot de passe</h3>
-  <input type="password" ng-model="model_profile.add_password.password" placeholder="Mot de passe" required>
-  <input type="password" ng-model="model_profile.add_password.check_password" placeholder="Confirmation du mot de passe" required>
-  <a ng-click="modify_password()" class="btn btn-lg btn-default" role="button" ng-class="model_profile.add_password.loading ? 'disabled' : ''"><span class="fa fa-spinner fa-spin"
-                                                                                                                                                     ng-show="model_profile.add_password.loading"></span>
-    Modifier</a>
-  <br/>
-  <!-- Status of password -->
-  <a ng-show="model_profile.status_password.enabled" ng-style="model_profile.status_password.is_error ? {'color': 'red'} : {'color': 'green'}">{{!model_profile.status_password.text }}</a>
-</div>
-
-<div>
-  <h3>Modifier les permissions</h3>
-  <select ng-model="model_user.permission" ng-options="perm for perm in lst_permission"></select>
-</div>
-
-<div>
-  <h3>Effacer le joueur</h3>
-  <button class="btn btn-danger" ng-click="deletePlayer()">Effacer le joueur</button>
-  <br/>
-  Danger, ceci est irréversible.
-</div>

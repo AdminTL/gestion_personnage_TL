@@ -15,6 +15,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
 
   $scope.is_char_init = false;
   $scope.is_updated_player = false;
+  $scope.show_advance_admin_profil_permission = false;
 
   $scope.enable_debug = false;
   $scope.sheet_view = {};
@@ -1236,8 +1237,8 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
             if (!isDefined($scope.model_char[key]) || force_clean) {
               $scope.model_char[key] = [];
             }
-          // } else if (value.type == "integer") {
-          //   $scope.model_char[key] = 0;
+            // } else if (value.type == "integer") {
+            //   $scope.model_char[key] = 0;
           }
         }
       }
@@ -1300,6 +1301,10 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   };
 
   $scope.deletePlayer = function () {
+    if (!confirm('Êtes-vous certain de vouloir effacer cette fiche?')) {
+      return;
+    }
+
     // TODO: use user id from user creation management to permission
     // data.user_id = $scope.player.id;
     let data = {
