@@ -1,0 +1,14 @@
+<form name="my_form_char" ng-submit="onSubmit(my_form_char)">
+  <h1>Section utilisateur</h1>
+  <div sf-schema="schema_user" sf-form="form_user" sf-model="model_user"></div>
+  <hr/>
+  <h1>Section fiche de personnage</h1>
+  <div sf-schema="schema_char" sf-form="form_char" sf-model="model_char"></div>
+</form>
+
+<span ng-show="status_send.enabled" ng-style="status_send.is_error ? {'color': 'red'} : {'color': 'green'}">{{!status_send.text }}</span>
+
+<div class="char-stat-bottom">
+  {% include "character_stat_attribut.html" %}
+  {% include "character_sheet_status.html" %}
+</div>

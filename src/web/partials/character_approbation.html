@@ -1,0 +1,16 @@
+<p>
+  Validation de la fiche :
+  <span style="color:cornflowerblue" ng-show="is_approbation_new(player)">✪ nouveau - en attente d'approbation</span>
+  <span style="color:green" ng-show="is_approbation_approved(player)">✓ approuvé</span>
+  <span style="color:yellow" ng-show="is_approbation_unapproved(player)">✗ en attente</span>
+  <span style="color:darkgray" ng-show="is_approbation_inactive(player)">✞ inactif</span>
+  <span style="color:indianred" ng-show="is_approbation_to_correct(player)">✐ à corriger</span>
+  <span ng-show="model_char.approbation.date">
+    <br/>
+    <span>Date d'approbation : {{!model_char.approbation.date * 1000 | UTCToNow: true }}</span>
+  </span>
+</p>
+<p>
+  Date de création : {{!model_char.date_creation * 1000 | UTCToNow: true }}<br/>
+  Date de mise à jour : {{!model_char.date_modify * 1000 | UTCToNow: true }}
+</p>

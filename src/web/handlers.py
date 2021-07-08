@@ -26,7 +26,6 @@ def ioloop_wrapper(callback):
 
 
 class AutoSSLHandler(tornado.web.RequestHandler):
-    @tornado.web.asynchronous
     def get(self):
         # check directory exist
         path_acme_challenge = os.path.join(os.getcwd(), "..", "..", "ssl_cert", "acme-challenge")
@@ -55,25 +54,21 @@ class AutoSSLHandler(tornado.web.RequestHandler):
 
 
 class IndexHandler(base_handler.BaseHandler):
-    @tornado.web.asynchronous
     def get(self):
         self.render('news.html', enable_facebook_feed=ENABLE_FACEBOOK_FEED, **self._global_arg)
 
 
 class ManualPageHandler(base_handler.BaseHandler):
-    @tornado.web.asynchronous
     def get(self):
         self.render('manual.html', **self._global_arg)
 
 
 class LorePageHandler(base_handler.BaseHandler):
-    @tornado.web.asynchronous
     def get(self):
         self.render('lore.html', **self._global_arg)
 
 
 class LoginHandler(base_handler.BaseHandler):
-    @tornado.web.asynchronous
     def get(self):
         if self.get_current_user():
             self.redirect("/profile")
@@ -81,7 +76,6 @@ class LoginHandler(base_handler.BaseHandler):
 
         self.render('login.html', **self._global_arg)
 
-    @tornado.web.asynchronous
     def post(self):
         if self._global_arg["disable_login"]:
             self.redirect("/")
@@ -136,7 +130,9 @@ class LoginHandler(base_handler.BaseHandler):
                 return
 
             email = self.get_argument("email", default=None)
-            name = self.get_argument("name", default=None)
+            name = self.get_argument("name", default=username)
+            if not name:
+                name = username
             postal_code = self.get_argument("postal_code", default=None)
 
             # TODO uncomment when need to validate email
@@ -164,10 +160,15 @@ class LoginHandler(base_handler.BaseHandler):
 class GoogleOAuth2LoginHandler(base_handler.BaseHandler, tornado.auth.GoogleOAuth2Mixin):
     @tornado.gen.coroutine
     def get(self):
+        if self._global_arg["disable_login_oauth"]:
+            # Not Found
+            self.set_status(404)
+            self.send_error(404)
+            raise tornado.web.Finish()
         try:
             if self.get_argument('code', False):
                 google_user = yield self.get_authenticated_user(
-                    redirect_uri=self._global_arg["url"] + '/cmd/auth/google',
+                    redirect_uri=self._global_arg["host"] + '/cmd/auth/google',
                     code=self.get_argument('code'))
 
                 # Cancel by the user or other reason
@@ -226,7 +227,7 @@ class GoogleOAuth2LoginHandler(base_handler.BaseHandler, tornado.auth.GoogleOAut
 
             else:
                 yield self.authorize_redirect(
-                    redirect_uri=self._global_arg["url"] + '/cmd/auth/google',
+                    redirect_uri=self._global_arg["host"] + '/cmd/auth/google',
                     client_id=self.settings['google_oauth']['key'],
                     scope=['profile', 'email'],
                     response_type='code',
@@ -247,10 +248,15 @@ class GoogleOAuth2LoginHandler(base_handler.BaseHandler, tornado.auth.GoogleOAut
 class FacebookGraphLoginHandler(base_handler.BaseHandler, tornado.auth.FacebookGraphMixin):
     @tornado.gen.coroutine
     def get(self):
+        if self._global_arg["disable_login_oauth"]:
+            # Not Found
+            self.set_status(404)
+            self.send_error(404)
+            raise tornado.web.Finish()
         try:
             if self.get_argument("code", False):
                 facebook_user = yield self.get_authenticated_user(
-                    redirect_uri=self._global_arg["url"] + '/cmd/auth/facebook',
+                    redirect_uri=self._global_arg["host"] + '/cmd/auth/facebook',
                     client_id=self.settings["facebook_api_key"],
                     client_secret=self.settings["facebook_secret"],
                     code=self.get_argument("code"),
@@ -301,7 +307,7 @@ class FacebookGraphLoginHandler(base_handler.BaseHandler, tornado.auth.FacebookG
 
             else:
                 yield self.authorize_redirect(
-                    redirect_uri=self._global_arg["url"] + '/cmd/auth/facebook',
+                    redirect_uri=self._global_arg["host"] + '/cmd/auth/facebook',
                     client_id=self.settings["facebook_api_key"],
                     # Permissions: https://developers.facebook.com/docs/facebook-login/permissions
                     extra_params={"scope": "email"})
@@ -321,6 +327,11 @@ class FacebookGraphLoginHandler(base_handler.BaseHandler, tornado.auth.FacebookG
 class TwitterLoginHandler(base_handler.BaseHandler, tornado.auth.TwitterMixin):
     @tornado.gen.coroutine
     def get(self):
+        if self._global_arg["disable_login_oauth"]:
+            # Not Found
+            self.set_status(404)
+            self.send_error(404)
+            raise tornado.web.Finish()
         try:
             if self.get_argument("oauth_token", False):
                 twitter_user = yield self.get_authenticated_user()
@@ -377,7 +388,7 @@ class TwitterLoginHandler(base_handler.BaseHandler, tornado.auth.TwitterMixin):
                 self.redirect("/login?invalid=twitter")
                 return
             else:
-                yield self.authorize_redirect(callback_uri=self._global_arg["url"] + '/cmd/auth/twitter')
+                yield self.authorize_redirect(callback_uri=self._global_arg["host"] + '/cmd/auth/twitter')
         except KeyError as e:
             print("KeyError: " + str(e) + " in TwitterLoginHandler from %s" % self.request.remote_ip,
                   file=sys.stderr)
@@ -407,7 +418,6 @@ class LogoutHandler(base_handler.BaseHandler):
 
 
 class AdminHandler(base_handler.BaseHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def get(self):
         if self._global_arg["disable_admin"] or self._global_arg["disable_login"]:
@@ -416,7 +426,7 @@ class AdminHandler(base_handler.BaseHandler):
             self.send_error(404)
             raise tornado.web.Finish()
         if self.is_permission_admin():
-            self.render('admin/news.html', **self._global_arg)
+            self.render('admin/character.html', **self._global_arg)
         else:
             print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
             # Forbidden
@@ -426,7 +436,6 @@ class AdminHandler(base_handler.BaseHandler):
 
 
 class AdminCharacterHandler(base_handler.BaseHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def get(self):
         if self._global_arg["disable_admin"]:
@@ -445,7 +454,6 @@ class AdminCharacterHandler(base_handler.BaseHandler):
 
 
 class AdminEditorHandler(base_handler.BaseHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def get(self):
         if self._global_arg["disable_admin"]:
@@ -465,7 +473,6 @@ class AdminEditorHandler(base_handler.BaseHandler):
 
 
 class AdminSettingHandler(base_handler.BaseHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def get(self):
         if self._global_arg["disable_admin"]:
@@ -484,8 +491,37 @@ class AdminSettingHandler(base_handler.BaseHandler):
             raise tornado.web.Finish()
 
 
+class AdminModifyPasswordHandler(jsonhandler.JsonHandler):
+    @tornado.web.authenticated
+    def post(self):
+        if self._global_arg["disable_admin"]:
+            # Not Found
+            self.set_status(404)
+            self.send_error(404)
+            raise tornado.web.Finish()
+
+        if self.is_permission_admin():
+            self.prepare_json()
+            user_id = self.get_argument("user_id")
+            password = self.get_argument("password")
+
+            user = self._db.get_user(user_id=user_id)
+
+            updated_password = self._db.generate_password(password)
+            self._db.add_missing_info_user(user, password=updated_password, force=True)
+
+            data = {"status": "Password added."}
+            self.write(data)
+            self.finish()
+        else:
+            print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
+            # Forbidden
+            self.set_status(403)
+            self.send_error(403)
+            raise tornado.web.Finish()
+
+
 class ProfileHandler(base_handler.BaseHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def get(self, user_id=None):
         if self._global_arg["disable_login"]:
@@ -504,7 +540,7 @@ class ProfileHandler(base_handler.BaseHandler):
 
 
 class CharacterHandler(base_handler.BaseHandler):
-    @tornado.web.asynchronous
+
     def get(self):
         # don't block the page when disable character, user need to be inform
         # if self._global_arg["disable_character"]:
@@ -517,7 +553,6 @@ class CharacterHandler(base_handler.BaseHandler):
 
 
 class CharacterViewHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def get(self):
         if not self.is_permission_admin() and self._global_arg["disable_user_character"] or \
@@ -560,7 +595,6 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
         self.write(data)
         self.finish()
 
-    @tornado.web.asynchronous
     def post(self):
         if self._global_arg["disable_character"]:
             # Not Found
@@ -574,12 +608,57 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
         delete_user_by_id = self.get_argument("delete_user_by_id")
         delete_character_by_id = self.get_argument("delete_character_by_id")
 
+        if user is None and character is None and delete_user_by_id is None and delete_character_by_id is None:
+            print("Request get only None argument from %s" % self.request.remote_ip,
+                  file=sys.stderr)
+            data = {"error": "Cannot save something with only none value."}
+            self.write(data)
+            self.finish()
+            return
+
+        user_id = user.get("user_id") if user else None
+
         # exception, if delete_user_by_id, create user if not exist
         if not user and delete_user_by_id:
             user = {"user_id": delete_user_by_id}
+        elif user_id:
+            # detect if update permission
+            old_user = self._db.get_user(user_id=user_id)
+            old_permission = old_user.get("permission")
+            user_permission = user.get("permission")
+            if old_permission != user_permission:
+                # Check permission to change permission
+                if not self.is_permission_admin():
+                    print("Missing permission to change permission from %s" % self.request.remote_ip, file=sys.stderr)
+                    data = {"error": "Cannot change permission."}
+                    self.write(data)
+                    self.finish()
+                    return
+                # Check if last admin, cancel
+                if user_permission == "Joueur":
+                    all_user_admin = self._db.get_all_user_admin(ignore_user_id=user_id)
+                    if not all_user_admin:
+                        print("Cannot remove admin permission, you are the last one from %s" % self.request.remote_ip,
+                              file=sys.stderr)
+                        data = {"error": "Cannot change permission because you are the last admin."}
+                        self.write(data)
+                        self.finish()
+                        return
 
         # admin when has admin permission, but not consider admin when updated by himself
-        updated_by_admin = self.is_permission_admin() and user.get("user_id") != self.current_user.get("user_id")
+        updated_by_admin = False
+        if self.is_permission_admin():
+            updated_by_admin = True
+        if user_id != self.current_user.get("user_id"):
+            if not updated_by_admin:
+                # Cannot access to another user if not admin
+                print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
+                # Forbidden
+                self.set_status(403)
+                self.send_error(403)
+        else:
+            # Disable update by admin, because an admin will change the statut of sheet validation
+            updated_by_admin = False
 
         self._db.update_user(user, character, delete_user_by_id=delete_user_by_id,
                              delete_character_by_id=delete_character_by_id, updated_by_admin=updated_by_admin)
@@ -589,7 +668,6 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
 
 
 class ManualHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     def get(self):
         str_value = self._manual.get_str_all(is_admin=False)
         self.write(str_value)
@@ -597,7 +675,6 @@ class ManualHandler(jsonhandler.JsonHandler):
 
 
 class ManualAdminHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     def get(self):
         if not self.is_permission_admin():
             print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
@@ -611,7 +688,6 @@ class ManualAdminHandler(jsonhandler.JsonHandler):
 
 
 class ProfileCmdUpdatePasswordHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     def post(self):
         if self._global_arg["disable_login"]:
             # Not Found
@@ -668,7 +744,6 @@ class ProfileCmdUpdatePasswordHandler(jsonhandler.JsonHandler):
 
 
 class ProfileCmdAddNewPasswordHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     def post(self):
         if self._global_arg["disable_login"]:
             # Not Found
@@ -686,7 +761,7 @@ class ProfileCmdAddNewPasswordHandler(jsonhandler.JsonHandler):
             raise tornado.web.Finish()
 
         # Validate if can add a new password
-        if current_user["password"]:
+        if current_user.get("password"):
             # Already contain a password
             print("User password is not empty from %s" % self.request.remote_ip, file=sys.stderr)
             data = {"error": "User password is not empty."}
@@ -716,7 +791,6 @@ class ProfileCmdAddNewPasswordHandler(jsonhandler.JsonHandler):
 
 
 class ProfileCmdInfoHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def get(self):
         # TODO not sure it's secure
@@ -731,18 +805,19 @@ class ProfileCmdInfoHandler(jsonhandler.JsonHandler):
             "locale": user.get("locale"),
             "password": bool(user.get("password")),
             "user_id": user.get("user_id"),
-            "google_id": bool(user.get("google_id")),
-            "facebook_id": bool(user.get("facebook_id")),
-            "twitter_id": bool(user.get("twitter_id")),
             "permission": user.get("permission"),
             "postal_code": user.get("postal_code"),
         }
+        if not self._global_arg["disable_login_oauth"]:
+            return_user["google_id"] = bool(user.get("google_id"))
+            return_user["facebook_id"] = bool(user.get("facebook_id"))
+            return_user["twitter_id"] = bool(user.get("twitter_id"))
+
         self.write(return_user)
         self.finish()
 
 
 class EditorCmdInfoHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def get(self):
         if not self.is_permission_admin():
@@ -792,7 +867,6 @@ class EditorCmdInfoHandler(jsonhandler.JsonHandler):
 
 
 class EditorCmdAddGeneratorShareHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def post(self):
         if not self.is_permission_admin():
@@ -828,7 +902,6 @@ class EditorCmdAddGeneratorShareHandler(jsonhandler.JsonHandler):
 
 
 class EditorCmdUpdateFileUrlHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def post(self):
         if not self.is_permission_admin():
@@ -870,7 +943,6 @@ class EditorCmdUpdateFileUrlHandler(jsonhandler.JsonHandler):
 
 
 class EditorCmdGenerateAndSaveHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def post(self):
         if not self.is_permission_admin():
@@ -899,8 +971,10 @@ class EditorCmdGenerateAndSaveHandler(jsonhandler.JsonHandler):
                 doc_part = document.get("lore")
                 info["lore"] = doc_part
                 # self._manual.update({"lore": doc_part}, save=True)
-            if "schema_user" in document or "schema_char" in document or "form_user" in document \
-                    or "form_char" in document or "admin_form_user" in document or "admin_form_char" in document:
+            if "schema_user" in document or "schema_user_point" in document or "schema_user_print" in document or \
+                    "schema_char" in document or "schema_char_point" in document or "schema_char_print" in document or \
+                    "form_user" in document or "form_char" in document or "admin_form_user" in document or \
+                    "admin_form_char" in document:
                 dct_char_rule = {}
                 if "schema_user" in document:
                     doc_part = document.get("schema_user")
@@ -908,6 +982,18 @@ class EditorCmdGenerateAndSaveHandler(jsonhandler.JsonHandler):
                 if "schema_char" in document:
                     doc_part = document.get("schema_char")
                     dct_char_rule["schema_char"] = doc_part
+                if "schema_user_point" in document:
+                    doc_part = document.get("schema_user_point")
+                    dct_char_rule["schema_user_point"] = doc_part
+                if "schema_char_point" in document:
+                    doc_part = document.get("schema_char_point")
+                    dct_char_rule["schema_char_point"] = doc_part
+                if "schema_user_print" in document:
+                    doc_part = document.get("schema_user_print")
+                    dct_char_rule["schema_user_print"] = doc_part
+                if "schema_char_print" in document:
+                    doc_part = document.get("schema_char_print")
+                    dct_char_rule["schema_char_print"] = doc_part
                 if "form_user" in document:
                     doc_part = document.get("form_user")
                     dct_char_rule["form_user"] = doc_part
@@ -925,6 +1011,8 @@ class EditorCmdGenerateAndSaveHandler(jsonhandler.JsonHandler):
 
             info["point"] = document["point"]
             info["skill_manual"] = document["skill_manual"]
+            info["hability_point"] = document["hability_point"]
+            info["system_point"] = document["system_point"]
 
             # Link manual and form
             info = self._manual.generate_link(info)
@@ -940,7 +1028,6 @@ class EditorCmdGenerateAndSaveHandler(jsonhandler.JsonHandler):
 
 
 class CharacterApprobationHandler(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     @tornado.web.authenticated
     def post(self):
         if not self.is_permission_admin():
@@ -963,7 +1050,6 @@ class CharacterApprobationHandler(jsonhandler.JsonHandler):
 
 
 class StatSeasonPass(jsonhandler.JsonHandler):
-    @tornado.web.asynchronous
     def get(self):
         self.write(self._db.stat_get_total_season_pass())
         self.finish()
@@ -972,7 +1058,6 @@ class StatSeasonPass(jsonhandler.JsonHandler):
 class ValidateAuthHandler(base_handler.BaseHandler):
     """This class is designed purely for client-side validation"""
 
-    @tornado.web.asynchronous
     def get(self):
         username = self.get_argument("username", default=None)
 

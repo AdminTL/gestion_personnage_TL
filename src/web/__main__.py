@@ -59,6 +59,7 @@ def parse_args():
     group = parser.add_argument_group("Web")
     group.add_argument('-l', '--web-listen-address', dest='listen', default=Listen(), type=parse_listen,
                        help='Web: Web server listen address')
+    group.add_argument('--host', dest='host', default="", help='Host name for third party')
     group.add_argument('--redirect_http_to_https', default=False, action='store_true',
                        help='Redirect all http request to https, only if ssl is enable. When enable, if port is 80, '
                             'https port will be 443, else the port of https will be http port + 1.')
@@ -73,8 +74,19 @@ def parse_args():
                        help='Active to disable character module.')
     group.add_argument('--disable_user_character', default=False, action='store_true',
                        help='Active to disable character module for not admin user.')
+    group.add_argument('--disable_message_character', default=False, action='store_true',
+                       help='Active to disable message from administration for player.')
+    group.add_argument('--organization_name', default="Larp'em", help='Choose your organization name.')
     group.add_argument('--disable_login', default=False, action='store_true',
                        help='Active to disable login module.')
+    group.add_argument('--disable_news', default=False, action='store_true',
+                       help='Active to disable news module.')
+    group.add_argument('--disable_lore', default=False, action='store_true',
+                       help='Active to disable lore module.')
+    group.add_argument('--disable_manual', default=False, action='store_true',
+                       help='Active to disable manual module.')
+    group.add_argument('--disable_login_oauth', default=False, action='store_true',
+                       help='Active to disable login oauth module.')
     group.add_argument('--disable_admin', default=False, action='store_true',
                        help='Active to disable admin module.')
     # TODO Force to disable this feature until it's improve

@@ -34,16 +34,22 @@ class BaseHandler(tornado.web.RequestHandler):
             "db": self._db,
             "disable_character": kwargs.get("disable_character"),
             "disable_user_character": kwargs.get("disable_user_character"),
+            "disable_message_character": kwargs.get("disable_message_character"),
+            "organization_name": kwargs.get("organization_name"),
             "disable_admin": kwargs.get("disable_admin"),
             "disable_login": kwargs.get("disable_login"),
+            "disable_news": kwargs.get("disable_news"),
+            "disable_lore": kwargs.get("disable_lore"),
+            "disable_manual": kwargs.get("disable_manual"),
+            "disable_login_oauth": kwargs.get("disable_login_oauth"),
             "hide_menu_login": kwargs.get("hide_menu_login"),
             "disable_custom_css": kwargs.get("disable_custom_css"),
             "url": kwargs.get("url"),
             "port": kwargs.get("port"),
+            "host": kwargs.get("host"),
             "invalid_login": self._invalid_login
         }
 
-    @tornado.web.asynchronous
     def prepare(self):
         if self._redirect_http_to_https and self.request.protocol == 'http':
             # self.redirect('https://' + self.request.host, permanent=False)

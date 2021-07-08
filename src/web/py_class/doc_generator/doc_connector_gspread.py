@@ -3,6 +3,9 @@
 import sys
 import gspread
 from enum import Enum
+from collections import defaultdict
+
+SHEET_SYSTEM_POINT = "system_point"
 
 
 class DocType(Enum):
@@ -16,9 +19,11 @@ class DocType(Enum):
     FORM = 1
     # To generate database model
     SCHEMA = 2
+    # To generate point system
+    POINT = 3
 
     # To manage event
-    # EVENT = 3
+    # EVENT = 4
 
     def get_header(self):
         """
@@ -38,7 +43,12 @@ class DocType(Enum):
         elif self.value == self.SCHEMA.value:
             header = [
                 "Level", "Name", "Type", "Title", "minLength", "pattern", "required", "minItems", "maxItems",
-                "uniqueItems", "Description"
+                "uniqueItems", "ImpressionIndex", "ValidateRequired", "Point", "Description"
+            ]
+        elif self.value == self.POINT.value:
+            header = [
+                "Level", "Name", "Description", "Explication", "Type", "Min", "Max", "Initial", "Formule", "HideValue",
+                "Required"
             ]
         else:
             header = []
@@ -59,6 +69,8 @@ class DocType(Enum):
             cb = doc_connector_gspread._parse_sheet_type_form
         elif self.value == self.SCHEMA.value:
             cb = doc_connector_gspread._parse_sheet_type_schema
+        elif self.value == self.POINT.value:
+            cb = doc_connector_gspread._parse_sheet_type_point
         else:
             cb = None
         return cb
@@ -84,6 +96,7 @@ class DocConnectorGSpread:
         self._doc_manual_skill = {}
 
         self._info_sheet = [
+            {"type": DocType.POINT, "name": SHEET_SYSTEM_POINT, "permission": ["anyone"]},
             {"type": DocType.DOC, "name": "manual", "permission": ["anyone"]},
             {"type": DocType.DOC, "name": "manual", "permission": ["admin"], "is_admin": True},
             {"type": DocType.DOC, "name": "lore", "permission": ["anyone"]},
@@ -147,6 +160,24 @@ class DocConnectorGSpread:
         :return: return False if the document is not generated, else return the dict
         """
         if self._generated_doc:
+            # Fill missing part
+            if "manual" not in self._generated_doc.keys():
+                self._generated_doc["manual"] = []
+            if "lore" not in self._generated_doc.keys():
+                self._generated_doc["lore"] = []
+            if "char_rule" not in self._generated_doc.keys():
+                self._generated_doc["char_rule"] = {
+                    "schema_user": {},
+                    "schema_char": {},
+                    "schema_user_point": {},
+                    "schema_char_point": {},
+                    "schema_user_print": {},
+                    "schema_char_print": {},
+                    "form_user": {},
+                    "form_char": {},
+                    "admin_form_user": {},
+                    "admin_form_char": {},
+                }
             return self._generated_doc
         return False
 
@@ -158,7 +189,7 @@ class DocConnectorGSpread:
         # To know if permission error, get worksheets
         try:
             self._g_file.worksheets()
-        except gspread.v4.exceptions.APIError as e:
+        except gspread.exceptions.APIError as e:
             if e.response.status_code == 403:
                 return False
             if e.response.status_code == 401:
@@ -220,6 +251,8 @@ class DocConnectorGSpread:
         worksheet_list = sh.worksheets()
         dct_doc = {}
         self._doc_point = {}
+        # List of existing point from system
+        self._lst_doc_point = []
         self._doc_manual_skill = {}
 
         for sheet_info in self._info_sheet:
@@ -244,8 +277,12 @@ class DocConnectorGSpread:
                 return False
 
             # Validate the header
-            header_row = manual_sheet.row_values(1)
-            if sheet_type.get_header() != header_row:
+            has_error = False
+            try:
+                header_row = manual_sheet.row_values(1)
+            except:
+                has_error = True
+            if has_error or sheet_type.get_header() != header_row:
                 self._error = "Header of sheet %s is %s, and expected is %s" % (
                     sheet_name, header_row, sheet_type.get_header())
                 print(self._error, file=sys.stderr)
@@ -255,28 +292,110 @@ class DocConnectorGSpread:
             all_values = manual_sheet.get_all_values()
 
             # Parse sheet
-            cb = sheet_type.get_cb_parser(self)
-            if cb:
-                info = cb(sheet_info, sheet_name, all_values)
+            if len(all_values) < 2:
+                # missing data
+                print(f"Missing data for {sheet_name}", file=sys.stderr)
             else:
-                self._error = "Internal error, cannot find method to parse the sheet with type %s." % sheet_type
-                print(self._error, file=sys.stderr)
-                return False
+                cb = sheet_type.get_cb_parser(self)
+                if cb:
+                    info = cb(sheet_info, sheet_name, all_values)
+                else:
+                    self._error = "Internal error, cannot find method to parse the sheet with type %s." % sheet_type
+                    print(self._error, file=sys.stderr)
+                    return False
 
-            if info is None:
-                # Error in parsing
-                return False
+                if info is None:
+                    # Error in parsing
+                    return False
 
-            # Compilation of unique result
-            is_form_admin = sheet_info.get("is_admin", False)
-            adapted_sheet_name = sheet_name if not is_form_admin else "admin_" + sheet_name
-            dct_doc[adapted_sheet_name] = info
+                # Compilation of unique result
+                is_form_admin = sheet_info.get("is_admin", False)
+                adapted_sheet_name = sheet_name if not is_form_admin else "admin_" + sheet_name
+                dct_doc[adapted_sheet_name] = info
+
+                if adapted_sheet_name == SHEET_SYSTEM_POINT:
+                    for info_v in info:
+                        self._lst_doc_point.append(info_v.get("name"))
 
         # Add extra compilation about point page
         dct_doc["point"] = self._doc_point
         dct_doc["skill_manual"] = self._doc_manual_skill
 
+        status = self._build_schema_point(dct_doc)
+        if status is None:
+            # Error in parsing
+            return
+        status = self._build_reverse_point(dct_doc)
+        if status is None:
+            # Error in parsing
+            return
+        status = self._build_schema_print(dct_doc)
+        if status is None:
+            # Error in parsing
+            return
+
         self._generated_doc = dct_doc
+        return True
+
+    def _build_reverse_point(self, dct_doc):
+        # Create hability_point
+        dct_hability_point = defaultdict(dict)
+        dct_doc["hability_point"] = dct_hability_point
+        for hability_name, dct_point in dct_doc.get("point").items():
+            for point_key, point_value in dct_point.items():
+                dct_hability_point[point_key][hability_name] = point_value
+        return True
+
+    def _build_schema_point(self, dct_doc):
+        dct_schema_user_point = defaultdict(dict)
+        dct_schema_char_point = defaultdict(dict)
+        dct_doc["schema_user_point"] = dct_schema_user_point
+        dct_doc["schema_char_point"] = dct_schema_char_point
+        status = self._extract_point_from_schema(dct_schema_user_point, dct_doc.get("schema_user"))
+        if status is None:
+            return
+        status = self._extract_point_from_schema(dct_schema_char_point, dct_doc.get("schema_char"))
+        if status is None:
+            return
+        return True
+
+    def _build_schema_print(self, dct_doc):
+        lst_schema_user_print = []
+        lst_schema_char_print = []
+        dct_doc["schema_user_print"] = lst_schema_user_print
+        dct_doc["schema_char_print"] = lst_schema_char_print
+
+        for (key, value) in dct_doc.get("schema_user").get("properties").items():
+            if "ImpressionIndex" not in value.keys():
+                continue
+            new_value = value.copy()
+            if "key" in new_value.keys():
+                self._error = "Internal error, duplicated key."
+                print(self._error, file=sys.stderr)
+                return False
+            new_value["key"] = key
+            lst_schema_user_print.append(new_value)
+        lst_schema_user_print.sort(key=lambda x: x.get("ImpressionIndex"))
+
+        for (key, value) in dct_doc.get("schema_char").get("properties").items():
+            if "ImpressionIndex" not in value.keys():
+                continue
+            new_value = value.copy()
+            if "key" in new_value.keys():
+                self._error = "Internal error, duplicated key."
+                print(self._error, file=sys.stderr)
+                return False
+            new_value["key"] = key
+            lst_schema_char_print.append(new_value)
+        lst_schema_char_print.sort(key=lambda x: x.get("ImpressionIndex"))
+        return True
+
+    def _extract_point_from_schema(self, dct_doc_point, dct_schema):
+        for key, prop in dct_schema.get("properties").items():
+            if "point" in prop.keys():
+                point = prop.get("point")
+                for pt_name, value in point.items():
+                    dct_doc_point[pt_name][key] = value
         return True
 
     def _parse_sheet_type_schema(self, sheet_info, doc_sheet_name, all_values):
@@ -308,7 +427,10 @@ class DocConnectorGSpread:
             min_items = lst_item[7]
             max_items = lst_item[8]
             unique_items = lst_item[9]
-            description = lst_item[10]
+            impression_index = lst_item[10]
+            validate_required = bool(lst_item[11])
+            point = lst_item[12]
+            description = lst_item[13]
 
             if not level:
                 continue
@@ -326,6 +448,14 @@ class DocConnectorGSpread:
 
             # The next parameter is optional
             # Check if integer
+            if impression_index:
+                if not impression_index.isdigit():
+                    msg = "The case ImpressionIndex need to be an integer, receive %s" % level
+                    self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                    print(self._error, file=sys.stderr)
+                    return None
+                impression_index = int(impression_index)
+
             if min_length:
                 if not min_length.isdigit():
                     msg = "The case MinLength need to be an integer, receive %s" % level
@@ -354,6 +484,14 @@ class DocConnectorGSpread:
                 unique_items = True
             elif unique_items == "FALSE" or unique_items == "FAUX":
                 unique_items = False
+
+            if point:
+                dct_point_v = self._transform_point(line_number, doc_sheet_name, point)
+                if dct_point_v is None:
+                    # error already printed
+                    return
+            else:
+                dct_point_v = None
 
             # First iteration
             if dct_value is None:
@@ -457,6 +595,12 @@ class DocConnectorGSpread:
                 line_value["maxItems"] = max_items
             if type(unique_items) is bool:
                 line_value["uniqueItems"] = unique_items
+            if type(impression_index) is int:
+                line_value["ImpressionIndex"] = impression_index
+            if validate_required:
+                line_value["validateRequired"] = validate_required
+            if dct_point_v:
+                line_value["point"] = dct_point_v
             if description:
                 line_value["description"] = description
 
@@ -500,13 +644,12 @@ class DocConnectorGSpread:
             if not level:
                 continue
 
-            if is_admin == "TRUE" or is_admin == "VRAI":
-                is_admin = True
-            else:
-                is_admin = False
+            is_admin = bool(is_admin == "TRUE" or is_admin == "VRAI")
+            read_only_player = bool(read_only_player == "TRUE" or read_only_player == "VRAI")
 
             # Ignore admin field when sheet is not admin
-            if not is_form_admin and is_admin:
+            # Exception when readOnlyPlayer
+            if (not is_form_admin and is_admin) and not read_only_player:
                 continue
 
             # Validation section
@@ -629,6 +772,9 @@ class DocConnectorGSpread:
                 else:
                     line_value["options"] = str_option
 
+            if read_only_player and not is_form_admin:
+                line_value["readonly"] = True
+
             if style:
                 lst_style = style.split(",")
                 dct_style = {}
@@ -667,6 +813,124 @@ class DocConnectorGSpread:
                     line_value["style"] = str_style
 
         return lst_value
+
+    def _parse_sheet_type_point(self, sheet_info, doc_sheet_name, all_values):
+        """
+        Read each line of the doc from the spreadsheet and generate the structure.
+        :param sheet_info: Sheet information
+        :param doc_sheet_name: Sheet name
+        :param all_values: List of all row from the spreadsheet
+        :return: List of section to the doc or None when got error
+        """
+        lst_point_section = []
+
+        # Extract all point
+        line_number = 1
+        lst_value = all_values[1:]
+
+        for row in lst_value:
+            line_number += 1
+            section = {}
+
+            level = row[0]
+            # Ignore if level is empty
+            if not level:
+                continue
+
+            elif level.isdigit():
+                # Validate level value
+                level = int(level)
+                if not (0 < level <= 5):
+                    msg = "The field level need to be an integer 1 to 5. Got %s" % level
+                    self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                    print(self._error, file=sys.stderr)
+                    return
+            else:
+                msg = "The field level need to be an integer 1 to 5. Type String and got %s" % level
+                self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                print(self._error, file=sys.stderr)
+                return
+
+            check_contain_value = any(row[1:])
+            if not check_contain_value:
+                # Ignore empty line
+                continue
+
+            name = row[1]
+            if not name:
+                msg = "Name element is empty."
+                self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                print(self._error, file=sys.stderr)
+                return None
+            section["name"] = name
+
+            description = row[2]
+            if not description:
+                msg = "Description element is empty."
+                self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                print(self._error, file=sys.stderr)
+                return None
+            section["description"] = description
+
+            # Ignore it
+            # explication = row[3]
+
+            type_v = row[4]
+            tpl_type = ("Attribut", "Ressource")
+            if not type_v:
+                msg = "Type element is empty."
+                self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                print(self._error, file=sys.stderr)
+                return None
+            elif type_v not in tpl_type:
+                msg = f"Type element is not into {tpl_type}."
+                self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                print(self._error, file=sys.stderr)
+                return None
+            section["type"] = type_v
+
+            min_v = row[5]
+            if min_v:
+                if not min_v.isnumeric():
+                    msg = f"Min element is not a number."
+                    self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                    print(self._error, file=sys.stderr)
+                    return None
+                section["min"] = int(min_v)
+
+            max_v = row[6]
+            if max_v:
+                if not max_v.isnumeric():
+                    msg = f"Max element is not a number."
+                    self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                    print(self._error, file=sys.stderr)
+                    return None
+                section["max"] = int(max_v)
+
+            initial_v = row[7]
+            if initial_v:
+                if not initial_v.isnumeric():
+                    msg = f"Initial element is not a number."
+                    self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                    print(self._error, file=sys.stderr)
+                    return None
+                section["initial"] = int(initial_v)
+
+            formule = row[8]
+            if formule:
+                section["formule"] = formule
+
+            hide_value = row[9]
+            if hide_value:
+                section["hide_value"] = bool(hide_value)
+
+            required = row[10]
+            if required:
+                section["required"] = bool(required)
+
+            lst_point_section.append(section)
+
+        return lst_point_section
 
     def _parse_sheet_type_doc(self, sheet_info, doc_sheet_name, all_values):
         """
@@ -939,18 +1203,12 @@ class DocConnectorGSpread:
                 return False
             section["under_level_color"] = under_level_color
 
-        # HACK with model
         updated_sub_key = sub_key
-        if "habilites" in model:
-            updated_sub_key = "habilites_" + sub_key
-        elif "technique_maitre" in model:
-            updated_sub_key = "technique_maitre_" + sub_key
-        elif "merite" in model:
-            updated_sub_key = "merite_" + sub_key
-        elif "esclave" in model:
-            updated_sub_key = "esclave_" + sub_key
-        elif "marche" in model:
-            updated_sub_key = "marche_" + sub_key
+        # Support array of array
+        key_detected_options = "[]."
+        pos_key = model.find(key_detected_options)
+        if pos_key >= 0:
+            updated_sub_key = f"{model[:pos_key]}_{sub_key}"
 
         if sub_key:
             section["sub_key"] = sub_key
@@ -964,7 +1222,7 @@ class DocConnectorGSpread:
 
         if model:
             section["model"] = model
-        if not is_form_admin and point and sub_key:
+        if point and sub_key:
             dct_point = self._transform_point(line_number, doc_sheet_name, point)
             if dct_point is None:
                 return False
@@ -975,14 +1233,14 @@ class DocConnectorGSpread:
             #     print(self._error, file=sys.stderr)
             #     return False
 
-            if updated_sub_key in self._doc_point:
-                # HACK ignore "Contrebande" duplication
-                # TODO send a warning about duplication and not a failure
-                if "Contrebande" not in updated_sub_key:
-                    msg = "Duplicated sub_key : %s" % updated_sub_key
-                    self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
-                    print(self._error, file=sys.stderr)
-                    return False
+            # if updated_sub_key in self._doc_point:
+            #     # HACK ignore "Contrebande" duplication
+            #     # TODO send a warning about duplication and not a failure
+            #     if "Contrebande" not in updated_sub_key:
+            #         msg = "Duplicated sub_key : %s" % updated_sub_key
+            #         self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+            #         print(self._error, file=sys.stderr)
+            #         return False
 
             self._doc_point[updated_sub_key] = dct_point
         if hide_player:
@@ -1008,8 +1266,35 @@ class DocConnectorGSpread:
                 return
 
             key, value = str_single_point.split(":")
+            key = key.strip()
+            value = value.strip()
+
+            # special attribute of key with a dot
+            attribute_name = ""
+            if "." in key:
+                if key.count(".") > 1:
+                    msg = f"The key '{key}' has more than 1 '.'. Support only 1 with attributes."
+                    self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                    print(self._error, file=sys.stderr)
+                    return
+                lst_key = key.split(".")
+                attribute_name = lst_key[1]
+                if not attribute_name:
+                    msg = f"The key '{key}' missing information after the '.'."
+                    self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                    print(self._error, file=sys.stderr)
+                    return
+                key = lst_key[0]
+
             if key in dct_point:
                 msg = "Duplication key %s. Point : %s" % (key, str_point)
+                self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
+                print(self._error, file=sys.stderr)
+                return
+
+            # Validate point is from list of system point
+            if key not in self._lst_doc_point:
+                msg = f"The key '{key}' is not in system point, check sheet '{SHEET_SYSTEM_POINT}'."
                 self._error = "L.%s S.%s: %s" % (line_number, doc_sheet_name, msg)
                 print(self._error, file=sys.stderr)
                 return
@@ -1022,6 +1307,9 @@ class DocConnectorGSpread:
                 print(self._error, file=sys.stderr)
                 return
 
-            dct_point[key] = int_value
+            if attribute_name:
+                dct_point[key] = {attribute_name: int_value}
+            else:
+                dct_point[key] = int_value
 
         return dct_point

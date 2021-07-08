@@ -16,17 +16,18 @@
     "tests"
   ],
   "dependencies": {
-    "angular": ">= 1.6.2",
-    "angular-schema-form": ">= 0.8.12",
-    "angular-bootstrap": ">= 1.2.2",
-    "angular-route": ">= 1.5.5",
+    "angular": "1.6.8",
+    "angular-sanitize": "1.6.8",
+    "angular-schema-form": "0.8.12",
+    "angular-bootstrap": "1.2.2",
+    "angular-route": "1.6.8",
     "bootstrap": "3.3.6",
     "sockjs": "0.3.4",
     "angular-schema-form-dynamic-select": "master",
     "ngPrint": "master",
     "components-font-awesome": "master",
     "angular-qrcode": "master",
-    "jsSHA": "master",
+    "jsSHA": "2.4.2",
     "angular-moment": "master"
   }
 }

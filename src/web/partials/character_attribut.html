@@ -1,0 +1,20 @@
+<h2>Attribut du personnage</h2>
+<div>
+  <ul>
+    <li ng-repeat="(key, value) in char_point_attr">
+    <span ng-show="value['formule']">
+      <span style="font-weight:bold;color:cornflowerblue">{{!value.formule_result }}</span> {{!transform_plural(value.formule_result, value.description)}}
+    </span>
+      <span ng-hide="value['formule']">
+
+      <span ng-show="value['hide_value']">
+        <span style="font-weight:bold;color:cornflowerblue">{{!value.value }}</span> {{!transform_plural(value.value, value.description)}}
+      </span>
+      <span ng-hide="value['hide_value']">
+      <span style="font-weight:bold;color:cornflowerblue">{{!value.display_value }}</span> {{!transform_plural(value.value, value.description)}}
+      </span>
+
+    </span>
+    </li>
+  </ul>
+</div>

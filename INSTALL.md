@@ -24,21 +24,21 @@ Arch Linux
 ------
 ```{r, engine='bash', count_lines}
 sudo pacman -S python python-pip
-sudo pip install tornado sockjs-tornado tinydb bcrypt PyOpenSSL oauth2client gspread
+sudo pip install -r requirements.txt
 ```
 
 Mac OSX
 -------
 ```{r, engine='bash', count_lines}
 brew install python3
-sudo pip3 install tornado sockjs-tornado tinydb bcrypt PyOpenSSL oauth2client gspread
+sudo pip3 install -r requirements.txt
 ```
 
 Ubuntu / Debian
 ---------------
 ```{r, engine='bash', count_lines}
 sudo apt-get install python3 python3-pip
-sudo pip3 install tornado sockjs-tornado tinydb bcrypt PyOpenSSL oauth2client gspread
+sudo pip3 install -r requirements.txt
 ```
 
 If you have problem with oauth2client, maybe you need to update pyasn.
@@ -47,7 +47,11 @@ sudo apt-get --reinstall install python-pyasn1 python-pyasn1-modules
 ```
 or
 ```{r, engine='bash', count_lines}
-sudo pip4 install --upgrade google-auth-oauthlib
+sudo pip3 install --upgrade google-auth-oauthlib
+```
+or install all Google tools
+```{r, engine='bash', count_lines}
+sudo pip3 install -U pypinfo
 ```
 
 Windows
@@ -56,7 +60,7 @@ Install python 3 from https://www.python.org/downloads/ using the installer
 Install nodejs if not done already https://nodejs.org/en/download/
 Start a cmd prompt with admin privileges by right-clicking->run as administrator (git-bash works well)
 ```
-pip3 install tornado sockjs-tornado tinydb PyOpenSSL oauth2client gspread
+pip3 install -r requirements.txt
 ```
 
 Bower
@@ -78,6 +82,7 @@ Choose the first option if bower asks to resolve conflict.
 Authentication
 ==============
 To disable authentication, use argument --disable_login
+To disable oauth authentication, use argument --disable_login_oauth
 
 Running
 =======
@@ -112,10 +117,30 @@ Systemctl
 You can setup the daemon with Systemctl.
 
 ```
-cp ./script/gestion_personnage.service /etc/systemd/system/gestion_personnage.service
+sudo cp ./script/gestion_personnage.service /etc/systemd/system/gestion_personnage.service
 ```
 
-And edit the file on destination with argument you need.
+Edit the file on destination with argument you need.
+Update the variable `WorkingDirectory` and `ExecStart`.
+
+Run the daemon:
+```
+sudo systemctl enable gestion_personnage.service
+sudo systemctl start gestion_personnage.service
+```
+
+Database
+--------
+
+Create user database.
+```
+touch database/client_secret.json
+```
+
+Create you a user.
+
+TODO missing admin permission, ask help
+TODO missing Google Spreadsheet documentation
 
 Options
 -------
@@ -131,6 +156,8 @@ Options
 --redirect_http_to_https : when you need to support external link with http, this will redirect request to https.
 --use_internet_static : Not implemented. Force using static files like css and js from another internet website. Use web browser cache. (default=False)
 --disable_login : Disable authentication
+--disable_login_oauth : Disable authentication oauth
 --disable_character : Disable access to character
 --disable_user_character : Disable access to user of our character
+--disable_message_character : Disable message to user in your character sheet from administration
 ```

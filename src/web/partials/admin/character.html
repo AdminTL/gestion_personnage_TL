@@ -1,10 +1,9 @@
 {% extends "_base.html" %}
 
 {% block content %}
-<div ng-controller="character_ctrl" ng-cloak>
-  <div class="col-xs-3 bs-docs-sidebar" ng-hide="isMobile() && player">
-    <br/>
-    <div class="bs-sidebar hidden-print affix" role="complementary">
+<div ng-controller="character_ctrl" class="row" ng-cloak>
+  <div>
+    <div class="bs-docs-sidebar col-xs-12 col-sm-3 hidden-print affix" role="complementary">
 
       Joueur
       <div ng-show="!new_player">
@@ -14,8 +13,6 @@
         <button class="btn btn-success" ng-click="onSubmit(my_form_char)"><span class="glyphicon glyphicon-floppy-save"></span> <span class="glyphicon glyphicon-user"></span>
           Enregistrer nouveau joueur
         </button>
-      </div>
-      <div ng-show="new_player">
         <button class="btn btn-danger" ng-click="discardPlayer()"><span class="glyphicon glyphicon-remove"></span> <span class="glyphicon glyphicon-user"></span> Annuler nouveau joueur</button>
       </div>
       <div class="list-group" ng-show="!new_player">
@@ -25,505 +22,48 @@
         </select>
         <a ng-click="refresh_page()" class="btn btn-lg btn-warning" role="button">Rafraîchir</a><br/>
         Appuyez avant de choisir une fiche.
-        <!--<br/>-->
-        <!--Vue de fiche:<br/>-->
-        <!--<label>-->
-        <!--<input type="radio" ng-model="sheet_view.mode" value="fiche_read"> Fiche en lecture-->
-        <!--</label><br/>-->
-        <!--<label>-->
-        <!--<input type="radio" ng-model="sheet_view.mode" value="form_write"> Formulaire-->
-        <!--</label><br/>-->
-        <!--<button class="btn btn-primary" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i>Imprimer</button>-->
       </div>
-
-      <div ng-show="player && !new_player">
-        Fiche personnage
-        <!--<div ng-show="!new_character">-->
-        <!--<button class="btn btn-success" ng-click="newCharacter()"><span class="glyphicon glyphicon-plus"></span> <span class="glyphicon glyphicon-file"></span> Nouveau personnage</button>-->
-        <!--</div>-->
-        <ul class="nav">
-          <li ng-repeat="value in player.character">
-            <button ng-style="character.name == value.name && {color:'#FF4E00'}" ng-if="character.name" type="button" class="btn btn-info nav-button" ng-click="setCharacterData(value)">
-              {{! value.name }}
-            </button>
-          </li>
-        </ul>
-        <br/>
-      </div>
-
-      <div ng-show="player && player.character">
-        <div>
-          Point d'XP
-          <span ng-style="xp_total > 0 ? {'color': 'yellow'} : (xp_total < 0 ? {'color': 'red'} : {'color': 'green'})"> {{! xp_spend }} / {{! xp_receive }}</span>
-        </div>
-        <div>
-          Point de Mérite
-          <span ng-style="merite_total > 0 ? {'color': 'yellow'} : (merite_total < 0 ? {'color': 'red'} : {'color': 'green'})"> {{! merite_spend }} / {{! merite_receive }}</span>
-        </div>
-        <div ng-show="enable_debug">
-          <br/>
-          <div ng-repeat="(key, value) in character_point" style="color:gold">
-            {{! key }} : {{! value }}
-          </div>
-        </div>
-      </div>
-      <!--<div ng-hide="isMobile() || !html_qr_code" style="height:200px;width:200px;background:white" ng-bind-html="html_qr_code"></div>-->
+      {% include "../character_choose_sheet.html" %}
     </div>
-  </div>
 
-  <div ng-show="player" role="main" class="col-sm-offset-4">
-    <div ng-show="sheet_view.mode == 'form_write'">
-      <div ng-show="isMobile()">
-        <div ng-show="!new_player">
-          Liste des joueurs.
-          <button class="btn btn-success" ng-click="newPlayer()"><span class="glyphicon glyphicon-plus"></span> <span class="glyphicon glyphicon-user"></span> Nouveau joueur</button>
-          <br/>
-          Nb joueur : {{!ddb_user.length}}
-          <select class="form-control" ng-model="player" ng-options="get_text_select_character(user) for user in ddb_user | orderBy:'name'" ng-change="setCharacterData(null)">
-            <option value="">--Sélectionner un joueur--</option>
-          </select>
-          <a ng-click="refresh_page()" class="btn btn-lg btn-warning" role="button">Rafraîchir</a><br/>
-          Appuyez avant de choisir une fiche.
-          <hr/>
-          <!--<br/>-->
-          <!--Vue de fiche:<br/>-->
-          <!--<label>-->
-          <!--<input type="radio" ng-model="sheet_view.mode" value="fiche_read"> Fiche en lecture-->
-          <!--</label><br/>-->
-          <!--<label>-->
-          <!--<input type="radio" ng-model="sheet_view.mode" value="form_write"> Formulaire-->
-          <!--</label><br/>-->
-          <!--<button class="btn btn-primary" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i>Imprimer</button>-->
+    <div ng-show="player" role="main" class="col-xs-12 col-sm-9 pull-right">
+      {% include "character_menu.html" %}
+
+      <div class="tab-content" id="manual_main_content">
+        <!-- Status -->
+        <div id="menu_status" class="tab-pane fade">
+          <h1>Statut de la fiche</h1>
+
+          {% include "character_approbation.html" %}
+          {% include "../character_status_sheet.html" %}
+          {% include "profile_permission.html" %}
         </div>
-      </div>
 
-      <ul class="nav nav-pills">
-        <li class="active"><a data-toggle="pill" href="#menu_form">Formulaire</a></li>
-        <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sommaire <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#menu_attribut" data-toggle="pill">Attribut</a></li>
-            <li><a href="#menu_skill" data-toggle="pill">Habileté</a></li>
-            <li><a href="#menu_game_begin" data-toggle="pill">Objet de départ</a></li>
-          </ul>
-        </li>
-        <li><a data-toggle="pill" href="#menu_message">Message important</a></li>
-      </ul>
-
-      <h1>Information pour le joueur</h1>
-
-      <div>
-        <h2>Approbation</h2>
-        <p>
-          Approbation de la fiche :
-          <span style="color:cornflowerblue" ng-show="is_approbation_new(player)">✪ nouveau</span>
-          <span style="color:green" ng-show="is_approbation_approved(player)">✓ approuvé</span>
-          <span style="color:yellow" ng-show="is_approbation_unapproved(player)">✗ en attente</span>
-          <span style="color:darkgray" ng-show="is_approbation_inactive(player)">✞ inactif</span>
-          <span style="color:indianred" ng-show="is_approbation_to_correct(player)">✐ à corriger</span>
-          <br/>
-          <span ng-show="model_char.approbation.date">Date d'approbation : {{! model_char.approbation.date * 1000 | UTCToNow: true }}</span><br/>
-          <button class="btn btn-success" ng-click="send_approbation(1)" ng-hide="is_approbation_approved(player)">Approuver ✓</button>
-          <button class="btn btn-danger" ng-click="send_approbation(4)" ng-hide="is_approbation_to_correct(player)">À corriger ✐</button>
-          <button class="btn btn-warning" ng-click="send_approbation(2)" ng-hide="is_approbation_unapproved(player)">Désapprouver ✗</button>
-          <button class="btn btn-default" ng-click="send_approbation(3)" ng-hide="is_approbation_inactive(player)">Inactif ✞</button>
-          <button class="btn btn-info" ng-click="send_approbation(0)" ng-hide="is_approbation_new(player)">Nouveau ✪</button>
-        </p>
-      </div>
-
-      <h2>État de la fiche</h2>
-      <p>
-        Date de création : {{! model_char.date_creation * 1000 | UTCToNow: true }}<br/>
-        Date de mise à jour : {{! model_char.date_modify * 1000 | UTCToNow: true }}
-      </p>
-
-      <div>
-        <!-- Sheet status -->
-        La fiche <span ng-show="get_status_validation() == 0" style="color:green">est à jour</span><span ng-show="get_status_validation() == 1" style="color:yellow">est à améliorer</span><span
-          ng-show="get_status_validation() == -1" style="color:red">est à corriger</span>.
-        <span ng-show="xp_total < 0">Il y a <span style="color:red"><span style="font-weight:bold;text-decoration: underline">{{! -(xp_total) }}</span> XP à enlever</span>.</span>
-        <span ng-show="xp_total > 0">Il y a <span style="color:yellow"><span style="font-weight:bold;text-decoration: underline">{{! xp_total }}</span> XP à placer</span>.</span>
-        <span ng-show="merite_total < 0">Il y a <span style="color:red"><span style="font-weight:bold;text-decoration: underline">{{! -(merite_total) }}</span> Mérite à enlever</span>.</span>
-        <span ng-show="merite_total > 0">Il y a <span style="color:yellow"><span style="font-weight:bold;text-decoration: underline">{{! merite_total }}</span> Mérite en banque</span>.</span>
-        <span ng-show="diff_sous_ecole < 0">Il y a <span style="color:red"><span
-            style="font-weight:bold;text-decoration: underline">{{! -(diff_sous_ecole) }}</span> sous-école à enlever</span>.</span>
-        <span ng-show="diff_sous_ecole > 0">Il y a <span style="color:yellow"><span
-            style="font-weight:bold;text-decoration: underline">{{! diff_sous_ecole }}</span> sous-école à choisir</span>.</span>
-        <span ng-show="!model_char.name"><span style="color:red">Nom du personnage est manquant</span>.</span>
-        <span ng-show="!model_char.faction"><span style="color:red">Faction manquante</span>.</span>
-        <span ng-show="count_master_tech > (xp_receive - xp_default + 1)">Il y a <span style="color:red"><span
-            style="font-weight:bold;text-decoration: underline">{{! count_master_tech - (xp_receive - xp_default + 1) }}</span> technique de maitre à enlever</span>.</span>
-      </div>
-
-      <div ng-show="isMobile() && enable_debug">
-        <div>
-          Point d'XP
-          <span ng-style="xp_total > 0 ? {'color': 'yellow'} : (xp_total < 0 ? {'color': 'red'} : {'color': 'green'})"> {{! xp_spend }} / {{! xp_receive }}</span>
-        </div>
-        <div>
-          Point de Mérite
-          <span ng-style="merite_total > 0 ? {'color': 'yellow'} : (merite_total < 0 ? {'color': 'red'} : {'color': 'green'})"> {{! merite_spend }} / {{! merite_receive }}</span>
-        </div>
-        <div ng-show="enable_debug">
-          <br/>
-          <div ng-repeat="(key, value) in character_point" style="color:gold">
-            {{! key }} : {{! value }}
-          </div>
-        </div>
-      </div>
-
-      <div class="tab-content">
         <!-- form -->
         <div id="menu_form" class="tab-pane fade in active">
-          <form name="my_form_char" ng-submit="onSubmit(my_form_char)">
-            <h1>Section utilisateur</h1>
-            <div sf-schema="schema_user" sf-form="form_user" sf-model="model_user"></div>
-            <hr/>
-            <h1>Section fiche de personnage</h1>
-            <div sf-schema="schema_char" sf-form="form_char" sf-model="model_char"></div>
-          </form>
-
-          <span ng-show="status_send.enabled" ng-style="status_send.is_error ? {'color': 'red'} : {'color': 'green'}">{{! status_send.text }}</span>
-
-          <div>
-            <!-- Sheet status -->
-            La fiche <span ng-show="get_status_validation() == 0" style="color:green">est à jour</span><span ng-show="get_status_validation() == 1" style="color:yellow">est à améliorer</span><span
-              ng-show="get_status_validation() == -1" style="color:red">est à corriger</span>.
-            <span ng-show="xp_total < 0">Il y a <span style="color:red"><span style="font-weight:bold;text-decoration: underline">{{! -(xp_total) }}</span> XP à enlever</span>.</span>
-            <span ng-show="xp_total > 0">Il y a <span style="color:yellow"><span style="font-weight:bold;text-decoration: underline">{{! xp_total }}</span> XP à placer</span>.</span>
-            <span ng-show="merite_total < 0">Il y a <span style="color:red"><span style="font-weight:bold;text-decoration: underline">{{! -(merite_total) }}</span> Mérite à enlever</span>.</span>
-            <span ng-show="merite_total > 0">Il y a <span style="color:yellow"><span style="font-weight:bold;text-decoration: underline">{{! merite_total }}</span> Mérite en banque</span>.</span>
-            <span ng-show="diff_sous_ecole < 0">Il y a <span style="color:red"><span
-                style="font-weight:bold;text-decoration: underline">{{! -(diff_sous_ecole) }}</span> sous-école à enlever</span>.</span>
-            <span ng-show="diff_sous_ecole > 0">Il y a <span style="color:yellow"><span
-                style="font-weight:bold;text-decoration: underline">{{! diff_sous_ecole }}</span> sous-école à choisir</span>.</span>
-            <span ng-show="!model_char.name"><span style="color:red">Nom du personnage est manquant</span>.</span>
-            <span ng-show="!model_char.faction"><span style="color:red">Faction manquante</span>.</span>
-            <span ng-show="count_master_tech > (xp_receive - xp_default + 1)">Il y a <span style="color:red"><span
-                style="font-weight:bold;text-decoration: underline">{{! count_master_tech - (xp_receive - xp_default + 1) }}</span> technique de maitre à enlever</span>.</span>
-          </div>
+          {% include "../character_form.html" %}
         </div>
         <!-- END form -->
 
-        <!-- attribut -->
-        <div id="menu_attribut" class="tab-pane fade">
-          <h1>Sommaire</h1>
-          <h2>Attribut du personnage</h2>
-          <div>
-            <ul>
-              <li>
-                <span style="font-weight:bold;color:cornflowerblue">{{! xp_receive }}</span> points d'expérience
-              </li>
-              <li>
-                <span style="font-weight:bold;color:cornflowerblue">{{! 3 + get_character_point('PtVieMax') }}</span> point<span ng-show="3 + get_character_point('PtVieMax') > 1">s</span> de vie
-              </li>
-              <li>
-                <span style="font-weight:bold;color:cornflowerblue">{{! 2 + get_character_point('PtEnergieMax') }}</span> point<span ng-show="2 + get_character_point('PtEnergieMax') > 1">s</span>
-                d'énergie
-              </li>
-              <li>
-                <span style="font-weight:bold;color:cornflowerblue">{{! 10 + get_character_point('PtKarmaMax') }}</span> point<span ng-show="10 + get_character_point('PtKarmaMax') > 1">s</span> de
-                karma
-              </li>
-              <li>
-                <span style="font-weight:bold;color:cornflowerblue">{{! get_character_point('PtEcoleMagieMax') }}</span> école<span ng-show="get_character_point('PtEcoleMagieMax') > 1">s</span> de
-                magie
-              </li>
-              <li>
-                <span style="font-weight:bold;color:cornflowerblue">{{! get_character_point('PtSousEcoleMagieMax')}}</span> sous-école<span
-                  ng-show="get_character_point('PtSousEcoleMagieMax') > 1">s</span> de magie
-              </li>
-            </ul>
-          </div>
+        <!-- Print -->
+        <div id="menu_print" class="tab-pane fade">
+          <button class="btn btn-primary hidden-print" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer</button>
+          {% include "../character_sheet_status.html" %}
+          {% include "../character_approbation.html" %}
+          {% include "../character_print.html" %}
+          {% include "../character_attribut.html" %}
+          {% include "../character_skill.html" %}
+          {% include "../character_begin_game.html" %}
         </div>
-        <!-- END attribut -->
+        <!-- END Print -->
 
-        <!-- skill -->
-        <div id="menu_skill" class="tab-pane fade">
-          <h1>Sommaire</h1>
-          <h2>Habilité</h2>
-          <div>
-            <span ng-show="character_skill.length == 0" style="font-weight:bold;">Aucune</span>
-            <ol>
-              <li ng-repeat="value in character_skill track by $index">{{! value }}</li>
-            </ol>
-          </div>
-
-          <div ng-hide="character_merite.length == 0">
-            <h2>Mérite</h2>
-            <ol>
-              <li ng-repeat="value in character_merite track by $index" style="color:lightyellow">{{! value }}</li>
-            </ol>
-          </div>
-        </div>
-        <!-- END summary -->
-
-        <!-- debut de jeu -->
-        <div id="menu_game_begin" class="tab-pane fade">
-          <h1>Sommaire</h1>
-          <h2>Objet de début de jeu</h2>
-          <h3>Objet de base</h3>
-          <div>
-        <span
-            ng-hide="character_point.hasOwnProperty('PtComposante') || 
-              character_point.hasOwnProperty('PtBlocPotion') || 
-              character_point.hasOwnProperty('PtBlocAlchimie') || 
-              character_point.hasOwnProperty('PtBlocArtisan') || 
-              character_point.hasOwnProperty('PtBlocForgeron') || 
-              character_point.hasOwnProperty('PtBlocHerboristerie') || 
-              character_point.hasOwnProperty('PtBlocEnchantement') || 
-              character_point.hasOwnProperty('PtBlocProduction') || 
-              character_point.hasOwnProperty('PtComposanteOuProduction') || 
-              character_point.hasOwnProperty('PtBlocForgeronOuArtisan') || 
-              character_point.hasOwnProperty('PtBlocHerboristerieOuAlchimie') || 
-              character_point.hasOwnProperty('PtBlocPotionOuEnchantement') || 
-              character_point.hasOwnProperty('PtJoyau') || 
-              character_point.hasOwnProperty('PtPA') || 
-              character_point.hasOwnProperty('PtAppuiCommercial') || 
-              character_point.hasOwnProperty('PtAppuiMilitaire') || 
-              character_point.hasOwnProperty('PtAppuiReligieux') || 
-              character_point.hasOwnProperty('PtAppuiPolitique') || 
-              character_point.hasOwnProperty('PtAppuiCriminel') || 
-              character_point.hasOwnProperty('PtArt') || 
-              character_point.hasOwnProperty('PtSphere') || 
-              character_point.hasOwnProperty('PtLSanglite') || 
-              character_point.hasOwnProperty('PtPSanglite') || 
-              character_point.hasOwnProperty('PtLMalachite') || 
-              character_point.hasOwnProperty('PtPMalachite') || 
-              character_point.hasOwnProperty('PtLBluam') || 
-              character_point.hasOwnProperty('PtPBluam') || 
-              character_point.hasOwnProperty('PtLOr') || 
-              character_point.hasOwnProperty('PtLArgent') || 
-              character_point.hasOwnProperty('PtLChoix') || 
-              character_point.hasOwnProperty('PtEsclave') || 
-              character_point.hasOwnProperty('PtEsclaveOuvrier') || 
-              character_point.hasOwnProperty('PtEsclaveCompetent') || 
-              character_point.hasOwnProperty('PtEsclaveIntelligent') || 
-              character_point.hasOwnProperty('PtEsclaveEconomique') || 
-              character_point.hasOwnProperty('PtEsclaveLuxe') || 
-              character_point.hasOwnProperty('PtEsclaveMystique') || 
-              character_point.hasOwnProperty('PtRation') || 
-              character_point.hasOwnProperty('PtPierreAme') || 
-              character_point.hasOwnProperty('PtObjetFamilial')"
-            style="font-weight:bold;">Aucun
-          </span>
-            <ol>
-              <li ng-show="character_point.hasOwnProperty('PtComposante')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtComposante"] }}</span> composante<span ng-show="character_point['PtComposante'] > 1">s</span> magique<span
-                  ng-show="character_point['PtComposante'] > 1">s</span>
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtBlocPotion')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtBlocPotion"] }}</span> bloc<span ng-show="character_point['PtBlocPotion'] > 1">s</span> de potion
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtBlocAlchimie')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtBlocAlchimie"] }}</span> bloc<span ng-show="character_point['PtBlocAlchimie'] > 1">s</span> d'alchimie
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtBlocArtisan')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtBlocArtisan"] }}</span> bloc<span ng-show="character_point['PtBlocArtisan'] > 1">s</span> d'artisan
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtBlocForgeron')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtBlocForgeron"] }}</span> bloc<span ng-show="character_point['PtBlocForgeron'] > 1">s</span> de forgeron
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtBlocEnchantement')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtBlocEnchantement"] }}</span> bloc<span ng-show="character_point['PtBlocEnchantement'] > 1">s</span>
-                d'enchantement
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtBlocHerboristerie')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtBlocHerboristerie"] }}</span> bloc<span ng-show="character_point['PtBlocHerboristerie'] > 1">s</span>
-                d'herboristerie
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtBlocProduction')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtBlocProduction"] }}</span> bloc<span ng-show="character_point['PtBlocProduction'] > 1">s</span> de production
-                (potion, alchimie, artisan, forgeron, enchantement ou herboristerie)
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtComposanteOuProduction')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtComposanteOuProduction"] }}</span> composante<span
-                  ng-show="character_point['PtComposanteOuProduction'] > 1">s</span> magique<span
-                  ng-show="character_point['PtComposanteOuProduction'] > 1">s</span> ou bloc<span ng-show="character_point['PtComposanteOuProduction'] > 1">s</span> de production
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtBlocForgeronOuArtisan')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtBlocForgeronOuArtisan"] }}</span> bloc<span
-                  ng-show="character_point['PtBlocForgeronOuArtisan'] > 1">s</span> de forgeron<span
-                  ng-show="character_point['PtBlocForgeronOuArtisan'] > 1">s</span> ou bloc<span ng-show="character_point['PtBlocForgeronOuArtisan'] > 1">s</span> d'artisan
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtBlocHerboristerieOuAlchimie')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtBlocHerboristerieOuAlchimie"] }}</span> bloc<span
-                  ng-show="character_point['PtBlocHerboristerieOuAlchimie'] > 1">s</span> d'herboristerie<span
-                  ng-show="character_point['PtBlocHerboristerieOuAlchimie'] > 1">s</span> ou bloc<span ng-show="character_point['PtBlocHerboristerieOuAlchimie'] > 1">s</span> d'alchimie
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtBlocPotionOuEnchantement')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtBlocPotionOuEnchantement"] }}</span> bloc<span
-                  ng-show="character_point['PtBlocPotionOuEnchantement'] > 1">s</span> de potion<span
-                  ng-show="character_point['PtBlocPotionOuEnchantement'] > 1">s</span> ou bloc<span ng-show="character_point['PtBlocPotionOuEnchantement'] > 1">s</span> d'enchantement
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtJoyau')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtJoyau"] }}</span> joyau<span ng-show="character_point['PtJoyau'] > 1">x</span>
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtPA')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtPA"] }}</span> pièce<span ng-show="character_point['PtPA'] > 1">s</span> d'argent
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtAppuiCommercial')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtAppuiCommercial"] }}</span> appuie<span ng-show="character_point['PtAppuiCommercial'] > 1">s</span> commercial
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtAppuiMilitaire')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtAppuiMilitaire"] }}</span> appuie<span ng-show="character_point['PtAppuiMilitaire'] > 1">s</span> militaire
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtAppuiReligieux')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtAppuiReligieux"] }}</span> appuie<span ng-show="character_point['PtAppuiReligieux'] > 1">s</span> religieux
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtAppuiPolitique')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtAppuiPolitique"] }}</span> appuie<span ng-show="character_point['PtAppuiPolitique'] > 1">s</span> politique
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtAppuiCriminel')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtAppuiCriminel"] }}</span> appuie<span ng-show="character_point['PtAppuiCriminel'] > 1">s</span> criminel
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtArt')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtArt"] }}</span> oeuvre<span ng-show="character_point['PtArt'] > 1">s</span> d'art
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtSphere')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtSphere"] }}</span> sphère<span ng-show="character_point['PtSphere'] > 1">s</span> de magie
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtPSanglite')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtPSanglite"] }}</span> pierre<span ng-show="character_point['PtPSanglite'] > 1">s</span> de Sanglite
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtLSanglite')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtLSanglite"] }}</span> lingot<span ng-show="character_point['PtLSanglite'] > 1">s</span> de Sanglite
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtPMalachite')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtPMalachite"] }}</span> pierre<span ng-show="character_point['PtPMalachite'] > 1">s</span> de Malachite
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtLMalachite')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtLMalachite"] }}</span> lingot<span ng-show="character_point['PtLMalachite'] > 1">s</span> de Malachite
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtPBluam')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtPBluam"] }}</span> pierre<span ng-show="character_point['PtPBluam'] > 1">s</span> de Bluam
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtLBluam')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtLBluam"] }}</span> lingot<span ng-show="character_point['PtLBluam'] > 1">s</span> de Bluam
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtLOr')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtLOr"] }}</span> lingot<span ng-show="character_point['PtLOr'] > 1">s</span> d'Or
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtLArgent')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtLArgent"] }}</span> lingot<span ng-show="character_point['PtLArgent'] > 1">s</span> d'Argent
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtLChoix')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtLChoix"] }}</span> lingot<span ng-show="character_point['PtLChoix'] > 1">s</span> au choix
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtEsclave')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtEsclave"] }}</span> esclave<span ng-show="character_point['PtEsclave'] > 1">s</span> au choix
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtEsclaveOuvrier')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtEsclaveOuvrier"] }}</span> esclave ouvrier<span ng-show="character_point['PtEsclaveOuvrier'] > 1">s</span> au
-                choix
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtEsclaveCompetent')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtEsclaveCompetent"] }}</span> esclave competent<span ng-show="character_point['PtEsclaveCompetent'] > 1">s</span>
-                au choix
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtEsclaveIntelligent')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtEsclaveIntelligent"] }}</span> esclave intelligent<span
-                  ng-show="character_point['PtEsclaveIntelligent'] > 1">s</span> au choix
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtEsclaveEconomique')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtEsclaveEconomique"] }}</span> esclave economique<span
-                  ng-show="character_point['PtEsclaveEconomique'] > 1">s</span> au choix
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtEsclaveLuxe')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtEsclaveLuxe"] }}</span> esclave luxe<span ng-show="character_point['PtEsclaveLuxe'] > 1">s</span> au choix
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtEsclaveMystique')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtEsclaveMystique"] }}</span> esclave mystique<span ng-show="character_point['PtEsclaveMystique'] > 1">s</span> au
-                choix
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtRation')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtRation"] }}</span> boite<span ng-show="character_point['PtRation'] > 1">s</span> de ration
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtPierreAme')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtPierreAme"] }}</span> pierre<span ng-show="character_point['PtPierreAme'] > 1">s</span> d'âme
-              </li>
-              <li ng-show="character_point.hasOwnProperty('PtObjetFamilial')">
-                <span style="font-weight:bold;color:forestgreen">{{! character_point["PtObjetFamilial"] }}</span> objet<span ng-show="character_point['PtObjetFamilial'] > 1">s</span> familial
-              </li>
-            </ol>
-          </div>
-
-          <div ng-show="model_char.objet_debut_jeu">
-            <h3>Objet personnalisé</h3>
-            <span style="white-space: pre;">{{! model_char.objet_debut_jeu }}</span>
-          </div>
-        </div>
-        <!-- END debut de jeu -->
-
-        <!-- message -->
-        <div id="menu_message" class="tab-pane fade">
-          <h1>Procédures d’entrée en-jeu 2018</h1>
-          <ul>
-            <li>Prenez note qu’il n’y a pas de «speech de départ», celui-ci est remplacé par ce parchemin remis à chaque joueur lors de son inscription (aux Halls).</li>
-            <li>
-              Le terrain en ZONE 1(Zone de Jeu seulement) vous est accessible à partir de 15h, jusqu'à 21h (9h pm) pour installer votre campement et vos décorations de bâtiments.<br/>
-              <span style="font-weight:bold;">Les flammes vives non protégées sont proscrites à l’intérieur des bâtiments.</span>
-            </li>
-            <li>
-              À partir de 21h, les charrettes (voitures) ne seront plus autorisées sur le terrain et celui-ci sera considéré en-jeu dès 20h pour le plaisir de tous. Vous pouvez donc entrer en jeu
-              librement à partir de 20h, être présent de façon roleplay entre vous (PvP).
-            </li>
-            <li>
-              Le scénario et l’animation par notre équipe de BÉNÉVOLES exceptionnellement débuteront à partir de 22h00 (peu importe combien de joueurs sont présents ou qui est arrivé ou qui ne l’est
-              pas.)
-            </li>
-            <li>
-              L'Accueil pour le paiement ( maison de pierre) sera ouvert par le responsable de l’AdL (Atelier du Loisir)
-            </li>
-            <li>
-              L’inscription de vos Xp / fiches de personnage se fera comme toujours aux Halls entre 18h et 22h00. Si vous avez des questions, l’animation se fera un plaisir de vous répondre durant
-              cette période. (Après 22h30, l’accueil tardive se fera roleplay au poste de traite pour récupérer vos objets de jeu lorsque celui-ci est ouvert)
-            </li>
-          </ul>
-          <h2>Notez ces quelques règles TRÈS IMPORTANTES</h2>
-          <ul>
-            <li>
-              Le BRUIT DE NUIT : Dès 23h, baissez le ton (surtout au hall et à Amunzrat)
-            </li>
-            <li>
-              Veuillez ne PAS DÉPLACER les objets de décor/mobilier et d’éclairage (Les glowsticks et les torches sont des objets de décor ainsi que d’éclairage.)
-            </li>
-            <li>
-              Les coffre cadenassés nécessitent des habiletés pour être ouverts. Prenez le temps de lire les cartons dessus. (TOUT COFFRE EST NON DÉPLAÇABLE)
-            </li>
-            <li>
-              Le 2e étage de presque tous les bâtiments sont hors jeu. Il est donc interdit d’y fouiller ou d’y cacher des objets de jeu, bourse ou autre.
-            </li>
-            <li>
-              <span style="font-weight:bold;">Notez que le poste de traite est réservé aux «NPC». il est interdit d’y entrer et interdit de le voler.</span>
-            </li>
-            <li>
-              La nature n’étant pas un cendrier, veuillez vous ramasser, fumer près de ronds de feu et ne jamais fumer à l’intérieur des bâtiments.
-            </li>
-            <li>
-              Les boissons alcoolisées en canettes sont permises à condition d’être servie de façon décorum (les bouteilles de vitres sont prohibées sur le jeu).
-              <span style="font-weight:bold;">Si vos facultés sont trop affaiblies pour vous battre : soyez roleplay et couchez-vous achevés.</span>
-            </li>
-          </ul>
-          <h3>Merci et Bon jeu, Traitre-Lame</h3>
-        </div>
-        <!-- END message -->
       </div>
 
-      <div ng-show="enable_debug">
-        <hr/>
-        <div style="color:gold">{{! prettyModelUser }}</div>
-        <hr/>
-        <div style="color:gold">{{! prettyModelChar }}</div>
-        <hr/>
-        <div style="color:gold">{{! prettyPlayer }}</div>
-        <hr/>
-        <div style="color:gold">http://www.traitrelame.ca/character#/?id_player={{! player.id }}</div>
-        <div style="color:gold">{{! url_qr_code }}</div>
-        <hr/>
+      <div class="hidden-print">
+        {% include "../character_debug_sheet.html" %}
       </div>
-    </div> <!-- end div form write -->
 
-  </div> <!-- end div if player -->
-</div> <!-- end of character_ctrl -->
+    </div> <!-- end div if player -->
+  </div> <!-- end of character_ctrl -->
+</div>
 {% end %}

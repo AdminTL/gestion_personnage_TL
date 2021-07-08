@@ -1,0 +1,11 @@
+<h2>État de la fiche</h2>
+<p>
+  Date de création : {{!model_char.date_creation * 1000 | UTCToNow: true }}<br/>
+  Date de mise à jour : {{!model_char.date_modify * 1000 | UTCToNow: true }}
+</p>
+
+{% include "character_sheet_status.html" %}
+
+<div ng-show="isMobile() && enable_debug">
+  {% include "character_stat_attribut.html" %}
+</div>

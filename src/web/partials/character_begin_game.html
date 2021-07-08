@@ -1,0 +1,16 @@
+<h1>Objet de début de jeu</h1>
+<h2>Objet de base</h2>
+
+<span ng-hide="char_has_ress" style="font-weight:bold;">Aucun</span>
+
+<ol ng-show="char_has_ress">
+  <li ng-repeat="(key, value) in char_point_ress" ng-if="value.value > 0">
+    <span style="font-weight:bold;color:forestgreen">{{!value.value }}</span> {{!transform_plural(value.value, value.description)}}
+  </li>
+</ol>
+<br/>
+
+<div ng-show="model_char.objet_debut_jeu">
+  <h2>Objet personnalisé</h2>
+  <span style="white-space: pre;">{{!model_char.objet_debut_jeu }}</span>
+</div>

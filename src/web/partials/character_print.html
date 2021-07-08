@@ -1,0 +1,17 @@
+<h1>Joueur</h1>
+<p>
+<div ng-repeat="value in schema_user_print | orderBy: 'ImpressionIndex'" ng-if="isDefined(value.ImpressionIndex) && model_user[value.key] && value.type != 'array'">
+  {{!value.title}}: {{!model_user[value.key]}}
+</div>
+</p>
+<h1>Personnage</h1>
+<p>
+<div ng-repeat="value in schema_char_print | orderBy: 'ImpressionIndex'" ng-if="isDefined(value.ImpressionIndex) && model_char[value.key] && value.type != 'array'">
+  <div ng-show="isDefined(value.title)">
+    {{!value.title}}: {{!model_char[value.key]}}
+  </div>
+  <div ng-show="!isDefined(value.title) && isDefined(value.key)">
+    {{!value.key}}: {{!model_char[value.key]}}
+  </div>
+</div>
+</p>
