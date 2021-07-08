@@ -426,7 +426,7 @@ class AdminHandler(base_handler.BaseHandler):
             self.send_error(404)
             raise tornado.web.Finish()
         if self.is_permission_admin():
-            self.render('admin/news.html', **self._global_arg)
+            self.render('admin/character.html', **self._global_arg)
         else:
             print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
             # Forbidden

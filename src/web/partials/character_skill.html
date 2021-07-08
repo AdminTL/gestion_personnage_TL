@@ -1,11 +1,3 @@
-<!--<h1>Habilité</h1>-->
-<!--<div>-->
-<!--  <span ng-show="character_skill.length == 0" style="font-weight:bold;">Aucune</span>-->
-<!--  <ol>-->
-<!--    <li ng-repeat="value in character_skill track by $index">{{!value }}</li>-->
-<!--  </ol>-->
-<!--</div>-->
-
 <div ng-repeat="value in schema_char_print | orderBy: 'ImpressionIndex'" ng-show="isDefined(value.ImpressionIndex) && value.type == 'array' && character_skill[value.key].length > 0">
   <h2>{{!toTitleCase(value.key)}}</h2>
   <ol>
