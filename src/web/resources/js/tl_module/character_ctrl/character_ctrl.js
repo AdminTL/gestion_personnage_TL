@@ -710,7 +710,11 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
           if (value.type === "string") {
             if (!$scope.model_char[key]) {
               $scope.status_validation = -1;
-              $scope.lst_msg_status_validation.push("Le champs «" + value.title + "» doit être rempli.")
+              if (isDefined(value.title)) {
+                $scope.lst_msg_status_validation.push("Le champs «" + value.title + "» doit être rempli.")
+              } else {
+                $scope.lst_msg_status_validation.push("Le champs «" + key + "» doit être rempli.")
+              }
             }
           } else {
             console.error(value);
