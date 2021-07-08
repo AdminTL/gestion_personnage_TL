@@ -2,6 +2,7 @@
 "use strict";
 
 characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /*"$timeout",*/ function ($scope, $q, $http, $window) {
+  $scope.enable_debug = false;
   $scope.is_admin = $window.location.pathname.indexOf("/admin") >= 0;
 
   $scope.isMobile = function () {
