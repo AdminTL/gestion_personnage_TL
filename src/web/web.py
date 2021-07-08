@@ -80,6 +80,7 @@ def main(parse_arg):
                 "manual": Manual(parse_arg),
                 "doc_generator_gspread": DocGeneratorGSpread(parse_arg),
                 "project_archive": ProjectArchive(parse_arg),
+                "organization_name": parse_arg.organization_name,
                 "disable_character": parse_arg.disable_character,
                 "disable_user_character": parse_arg.disable_user_character,
                 "disable_message_character": parse_arg.disable_message_character,

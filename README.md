@@ -1,7 +1,7 @@
 [![Dependency Status](https://www.versioneye.com/user/projects/570d01f4fcd19a0045440af5/badge.svg?style=flat)](https://www.versioneye.com/user/projects/570d01f4fcd19a0045440af5)
 
-Character player web application for live role-playing game Traître-Lame
-=======================================================================
+Character player web application for live role-playing game
+===========================================================
 Web software to manage character player sheet, maintenance, xp, help and communication in game.
 
 Web server in production

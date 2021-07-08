@@ -35,6 +35,7 @@ class BaseHandler(tornado.web.RequestHandler):
             "disable_character": kwargs.get("disable_character"),
             "disable_user_character": kwargs.get("disable_user_character"),
             "disable_message_character": kwargs.get("disable_message_character"),
+            "organization_name": kwargs.get("organization_name"),
             "disable_admin": kwargs.get("disable_admin"),
             "disable_login": kwargs.get("disable_login"),
             "disable_login_oauth": kwargs.get("disable_login_oauth"),
