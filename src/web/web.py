@@ -85,6 +85,9 @@ def main(parse_arg):
                 "disable_user_character": parse_arg.disable_user_character,
                 "disable_message_character": parse_arg.disable_message_character,
                 "disable_admin": parse_arg.disable_admin,
+                "disable_news": parse_arg.disable_news,
+                "disable_lore": parse_arg.disable_lore,
+                "disable_manual": parse_arg.disable_manual,
                 "disable_login": parse_arg.disable_login,
                 "disable_login_oauth": parse_arg.disable_login_oauth,
                 "config": parse_arg.config,
@@ -107,62 +110,78 @@ def main(parse_arg):
         settings["twitter_consumer_key"] = auth_keys.get("twitter_consumer_key")
         settings["twitter_consumer_secret"] = auth_keys.get("twitter_consumer_secret")
 
-    routes = [
-        # To create parameters: /(?P<param1>[^\/]+)/?(?P<param2>[^\/]+)/?
-        # Add ? after ) to make a parameter optional
+    # To create parameters: /(?P<param1>[^\/]+)/?(?P<param2>[^\/]+)/?
+    # Add ? after ) to make a parameter optional
+    routes = []
 
-        # Web page
-        tornado.web.url(r"/?", handlers.IndexHandler, name='index', kwargs=settings),
-        tornado.web.url(r"/login/?", handlers.LoginHandler, name='login', kwargs=settings),
-        tornado.web.url(r"/logout/?", handlers.LogoutHandler, name='logout', kwargs=settings),
-        tornado.web.url(r"/admin/?", handlers.AdminHandler, name='admin', kwargs=settings),
-        tornado.web.url(r"/profile/?(?P<user_id>[^\/]+)?/?", handlers.ProfileHandler, name='profile', kwargs=settings),
-        tornado.web.url(r"/character/?", handlers.CharacterHandler, name='character', kwargs=settings),
-        tornado.web.url(r"/manual/?", handlers.ManualPageHandler, name='manual', kwargs=settings),
-        tornado.web.url(r"/lore/?", handlers.LorePageHandler, name='lore', kwargs=settings),
+    # Web page
+    if not parse_arg.disable_news:
+        routes.append(tornado.web.url(r"/?", handlers.IndexHandler, name='index', kwargs=settings))
+    else:
+        routes.append(tornado.web.url(r"/?", handlers.CharacterHandler, name='index', kwargs=settings))
 
-        # Admin web page
-        tornado.web.url(r"/admin/character?", handlers.AdminCharacterHandler, name='admin character', kwargs=settings),
-        tornado.web.url(r"/admin/editor?", handlers.AdminEditorHandler, name='admin editor', kwargs=settings),
-        tornado.web.url(r"/admin/setting?", handlers.AdminSettingHandler, name='admin setting', kwargs=settings),
-        tornado.web.url(r"/admin/profile/modify_password/?", handlers.AdminModifyPasswordHandler,
-                        name='cmd_admin_modify_password', kwargs=settings),
+    routes.append(tornado.web.url(r"/login/?", handlers.LoginHandler, name='login', kwargs=settings))
+    routes.append(tornado.web.url(r"/logout/?", handlers.LogoutHandler, name='logout', kwargs=settings))
 
-        # Command
-        tornado.web.url(r"/cmd/character_view/?", handlers.CharacterViewHandler, name='character_view',
-                        kwargs=settings),
-        tornado.web.url(r"/cmd/manual/?", handlers.ManualHandler, name='cmd_manual', kwargs=settings),
-        tornado.web.url(r"/cmd/manual_admin/?", handlers.ManualAdminHandler, name='cmd_manual_admin', kwargs=settings),
+    routes.append(
+        tornado.web.url(r"/profile/?(?P<user_id>[^\/]+)?/?", handlers.ProfileHandler, name='profile', kwargs=settings))
+    if not parse_arg.disable_character:
+        routes.append(tornado.web.url(r"/character/?", handlers.CharacterHandler, name='character', kwargs=settings))
+
+    if not parse_arg.disable_manual:
+        routes.append(tornado.web.url(r"/manual/?", handlers.ManualPageHandler, name='manual', kwargs=settings))
+    if not parse_arg.disable_lore:
+        routes.append(tornado.web.url(r"/lore/?", handlers.LorePageHandler, name='lore', kwargs=settings))
+
+    # Admin web page
+    if not parse_arg.disable_admin:
+        routes.append(tornado.web.url(r"/admin/?", handlers.AdminHandler, name='admin', kwargs=settings))
+        routes.append(
+            tornado.web.url(r"/admin/character?", handlers.AdminCharacterHandler, name='admin character',
+                            kwargs=settings))
+        routes.append(
+            tornado.web.url(r"/admin/editor?", handlers.AdminEditorHandler, name='admin editor', kwargs=settings))
+        routes.append(
+            tornado.web.url(r"/admin/setting?", handlers.AdminSettingHandler, name='admin setting', kwargs=settings))
+        routes.append(tornado.web.url(r"/admin/profile/modify_password/?", handlers.AdminModifyPasswordHandler,
+                                      name='cmd_admin_modify_password', kwargs=settings))
+
+    # Command
+    routes.append(tornado.web.url(r"/cmd/character_view/?", handlers.CharacterViewHandler, name='character_view',
+                                  kwargs=settings))
+    routes.append(tornado.web.url(r"/cmd/manual/?", handlers.ManualHandler, name='cmd_manual', kwargs=settings))
+    routes.append(
+        tornado.web.url(r"/cmd/manual_admin/?", handlers.ManualAdminHandler, name='cmd_manual_admin', kwargs=settings))
+    routes.append(
         tornado.web.url(r"/cmd/stat/total_season_pass/?", handlers.StatSeasonPass, name='cmd_stat_total_season_pass',
-                        kwargs=settings),
-        tornado.web.url(r"/cmd/character_approbation/?", handlers.CharacterApprobationHandler,
-                        name='cmd_character_approbation', kwargs=settings),
+                        kwargs=settings))
+    routes.append(tornado.web.url(r"/cmd/character_approbation/?", handlers.CharacterApprobationHandler,
+                                  name='cmd_character_approbation', kwargs=settings))
 
-        # Profile
-        tornado.web.url(r"/cmd/profile/update_password/?", handlers.ProfileCmdUpdatePasswordHandler,
-                        name='cmd_profile_update_password', kwargs=settings),
-        tornado.web.url(r"/cmd/profile/add_new_password/?", handlers.ProfileCmdAddNewPasswordHandler,
-                        name='cmd_profile_add_new_password', kwargs=settings),
-        tornado.web.url(r"/cmd/profile/get_info/?", handlers.ProfileCmdInfoHandler,
-                        name='cmd_profile_get_info', kwargs=settings),
+    # Profile
+    routes.append(tornado.web.url(r"/cmd/profile/update_password/?", handlers.ProfileCmdUpdatePasswordHandler,
+                                  name='cmd_profile_update_password', kwargs=settings))
+    routes.append(tornado.web.url(r"/cmd/profile/add_new_password/?", handlers.ProfileCmdAddNewPasswordHandler,
+                                  name='cmd_profile_add_new_password', kwargs=settings))
+    routes.append(tornado.web.url(r"/cmd/profile/get_info/?", handlers.ProfileCmdInfoHandler,
+                                  name='cmd_profile_get_info', kwargs=settings))
 
-        # Editor
-        tornado.web.url(r"/cmd/editor/get_info/?", handlers.EditorCmdInfoHandler,
-                        name='cmd_editor_get_info', kwargs=settings),
-        tornado.web.url(r"/cmd/editor/add_generator_share/?", handlers.EditorCmdAddGeneratorShareHandler,
-                        name='cmd_editor_add_generator_share', kwargs=settings),
-        tornado.web.url(r"/cmd/editor/generate_and_save/?", handlers.EditorCmdGenerateAndSaveHandler,
-                        name='cmd_editor_generate_and_save', kwargs=settings),
-        tornado.web.url(r"/cmd/editor/update_file_url/?", handlers.EditorCmdUpdateFileUrlHandler,
-                        name='cmd_editor_update_file_url', kwargs=settings),
+    # Editor
+    routes.append(tornado.web.url(r"/cmd/editor/get_info/?", handlers.EditorCmdInfoHandler,
+                                  name='cmd_editor_get_info', kwargs=settings))
+    routes.append(tornado.web.url(r"/cmd/editor/add_generator_share/?", handlers.EditorCmdAddGeneratorShareHandler,
+                                  name='cmd_editor_add_generator_share', kwargs=settings))
+    routes.append(tornado.web.url(r"/cmd/editor/generate_and_save/?", handlers.EditorCmdGenerateAndSaveHandler,
+                                  name='cmd_editor_generate_and_save', kwargs=settings))
+    routes.append(tornado.web.url(r"/cmd/editor/update_file_url/?", handlers.EditorCmdUpdateFileUrlHandler,
+                                  name='cmd_editor_update_file_url', kwargs=settings))
 
-        # Archive
-        tornado.web.url(r"/cmd/archive/generate_project", handlers.SettingArchiveGenerateProjectHandler,
-                        name='generate_project_archive', kwargs=settings),
+    # Archive
+    routes.append(tornado.web.url(r"/cmd/archive/generate_project", handlers.SettingArchiveGenerateProjectHandler,
+                                  name='generate_project_archive', kwargs=settings))
 
-        # Auto ssl
-        tornado.web.url(r"/.well-known/acme-challenge.*", handlers.AutoSSLHandler, name="auto_ssl")
-    ]
+    # Auto ssl
+    routes.append(tornado.web.url(r"/.well-known/acme-challenge.*", handlers.AutoSSLHandler, name="auto_ssl"))
 
     if not parse_arg.disable_login:
         routes.append(tornado.web.url(r"/cmd/auth/validate/?", handlers.ValidateAuthHandler, name='validate_auth',

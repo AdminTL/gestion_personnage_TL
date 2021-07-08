@@ -64,10 +64,21 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
       <ul class="nav navbar-nav">
+        {% if not disable_news %}
         <li ng-class="{ active: isActive('/') }"><a href="/"><span class="glyphicon glyphicon-home"></span> Accueil</a></li>
+        {% end %}
+
+        {% if not disable_character %}
         <li ng-class="{ active: isActive('/character') }"><a href="/character"><span class="glyphicon glyphicon-knight"></span> Personnage</a></li>
+        {% end %}
+
+        {% if not disable_manual %}
         <li ng-class="{ active: isActive('/manual') }"><a href="/manual"><span class="glyphicon glyphicon-book"></span> Livre de règle</a></li>
+        {% end %}
+
+        {% if not disable_lore %}
         <li ng-class="{ active: isActive('/lore') }"><a href="/lore"><span class="glyphicon glyphicon-globe"></span> Univers</a></li>
+        {% end %}
 
         {% if not disable_custom_css %}
         <li class="dropdown">

@@ -79,6 +79,12 @@ def parse_args():
     group.add_argument('--organization_name', default="Larp'em", help='Choose your organization name.')
     group.add_argument('--disable_login', default=False, action='store_true',
                        help='Active to disable login module.')
+    group.add_argument('--disable_news', default=False, action='store_true',
+                       help='Active to disable news module.')
+    group.add_argument('--disable_lore', default=False, action='store_true',
+                       help='Active to disable lore module.')
+    group.add_argument('--disable_manual', default=False, action='store_true',
+                       help='Active to disable manual module.')
     group.add_argument('--disable_login_oauth', default=False, action='store_true',
                        help='Active to disable login oauth module.')
     group.add_argument('--disable_admin', default=False, action='store_true',
