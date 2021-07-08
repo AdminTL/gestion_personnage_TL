@@ -134,7 +134,6 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       $scope.system_point = response.data.system_point;
       $scope.habilites_point = response.data.hability_point;
       $scope.model_database = response.data;
-      $scope.is_char_init = true;
     }, function errorCallback(response) {
       console.error(response);
     });
@@ -296,7 +295,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
 
   $scope.$watch("model_user", function (value) {
     console.debug("Update model_user");
-    if (value) {
+    if (value && !isObjEmpty(value)) {
       $scope.prettyModelUser = JSON.stringify(value, undefined, 2);
     } else {
       $scope.prettyModelUser = "";
@@ -308,7 +307,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
 
   $scope.$watch("model_char", function (value) {
     console.debug("Update model_char");
-    if (value) {
+    if (value && !isObjEmpty(value)) {
       $scope.prettyModelChar = JSON.stringify(value, undefined, 2);
     } else {
       $scope.prettyModelChar = "";
@@ -1196,7 +1195,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
 
   $scope.$watch("player", function (value) {
     if (!value) {
-      $scope.clear_sheet();
+      $scope.clear_sheet({}, {});
       return;
     }
     $scope.prettyPlayer = JSON.stringify(value, undefined, 2);
@@ -1207,25 +1206,31 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       var firstChar = value.character[0];
       $scope.model_char = filterIgnore(firstChar, ["$$hashKey"]);
       $scope.clear_sheet($scope.model_char, $scope.player)
+      $scope.cs_player = $scope.player;
       $scope.cs_setting = "filled";
     } else {
-      $scope.clear_sheet({}, {});
+      $scope.clear_sheet({}, {}, true);
     }
     $scope.update_point();
     $scope.is_updated_player = true;
     $scope.get_html_qr_code();
   }, true);
 
-  $scope.clear_sheet = function (model_char, cs_player) {
+  $scope.clear_sheet = function (model_char, cs_player, force_clean = false) {
     $scope.model_char = model_char;
+    if (isUndefined($scope.model_char)) {
+      $scope.model_char = {};
+    }
 
     if (isDefined($scope.schema_char.properties)) {
       for (const [key, value] of Object.entries($scope.schema_char.properties)) {
         if (value.hasOwnProperty("type")) {
           if (value.type == "array") {
-            $scope.model_char[key] = [];
-          } else if (value.type == "integer") {
-            $scope.model_char[key] = 0;
+            if (!isDefined($scope.model_char[key]) || force_clean) {
+              $scope.model_char[key] = [];
+            }
+          // } else if (value.type == "integer") {
+          //   $scope.model_char[key] = 0;
           }
         }
       }
@@ -1241,6 +1246,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
 
   $scope.newPlayer = function () {
     // create empty player with empty character
+    $scope.clear_sheet($scope.model_char, $scope.player, true);
     $scope.last_player = $scope.player = {};
     $scope.last_character = $scope.character = {};
     $scope.player.character = [$scope.character];
@@ -1250,21 +1256,21 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     $scope.no_character = false;
   };
 
-  $scope.newCharacter = function () {
-    // create empty player with empty character
-    $scope.last_character = $scope.character = {};
-    $scope.character.name = "New";
-    $scope.player.character.push($scope.character);
-    $scope.new_character = true;
-    // $scope.player.character. = [$scope.character];
-  };
+  // $scope.newCharacter = function () {
+  //   // create empty player with empty character
+  //   $scope.last_character = $scope.character = {};
+  //   $scope.character.name = "New";
+  //   $scope.player.character.push($scope.character);
+  //   $scope.new_character = true;
+  //   // $scope.player.character. = [$scope.character];
+  // };
 
-  $scope.moreProductionPt = function () {
-    if ($scope.character_point.hasOwnProperty('PtBlocProductionAppliqueAcquis')) {
-      return $scope.character_point.PtBlocProductionAppliqueAcquis;
-    }
-    return 0;
-  };
+  // $scope.moreProductionPt = function () {
+  //   if ($scope.character_point.hasOwnProperty('PtBlocProductionAppliqueAcquis')) {
+  //     return $scope.character_point.PtBlocProductionAppliqueAcquis;
+  //   }
+  //   return 0;
+  // };
 
   $scope.deleteCharacter = function () {
     var data = Object();
@@ -1543,9 +1549,10 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     if ((data.length >= 1 && !$scope.is_admin) || (data.length == 1 && $scope.is_admin)) {
       $scope.player = data[0];
       $scope.character = data[0].character[0];
-      $scope.setCharacterData(data[0]);
-      $scope.player = data[0];
-      $scope.setCharacterData($scope.character);
+      // $scope.setCharacterData(data[0]);
+      // $scope.player = data[0];
+      // $scope.setCharacterData($scope.character);
+      $scope.is_char_init = true;
       // $scope.$apply();
     }
   });

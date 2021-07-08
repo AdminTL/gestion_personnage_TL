@@ -126,7 +126,8 @@ class DB(object):
             lst_user = self._db_user.search(self._query_user.user_id == user_id)
         if not with_password:
             for user_obj in lst_user:
-                del user_obj["password"]
+                if "password" in user_obj:
+                    del user_obj["password"]
         return lst_user
 
     def get_all_user_admin(self, ignore_user_id=None):
