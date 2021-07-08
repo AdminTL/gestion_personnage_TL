@@ -53,12 +53,14 @@
           </div>
           <!-- END all_summary -->
 
+          {% if not disable_message_character %}
           <!-- message -->
           <div id="menu_message" class="tab-pane fade">
             <button class="btn btn-primary hidden-print" ng-print print-element-id="manual_main_content"><i class="fa fa-print"></i> Imprimer</button>
             {% include "character_message.html" %}
           </div>
           <!-- END message -->
+          {% end %}
 
           <!-- Print -->
           <div id="menu_print" class="tab-pane fade">

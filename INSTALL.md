@@ -159,4 +159,5 @@ Options
 --disable_login_oauth : Disable authentication oauth
 --disable_character : Disable access to character
 --disable_user_character : Disable access to user of our character
+--disable_message_character : Disable message to user in your character sheet from administration
 ```

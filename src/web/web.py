@@ -82,6 +82,7 @@ def main(parse_arg):
                 "project_archive": ProjectArchive(parse_arg),
                 "disable_character": parse_arg.disable_character,
                 "disable_user_character": parse_arg.disable_user_character,
+                "disable_message_character": parse_arg.disable_message_character,
                 "disable_admin": parse_arg.disable_admin,
                 "disable_login": parse_arg.disable_login,
                 "disable_login_oauth": parse_arg.disable_login_oauth,

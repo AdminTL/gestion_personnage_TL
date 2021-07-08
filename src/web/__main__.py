@@ -74,6 +74,8 @@ def parse_args():
                        help='Active to disable character module.')
     group.add_argument('--disable_user_character', default=False, action='store_true',
                        help='Active to disable character module for not admin user.')
+    group.add_argument('--disable_message_character', default=False, action='store_true',
+                       help='Active to disable message from administration for player.')
     group.add_argument('--disable_login', default=False, action='store_true',
                        help='Active to disable login module.')
     group.add_argument('--disable_login_oauth', default=False, action='store_true',
