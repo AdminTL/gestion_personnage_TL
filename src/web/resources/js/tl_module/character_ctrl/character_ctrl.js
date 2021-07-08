@@ -253,6 +253,15 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       for (const [key, lst_value] of Object.entries(data.character)) {
         if (Array.isArray(lst_value)) {
           let new_lst_value = lst_value.filter(function (el) {
+            if (Array.isArray(el)) {
+              if (el.length) {
+                let hasValue = el.some(function (value) {
+                  return value !== null;
+                });
+                return hasValue;
+              }
+              return false;
+            }
             return ifObjIsObjNotEmpty(el);
           });
           data.character[key] = new_lst_value;
@@ -1020,7 +1029,8 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
           if (isUndefined(value) || value == null) {
             console.error("Value is undefined for key " + key + ".");
             console.error(lst_value);
-            delete $scope.model_char[key];
+            // Cannot delete, because this error occur when the field is not complete.
+            // delete $scope.model_char[key];
           } else if (typeof value == "string") {
             if ($scope.model_database.point.hasOwnProperty(value)) {
               for (const [point_name, point_value] of Object.entries($scope.model_database.point[value])) {
@@ -1123,8 +1133,8 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
           if (isUndefined(value) || value == null) {
             console.error("Value is undefined for key " + key + ".");
             console.error(lst_value);
-          } else if (typeof value == "string" && $scope.model_database.point.hasOwnProperty(value)) {
-            if (value in $scope.model_database.skill_manual) {
+          } else if (typeof value == "string") {
+            if (value in $scope.model_database.skill_manual && $scope.model_database.point.hasOwnProperty(value)) {
               $scope.character_skill[key].push($scope.model_database.skill_manual[value]);
             }
           } else if (Array.isArray(value)) {
