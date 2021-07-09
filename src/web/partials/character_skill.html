@@ -1,5 +1,6 @@
 <div ng-repeat="value in schema_char_print | orderBy: 'ImpressionIndex'" ng-show="isDefined(value.ImpressionIndex) && value.type == 'array' && character_skill[value.key].length > 0">
-  <h2>{{!toTitleCase(value.key)}}</h2>
+  <h2 ng-show="!isDefined(value.title)">{{!toTitleCase(value.key)}}</h2>
+  <h2 ng-show="isDefined(value.title)">{{!value.title}}</h2>
   <ol>
     <li ng-repeat="value in character_skill[value.key]">{{!value }}</li>
   </ol>

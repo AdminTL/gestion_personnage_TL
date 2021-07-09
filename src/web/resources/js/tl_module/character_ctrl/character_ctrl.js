@@ -306,6 +306,8 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       return;
     }
 
+    console.debug("Begin of system point execution.");
+
     // Level 1 - Initialize
     for (const element of $scope.system_point) {
       // Shadow copy object
@@ -416,7 +418,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
               }
             }
           } else {
-            console.error("Another type");
+            console.error("Another type for key " + key + " and type value " + typeof value);
           }
         }
       }
@@ -494,7 +496,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
               }
             }
           } else {
-            console.error("Another type");
+            console.error("Another type for key " + key + " and type value " + typeof value);
           }
         }
       }
@@ -508,6 +510,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     }
 
     $scope.get_status_validation();
+    console.debug("End of system point execution.");
   };
 
   $scope._run_formule = function (unique_variable_formule, unique_variable_dct_element) {
@@ -832,7 +835,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   };
 
   $scope.toTitleCase = function (str) {
-    return str.replace(
+    return str.replaceAll("_", " ").replace(
       /\w\S*/g,
       function (txt) {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
