@@ -488,10 +488,16 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
                 $scope._update_documentation(key, new_value);
               }
             } else {
+              // TODO this is hardcoded hack
+              let new_key = key;
+              let game_index = key.indexOf("_jeu_");
+              if (game_index > -1) {
+                new_key = key.slice(0, game_index);
+              }
               // 2 levels
-              let item_name = value["sub_" + key];
-              let new_value = key + "_" + item_name;
-              $scope._update_documentation(key, new_value);
+              let item_name = value["sub_" + new_key];
+              let new_value = new_key + "_" + item_name;
+              $scope._update_documentation(new_key, new_value);
             }
           } else {
             console.error("Another type for key " + key + " and type value " + typeof value);
