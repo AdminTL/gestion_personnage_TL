@@ -475,25 +475,23 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
             console.error("Value is undefined for key " + key + ".");
             console.error(lst_value);
           } else if (typeof value == "string") {
-            if (value in $scope.model_database.skill_manual && $scope.model_database.point.hasOwnProperty(value)) {
-              $scope.character_skill[key].push($scope.model_database.skill_manual[value]);
-            }
+            $scope._update_documentation(key, value);
           } else if (Array.isArray(value)) {
             console.error("Cannot support array.");
           } else if (typeof value == "object") {
             // Ignore when missing options, the skill is not completed
+            // TODO options is hardcoded, find a way to find this information
             if (value.hasOwnProperty("options")) {
+              // 3 levels
               for (const option of value.options) {
-                // let new_value = "habilites_" + option;
                 let new_value = key + "_" + option;
-                if ($scope.model_database.point.hasOwnProperty(new_value)) {
-                  if (new_value in $scope.model_database.skill_manual) {
-                    $scope.character_skill[key].push($scope.model_database.skill_manual[new_value]);
-                  }
-                } else {
-                  console.error("Missing habilites " + new_value);
-                }
+                $scope._update_documentation(key, new_value);
               }
+            } else {
+              // 2 levels
+              let item_name = value["sub_" + key];
+              let new_value = key + "_" + item_name;
+              $scope._update_documentation(key, new_value);
             }
           } else {
             console.error("Another type for key " + key + " and type value " + typeof value);
@@ -511,6 +509,26 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
 
     $scope.get_status_validation();
     console.debug("End of system point execution.");
+  };
+
+  $scope._update_documentation = function (key, new_value) {
+    if ($scope.model_database.point.hasOwnProperty(new_value)) {
+      if (new_value in $scope.model_database.skill_manual) {
+        let i = 2;
+        let doc_item = $scope.model_database.skill_manual[new_value];
+        let origin_item = doc_item.repeat(1);
+        // Search duplicated
+        while (Object.values($scope.character_skill[key]).indexOf(doc_item) > -1) {
+          doc_item = origin_item + " - v" + i;
+          i += 1;
+        }
+        $scope.character_skill[key].push(doc_item)
+      } else {
+        console.error("Missing documentation " + new_value);
+      }
+    } else {
+      console.error("Missing skills " + new_value);
+    }
   };
 
   $scope._run_formule = function (unique_variable_formule, unique_variable_dct_element) {

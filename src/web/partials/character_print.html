@@ -8,10 +8,16 @@
 <p>
 <div ng-repeat="value in schema_char_print | orderBy: 'ImpressionIndex'" ng-if="isDefined(value.ImpressionIndex) && model_char[value.key] && value.type != 'array'">
   <div ng-show="isDefined(value.title)">
-    {{!value.title}}: {{!model_char[value.key]}}
+    <b>{{!value.title}}:</b>
+    <blockquote style="white-space: pre;font-size: 14px;">
+      {{!model_char[value.key]}}
+    </blockquote>
   </div>
   <div ng-show="!isDefined(value.title) && isDefined(value.key)">
-    {{!value.key}}: {{!model_char[value.key]}}
+    <b>{{!value.key}}:</b>
+    <blockquote style="white-space: pre;font-size: 14px;">
+      {{!model_char[value.key]}}
+    </blockquote>
   </div>
 </div>
 </p>
