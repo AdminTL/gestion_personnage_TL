@@ -94,6 +94,10 @@ function isBoolean(bool) {
       typeof bool.valueOf() === 'boolean');
 }
 
+function isNumber(number) {
+  return typeof number === 'number';
+}
+
 class DefaultDict {
   constructor(defaultInit) {
     return new Proxy({}, {

@@ -422,7 +422,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       }
     }
 
-    // Level 3 - Update values
+    // Level 3 - Update attribut
     for (const [key, new_element] of Object.entries($scope.char_point)) {
       if (new_element.type === "Attribut") {
         if (isDefined(new_element.max)) {
@@ -550,6 +550,12 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
         element[ele_key_name] += value;
       } else {
         element[ele_key_name] = value;
+      }
+    } else if (isNumber(result)) {
+      if (ele_key_name in element) {
+        element[ele_key_name] += value * result;
+      } else {
+        element[ele_key_name] = value * result;
       }
     } else {
       console.error("Type " + typeof result + " is not supported.")
