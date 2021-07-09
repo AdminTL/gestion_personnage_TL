@@ -446,10 +446,10 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     // Level 4 - end of execution
     // Run formule when all is created
     for (const sys_ele of $scope.system_point) {
-      if (sys_ele.formule) {
-        let result = $scope._run_formule(sys_ele.formule, $scope.char_point_attr);
-        let new_element = $scope.char_point_attr[sys_ele.name];
-        if (isUndefined(new_element)) {
+      if (sys_ele.formule && isDefined(sys_ele.formule)) {
+        let result = $scope._run_formule(sys_ele.formule, $scope.char_point);
+        let new_element = $scope.char_point[sys_ele.name];
+        if (!isDefined(new_element)) {
           console.error("Formule execution error, check " + sys_ele.name);
         } else {
           if (isDefined(new_element.max)) {
@@ -469,7 +469,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       if (Array.isArray(lst_value)) {
         // Manage only first level, sub level is manage by hability
         for (const value of lst_value) {
-          if (isUndefined(value) || value == null) {
+          if (!isDefined(value) || value == null) {
             console.error("Value is undefined for key " + key + ".");
             console.error(lst_value);
           } else if (typeof value == "string") {
@@ -501,7 +501,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     }
 
     for (const [key, value] of Object.entries($scope.char_point_ress)) {
-      if (value.value > 0) {
+      if ((isDefined(value.formule_result) && value.formule_result > 0) || (!isDefined(value.formule_result) && value.value > 0)) {
         $scope.char_has_ress = true;
         break;
       }
@@ -511,13 +511,21 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   };
 
   $scope._run_formule = function (unique_variable_formule, unique_variable_dct_element) {
-    if (unique_variable_formule) {
-      for (const [unique_variable_key_ele, unique_variable_var_ele] of Object.entries(unique_variable_dct_element)) {
-        eval("window['" + unique_variable_var_ele.name + "'] = " + JSON.stringify(unique_variable_var_ele) + ";");
-      }
+    try {
+      if (unique_variable_formule) {
+        for (const [unique_variable_key_ele, unique_variable_var_ele] of Object.entries(unique_variable_dct_element)) {
+          eval("window['" + unique_variable_var_ele.name + "'] = " + JSON.stringify(unique_variable_var_ele) + ";");
+        }
 
-      let unique_variable_formule_mod = unique_variable_formule.replaceAll(".max", ".max_value");
-      return eval(unique_variable_formule_mod);
+        // let unique_variable_formule_mod = unique_variable_formule.replaceAll(".max", ".max_value");
+        let result = eval(unique_variable_formule);
+        console.debug("Calcul formule, result for '" + unique_variable_formule + "'");
+        console.debug(result)
+        return result
+      }
+    } catch (err) {
+      console.error(err);
+      return 0;
     }
   };
 
