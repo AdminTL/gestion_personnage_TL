@@ -377,7 +377,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
               for (const [point_name, point_value] of Object.entries($scope.model_database.point[value])) {
                 // TODO get new_element
                 let new_element = $scope.char_point[point_name];
-                $scope._update_attribut(true, value, point_value, new_element);
+                $scope._update_attribut(true, value, point_value, new_element, key);
               }
             }
           } else if (Array.isArray(value)) {
@@ -391,7 +391,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
                   for (const [point_name, point_value] of Object.entries($scope.model_database.point[new_value])) {
                     // TODO get new_element
                     let new_element = $scope.char_point[point_name];
-                    $scope._update_attribut(true, new_value, point_value, new_element);
+                    $scope._update_attribut(true, new_value, point_value, new_element, key);
                   }
                 } else {
                   console.error("Missing  " + key + " " + new_value);
@@ -411,7 +411,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
                 for (const [point_name, point_value] of Object.entries($scope.model_database.point[new_value])) {
                   // TODO get new_element
                   let new_element = $scope.char_point[point_name];
-                  $scope._update_attribut(true, new_value, point_value, new_element);
+                  $scope._update_attribut(true, new_value, point_value, new_element, key);
                 }
               } else {
                 console.error("Missing  " + key + " " + new_value);
@@ -489,6 +489,10 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
               }
             } else {
               // TODO this is hardcoded hack
+              if ($scope.isConsumed(key)) {
+                // Ignore consumed skill
+                continue;
+              }
               let new_key = key;
               let game_index = key.indexOf("_jeu_");
               if (game_index > -1) {
@@ -556,7 +560,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     }
   };
 
-  $scope._update_attribut = function (result, key, value, element) {
+  $scope._update_attribut = function (result, key, value, element, root_skill = null) {
     // result is the value to affect the element, like a boolean
     // value is the transformation
     // element is the cache to update
@@ -573,12 +577,26 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       ele_key_name = "value";
     }
     if (isBoolean(result)) {
+      if ($scope.isConsumed(root_skill)) {
+        if (element.type == "Attribut" && isDefined(element.max_value)) {
+          element.max_value += value;
+        }
+        return;
+      }
       if (ele_key_name in element) {
         element[ele_key_name] += value;
       } else {
         element[ele_key_name] = value;
       }
     } else if (isNumber(result)) {
+      if (root_skill !== null) {
+        if ($scope.isConsumed(root_skill)) {
+          if (element.type == "Attribut" && isDefined(element.max_value)) {
+            element.max_value += value;
+          }
+          return;
+        }
+      }
       if (ele_key_name in element) {
         element[ele_key_name] += value * result;
       } else {
@@ -858,7 +876,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     if (!text || !isDefined(text)) {
       return "";
     }
-    if (isNumber(text)){
+    if (isNumber(text)) {
       return '<span class="neutral_color_bold">' + text + '</span>';
     }
     try {
@@ -866,6 +884,18 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     } catch (e) {
       console.error("Cannot use String.replace function.");
       return text;
+    }
+  };
+
+  $scope.isConsumed = function (skill_name_tree) {
+    // Detect if the skills is consumed, we need to hide it and remove his ressources
+    if (isDefined($scope.schema_char.properties)) {
+      let obj = $scope.schema_char.properties[skill_name_tree];
+      if (isDefined($scope.schema_char.properties[skill_name_tree])) {
+        return obj.estConsomme === true;
+      } else {
+        console.warn("Missing the skill name tree '" + skill_name_tree + "'");
+      }
     }
   };
 
