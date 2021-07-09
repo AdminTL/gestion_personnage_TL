@@ -109,3 +109,10 @@ class DefaultDict {
     })
   }
 }
+
+if (typeof String.prototype.trim !== 'function') {
+  // use like this : str.trim()
+  String.prototype.trim = function () {
+    return this.replace(/^\s+|\s+$/g, '');
+  }
+}

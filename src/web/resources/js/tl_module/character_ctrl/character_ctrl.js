@@ -848,6 +848,10 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     }
   };
 
+  $scope.isNumber = function (number) {
+    return typeof number === 'number';
+  };
+
   $scope.isDefined = function (x) {
     return x !== undefined;
   };

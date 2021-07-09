@@ -7,17 +7,20 @@
 <h1>Personnage</h1>
 <p>
 <div ng-repeat="value in schema_char_print | orderBy: 'ImpressionIndex'" ng-if="isDefined(value.ImpressionIndex) && model_char[value.key] && value.type != 'array'">
-  <div ng-show="isDefined(value.title)">
-    <b>{{!value.title}}:</b>
-    <blockquote style="white-space: pre;font-size: 14px;">
+  <b ng-show="isDefined(value.title)">{{!value.title}}:</b>
+  <b ng-show="!isDefined(value.title) && isDefined(value.key)">{{!value.key}}:</b>
+  <span ng-show="model_char[value.key].indexOf('\n') > -1">
+      <blockquote style="white-space: pre;font-size: 14px;">
+        {{!model_char[value.key]}}
+      </blockquote>
+    </span>
+  <span ng-hide="model_char[value.key].indexOf('\n') > -1">
+    <span style="font-weight:bold;color:cornflowerblue" ng-show="isNumber(model_char[value.key])">
       {{!model_char[value.key]}}
-    </blockquote>
-  </div>
-  <div ng-show="!isDefined(value.title) && isDefined(value.key)">
-    <b>{{!value.key}}:</b>
-    <blockquote style="white-space: pre;font-size: 14px;">
+    </span>
+    <span ng-hide="isNumber(model_char[value.key])">
       {{!model_char[value.key]}}
-    </blockquote>
-  </div>
+    </span>
+    </span>
 </div>
 </p>
