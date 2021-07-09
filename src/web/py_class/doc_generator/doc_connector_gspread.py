@@ -48,7 +48,7 @@ class DocType(Enum):
         elif self.value == self.POINT.value:
             header = [
                 "Level", "Name", "Description", "Explication", "Type", "Min", "Max", "Initial", "Formule", "HideValue",
-                "Required"
+                "Required", "Invisible"
             ]
         else:
             header = []
@@ -927,6 +927,10 @@ class DocConnectorGSpread:
             required = row[10]
             if required:
                 section["required"] = bool(required)
+
+            invisible = row[11]
+            if invisible:
+                section["invisible"] = bool(invisible)
 
             lst_point_section.append(section)
 

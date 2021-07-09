@@ -4,7 +4,7 @@
 <span ng-hide="char_has_ress" style="font-weight:bold;">Aucun</span>
 
 <ol ng-show="char_has_ress">
-  <li ng-repeat="(key, value) in char_point_ress" ng-show="(isDefined(value.formule) && value.formule_result > 0) || (!isDefined(value.formule) && value.value > 0)">
+  <li ng-repeat="(key, value) in char_point_ress" ng-show="!value.invisible && ((isDefined(value.formule) && value.formule_result > 0) || (!isDefined(value.formule) && value.value > 0))">
     <span ng-hide="isDefined(value.formule)">
     <span style="font-weight:bold;color:forestgreen">{{!value.value }}</span> {{!transform_plural(value.value, value.description)}}
     </span>
