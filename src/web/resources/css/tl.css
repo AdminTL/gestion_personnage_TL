@@ -127,3 +127,12 @@ h5 {
 .navbar-default .navbar-brand, .navbar-default .navbar-nav > li > a {
     color: #3C8FB7;
 }
+
+.neutral_color_bold {
+    font-weight:bold;
+    color:#1764c7;
+}
+
+.neutral_color {
+    color:#1764c7;
+}
