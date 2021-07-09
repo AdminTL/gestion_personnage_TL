@@ -6,10 +6,10 @@
 <ol ng-show="char_has_ress">
   <li ng-repeat="(key, value) in char_point_ress" ng-show="!value.invisible && ((isDefined(value.formule) && value.formule_result > 0) || (!isDefined(value.formule) && value.value > 0))">
     <span ng-hide="isDefined(value.formule)">
-    <span style="font-weight:bold;color:forestgreen">{{!value.value }}</span> {{!transform_plural(value.value, value.description)}}
+    <span class="neutral_color_bold">{{!value.value }}</span> {{!transform_plural(value.value, value.description)}}
     </span>
     <span ng-show="isDefined(value.formule)">
-      <span style="font-weight:bold;color:forestgreen">{{!value.formule_result }}</span> {{!transform_plural(value.formule_result, value.description)}}
+      <span class="neutral_color_bold">{{!value.formule_result }}</span> {{!transform_plural(value.formule_result, value.description)}}
     </span>
   </li>
 </ol>

@@ -4,7 +4,7 @@
   <h2 ng-show="isDefined(value.title)">{{!value.title}}</h2>
   <ol>
     <!--    <li ng-show="character_skill[value.key].length > 0" ng-repeat="value in character_skill[value.key]">{{!value }}</li>-->
-    <li ng-repeat="value in character_skill[value.key]">{{!value }}</li>
+    <li ng-repeat="value in character_skill[value.key]" ng-bind-html="colorNumberHTML(value)"></li>
     <!--    <li ng-hide="character_skill[value.key].length > 0" ng-repeat="value in model_char[value.key]">{{!value }}</li>-->
   </ol>
 </div>

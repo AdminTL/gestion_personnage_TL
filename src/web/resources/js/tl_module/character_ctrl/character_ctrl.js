@@ -854,6 +854,21 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     }
   };
 
+  $scope.colorNumberHTML = function (text) {
+    if (!text || !isDefined(text)) {
+      return "";
+    }
+    if (isNumber(text)){
+      return '<span class="neutral_color_bold">' + text + '</span>';
+    }
+    try {
+      return text.replace(/\d+/g, '<span class="neutral_color_bold">$&</span>');
+    } catch (e) {
+      console.error("Cannot use String.replace function.");
+      return text;
+    }
+  };
+
   $scope.isNumber = function (number) {
     return typeof number === 'number';
   };

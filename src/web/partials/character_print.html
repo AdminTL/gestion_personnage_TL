@@ -25,8 +25,7 @@
   <b ng-show="isDefined(value.title)">{{!value.title}}:</b>
   <b ng-show="!isDefined(value.title) && isDefined(value.key)">{{!value.key}}:</b>
   <span ng-show="model_char[value.key].indexOf('\n') > -1">
-      <blockquote style="white-space: pre;font-size: 14px;">
-        {{!model_char[value.key]}}
+      <blockquote style="white-space: pre;font-size: 14px;" ng-bind-html="colorNumberHTML(model_char[value.key])">
       </blockquote>
     </span>
   <span ng-hide="model_char[value.key].indexOf('\n') > -1">
@@ -34,8 +33,8 @@
       {{!model_char[value.key]}}
     </span>
     <span ng-hide="isNumber(model_char[value.key])">
-      {{!model_char[value.key]}}
+      <span ng-bind-html="colorNumberHTML(model_char[value.key])"></span>
     </span>
-    </span>
+  </span>
 </div>
 </p>
