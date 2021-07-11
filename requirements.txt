@@ -1,6 +1,6 @@
 tornado
 sockjs-tornado
-tinydb==3.15.2
+tinydb==4.5.0
 bcrypt
 PyOpenSSL
 oauth2client
