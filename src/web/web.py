@@ -145,6 +145,9 @@ def main(parse_arg):
             tornado.web.url(r"/admin/setting?", handlers.AdminSettingHandler, name='admin setting', kwargs=settings))
         routes.append(tornado.web.url(r"/admin/profile/modify_password/?", handlers.AdminModifyPasswordHandler,
                                       name='cmd_admin_modify_password', kwargs=settings))
+        routes.append(
+            tornado.web.url(r"/cmd/admin/editor/database/?", handlers.AdminSettingDatabaseHandler,
+                            name='admin cmd editor database', kwargs=settings))
 
     # Command
     routes.append(tornado.web.url(r"/cmd/character_view/?", handlers.CharacterViewHandler, name='character_view',

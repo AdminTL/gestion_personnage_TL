@@ -491,6 +491,30 @@ class AdminSettingHandler(base_handler.BaseHandler):
             raise tornado.web.Finish()
 
 
+class AdminSettingDatabaseHandler(base_handler.BaseHandler):
+    @tornado.web.authenticated
+    def get(self):
+        if self._global_arg["disable_admin"]:
+            # Not Found
+            self.set_status(404)
+            self.send_error(404)
+            raise tornado.web.Finish()
+
+        if not self.is_permission_admin():
+            print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
+            # Forbidden
+            self.set_status(403)
+            self.send_error(403)
+            raise tornado.web.Finish()
+
+        # str_value = self._manual.get_str_all(is_admin=True)
+        dct_value = {
+            "lst_database": self._db.list_databases()
+        }
+        self.write(dct_value)
+        self.finish()
+
+
 class AdminModifyPasswordHandler(jsonhandler.JsonHandler):
     @tornado.web.authenticated
     def post(self):

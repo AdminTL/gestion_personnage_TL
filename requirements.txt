@@ -5,3 +5,4 @@ bcrypt
 PyOpenSSL
 oauth2client
 gspread
+humanize

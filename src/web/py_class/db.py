@@ -7,6 +7,10 @@ import uuid
 import json
 import datetime
 import bcrypt
+import glob
+import os
+import time
+import humanize
 
 
 class DB(object):
@@ -117,6 +121,26 @@ class DB(object):
 
         if has_update:
             self.update_user(obj_user)
+
+    @staticmethod
+    def list_databases():
+        new_lst = []
+        lst_tl_user = glob.glob("../../database/*tl_user*.json")
+        for tl_user in lst_tl_user:
+            filename = os.path.basename(tl_user)
+            dct_value = {
+                "file_path": tl_user,
+                "file_name": filename,
+                "date_last_modified": os.path.getmtime(tl_user),
+                "date_last_modified_str": time.ctime(os.path.getmtime(tl_user)),
+                "size": os.path.getsize(tl_user),
+                "human_size": humanize.naturalsize(os.path.getsize(tl_user)),
+            }
+            if filename == "tl_user.json":
+                new_lst.insert(0, dct_value)
+            else:
+                new_lst.append(dct_value)
+        return new_lst
 
     def get_all_user(self, user_id=None, with_password=False):
         if not user_id:
