@@ -540,6 +540,35 @@ class AdminSettingBackupDatabaseHandler(base_handler.BaseHandler):
         self.finish()
 
 
+class SettingAdminDownloadDatabase(base_handler.BaseHandler):
+    """This class download a specific database"""
+
+    @tornado.web.authenticated
+    def get(self):
+        if not self.is_permission_admin():
+            print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
+            # Forbidden
+            self.set_status(403)
+            self.send_error(403)
+            raise tornado.web.Finish()
+
+        name = self.get_argument("name")
+        zip_name = name.replace("json", "zip")
+
+        self.set_header('Content-Type', 'application/octet-stream')
+        self.set_header('Content-Disposition', 'attachment; filename=' + zip_name)
+
+        # Generate archive project
+        data = self._db.get_database_bytes(name)
+        if not data:
+            self.set_status(404)
+            self.send_error(404)
+            raise tornado.web.Finish()
+        else:
+            self.write(data)
+        self.finish()
+
+
 class AdminModifyPasswordHandler(jsonhandler.JsonHandler):
     @tornado.web.authenticated
     def post(self):

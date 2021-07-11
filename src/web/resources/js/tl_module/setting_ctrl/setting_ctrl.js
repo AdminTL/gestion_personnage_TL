@@ -15,7 +15,60 @@ characterApp.controller("setting_ctrl", ["$scope", "$q", "$http", "$window", /*"
     }
   };
 
+  $scope.database = {
+    list: [],
+    backup: {
+      has_press_backup: false,
+      label: "",
+    }
+  }
+
   $scope.download_archive = function () {
     window.open("/cmd/archive/generate_project", "_blank", "");
-  }
+  };
+
+  $scope.download_database = function (name) {
+    let url = "/cmd/admin/download_database?name=" + name;
+    window.open(url, "_blank", "");
+  };
+
+  // fill user and character schema and form
+  $scope.update_list_database = function () {
+    let url = "/cmd/admin/editor/database";
+    $http({
+      method: "get",
+      url: url,
+      headers: {"Content-Type": "application/json; charset=UTF-8"},
+      timeout: 5000
+    }).then(function (response/*, status, headers, config*/) {
+      console.info(response);
+      $scope.database.list = response.data.lst_database;
+    }, function errorCallback(response) {
+      console.error(response);
+    });
+
+  };
+  $scope.update_list_database();
+
+  $scope.send_backup_label = function () {
+    let url = "/cmd/admin/editor/backup_database";
+    if ($scope.database.backup.label.length > 0) {
+      url += "?label=" + $scope.database.backup.label;
+    }
+
+    $http({
+      method: "get",
+      url: url,
+      timeout: 5000
+    }).then(function (response/*, status, headers, config*/) {
+      let data = response.data;
+      $scope.database.list.splice(1, 0, data);
+      $scope.database.backup.has_press_backup = false;
+      $scope.database.backup.label = "";
+
+    }, function errorCallback(response) {
+      console.error(response);
+    });
+  };
+
 }]);

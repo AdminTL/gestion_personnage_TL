@@ -12,6 +12,8 @@ import os
 import time
 import humanize
 import shutil
+import io
+import zipfile
 
 
 class DB(object):
@@ -132,6 +134,7 @@ class DB(object):
     @staticmethod
     def list_databases(specific_filename=None):
         new_lst = []
+        actual_db = None
         lst_tl_user = glob.glob(os.path.join("..", "..", "database", "*tl_user*.json"))
         for tl_user in lst_tl_user:
             filename = os.path.basename(tl_user)
@@ -146,15 +149,18 @@ class DB(object):
                 "human_size": humanize.naturalsize(os.path.getsize(tl_user)),
             }
             if filename == "tl_user.json":
-                new_lst.insert(0, dct_value)
+                actual_db = dct_value
             else:
                 new_lst.append(dct_value)
-        return new_lst
+        sorted_list = sorted(new_lst, key=lambda obj: obj.get("file_name"), reverse=True)
+        if actual_db:
+            sorted_list.insert(0, actual_db)
+        return sorted_list
 
     @staticmethod
     def backup_database(label=None):
         now = datetime.datetime.now()
-        prefix_date = now.strftime("%Y_%m_%d_%H_%M_%S")
+        prefix_date = now.strftime("%Y_%m_%d-%H_%M_%S")
         if label:
             label = label.replace(".", "").replace("/", "").replace("\\", "")
             filename = f"{prefix_date}_{label}_tl_user.json"
@@ -167,6 +173,17 @@ class DB(object):
         except Exception as e:
             print(f"Error occur in backup_database: {e}")
         return filename
+
+    @staticmethod
+    def get_database_bytes(name):
+        actual_file_path = os.path.join("..", "..", "database", name)
+        if not os.path.isfile(actual_file_path):
+            return None
+        buffer = io.BytesIO()
+        with zipfile.ZipFile(buffer, mode="w", compression=zipfile.ZIP_DEFLATED) as zip_mem:
+            with open(actual_file_path, 'rb') as fh:
+                zip_mem.writestr(name, fh.read())
+        return buffer.getvalue()
 
     def get_all_user(self, user_id=None, with_password=False):
         if not user_id:
