@@ -1,5 +1,5 @@
 <span ng-show="player">
-  <div ng-repeat="(key, value) in char_point_attr">
+  <div ng-repeat="(key, value) in char_point_attr" ng-hide="value.invisible">
     <span ng-show="value['formule']">
       {{!transform_plural(value.formule_result, value.description)}} <span ng-style="value.formule_result >= 0 ? {'color': 'green'} : {'color': 'red'}">{{!value.formule_result }}</span>
     </span>

@@ -2,6 +2,7 @@
 "use strict";
 
 characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /*"$timeout",*/ function ($scope, $q, $http, $window) {
+  $scope.enable_debug = false;
   $scope.is_admin = $window.location.pathname.indexOf("/admin") >= 0;
 
   $scope.isMobile = function () {
@@ -305,6 +306,8 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       return;
     }
 
+    console.debug("Begin of system point execution.");
+
     // Level 1 - Initialize
     for (const element of $scope.system_point) {
       // Shadow copy object
@@ -374,7 +377,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
               for (const [point_name, point_value] of Object.entries($scope.model_database.point[value])) {
                 // TODO get new_element
                 let new_element = $scope.char_point[point_name];
-                $scope._update_attribut(true, value, point_value, new_element);
+                $scope._update_attribut(true, value, point_value, new_element, key);
               }
             }
           } else if (Array.isArray(value)) {
@@ -388,7 +391,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
                   for (const [point_name, point_value] of Object.entries($scope.model_database.point[new_value])) {
                     // TODO get new_element
                     let new_element = $scope.char_point[point_name];
-                    $scope._update_attribut(true, new_value, point_value, new_element);
+                    $scope._update_attribut(true, new_value, point_value, new_element, key);
                   }
                 } else {
                   console.error("Missing  " + key + " " + new_value);
@@ -408,20 +411,20 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
                 for (const [point_name, point_value] of Object.entries($scope.model_database.point[new_value])) {
                   // TODO get new_element
                   let new_element = $scope.char_point[point_name];
-                  $scope._update_attribut(true, new_value, point_value, new_element);
+                  $scope._update_attribut(true, new_value, point_value, new_element, key);
                 }
               } else {
                 console.error("Missing  " + key + " " + new_value);
               }
             }
           } else {
-            console.error("Another type");
+            console.error("Another type for key " + key + " and type value " + typeof value);
           }
         }
       }
     }
 
-    // Level 3 - Update values
+    // Level 3 - Update attribut
     for (const [key, new_element] of Object.entries($scope.char_point)) {
       if (new_element.type === "Attribut") {
         if (isDefined(new_element.max)) {
@@ -445,10 +448,10 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     // Level 4 - end of execution
     // Run formule when all is created
     for (const sys_ele of $scope.system_point) {
-      if (sys_ele.formule) {
-        let result = $scope._run_formule(sys_ele.formule, $scope.char_point_attr);
-        let new_element = $scope.char_point_attr[sys_ele.name];
-        if (isUndefined(new_element)) {
+      if (sys_ele.formule && isDefined(sys_ele.formule)) {
+        let result = $scope._run_formule(sys_ele.formule, $scope.char_point);
+        let new_element = $scope.char_point[sys_ele.name];
+        if (!isDefined(new_element)) {
           console.error("Formule execution error, check " + sys_ele.name);
         } else {
           if (isDefined(new_element.max)) {
@@ -468,59 +471,96 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       if (Array.isArray(lst_value)) {
         // Manage only first level, sub level is manage by hability
         for (const value of lst_value) {
-          if (isUndefined(value) || value == null) {
+          if (!isDefined(value) || value == null) {
             console.error("Value is undefined for key " + key + ".");
             console.error(lst_value);
           } else if (typeof value == "string") {
-            if (value in $scope.model_database.skill_manual && $scope.model_database.point.hasOwnProperty(value)) {
-              $scope.character_skill[key].push($scope.model_database.skill_manual[value]);
-            }
+            $scope._update_documentation(key, value);
           } else if (Array.isArray(value)) {
             console.error("Cannot support array.");
           } else if (typeof value == "object") {
             // Ignore when missing options, the skill is not completed
+            // TODO options is hardcoded, find a way to find this information
             if (value.hasOwnProperty("options")) {
+              // 3 levels
               for (const option of value.options) {
-                // let new_value = "habilites_" + option;
                 let new_value = key + "_" + option;
-                if ($scope.model_database.point.hasOwnProperty(new_value)) {
-                  if (new_value in $scope.model_database.skill_manual) {
-                    $scope.character_skill[key].push($scope.model_database.skill_manual[new_value]);
-                  }
-                } else {
-                  console.error("Missing habilites " + new_value);
-                }
+                $scope._update_documentation(key, new_value);
               }
+            } else {
+              // TODO this is hardcoded hack
+              if ($scope.isConsumed(key)) {
+                // Ignore consumed skill
+                continue;
+              }
+              let new_key = key;
+              let game_index = key.indexOf("_jeu_");
+              if (game_index > -1) {
+                new_key = key.slice(0, game_index);
+              }
+              // 2 levels
+              let item_name = value["sub_" + new_key];
+              let new_value = new_key + "_" + item_name;
+              $scope._update_documentation(new_key, new_value);
             }
           } else {
-            console.error("Another type");
+            console.error("Another type for key " + key + " and type value " + typeof value);
           }
         }
       }
     }
 
     for (const [key, value] of Object.entries($scope.char_point_ress)) {
-      if (value.value > 0) {
+      if ((isDefined(value.formule_result) && value.formule_result > 0) || (!isDefined(value.formule_result) && value.value > 0)) {
         $scope.char_has_ress = true;
         break;
       }
     }
 
     $scope.get_status_validation();
+    console.debug("End of system point execution.");
   };
 
-  $scope._run_formule = function (unique_variable_formule, unique_variable_dct_element) {
-    if (unique_variable_formule) {
-      for (const [unique_variable_key_ele, unique_variable_var_ele] of Object.entries(unique_variable_dct_element)) {
-        eval("window['" + unique_variable_var_ele.name + "'] = " + JSON.stringify(unique_variable_var_ele) + ";");
+  $scope._update_documentation = function (key, new_value) {
+    if ($scope.model_database.point.hasOwnProperty(new_value)) {
+      if (new_value in $scope.model_database.skill_manual) {
+        let i = 2;
+        let doc_item = $scope.model_database.skill_manual[new_value];
+        let origin_item = doc_item.repeat(1);
+        // Search duplicated
+        while (Object.values($scope.character_skill[key]).indexOf(doc_item) > -1) {
+          doc_item = origin_item + " - v" + i;
+          i += 1;
+        }
+        $scope.character_skill[key].push(doc_item)
+      } else {
+        console.error("Missing documentation " + new_value);
       }
-
-      let unique_variable_formule_mod = unique_variable_formule.replaceAll(".max", ".max_value");
-      return eval(unique_variable_formule_mod);
+    } else {
+      console.error("Missing skills " + new_value);
     }
   };
 
-  $scope._update_attribut = function (result, key, value, element) {
+  $scope._run_formule = function (unique_variable_formule, unique_variable_dct_element) {
+    try {
+      if (unique_variable_formule) {
+        for (const [unique_variable_key_ele, unique_variable_var_ele] of Object.entries(unique_variable_dct_element)) {
+          eval("window['" + unique_variable_var_ele.name + "'] = " + JSON.stringify(unique_variable_var_ele) + ";");
+        }
+
+        // let unique_variable_formule_mod = unique_variable_formule.replaceAll(".max", ".max_value");
+        let result = eval(unique_variable_formule);
+        console.debug("Calcul formule, result for '" + unique_variable_formule + "'");
+        console.debug(result)
+        return result
+      }
+    } catch (err) {
+      console.error(err);
+      return 0;
+    }
+  };
+
+  $scope._update_attribut = function (result, key, value, element, root_skill = null) {
     // result is the value to affect the element, like a boolean
     // value is the transformation
     // element is the cache to update
@@ -537,10 +577,30 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       ele_key_name = "value";
     }
     if (isBoolean(result)) {
+      if ($scope.isConsumed(root_skill)) {
+        if (element.type == "Attribut" && isDefined(element.max_value)) {
+          element.max_value += value;
+        }
+        return;
+      }
       if (ele_key_name in element) {
         element[ele_key_name] += value;
       } else {
         element[ele_key_name] = value;
+      }
+    } else if (isNumber(result)) {
+      if (root_skill !== null) {
+        if ($scope.isConsumed(root_skill)) {
+          if (element.type == "Attribut" && isDefined(element.max_value)) {
+            element.max_value += value;
+          }
+          return;
+        }
+      }
+      if (ele_key_name in element) {
+        element[ele_key_name] += value * result;
+      } else {
+        element[ele_key_name] = value * result;
       }
     } else {
       console.error("Type " + typeof result + " is not supported.")
@@ -812,12 +872,43 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     }
   };
 
+  $scope.colorNumberHTML = function (text) {
+    if (!text || !isDefined(text)) {
+      return "";
+    }
+    if (isNumber(text)) {
+      return '<span class="neutral_color_bold">' + text + '</span>';
+    }
+    try {
+      return text.replace(/\d+/g, '<span class="neutral_color_bold">$&</span>');
+    } catch (e) {
+      console.error("Cannot use String.replace function.");
+      return text;
+    }
+  };
+
+  $scope.isConsumed = function (skill_name_tree) {
+    // Detect if the skills is consumed, we need to hide it and remove his ressources
+    if (isDefined($scope.schema_char.properties)) {
+      let obj = $scope.schema_char.properties[skill_name_tree];
+      if (isDefined($scope.schema_char.properties[skill_name_tree])) {
+        return obj.estConsomme === true;
+      } else {
+        console.warn("Missing the skill name tree '" + skill_name_tree + "'");
+      }
+    }
+  };
+
+  $scope.isNumber = function (number) {
+    return typeof number === 'number';
+  };
+
   $scope.isDefined = function (x) {
     return x !== undefined;
   };
 
   $scope.toTitleCase = function (str) {
-    return str.replace(
+    return str.replaceAll("_", " ").replace(
       /\w\S*/g,
       function (txt) {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();

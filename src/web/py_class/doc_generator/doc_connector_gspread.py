@@ -43,12 +43,12 @@ class DocType(Enum):
         elif self.value == self.SCHEMA.value:
             header = [
                 "Level", "Name", "Type", "Title", "minLength", "pattern", "required", "minItems", "maxItems",
-                "uniqueItems", "ImpressionIndex", "ValidateRequired", "Point", "Description"
+                "uniqueItems", "ImpressionIndex", "ValidateRequired", "Point", "EstConsommé", "Description"
             ]
         elif self.value == self.POINT.value:
             header = [
                 "Level", "Name", "Description", "Explication", "Type", "Min", "Max", "Initial", "Formule", "HideValue",
-                "Required"
+                "Required", "Invisible"
             ]
         else:
             header = []
@@ -430,7 +430,8 @@ class DocConnectorGSpread:
             impression_index = lst_item[10]
             validate_required = bool(lst_item[11])
             point = lst_item[12]
-            description = lst_item[13]
+            consume = lst_item[13]
+            description = lst_item[14]
 
             if not level:
                 continue
@@ -601,6 +602,8 @@ class DocConnectorGSpread:
                 line_value["validateRequired"] = validate_required
             if dct_point_v:
                 line_value["point"] = dct_point_v
+            if consume:
+                line_value["estConsomme"] = bool(consume)
             if description:
                 line_value["description"] = description
 
@@ -927,6 +930,10 @@ class DocConnectorGSpread:
             required = row[10]
             if required:
                 section["required"] = bool(required)
+
+            invisible = row[11]
+            if invisible:
+                section["invisible"] = bool(invisible)
 
             lst_point_section.append(section)
 

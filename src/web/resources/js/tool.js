@@ -94,6 +94,10 @@ function isBoolean(bool) {
       typeof bool.valueOf() === 'boolean');
 }
 
+function isNumber(number) {
+  return typeof number === 'number';
+}
+
 class DefaultDict {
   constructor(defaultInit) {
     return new Proxy({}, {
@@ -103,5 +107,12 @@ class DefaultDict {
           new defaultInit().valueOf() :
           defaultInit)
     })
+  }
+}
+
+if (typeof String.prototype.trim !== 'function') {
+  // use like this : str.trim()
+  String.prototype.trim = function () {
+    return this.replace(/^\s+|\s+$/g, '');
   }
 }
