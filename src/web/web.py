@@ -148,6 +148,9 @@ def main(parse_arg):
         routes.append(
             tornado.web.url(r"/cmd/admin/editor/database/?", handlers.AdminSettingDatabaseHandler,
                             name='admin cmd editor database', kwargs=settings))
+        routes.append(
+            tornado.web.url(r"/cmd/admin/editor/backup_database/?", handlers.AdminSettingBackupDatabaseHandler,
+                            name='admin cmd editor backup database', kwargs=settings))
 
     # Command
     routes.append(tornado.web.url(r"/cmd/character_view/?", handlers.CharacterViewHandler, name='character_view',

@@ -11,10 +11,14 @@ import glob
 import os
 import time
 import humanize
+import shutil
 
 
 class DB(object):
     def __init__(self, parser):
+        self.init(parser)
+
+    def init(self, parser):
         if parser.db_demo:
             self._db_user = tinydb.TinyDB(storage=tinydb.storages.MemoryStorage)
             # add demo data in fake database
@@ -27,6 +31,9 @@ class DB(object):
             self._db_user = tinydb.TinyDB(file_path)
 
         self._query_user = tinydb.Query()
+
+    def close(self):
+        self._db_user.close()
 
     @staticmethod
     def generate_password(password):
@@ -123,11 +130,13 @@ class DB(object):
             self.update_user(obj_user)
 
     @staticmethod
-    def list_databases():
+    def list_databases(specific_filename=None):
         new_lst = []
-        lst_tl_user = glob.glob("../../database/*tl_user*.json")
+        lst_tl_user = glob.glob(os.path.join("..", "..", "database", "*tl_user*.json"))
         for tl_user in lst_tl_user:
             filename = os.path.basename(tl_user)
+            if specific_filename and specific_filename != filename:
+                continue
             dct_value = {
                 "file_path": tl_user,
                 "file_name": filename,
@@ -141,6 +150,23 @@ class DB(object):
             else:
                 new_lst.append(dct_value)
         return new_lst
+
+    @staticmethod
+    def backup_database(label=None):
+        now = datetime.datetime.now()
+        prefix_date = now.strftime("%Y_%m_%d_%H_%M_%S")
+        if label:
+            label = label.replace(".", "").replace("/", "").replace("\\", "")
+            filename = f"{prefix_date}_{label}_tl_user.json"
+        else:
+            filename = f"{prefix_date}_tl_user.json"
+        actual_file_path = os.path.join("..", "..", "database", "tl_user.json")
+        new_file_path = os.path.join("..", "..", "database", filename)
+        try:
+            shutil.copyfile(actual_file_path, new_file_path)
+        except Exception as e:
+            print(f"Error occur in backup_database: {e}")
+        return filename
 
     def get_all_user(self, user_id=None, with_password=False):
         if not user_id:
