@@ -26,6 +26,10 @@
 {% else %}
 
 <div ng-controller="character_ctrl" class="row" ng-cloak>
+  <div ng-show="disable_character_outside_server">
+    <h1>La gestion de votre personnage a été désactivé par votre administration.</h1>
+    <h2 ng-show="disable_character_message">On vous attend à l'accueil de notre activité!</h2>
+  </div>
   <div>
     <div ng-hide="!ddb_user" class="bs-docs-sidebar col-xs-12 col-sm-3 hidden-print affix" role="complementary">
       {% include "character_choose_sheet.html" %}

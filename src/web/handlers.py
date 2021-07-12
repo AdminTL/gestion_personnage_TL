@@ -679,6 +679,15 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
             self.set_status(404)
             self.send_error(404)
             raise tornado.web.Finish()
+        status_character = self._config.get("status_server.character", default=True)
+        if not status_character:
+            print("Cannot save data when character service is disable from %s" % self.request.remote_ip,
+                  file=sys.stderr)
+            data = {"error": "The character service is disable from administration."}
+            self.write(data)
+            self.finish()
+            return
+
         self.prepare_json()
 
         user = self.get_argument("player")
@@ -745,9 +754,54 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
         self.finish()
 
 
+class CharacterStatusHandler(jsonhandler.JsonHandler):
+    @tornado.web.authenticated
+    def get(self):
+        if not self.is_permission_admin() and self._global_arg["disable_user_character"] or \
+                self._global_arg["disable_character"]:
+            # Not Found
+            self.set_status(404)
+            self.send_error(404)
+            raise tornado.web.Finish()
+
+        status_character = self._config.get("status_server.character", default=True)
+
+        if status_character is None:
+            status_character = True
+
+        data = json.dumps({"status_character": status_character})
+
+        self.write(data)
+        self.finish()
+
+    def post(self):
+        if self._global_arg["disable_character"]:
+            # Not Found
+            self.set_status(404)
+            self.send_error(404)
+            raise tornado.web.Finish()
+        self.prepare_json()
+
+        status_character = self.get_argument("status_character")
+
+        if status_character is None:
+            print("Missing status character from %s" % self.request.remote_ip,
+                  file=sys.stderr)
+            data = {"error": "Missing status."}
+            self.write(data)
+            self.finish()
+            return
+
+        self._config.update("status_server.character", status_character, save=True)
+
+        self.write({"status": "success"})
+        self.finish()
+
+
 class ManualHandler(jsonhandler.JsonHandler):
     def get(self):
-        str_value = self._manual.get_str_all(is_admin=False)
+        status_character = self._config.get("status_server.character", default=True)
+        str_value = self._manual.get_str_all(is_admin=False, disable_record=not status_character)
         self.write(str_value)
         self.finish()
 
@@ -760,7 +814,8 @@ class ManualAdminHandler(jsonhandler.JsonHandler):
             self.set_status(403)
             self.send_error(403)
             raise tornado.web.Finish()
-        str_value = self._manual.get_str_all(is_admin=True)
+        status_character = self._config.get("status_server.character", default=True)
+        str_value = self._manual.get_str_all(is_admin=True, disable_record=not status_character)
         self.write(str_value)
         self.finish()
 

@@ -17,6 +17,13 @@
       {{!model_setting.downloading_archive.status.text }}
     </span>
   </div>
+  <h2>État du service</h2>
+  <p>Le service de personnage est <span style="color:green" ng-show="model_setting.service_status">actif</span><span style="color:indianred" ng-show="!model_setting.service_status">désactivé</span>.
+  </p>
+  <div>
+    <button ng-show="model_setting.service_status" class="btn btn-danger" ng-click="change_status_service()">Désactiver le service</button>
+    <button ng-show="!model_setting.service_status" class="btn btn-success" ng-click="change_status_service()">Activer le service</button>
+  </div>
   <h1>Base de données</h1>
   <h2>Liste des bases de données</h2>
   <div class="table-responsive">

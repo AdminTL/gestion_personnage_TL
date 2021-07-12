@@ -5,6 +5,8 @@ characterApp.controller("setting_ctrl", ["$scope", "$q", "$http", "$window", /*"
   $scope.model_setting = {
     is_ctrl_ready: false,
 
+    service_status: true,
+
     is_downloading_archive: false,
     downloading_archive: {
       status: {
@@ -32,6 +34,25 @@ characterApp.controller("setting_ctrl", ["$scope", "$q", "$http", "$window", /*"
     window.open(url, "_blank", "");
   };
 
+  $scope.change_status_service = function () {
+    let data = {
+      "status_character": !$scope.model_setting.service_status
+    }
+    let url = "/cmd/character_status";
+    $http({
+      method: "post",
+      url: url,
+      data: data,
+      headers: {"Content-Type": "application/json; charset=UTF-8"},
+      timeout: 5000
+    }).then(function (response/*, status, headers, config*/) {
+      console.info(response);
+      $scope.model_setting.service_status = !$scope.model_setting.service_status;
+    }, function errorCallback(response) {
+      console.error(response);
+    });
+  };
+
   // fill user and character schema and form
   $scope.update_list_database = function () {
     let url = "/cmd/admin/editor/database";
@@ -49,6 +70,21 @@ characterApp.controller("setting_ctrl", ["$scope", "$q", "$http", "$window", /*"
 
   };
   $scope.update_list_database();
+
+  $scope.get_server_status = function () {
+    let url = "/cmd/character_status";
+    $http({
+      method: "get",
+      url: url,
+      timeout: 5000
+    }).then(function (response/*, status, headers, config*/) {
+      console.info(response);
+      $scope.model_setting.service_status = response.data.status_character;
+    }, function errorCallback(response) {
+      console.error(response);
+    });
+  };
+  $scope.get_server_status();
 
   $scope.send_backup_label = function () {
     let url = "/cmd/admin/editor/backup_database";

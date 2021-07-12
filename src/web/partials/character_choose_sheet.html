@@ -13,7 +13,7 @@
   </ul>
 </div>
 <div ng-hide="new_player">
-  <button class="btn btn-success" ng-click="onSubmit(my_form_char)"><span class="glyphicon glyphicon-floppy-save"></span> <span class="glyphicon glyphicon-user"></span>
+  <button ng-hide="disable_character_outside_server" class="btn btn-success" ng-click="onSubmit(my_form_char)"><span class="glyphicon glyphicon-floppy-save"></span> <span class="glyphicon glyphicon-user"></span>
     Enregistrer
   </button>
 </div>

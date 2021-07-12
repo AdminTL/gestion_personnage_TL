@@ -160,6 +160,8 @@ def main(parse_arg):
     # Command
     routes.append(tornado.web.url(r"/cmd/character_view/?", handlers.CharacterViewHandler, name='character_view',
                                   kwargs=settings))
+    routes.append(tornado.web.url(r"/cmd/character_status", handlers.CharacterStatusHandler, name='character status',
+                                  kwargs=settings))
     routes.append(tornado.web.url(r"/cmd/manual/?", handlers.ManualHandler, name='cmd_manual', kwargs=settings))
     routes.append(
         tornado.web.url(r"/cmd/manual_admin/?", handlers.ManualAdminHandler, name='cmd_manual_admin', kwargs=settings))

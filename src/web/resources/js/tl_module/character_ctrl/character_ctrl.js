@@ -13,6 +13,9 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   $scope.is_updated_player = false;
   $scope.show_advance_admin_profil_permission = false;
 
+  $scope.disable_character_outside_server = true;
+  $scope.disable_character_message = true;
+
   $scope.model_profile = {
     add_password: {
       password: "",
@@ -77,6 +80,21 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   $scope.refresh_page = function () {
     location.reload();
   };
+
+  $scope.get_server_status = function () {
+    let url = "/cmd/character_status";
+    $http({
+      method: "get",
+      url: url,
+      timeout: 5000
+    }).then(function (response/*, status, headers, config*/) {
+      console.info(response);
+      $scope.disable_character_outside_server = !response.data.status_character;
+    }, function errorCallback(response) {
+      console.error(response);
+    });
+  };
+  $scope.get_server_status();
 
   // fill user and character schema and form
   $scope.update_character = function () {
