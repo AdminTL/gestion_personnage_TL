@@ -29,7 +29,7 @@ class Manual(object):
             with open(self._manual_path, mode="w", encoding='utf-8') as manual_file:
                 json.dump(self._manual, manual_file, indent=2)
 
-    def get_all(self, is_admin=False):
+    def get_all(self, is_admin=False, disable_record=False):
         if not self._manual:
             return {}
 
@@ -43,11 +43,32 @@ class Manual(object):
             "system_point": self._manual["system_point"],
         }
         if is_admin:
-            tmp_rule["char_rule"]["form_user"] = self._manual["char_rule"]["admin_form_user"]
-            tmp_rule["char_rule"]["form_char"] = self._manual["char_rule"]["admin_form_char"]
+            lst_form_user = self._manual["char_rule"]["admin_form_user"]
+            lst_form_char = self._manual["char_rule"]["admin_form_char"]
         else:
-            tmp_rule["char_rule"]["form_user"] = self._manual["char_rule"]["form_user"]
-            tmp_rule["char_rule"]["form_char"] = self._manual["char_rule"]["form_char"]
+            lst_form_user = self._manual["char_rule"]["form_user"]
+            lst_form_char = self._manual["char_rule"]["form_char"]
+        if disable_record:
+            lst_form_user = lst_form_user[:]
+            lst_form_char = lst_form_char[:]
+            lst_index = []
+            i = 0
+            for info in lst_form_user:
+                if info.get("type") == "submit":
+                    lst_index.append(i)
+                i += 1
+            for index in lst_index[::-1]:
+                lst_form_user.pop(index)
+            lst_index = []
+            i = 0
+            for info in lst_form_char:
+                if info.get("type") == "submit":
+                    lst_index.append(i)
+                i += 1
+            for index in lst_index[::-1]:
+                lst_form_char.pop(index)
+        tmp_rule["char_rule"]["form_user"] = lst_form_user
+        tmp_rule["char_rule"]["form_char"] = lst_form_char
 
         tmp_rule["char_rule"]["schema_user"] = self._manual["char_rule"]["schema_user"]
         tmp_rule["char_rule"]["schema_char"] = self._manual["char_rule"]["schema_char"]
@@ -58,8 +79,8 @@ class Manual(object):
 
         return tmp_rule
 
-    def get_str_all(self, is_admin=False):
-        obj = self.get_all(is_admin=is_admin)
+    def get_str_all(self, is_admin=False, disable_record=False):
+        obj = self.get_all(is_admin=is_admin, disable_record=disable_record)
         return json.dumps(obj)
 
     def get_last_date_updated(self):

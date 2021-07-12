@@ -20,7 +20,7 @@ class Config(object):
         except FileNotFoundError:
             print("ERROR: file %s not exist. Please create it or read installation file." % self._db_config_path)
 
-    def get(self, key):
+    def get(self, key, default=None):
         """
         Get the value of the key.
 
@@ -31,7 +31,7 @@ class Config(object):
         """
         lst_key = key.split(".")
         first_run = True
-        result = None
+        result = default
         for a_key in lst_key:
             if first_run:
                 result = self._keys.get(a_key)
@@ -41,6 +41,9 @@ class Config(object):
                 return
             else:
                 result = result.get(a_key)
+
+        if result is None:
+            result = default
 
         return result
 

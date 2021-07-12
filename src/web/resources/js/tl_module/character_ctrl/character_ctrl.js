@@ -13,6 +13,9 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   $scope.is_updated_player = false;
   $scope.show_advance_admin_profil_permission = false;
 
+  $scope.disable_character_outside_server = true;
+  $scope.disable_character_message = true;
+
   $scope.model_profile = {
     add_password: {
       password: "",
@@ -46,6 +49,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   $scope.new_character = false;
   $scope.no_character = true;
   $scope.character_skill = new DefaultDict(Array);
+  $scope.character_skill_temp = new DefaultDict(Array);
 
   $scope.char_point = {};
   $scope.char_point_ress = {};
@@ -77,6 +81,21 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   $scope.refresh_page = function () {
     location.reload();
   };
+
+  $scope.get_server_status = function () {
+    let url = "/cmd/character_status";
+    $http({
+      method: "get",
+      url: url,
+      timeout: 5000
+    }).then(function (response/*, status, headers, config*/) {
+      console.info(response);
+      $scope.disable_character_outside_server = !response.data.status_character;
+    }, function errorCallback(response) {
+      console.error(response);
+    });
+  };
+  $scope.get_server_status();
 
   // fill user and character schema and form
   $scope.update_character = function () {
@@ -300,6 +319,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     $scope.char_has_ress = false;
 
     $scope.character_skill = new DefaultDict(Array);
+    $scope.character_skill_temp = new DefaultDict(Array)
     $scope.count_master_tech = 0;
 
     if (isUndefined($scope.model_database.skill_manual)) {
@@ -510,6 +530,8 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       }
     }
 
+    $scope._finalise_documentation();
+
     for (const [key, value] of Object.entries($scope.char_point_ress)) {
       if ((isDefined(value.formule_result) && value.formule_result > 0) || (!isDefined(value.formule_result) && value.value > 0)) {
         $scope.char_has_ress = true;
@@ -524,20 +546,46 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   $scope._update_documentation = function (key, new_value) {
     if ($scope.model_database.point.hasOwnProperty(new_value)) {
       if (new_value in $scope.model_database.skill_manual) {
-        let i = 2;
         let doc_item = $scope.model_database.skill_manual[new_value];
         let origin_item = doc_item.repeat(1);
+
         // Search duplicated
-        while (Object.values($scope.character_skill[key]).indexOf(doc_item) > -1) {
-          doc_item = origin_item + " - v" + i;
-          i += 1;
+        let is_find = false;
+
+        for (let ele of $scope.character_skill_temp[key]) {
+          if (ele.item.localeCompare(origin_item) == 0) {
+            ele.count += 1;
+            is_find = true;
+            break;
+          }
         }
-        $scope.character_skill[key].push(doc_item)
+
+        if (!is_find) {
+          let new_item = {
+            "item": origin_item,
+            "count": 1
+          }
+          $scope.character_skill_temp[key].push(new_item)
+        }
       } else {
         console.error("Missing documentation " + new_value);
       }
     } else {
       console.error("Missing skills " + new_value);
+    }
+  };
+
+  $scope._finalise_documentation = function () {
+    for (const [key, lst_value] of Object.entries($scope.character_skill_temp)) {
+      for (let value of lst_value) {
+        let new_title;
+        if (value.count > 1) {
+          new_title = value.count + "x " + value.item;
+        } else if (value.count == 1) {
+          new_title = value.item;
+        }
+        $scope.character_skill[key].push(new_title);
+      }
     }
   };
 

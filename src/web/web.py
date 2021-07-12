@@ -99,6 +99,7 @@ def main(parse_arg):
                 "login_url": "/login",
                 "cookie_secret": auth_keys.get("cookie_secret", auto_gen=True),
                 "host": parse_arg.host,
+                "parse_arg": parse_arg,
                 # TODO add xsrf_cookies
                 # "xsrf_cookies": True,
                 }
@@ -145,9 +146,25 @@ def main(parse_arg):
             tornado.web.url(r"/admin/setting?", handlers.AdminSettingHandler, name='admin setting', kwargs=settings))
         routes.append(tornado.web.url(r"/admin/profile/modify_password/?", handlers.AdminModifyPasswordHandler,
                                       name='cmd_admin_modify_password', kwargs=settings))
+        routes.append(
+            tornado.web.url(r"/cmd/admin/editor/database/?", handlers.AdminSettingDatabaseHandler,
+                            name='admin cmd editor database', kwargs=settings))
+        routes.append(
+            tornado.web.url(r"/cmd/admin/editor/backup_database/?", handlers.AdminSettingBackupDatabaseHandler,
+                            name='admin cmd editor backup database', kwargs=settings))
+        routes.append(
+            tornado.web.url(r"/cmd/admin/editor/upload_database/?", handlers.AdminSettingUploadDatabaseHandler,
+                            name='admin cmd editor upload database', kwargs=settings))
+        routes.append(tornado.web.url(r"/cmd/admin/download_database/?", handlers.SettingAdminDownloadDatabase,
+                                      name='download_database', kwargs=settings))
+        # Archive
+        routes.append(tornado.web.url(r"/cmd/archive/generate_project", handlers.SettingArchiveGenerateProjectHandler,
+                                      name='generate_project_archive', kwargs=settings))
 
     # Command
     routes.append(tornado.web.url(r"/cmd/character_view/?", handlers.CharacterViewHandler, name='character_view',
+                                  kwargs=settings))
+    routes.append(tornado.web.url(r"/cmd/character_status", handlers.CharacterStatusHandler, name='character status',
                                   kwargs=settings))
     routes.append(tornado.web.url(r"/cmd/manual/?", handlers.ManualHandler, name='cmd_manual', kwargs=settings))
     routes.append(
@@ -175,10 +192,6 @@ def main(parse_arg):
                                   name='cmd_editor_generate_and_save', kwargs=settings))
     routes.append(tornado.web.url(r"/cmd/editor/update_file_url/?", handlers.EditorCmdUpdateFileUrlHandler,
                                   name='cmd_editor_update_file_url', kwargs=settings))
-
-    # Archive
-    routes.append(tornado.web.url(r"/cmd/archive/generate_project", handlers.SettingArchiveGenerateProjectHandler,
-                                  name='generate_project_archive', kwargs=settings))
 
     # Auto ssl
     routes.append(tornado.web.url(r"/.well-known/acme-challenge.*", handlers.AutoSSLHandler, name="auto_ssl"))

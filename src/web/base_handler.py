@@ -28,6 +28,8 @@ class BaseHandler(tornado.web.RequestHandler):
         self._doc_generator_gspread = kwargs.get("doc_generator_gspread")
         self._project_archive = kwargs.get("project_archive")
 
+        self._parse_arg = kwargs.get("parse_arg")
+
         self._global_arg = {
             "debug": self._debug,
             "use_internet_static": kwargs.get("use_internet_static"),

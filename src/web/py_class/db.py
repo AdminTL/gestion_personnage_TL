@@ -7,10 +7,20 @@ import uuid
 import json
 import datetime
 import bcrypt
+import glob
+import os
+import time
+import humanize
+import shutil
+import io
+import zipfile
 
 
 class DB(object):
     def __init__(self, parser):
+        self.init(parser)
+
+    def init(self, parser):
         if parser.db_demo:
             self._db_user = tinydb.TinyDB(storage=tinydb.storages.MemoryStorage)
             # add demo data in fake database
@@ -23,6 +33,9 @@ class DB(object):
             self._db_user = tinydb.TinyDB(file_path)
 
         self._query_user = tinydb.Query()
+
+    def close(self):
+        self._db_user.close()
 
     @staticmethod
     def generate_password(password):
@@ -117,6 +130,77 @@ class DB(object):
 
         if has_update:
             self.update_user(obj_user)
+
+    @staticmethod
+    def list_databases(specific_filename=None):
+        new_lst = []
+        actual_db = None
+        lst_tl_user = glob.glob(os.path.join("..", "..", "database", "*tl_user*.json"))
+        for tl_user in lst_tl_user:
+            filename = os.path.basename(tl_user)
+            if specific_filename and specific_filename != filename:
+                continue
+            dct_value = {
+                "file_path": tl_user,
+                "file_name": filename,
+                "date_last_modified": os.path.getmtime(tl_user),
+                "date_last_modified_str": time.ctime(os.path.getmtime(tl_user)),
+                "size": os.path.getsize(tl_user),
+                "human_size": humanize.naturalsize(os.path.getsize(tl_user)),
+            }
+            if filename == "tl_user.json":
+                actual_db = dct_value
+            else:
+                new_lst.append(dct_value)
+        sorted_list = sorted(new_lst, key=lambda obj: obj.get("file_name"), reverse=True)
+        if actual_db:
+            sorted_list.insert(0, actual_db)
+        return sorted_list
+
+    @staticmethod
+    def backup_database(label=None):
+        now = datetime.datetime.now()
+        prefix_date = now.strftime("%Y_%m_%d-%H_%M_%S")
+        if label:
+            label = label.replace(".", "").replace("/", "").replace("\\", "")
+            filename = f"{prefix_date}_{label}_tl_user.json"
+        else:
+            filename = f"{prefix_date}_tl_user.json"
+        actual_file_path = os.path.join("..", "..", "database", "tl_user.json")
+        new_file_path = os.path.join("..", "..", "database", filename)
+        try:
+            shutil.copyfile(actual_file_path, new_file_path)
+        except Exception as e:
+            print(f"Error occur in backup_database: {e}")
+        return filename
+
+    @staticmethod
+    def restore_database(label=None):
+        now = datetime.datetime.now()
+        prefix_date = now.strftime("%Y_%m_%d-%H_%M_%S")
+        if label:
+            label = label.replace(".", "").replace("/", "").replace("\\", "")
+            filename = f"{prefix_date}_{label}_tl_user.json"
+        else:
+            filename = f"{prefix_date}_tl_user.json"
+        actual_file_path = os.path.join("..", "..", "database", "tl_user.json")
+        new_file_path = os.path.join("..", "..", "database", filename)
+        try:
+            shutil.copyfile(actual_file_path, new_file_path)
+        except Exception as e:
+            print(f"Error occur in backup_database: {e}")
+        return filename
+
+    @staticmethod
+    def get_database_bytes(name):
+        actual_file_path = os.path.join("..", "..", "database", name)
+        if not os.path.isfile(actual_file_path):
+            return None
+        buffer = io.BytesIO()
+        with zipfile.ZipFile(buffer, mode="w", compression=zipfile.ZIP_DEFLATED) as zip_mem:
+            with open(actual_file_path, 'rb') as fh:
+                zip_mem.writestr(name, fh.read())
+        return buffer.getvalue()
 
     def get_all_user(self, user_id=None, with_password=False):
         if not user_id:

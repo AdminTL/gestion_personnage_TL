@@ -6,6 +6,9 @@
   <h1>Configuration du site et ses paramètres</h1>
   <h2>Générateur d'archive du projet</h2>
   <p>Cet outil permet de télécharger le projet dans un fichier format zip et l'exécuter dans un autre environnement.</p>
+  <p>N'oubliez pas de donner les permissions au script d'exécution :
+  <blockquote>chmod +x ./script/web_server.sh</blockquote>
+  </p>
   <div>
     <a ng-click="download_archive()" class="btn btn-lg btn-success" role="button">
       <span class="fa fa-spinner fa-spin" ng-show="model_setting.is_downloading_archive"></span> Télécharger le fichier archive.
@@ -13,6 +16,61 @@
     <span ng-show="model_setting.downloading_archive.status.enabled" ng-style="model_setting.downloading_archive.status.is_error ? {'color': 'red'} : {'color': 'green'}">
       {{!model_setting.downloading_archive.status.text }}
     </span>
+  </div>
+  <h2>État du service</h2>
+  <p>Le service de personnage est <span style="color:green" ng-show="model_setting.service_status">actif</span><span style="color:indianred" ng-show="!model_setting.service_status">désactivé</span>.
+  </p>
+  <div>
+    <button ng-show="model_setting.service_status" class="btn btn-danger" ng-click="change_status_service()">Désactiver le service</button>
+    <button ng-show="!model_setting.service_status" class="btn btn-success" ng-click="change_status_service()">Activer le service</button>
+  </div>
+  <h1>Base de données</h1>
+  <h2>Liste des bases de données</h2>
+  <div class="table-responsive">
+    <table class="table table-striped table-condensed">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Nom</th>
+        <th>Date</th>
+        <th>Poids</th>
+        <th>Télécharger</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="database_info in database.list track by $index" ng-class="{'success':database_info.file_name=='tl_user.json'}">
+        <th scope="row">{{!$index + 1}}</th>
+        <td>{{!database_info.file_name}}</td>
+        <td>{{!database_info.date_last_modified_str}}</td>
+        <td>{{!database_info.human_size}}</td>
+        <td>
+          <button class="btn btn-default" ng-click="download_database(database_info.file_name)">Télécharger</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <br/>
+  <div>
+    <button class="btn btn-default" ng-click="database.backup.has_press_backup=true" ng-hide="database.backup.has_press_backup">Faire une sauvegarde</button>
+    <button class="btn btn-danger" ng-click="database.backup.has_press_backup=false" ng-show="database.backup.has_press_backup">Annuler la sauvegarde</button>
+    <div ng-show="database.backup.has_press_backup">
+      Titre : <input ng-model="database.backup.label" ng-maxlength="200"/>
+      <button class="btn btn-success" ng-click="send_backup_label()">Sauvegarder</button>
+    </div>
+  </div>
+  <div>
+    <button class="btn btn-default" ng-click="database.upload.has_press_upload=true" ng-hide="database.upload.has_press_upload">Téléverser une sauvegarde</button>
+    <button class="btn btn-danger" ng-click="database.upload.has_press_upload=false" ng-show="database.upload.has_press_upload">Annuler le téléversement</button>
+    <div ng-show="database.upload.has_press_upload">
+      Veuillez choisir un fichier .json. Une sauvegarde sera effectuée et le fichier téléversé sera renommé tl_user.json.
+      <form id="form_upload" action="/cmd/admin/editor/upload_database" enctype="multipart/form-data" method="post">
+        <input type="file" accept=".json" name="database"/>
+        <input type="submit" value="Téléverser"/>
+      </form>
+      <!--      <input type="file" id="file" accept=".json" name="file"/>-->
+      <!--      <button class="btn btn-success" ng-click="upload_backup()">Téléverser</button>-->
+    </div>
   </div>
 </div>
 

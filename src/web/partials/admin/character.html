@@ -2,6 +2,9 @@
 
 {% block content %}
 <div ng-controller="character_ctrl" class="row" ng-cloak>
+  <div ng-show="disable_character_outside_server">
+    <h1>L'accès à la création de personnage est désactivé par l'administration.</h1>
+  </div>
   <div>
     <div class="bs-docs-sidebar col-xs-12 col-sm-3 hidden-print affix" role="complementary">
 

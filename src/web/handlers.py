@@ -491,6 +491,127 @@ class AdminSettingHandler(base_handler.BaseHandler):
             raise tornado.web.Finish()
 
 
+class AdminSettingDatabaseHandler(base_handler.BaseHandler):
+    @tornado.web.authenticated
+    def get(self):
+        if self._global_arg["disable_admin"]:
+            # Not Found
+            self.set_status(404)
+            self.send_error(404)
+            raise tornado.web.Finish()
+
+        if not self.is_permission_admin():
+            print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
+            # Forbidden
+            self.set_status(403)
+            self.send_error(403)
+            raise tornado.web.Finish()
+
+        # str_value = self._manual.get_str_all(is_admin=True)
+        dct_value = {
+            "lst_database": self._db.list_databases()
+        }
+        self.write(dct_value)
+        self.finish()
+
+
+class AdminSettingBackupDatabaseHandler(base_handler.BaseHandler):
+    @tornado.web.authenticated
+    def get(self):
+        if self._global_arg["disable_admin"]:
+            # Not Found
+            self.set_status(404)
+            self.send_error(404)
+            raise tornado.web.Finish()
+
+        if not self.is_permission_admin():
+            print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
+            # Forbidden
+            self.set_status(403)
+            self.send_error(403)
+            raise tornado.web.Finish()
+
+        label = self.get_argument("label", None)
+
+        file_path = self._db.backup_database(label=label)
+        database_info = self._db.list_databases(specific_filename=file_path)
+
+        self.write(database_info[0])
+        self.finish()
+
+
+class AdminSettingUploadDatabaseHandler(base_handler.BaseHandler):
+    @tornado.web.authenticated
+    def post(self):
+        if self._global_arg["disable_admin"]:
+            # Not Found
+            self.set_status(404)
+            self.send_error(404)
+            raise tornado.web.Finish()
+
+        if not self.is_permission_admin():
+            print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
+            # Forbidden
+            self.set_status(403)
+            self.send_error(403)
+            raise tornado.web.Finish()
+
+        database_file = self.request.files.get("database")[0]
+        if not database_file:
+            print("Upload wrong file from %s" % self.request.remote_ip, file=sys.stderr)
+            # Not Found
+            self.set_status(404)
+            self.send_error(404)
+            raise tornado.web.Finish()
+
+        self._db.backup_database(label="before_upload")
+        # file_path = self._db.backup_database(label="before_upload")
+        # now = datetime.datetime.now()
+        # prefix_date = now.strftime("%Y_%m_%d-%H_%M_%S")
+        # new_file_name = f"{prefix_date}_{database_file.filename}"
+        # new_file_path = os.path.join("..", "..", "database", new_file_name)
+        print(f"Upload new database {database_file.filename} from {self.request.remote_ip}")
+        new_file_path = os.path.join("..", "..", "database", "tl_user.json")
+
+        self._db.close()
+
+        with open(new_file_path, 'wb') as fp:
+            fp.write(database_file['body'])
+
+        self._db.init(self._parse_arg)
+
+        self.redirect('/admin/setting')
+
+
+class SettingAdminDownloadDatabase(base_handler.BaseHandler):
+    """This class download a specific database"""
+
+    @tornado.web.authenticated
+    def get(self):
+        if not self.is_permission_admin():
+            print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
+            # Forbidden
+            self.set_status(403)
+            self.send_error(403)
+            raise tornado.web.Finish()
+
+        name = self.get_argument("name")
+        zip_name = name.replace("json", "zip")
+
+        self.set_header('Content-Type', 'application/octet-stream')
+        self.set_header('Content-Disposition', 'attachment; filename=' + zip_name)
+
+        # Generate archive project
+        data = self._db.get_database_bytes(name)
+        if not data:
+            self.set_status(404)
+            self.send_error(404)
+            raise tornado.web.Finish()
+        else:
+            self.write(data)
+        self.finish()
+
+
 class AdminModifyPasswordHandler(jsonhandler.JsonHandler):
     @tornado.web.authenticated
     def post(self):
@@ -601,6 +722,15 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
             self.set_status(404)
             self.send_error(404)
             raise tornado.web.Finish()
+        status_character = self._config.get("status_server.character", default=True)
+        if not status_character:
+            print("Cannot save data when character service is disable from %s" % self.request.remote_ip,
+                  file=sys.stderr)
+            data = {"error": "The character service is disable from administration."}
+            self.write(data)
+            self.finish()
+            return
+
         self.prepare_json()
 
         user = self.get_argument("player")
@@ -667,9 +797,54 @@ class CharacterViewHandler(jsonhandler.JsonHandler):
         self.finish()
 
 
+class CharacterStatusHandler(jsonhandler.JsonHandler):
+    @tornado.web.authenticated
+    def get(self):
+        if not self.is_permission_admin() and self._global_arg["disable_user_character"] or \
+                self._global_arg["disable_character"]:
+            # Not Found
+            self.set_status(404)
+            self.send_error(404)
+            raise tornado.web.Finish()
+
+        status_character = self._config.get("status_server.character", default=True)
+
+        if status_character is None:
+            status_character = True
+
+        data = json.dumps({"status_character": status_character})
+
+        self.write(data)
+        self.finish()
+
+    def post(self):
+        if self._global_arg["disable_character"]:
+            # Not Found
+            self.set_status(404)
+            self.send_error(404)
+            raise tornado.web.Finish()
+        self.prepare_json()
+
+        status_character = self.get_argument("status_character")
+
+        if status_character is None:
+            print("Missing status character from %s" % self.request.remote_ip,
+                  file=sys.stderr)
+            data = {"error": "Missing status."}
+            self.write(data)
+            self.finish()
+            return
+
+        self._config.update("status_server.character", status_character, save=True)
+
+        self.write({"status": "success"})
+        self.finish()
+
+
 class ManualHandler(jsonhandler.JsonHandler):
     def get(self):
-        str_value = self._manual.get_str_all(is_admin=False)
+        status_character = self._config.get("status_server.character", default=True)
+        str_value = self._manual.get_str_all(is_admin=False, disable_record=not status_character)
         self.write(str_value)
         self.finish()
 
@@ -682,7 +857,8 @@ class ManualAdminHandler(jsonhandler.JsonHandler):
             self.set_status(403)
             self.send_error(403)
             raise tornado.web.Finish()
-        str_value = self._manual.get_str_all(is_admin=True)
+        status_character = self._config.get("status_server.character", default=True)
+        str_value = self._manual.get_str_all(is_admin=True, disable_record=not status_character)
         self.write(str_value)
         self.finish()
 
@@ -1102,7 +1278,9 @@ class SettingArchiveGenerateProjectHandler(base_handler.BaseHandler):
             raise tornado.web.Finish()
 
         # Create header
-        file_name = "gestion_personnage_tl_archive_%s.zip" % datetime.datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
+        suffix = self._global_arg.get("organization_name")
+        date_now = datetime.datetime.now().strftime('%Y_%m_%d-%H_%M_%S')
+        file_name = f"{suffix}_backup_{date_now}.zip"
         self.set_header('Content-Type', 'application/octet-stream')
         self.set_header('Content-Disposition', 'attachment; filename=' + file_name)
 
