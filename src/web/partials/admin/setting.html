@@ -59,6 +59,19 @@
       <button class="btn btn-success" ng-click="send_backup_label()">Sauvegarder</button>
     </div>
   </div>
+  <div>
+    <button class="btn btn-default" ng-click="database.upload.has_press_upload=true" ng-hide="database.upload.has_press_upload">Téléverser une sauvegarde</button>
+    <button class="btn btn-danger" ng-click="database.upload.has_press_upload=false" ng-show="database.upload.has_press_upload">Annuler le téléversement</button>
+    <div ng-show="database.upload.has_press_upload">
+      Veuillez choisir un fichier .json. Une sauvegarde sera effectuée et le fichier téléversé sera renommé tl_user.json.
+      <form id="form_upload" action="/cmd/admin/editor/upload_database" enctype="multipart/form-data" method="post">
+        <input type="file" accept=".json" name="database"/>
+        <input type="submit" value="Téléverser"/>
+      </form>
+      <!--      <input type="file" id="file" accept=".json" name="file"/>-->
+      <!--      <button class="btn btn-success" ng-click="upload_backup()">Téléverser</button>-->
+    </div>
+  </div>
 </div>
 
 {% end %}

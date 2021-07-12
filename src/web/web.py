@@ -99,6 +99,7 @@ def main(parse_arg):
                 "login_url": "/login",
                 "cookie_secret": auth_keys.get("cookie_secret", auto_gen=True),
                 "host": parse_arg.host,
+                "parse_arg": parse_arg,
                 # TODO add xsrf_cookies
                 # "xsrf_cookies": True,
                 }
@@ -151,6 +152,9 @@ def main(parse_arg):
         routes.append(
             tornado.web.url(r"/cmd/admin/editor/backup_database/?", handlers.AdminSettingBackupDatabaseHandler,
                             name='admin cmd editor backup database', kwargs=settings))
+        routes.append(
+            tornado.web.url(r"/cmd/admin/editor/upload_database/?", handlers.AdminSettingUploadDatabaseHandler,
+                            name='admin cmd editor upload database', kwargs=settings))
         routes.append(tornado.web.url(r"/cmd/admin/download_database/?", handlers.SettingAdminDownloadDatabase,
                                       name='download_database', kwargs=settings))
         # Archive

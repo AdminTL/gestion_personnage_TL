@@ -22,6 +22,10 @@ characterApp.controller("setting_ctrl", ["$scope", "$q", "$http", "$window", /*"
     backup: {
       has_press_backup: false,
       label: "",
+    },
+    upload: {
+      has_press_upload: false,
+      label: "",
     }
   }
 
@@ -105,6 +109,37 @@ characterApp.controller("setting_ctrl", ["$scope", "$q", "$http", "$window", /*"
     }, function errorCallback(response) {
       console.error(response);
     });
+  };
+
+  $scope.upload_backup = function () {
+    var f = document.getElementById('file').files[0],
+      r = new FileReader();
+
+    r.onloadend = function (e) {
+      var data = e.target.result;
+      let url = "/cmd/admin/editor/upload_database";
+
+      $http({
+        method: "post",
+        data: data,
+        url: url,
+        headers: {'Content-Type': undefined},
+        timeout: 5000
+      }).then(function (response/*, status, headers, config*/) {
+        console.log("yeah");
+        // let data = response.data;
+        // $scope.database.list.splice(1, 0, data);
+        // $scope.database.backup.has_press_backup = false;
+        // $scope.database.backup.label = "";
+
+      }, function errorCallback(response) {
+        console.error(response);
+      });
+    }
+
+    r.readAsArrayBuffer(f);
+
+
   };
 
 }]);

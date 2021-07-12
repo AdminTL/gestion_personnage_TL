@@ -540,6 +540,49 @@ class AdminSettingBackupDatabaseHandler(base_handler.BaseHandler):
         self.finish()
 
 
+class AdminSettingUploadDatabaseHandler(base_handler.BaseHandler):
+    @tornado.web.authenticated
+    def post(self):
+        if self._global_arg["disable_admin"]:
+            # Not Found
+            self.set_status(404)
+            self.send_error(404)
+            raise tornado.web.Finish()
+
+        if not self.is_permission_admin():
+            print("Insufficient permissions from %s" % self.request.remote_ip, file=sys.stderr)
+            # Forbidden
+            self.set_status(403)
+            self.send_error(403)
+            raise tornado.web.Finish()
+
+        database_file = self.request.files.get("database")[0]
+        if not database_file:
+            print("Upload wrong file from %s" % self.request.remote_ip, file=sys.stderr)
+            # Not Found
+            self.set_status(404)
+            self.send_error(404)
+            raise tornado.web.Finish()
+
+        self._db.backup_database(label="before_upload")
+        # file_path = self._db.backup_database(label="before_upload")
+        # now = datetime.datetime.now()
+        # prefix_date = now.strftime("%Y_%m_%d-%H_%M_%S")
+        # new_file_name = f"{prefix_date}_{database_file.filename}"
+        # new_file_path = os.path.join("..", "..", "database", new_file_name)
+        print(f"Upload new database {database_file.filename} from {self.request.remote_ip}")
+        new_file_path = os.path.join("..", "..", "database", "tl_user.json")
+
+        self._db.close()
+
+        with open(new_file_path, 'wb') as fp:
+            fp.write(database_file['body'])
+
+        self._db.init(self._parse_arg)
+
+        self.redirect('/admin/setting')
+
+
 class SettingAdminDownloadDatabase(base_handler.BaseHandler):
     """This class download a specific database"""
 

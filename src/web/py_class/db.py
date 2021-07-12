@@ -175,6 +175,23 @@ class DB(object):
         return filename
 
     @staticmethod
+    def restore_database(label=None):
+        now = datetime.datetime.now()
+        prefix_date = now.strftime("%Y_%m_%d-%H_%M_%S")
+        if label:
+            label = label.replace(".", "").replace("/", "").replace("\\", "")
+            filename = f"{prefix_date}_{label}_tl_user.json"
+        else:
+            filename = f"{prefix_date}_tl_user.json"
+        actual_file_path = os.path.join("..", "..", "database", "tl_user.json")
+        new_file_path = os.path.join("..", "..", "database", filename)
+        try:
+            shutil.copyfile(actual_file_path, new_file_path)
+        except Exception as e:
+            print(f"Error occur in backup_database: {e}")
+        return filename
+
+    @staticmethod
     def get_database_bytes(name):
         actual_file_path = os.path.join("..", "..", "database", name)
         if not os.path.isfile(actual_file_path):
