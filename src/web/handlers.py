@@ -1180,7 +1180,9 @@ class SettingArchiveGenerateProjectHandler(base_handler.BaseHandler):
             raise tornado.web.Finish()
 
         # Create header
-        file_name = "gestion_personnage_tl_archive_%s.zip" % datetime.datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
+        suffix = self._global_arg.get("organization_name")
+        date_now = datetime.datetime.now().strftime('%Y_%m_%d-%H_%M_%S')
+        file_name = f"{suffix}_backup_{date_now}.zip"
         self.set_header('Content-Type', 'application/octet-stream')
         self.set_header('Content-Disposition', 'attachment; filename=' + file_name)
 

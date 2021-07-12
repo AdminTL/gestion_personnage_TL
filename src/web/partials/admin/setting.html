@@ -6,6 +6,9 @@
   <h1>Configuration du site et ses paramètres</h1>
   <h2>Générateur d'archive du projet</h2>
   <p>Cet outil permet de télécharger le projet dans un fichier format zip et l'exécuter dans un autre environnement.</p>
+  <p>N'oubliez pas de donner les permissions au script d'exécution :
+  <blockquote>chmod +x ./script/web_server.sh</blockquote>
+  </p>
   <div>
     <a ng-click="download_archive()" class="btn btn-lg btn-success" role="button">
       <span class="fa fa-spinner fa-spin" ng-show="model_setting.is_downloading_archive"></span> Télécharger le fichier archive.
@@ -29,23 +32,21 @@
       </thead>
       <tbody>
       <tr ng-repeat="database_info in database.list track by $index" ng-class="{'success':database_info.file_name=='tl_user.json'}">
-      <th scope="row">{{!$index + 1}}</th>
-      <td>{{!database_info.file_name}}</td>
-      <td>{{!database_info.date_last_modified_str}}</td>
-      <td>{{!database_info.human_size}}</td>
-      <td>
-        <button class="btn btn-default" ng-click="download_database(database_info.file_name)">Télécharger</button>
-      </td>
+        <th scope="row">{{!$index + 1}}</th>
+        <td>{{!database_info.file_name}}</td>
+        <td>{{!database_info.date_last_modified_str}}</td>
+        <td>{{!database_info.human_size}}</td>
+        <td>
+          <button class="btn btn-default" ng-click="download_database(database_info.file_name)">Télécharger</button>
+        </td>
       </tr>
       </tbody>
     </table>
   </div>
   <br/>
   <div>
-    <div>
-      <button class="btn btn-default" ng-click="database.backup.has_press_backup=true" ng-hide="database.backup.has_press_backup">Faire une sauvegarde</button>
-      <button class="btn btn-danger" ng-click="database.backup.has_press_backup=false" ng-show="database.backup.has_press_backup">Annuler la sauvegarde</button>
-    </div>
+    <button class="btn btn-default" ng-click="database.backup.has_press_backup=true" ng-hide="database.backup.has_press_backup">Faire une sauvegarde</button>
+    <button class="btn btn-danger" ng-click="database.backup.has_press_backup=false" ng-show="database.backup.has_press_backup">Annuler la sauvegarde</button>
     <div ng-show="database.backup.has_press_backup">
       Titre : <input ng-model="database.backup.label" ng-maxlength="200"/>
       <button class="btn btn-success" ng-click="send_backup_label()">Sauvegarder</button>
