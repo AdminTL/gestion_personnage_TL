@@ -38,7 +38,7 @@ class Config(object):
                 first_run = False
             elif type(result) is not dict:
                 print("Error to get key %s in file %s" % (key, self._db_config_path), file=stderr)
-                return
+                return default
             else:
                 result = result.get(a_key)
 

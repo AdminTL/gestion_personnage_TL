@@ -81,6 +81,9 @@ function isObjEmpty(obj) {
 }
 
 function ifObjIsObjNotEmpty(obj) {
+  if (obj === null) {
+    return false;
+  }
   if (!(typeof obj === 'object')) {
     return obj != null;
   }
