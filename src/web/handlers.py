@@ -107,7 +107,7 @@ class LoginHandler(base_handler.BaseHandler):
             # Try finding the user by mail...
             user = None
             if "@" in username_or_email:
-                user = self._db.get_user(email=username_or_email, password=password)
+                user = self._db.get_user(email=username_or_email.lower(), password=password)
             # ... or by name.
             if not user:
                 user = self._db.get_user(username=username_or_email, password=password)
