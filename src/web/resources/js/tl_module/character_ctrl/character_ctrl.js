@@ -133,7 +133,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   };
 
   $scope.is_approbation_new = function (user) {
-    return user && (isUndefined(user.character[0].approbation) || user.character[0].approbation.status === 0);
+    return user && (!isDefined(user.character[0].approbation) || user.character[0].approbation.status === 0);
   };
 
   $scope.is_approbation_approved = function (user) {
