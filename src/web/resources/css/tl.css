@@ -128,6 +128,16 @@ h5 {
     color: #3C8FB7;
 }
 
+.sign_color_bold {
+    font-weight:bold;
+    color: #9817c7;
+}
+
+.multiplier_color_bold {
+    font-weight:bold;
+    color: #5517c7;
+}
+
 .neutral_color_bold {
     font-weight:bold;
     color:#1764c7;
