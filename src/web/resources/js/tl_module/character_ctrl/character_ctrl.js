@@ -625,7 +625,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       ele_key_name = "value";
     }
     if (isBoolean(result)) {
-      if ($scope.isConsumed(root_skill)) {
+      if (root_skill !== null && $scope.isConsumed(root_skill)) {
         if (element.type == "Attribut" && isDefined(element.max_value)) {
           element.max_value += value;
         }
@@ -637,13 +637,11 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
         element[ele_key_name] = value;
       }
     } else if (isNumber(result)) {
-      if (root_skill !== null) {
-        if ($scope.isConsumed(root_skill)) {
-          if (element.type == "Attribut" && isDefined(element.max_value)) {
-            element.max_value += value;
-          }
-          return;
+      if (root_skill !== null && $scope.isConsumed(root_skill)) {
+        if (element.type == "Attribut" && isDefined(element.max_value)) {
+          element.max_value += value;
         }
+        return;
       }
       if (ele_key_name in element) {
         element[ele_key_name] += value * result;
