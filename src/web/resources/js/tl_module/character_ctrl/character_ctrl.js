@@ -926,7 +926,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
       return '<span class="neutral_color_bold">' + text + '</span>';
     }
     try {
-      return text.replace(/\d+/g, '<span class="neutral_color_bold">$&</span>');
+      return text.replace(/\d([xX]+)/, '<span class="multiplier_color_bold">$&</span>').replace(/([+-]+)\d/, '<span class="sign_color_bold">$&</span>').replace(/\d+/g, '<span class="neutral_color_bold">$&</span>');
     } catch (e) {
       console.error("Cannot use String.replace function.");
       return text;
