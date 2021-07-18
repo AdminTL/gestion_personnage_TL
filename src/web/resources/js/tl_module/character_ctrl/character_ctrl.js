@@ -495,7 +495,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
             console.error("Value is undefined for key " + key + ".");
             console.error(lst_value);
           } else if (typeof value == "string") {
-            $scope._update_documentation(key, value);
+            $scope._update_documentation(key, [value]);
           } else if (Array.isArray(value)) {
             console.error("Cannot support array.");
           } else if (typeof value == "object") {
@@ -505,7 +505,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
               // 3 levels
               for (const option of value.options) {
                 let new_value = key + "_" + option;
-                $scope._update_documentation(key, new_value);
+                $scope._update_documentation(key, [new_value]);
               }
             } else {
               // TODO this is hardcoded hack
@@ -521,7 +521,13 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
               // 2 levels
               let item_name = value["sub_" + new_key];
               let new_value = new_key + "_" + item_name;
-              $scope._update_documentation(new_key, new_value);
+              let lst_new_value = [new_value]
+              if (value.hasOwnProperty("sub_region")) {
+                let build_value = new_key + "_" + value["sub_region"];
+                lst_new_value.push(build_value);
+              }
+
+              $scope._update_documentation(new_key, lst_new_value);
             }
           } else {
             console.error("Another type for key " + key + " and type value " + typeof value);
@@ -543,35 +549,36 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     console.debug("End of system point execution.");
   };
 
-  $scope._update_documentation = function (key, new_value) {
-    if ($scope.model_database.point.hasOwnProperty(new_value)) {
+  $scope._update_documentation = function (key, lst_new_value) {
+    // Search duplicated
+    let is_find = false;
+    let build_item = "";
+    for (const new_value of lst_new_value) {
       if (new_value in $scope.model_database.skill_manual) {
         let doc_item = $scope.model_database.skill_manual[new_value];
         let origin_item = doc_item.repeat(1);
-
-        // Search duplicated
-        let is_find = false;
-
-        for (let ele of $scope.character_skill_temp[key]) {
-          if (ele.item.localeCompare(origin_item) == 0) {
-            ele.count += 1;
-            is_find = true;
-            break;
-          }
-        }
-
-        if (!is_find) {
-          let new_item = {
-            "item": origin_item,
-            "count": 1
-          }
-          $scope.character_skill_temp[key].push(new_item)
+        if (build_item.length > 0) {
+          build_item += " " + origin_item;
+        } else {
+          build_item += origin_item;
         }
       } else {
         console.error("Missing documentation " + new_value);
       }
-    } else {
-      console.error("Missing skills " + new_value);
+    }
+    for (let ele of $scope.character_skill_temp[key]) {
+      if (ele.item.localeCompare(build_item) == 0) {
+        ele.count += 1;
+        is_find = true;
+        break;
+      }
+    }
+    if (!is_find) {
+      let new_item = {
+        "item": build_item,
+        "count": 1
+      }
+      $scope.character_skill_temp[key].push(new_item)
     }
   };
 
