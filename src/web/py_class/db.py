@@ -80,8 +80,8 @@ class DB(object):
                 "verified_email": verified_email, "locale": locale, "postal_code": postal_code,
                 "character": empty_character}
 
-        eid = self._db_user.insert(data)
-        return self._db_user.get(eid=eid)
+        doc_id = self._db_user.insert(data)
+        return self._db_user.get(doc_id=doc_id)
 
     def add_missing_info_user(self, obj_user, password=None, google_id=None, facebook_id=None, twitter_id=None,
                               name=None, given_name=None, family_name=None, verified_email=False, locale=None,
