@@ -2,6 +2,7 @@
   <!-- Sheet status -->
   La fiche <span ng-show="status_validation == 0" style="color:green">est à jour</span><span ng-show="status_validation == 1" style="color:yellow">est à améliorer</span><span
     ng-show="status_validation == -1" style="color:red">est à corriger</span>.
+  <span ng-show="status_block_record" style="color:red"><br/>Enregistrement bloqué</span>
 
   <ul>
     <span ng-repeat="(key, value) in char_point_attr" ng-hide="value.invisible">
