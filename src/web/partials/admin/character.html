@@ -7,7 +7,10 @@
   </div>
   <div>
     <div class="bs-docs-sidebar col-xs-12 col-sm-3 hidden-print affix" role="complementary">
-
+      <div>
+        <button ng-if="!is_general_stat" ng-click="change_global_stat_view(true)">Statistique général</button>
+        <button ng-if="is_general_stat" ng-click="change_global_stat_view(false)">Fiches</button>
+      </div>
       Joueur
       <div ng-show="!new_player">
         <button class="btn btn-info" ng-click="newPlayer()"><span class="glyphicon glyphicon-plus"></span> <span class="glyphicon glyphicon-user"></span> Nouveau joueur</button>
@@ -29,7 +32,11 @@
       {% include "../character_choose_sheet.html" %}
     </div>
 
-    <div ng-show="player" role="main" class="col-xs-12 col-sm-9 pull-right">
+    <div ng-if="is_general_stat" class="col-xs-12 col-sm-9 pull-right">
+      {% include "stat_admin.html" %}
+    </div>
+
+    <div ng-if="!is_general_stat && player" role="main" class="col-xs-12 col-sm-9 pull-right">
       {% include "character_menu.html" %}
 
       <div class="tab-content" id="manual_main_content">

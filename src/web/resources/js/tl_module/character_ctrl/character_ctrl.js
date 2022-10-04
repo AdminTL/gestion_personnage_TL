@@ -36,6 +36,8 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   $scope.html_qr_code = "";
   $scope.url_qr_code = "";
 
+  $scope.is_general_stat = false;
+
   $scope.status_validation = 0;
   $scope.status_block_record = false;
   $scope.lst_msg_status_validation = [];
@@ -77,6 +79,10 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     is_error: false,
     text: ""
   };
+
+  $scope.change_global_stat_view = function (state) {
+    $scope.is_general_stat = state;
+  }
 
   $scope.approbation_status = {
     enabled: false,
