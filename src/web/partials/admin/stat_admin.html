@@ -1,4 +1,4 @@
-<div ng-repeat="user in ddb_user | orderBy:'name'" ng-if="user.character.length && [0, 1, 2, 4].includes(user.character[0].approbation.status)">
+<div ng-repeat="user in ddb_user | orderBy:'name'">
     {{!$index + 1}} : {{!user.name}} - {{!user.email}} - {{!user.given_name}} - {{!user.username}} - {{!user.character[0].name}} - <span class="neutral_color" ng-show="is_approbation_new(user)">✪ nouveau</span>
   <span style="color:green" ng-show="is_approbation_approved(user)">✓ approuvé</span>
   <span style="color:yellow" ng-show="is_approbation_unapproved(user)">✗ en attente</span>
