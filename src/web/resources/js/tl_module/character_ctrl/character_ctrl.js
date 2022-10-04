@@ -36,8 +36,12 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   $scope.html_qr_code = "";
   $scope.url_qr_code = "";
 
+  $scope.is_general_stat = false;
+
   $scope.status_validation = 0;
+  $scope.status_block_record = false;
   $scope.lst_msg_status_validation = [];
+  $scope.lst_msg_lock_status_validation = [];
 
   $scope.player = null;
   $scope.last_player = null;
@@ -66,11 +70,19 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   $scope.schema_char = {};
   $scope.form_char = [];
 
+  $scope.restore_lock = false;
+  $scope.lock_char = {};
+  $scope.lock_user = {};
+
   $scope.status_send = {
     enabled: false,
     is_error: false,
     text: ""
   };
+
+  $scope.change_global_stat_view = function (state) {
+    $scope.is_general_stat = state;
+  }
 
   $scope.approbation_status = {
     enabled: false,
@@ -224,6 +236,11 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     // First we broadcast an event so all fields validate themselves
     $scope.$broadcast('schemaFormValidate');
 
+    if ($scope.status_block_record) {
+      alert("Enregistrement bloqué, il y a un/des champs qui ne peuvent pas être modifié avant l'enregistrement.")
+      return;
+    }
+
     // Then we check if the form is valid
     if (form.$valid) {
       let data = {};
@@ -309,6 +326,97 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     }
   }, true);
 
+  $scope.update_lock = function () {
+    // Ignore lock when admin
+    if ($scope.is_admin) {
+      return;
+    }
+    // Ignore new player sheet
+    if ($scope.is_approbation_new($scope.player)) {
+      return;
+    }
+    if (!$scope.restore_lock) {
+      $scope.restore_lock = true;
+    } else {
+      return;
+    }
+    $scope.lock_char = {};
+    $scope.lock_user = {};
+    console.debug("mathben save data");
+    if (!isDefined($scope.schema_char.properties)) {
+      console.warn("Missing $scope.schema_char.properties");
+    } else {
+      for (const [key, value] of Object.entries($scope.schema_char.properties)) {
+        if (value.hasOwnProperty("lock")) {
+          // deepcopy
+          let data = $scope.model_char[key];
+          if (isDefined(data) && (["string", "integer", "number", "boolean"].includes(value.type) || (value.type === "array" && !isArrayEmpty(data)))) {
+            let new_data = data;
+            if (value.type === "array" && typeof data[0] === "object") {
+              new_data = [];
+              for (const inner_data of data) {
+                if (isDefined(inner_data.options)) {
+                  for (const inner_option_data of inner_data.options) {
+                    new_data.push(inner_option_data);
+                  }
+                } else if (Object.keys(inner_data).length === 1) {
+                  new_data.push(inner_data[Object.keys(inner_data)[0]]);
+                } else {
+                  // console.error("Not supported lock");
+                  // console.error(data);
+                  let transform_value = "";
+                  for (const [vkey, vvalue] of Object.entries(inner_data)) {
+                    if (!transform_value.length) {
+                      transform_value = vvalue;
+                    } else {
+                      transform_value += " - " + vvalue;
+                    }
+                  }
+                  new_data.push(transform_value);
+                }
+              }
+            }
+            $scope.lock_char[key] = JSON.parse(JSON.stringify(new_data));
+          }
+        }
+      }
+      for (const [key, value] of Object.entries($scope.schema_user.properties)) {
+        if (value.hasOwnProperty("lock")) {
+          // deepcopy
+          let data = $scope.model_user[key];
+          if (isDefined(data) && (["string", "integer", "number", "boolean"].includes(value.type) || (value.type === "array" && !isArrayEmpty(data)))) {
+            let new_data = data;
+            if (value.type === "array" && typeof data[0] === "object") {
+              new_data = [];
+              for (const inner_data of data) {
+                if (isDefined(inner_data.options)) {
+                  for (const inner_option_data of inner_data.options) {
+                    new_data.push(inner_option_data);
+                  }
+                } else if (Object.keys(inner_data).length === 1) {
+                  new_data.push(inner_data[Object.keys(inner_data)[0]]);
+                } else {
+                  // console.error("Not supported lock");
+                  // console.error(data);
+                  let transform_value = "";
+                  for (const [vkey, vvalue] of Object.entries(inner_data)) {
+                    if (!transform_value.length) {
+                      transform_value = vvalue;
+                    } else {
+                      transform_value += " - " + vvalue;
+                    }
+                  }
+                  new_data.push(transform_value);
+                }
+              }
+            }
+            $scope.lock_user[key] = JSON.parse(JSON.stringify(new_data));
+          }
+        }
+      }
+    }
+  };
+
   $scope.update_point = function () {
     if (isObjEmpty($scope.model_char) && !$scope.is_updated_player) {
       return
@@ -321,6 +429,8 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     $scope.character_skill = new DefaultDict(Array);
     $scope.character_skill_temp = new DefaultDict(Array)
     $scope.count_master_tech = 0;
+
+    $scope.update_lock();
 
     if (isUndefined($scope.model_database.skill_manual)) {
       return;
@@ -716,6 +826,7 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     $scope.setCharacterData(null);
     $scope.new_player = true;
     $scope.no_character = false;
+    $scope.restore_lock = false;
   };
 
   // $scope.newCharacter = function () {
@@ -810,11 +921,100 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
     } else {
       $scope.character = value;
     }
+    $scope.restore_lock = false;
   };
 
   $scope.get_status_validation = function () {
     $scope.status_validation = 0;
     $scope.lst_msg_status_validation = []
+    $scope.status_block_record = false;
+
+    for (const [key, value] of Object.entries($scope.lock_char)) {
+      let data = $scope.model_char[key];
+      if (["number", "string", "boolean"].includes(typeof value) && value !== data) {
+        let label = $scope.schema_char.properties[key].title;
+        $scope.lst_msg_status_validation.push("Vous ne pouvez pas modifier le champs «" + label + "», la dernière valeur est «" + value + "». Valeur actuel est «" + data + "»");
+        $scope.status_validation = -1;
+        $scope.status_block_record = true;
+      } else if (typeof value === "object" && Array.isArray(value) && !isArrayEmpty(value)) {
+        let new_data = data;
+        let label = $scope.schema_char.properties[key].title;
+        if (typeof data[0] === "object") {
+          new_data = [];
+          for (const inner_data of data) {
+            if (isDefined(inner_data.options)) {
+              for (const inner_option_data of inner_data.options) {
+                new_data.push(inner_option_data);
+              }
+            } else if (Object.keys(inner_data).length === 1) {
+              new_data.push(inner_data[Object.keys(inner_data)[0]]);
+            } else {
+              let transform_value = "";
+              for (const [vkey, vvalue] of Object.entries(inner_data)) {
+                if (!transform_value.length) {
+                  transform_value = vvalue;
+                } else {
+                  transform_value += " - " + vvalue;
+                }
+              }
+              new_data.push(transform_value);
+              // console.error("Not supported lock");
+              // console.error(data);
+            }
+          }
+        }
+        for (const inner_data of value) {
+            if (!new_data.includes(inner_data)) {
+              $scope.lst_msg_status_validation.push("Dans le champs «" + label + "», il manque la valeur «" + inner_data + "».");
+              $scope.status_validation = -1;
+              $scope.status_block_record = true;
+            }
+        }
+      }
+    }
+    for (const [key, value] of Object.entries($scope.lock_user)) {
+      let data = $scope.model_user[key];
+      if (["number", "string", "boolean"].includes(typeof value) && value !== data) {
+        let label = $scope.schema_user.properties[key].title;
+        $scope.lst_msg_status_validation.push("Vous ne pouvez pas modifier le champs «" + label + "», la dernière valeur est «" + value + "». Valeur actuel est «" + data + "»");
+        $scope.status_validation = -1;
+        $scope.status_block_record = true;
+      } else if (typeof value === "object" && Array.isArray(value) && !isArrayEmpty(value)) {
+        let new_data = data;
+        let label = $scope.schema_user.properties[key].title;
+        if (typeof data[0] === "object") {
+          new_data = [];
+          for (const inner_data of data) {
+            if (isDefined(inner_data.options)) {
+              for (const inner_option_data of inner_data.options) {
+                new_data.push(inner_option_data);
+              }
+            } else if (Object.keys(inner_data).length === 1) {
+              new_data.push(inner_data[Object.keys(inner_data)[0]]);
+            } else {
+              // console.error("Not supported lock");
+              // console.error(data);
+              let transform_value = "";
+              for (const [vkey, vvalue] of Object.entries(inner_data)) {
+                if (!transform_value.length) {
+                  transform_value = vvalue;
+                } else {
+                  transform_value += " - " + vvalue;
+                }
+              }
+              new_data.push(transform_value);
+            }
+          }
+        }
+        for (const inner_data of value) {
+            if (!new_data.includes(inner_data)) {
+              $scope.lst_msg_status_validation.push("Dans le champs «" + label + "», il manque la valeur «" + inner_data + "».");
+              $scope.status_validation = -1;
+              $scope.status_block_record = true;
+            }
+        }
+      }
+    }
 
     // Search validateRequired
     if (isDefined($scope.schema_char.properties)) {
