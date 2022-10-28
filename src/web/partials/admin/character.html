@@ -16,9 +16,10 @@
         <button class="btn btn-info" ng-click="newPlayer()"><span class="glyphicon glyphicon-plus"></span> <span class="glyphicon glyphicon-user"></span> Nouveau joueur</button>
       </div>
       <div ng-show="new_player">
-        <button class="btn btn-success" ng-click="onSubmit(my_form_char)"><span class="glyphicon glyphicon-floppy-save"></span> <span class="glyphicon glyphicon-user"></span>
-          Enregistrer nouveau joueur
-        </button>
+        <!-- not working, my_form_char is undefined) -->
+        <!--        <button class="btn btn-success" ng-click="onSubmit(my_form_char)"><span class="glyphicon glyphicon-floppy-save"></span> <span class="glyphicon glyphicon-user"></span>-->
+        <!--          Enregistrer nouveau joueur-->
+        <!--        </button>-->
         <button class="btn btn-danger" ng-click="discardPlayer()"><span class="glyphicon glyphicon-remove"></span> <span class="glyphicon glyphicon-user"></span> Annuler nouveau joueur</button>
       </div>
       <div class="list-group" ng-show="!new_player">

@@ -233,6 +233,11 @@ characterApp.controller("character_ctrl", ["$scope", "$q", "$http", "$window", /
   };
 
   $scope.onSubmit = function (form) {
+    if (form === undefined) {
+      console.error("Missing form, where it is? Cancel onSubmit.");
+      alert("Enregistrement bloqué, veuillez communiquer avec votre administrateur de jeu. Merci et désolé de l'inconvénient!")
+      return;
+    }
     // First we broadcast an event so all fields validate themselves
     $scope.$broadcast('schemaFormValidate');
 
