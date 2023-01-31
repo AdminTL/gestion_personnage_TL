@@ -28,6 +28,8 @@ Developper wiki
 ===============
 This project is in creation. [The first brainstorm is in french.](https://github.com/AdminTL/gestion_personnage_TL/wiki/Premier-brainstorm)
 
+Thanks Jetbrains for a licence PyCharm Professional.
+
 Documentation
 =============
 [Read documentation](./doc/README.md)
